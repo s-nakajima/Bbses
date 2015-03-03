@@ -8,4 +8,4 @@ Bbses for NetCommons3
 
 | dependencies | status |
 | ------------ | ------ |
-| composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/53df214081a7ff3094000015/badge.png)](https://www.versioneye.com/user/projects/53df214081a7ff3094000015) |
+| composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/54f5afe54f3108959a00156c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f5afe54f3108959a00156c) |
