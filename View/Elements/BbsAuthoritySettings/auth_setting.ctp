@@ -87,7 +87,6 @@
 						'div' => false,
 						'type' => 'checkbox',
 						'ng-model' => 'bbses.editor_publish_authority',
-						'ng-click' => "checkAuth()",
 				));
 		?>
 		</li>
@@ -98,7 +97,6 @@
 						'div' => false,
 						'type' => 'checkbox',
 						'ng-model' => 'bbses.general_publish_authority',
-						'ng-click' => "checkAuth()",
 					)
 				);
 		?>

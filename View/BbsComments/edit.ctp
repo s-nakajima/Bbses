@@ -4,7 +4,7 @@
 
 <div id="nc-bbs-edit-comment-<?php echo (int)$frameId; ?>"
 		ng-controller="BbsPost"
-		ng-init="initialize(<?php echo h(json_encode($bbsCurrentComments)); ?>)">
+		ng-init="initialize(<?php echo h(json_encode($bbsPosts)); ?>)">
 
 <!-- パンくずリスト -->
 <ol class="breadcrumb">
@@ -12,13 +12,13 @@
 				'/bbses/bbses/index/' . $frameId) ?>">
 		<?php echo $bbses['name']; ?></a>
 	</li>
-	<li><a href="<?php echo $this->Html->url(
-				'/bbses/bbsPosts/view/' . $frameId . '/' . $bbsPosts['id']) ?>">
-		<?php echo $bbsPosts['title']; ?></a>
-	</li>
-	<li class="active">
-		<?php echo $bbsCurrentComments['title']; ?>
-	</li>
+	<?php if (isset($bbsPosts['id'])) : ?>
+		<li><a href="<?php echo $this->Html->url(
+					'/bbses/bbsPosts/view/' . $frameId . '/' . $bbsPosts['id']) ?>">
+			<?php echo $bbsPosts['title']; ?></a>
+		</li>
+	<?php endif; ?>
+	<li class="active"><?php echo __d('bbses', 'Edit'); ?></li>
 </ol>
 
 <div>

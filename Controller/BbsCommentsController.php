@@ -155,11 +155,7 @@ class BbsCommentsController extends BbsesAppController {
 
 		$this->setBbs();
 
-		//根記事をセット
-		$this->__setPost($parentId);
-
-		//対象のコメントをセット
-		$this->__setCurrentComment($postId);
+		$this->__setPost($postId);
 
 		$this->__initComment();
 
@@ -178,18 +174,14 @@ class BbsCommentsController extends BbsesAppController {
 		$data = $this->setAddSaveData($this->data, $status, $parentId);
 
 		if (! $this->BbsPost->saveComment($data)) {
+			debug('通過');
 			if (!$this->handleValidationError($this->BbsPost->validationErrors)) {
 				return;
 			}
 		}
 
-		//根記事の公開中のコメント数更新
-		if (! $this->__updateCommentNum($data['Bbs']['key'], $parentId)) {
-			return;
-		}
-
-		//根記事のコメント番号更新
-		if (! $this->__updateCommentIndex($data['Bbs']['key'], $parentId)) {
+		//親記事の更新処理(公開中のコメント数、コメント番号)
+		if (! $this->__updateParentPosts($data['Bbs']['key'], $parentId)) {
 			return;
 		}
 
@@ -202,20 +194,15 @@ class BbsCommentsController extends BbsesAppController {
  * edit method
  *
  * @param int $frameId frames.id
- * @param int $parentId bbsPosts.id
  * @param int $postId bbsPosts.id
  * @return void
  */
-	public function edit($frameId, $parentId, $postId, $isApproval = '') {
+	public function edit($frameId, $postId) {
 		$this->setBbs();
 
-		//根記事をセット
-		$this->__setPost($parentId);
+		$this->__setPost($postId);
 
-		//対象のコメントをセット
-		$this->__setCurrentComment($postId);
-
-		if ($this->request->isGet() || $isApproval) {
+		if ($this->request->isGet()) {
 			CakeSession::write('backUrl', $this->request->referer());
 		}
 
@@ -233,11 +220,6 @@ class BbsCommentsController extends BbsesAppController {
 			}
 		}
 
-		//親記事の公開中のコメント数更新
-		if (! $this->__updateCommentNum($data['Bbs']['key'], $parentId)) {
-			return;
-		}
-
 		if (!$this->request->is('ajax')) {
 			$this->redirectBackUrl();
 		}
@@ -250,7 +232,6 @@ class BbsCommentsController extends BbsesAppController {
  * @param int $postId bbsPosts.id
  * @param int $parentId bbsPosts.id
  * @param int $commentId bbsPosts.id
- * @throws BadRequestException
  * @return void
  */
 	public function delete($frameId, $postId, $parentId, $commentId = '') {
@@ -258,20 +239,23 @@ class BbsCommentsController extends BbsesAppController {
 			return;
 		}
 
-		if (! $this->BbsPost->delete(($commentId)? $commentId : $parentId)) {
-			throw new BadRequestException(__d('net_commons', 'Bad Request'));
+		if ($this->BbsPost->delete(($commentId)? $commentId : $parentId)) {
+
+			$backUrl = array(
+				'controller' => ($commentId)? 'bbsComments' : 'bbsPosts',
+				'action' => 'view',
+				$frameId,
+				$postId,
+				($commentId)? $parentId : '',
+			);
+
+			//記事一覧orコメント一覧へリダイレクト
+			$this->redirect($backUrl);
 		}
 
-		$backUrl = array(
-			'controller' => ($commentId)? 'bbsComments' : 'bbsPosts',
-			'action' => 'view',
-			$frameId,
-			$postId,
-			($commentId)? $parentId : '',
-		);
-
-		//記事一覧orコメント一覧へリダイレクト
-		$this->redirect($backUrl);
+		if (! $this->handleValidationError($this->BbsPost->validationErrors)) {
+			return;
+		}
 	}
 
 /**
@@ -413,7 +397,7 @@ class BbsCommentsController extends BbsesAppController {
  * @param int $parentId bbsPosts.id
  * @return true is save successful, or false is failure
  */
-	private function __updateCommentNum($bbsKey, $parentId) {
+	private function __updateParentPosts($bbsKey, $parentId) {
 		//親記事(lft,rghtカラム)取得
 		$conditions['bbs_key'] = $bbsKey;
 		$conditions['id'] = $parentId;
@@ -443,36 +427,6 @@ class BbsCommentsController extends BbsesAppController {
 			);
 
 		$parentPosts['BbsPost']['comment_num'] = count($bbsComments);
-		$parentPosts['Bbs']['key'] = $bbsKey;
-		$parentPosts['Comment']['comment'] = '';
-
-		if (! $this->BbsPost->savePost($parentPosts)) {
-			if (! $this->handleValidationError($this->BbsPost->validationErrors)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-/**
- * updateParentPosts
- *
- * @param string $bbsKey bbses.key
- * @param int $parentId bbsPosts.id
- * @return true is save successful, or false is failure
- */
-	private function __updateCommentIndex($bbsKey, $parentId) {
-		//親記事(lft,rghtカラム)取得
-		$conditions['bbs_key'] = $bbsKey;
-		$conditions['id'] = $parentId;
-		$parentPosts = $this->BbsPost->getOnePosts(
-				false,
-				false,
-				false,
-				$conditions
-			);
-
 		$parentPosts['BbsPost']['comment_index'] = ++$parentPosts['BbsPost']['comment_index'];
 		$parentPosts['Bbs']['key'] = $bbsKey;
 		$parentPosts['Comment']['comment'] = '';

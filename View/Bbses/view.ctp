@@ -183,8 +183,8 @@
 								<span class="glyphicon glyphicon-comment"></span>
 								<span tooltip="<?php echo __d('bbses', 'Publishing comments'); ?>"
 									  ><?php echo $bbsPost['comment_num']; ?></span>&nbsp;
-								<span tooltip="<?php echo __d('bbses', 'Edit status of comments'); ?>"
-									  ><?php echo ($contentCreatable)? '(' . $bbsPost['editCommentNum'] . ')' : ''; ?></span>
+								<span tooltip="<?php echo __d('bbses', 'Comments Include the other status'); ?>"
+									  ><?php echo ($contentCreatable)? '(' . $bbsPost['allCommentNum'] . ')' : ''; ?></span>
 
 							<?php endif; ?>
 						</a>

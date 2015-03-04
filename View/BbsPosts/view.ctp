@@ -29,9 +29,7 @@
 <?php if ($bbsPosts['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
 
 	<!-- general user以上 -->
-	<?php if ((int)$this->viewVars['rolesRoomId'] !== 0 &&
-			(int)$this->viewVars['rolesRoomId'] < 5) : ?>
-
+	<?php if ((int)$this->viewVars['rolesRoomId'] !== 0 && (int)$this->viewVars['rolesRoomId'] < 5) : ?>
 		<div class="btn-group text-left">
 			<button type="button" class="btn btn-default">
 				<?php echo $narrowDown; ?>
@@ -473,7 +471,7 @@
 							<!-- 編集 -->
 							<span class="text-left" style="float:right;">
 								<a href="<?php echo $this->Html->url(
-												'/bbses/bbsComments/edit' . '/' . $frameId . '/' . $bbsPosts['id'] . '/' . $comment['id']); ?>"
+												'/bbses/bbsComments/edit' . '/' . $frameId . '/' . $comment['id']); ?>"
 												class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
 												<span class="glyphicon glyphicon-edit"></span>
 								</a>
@@ -523,10 +521,8 @@
 						<?php if ($comment['status'] === NetCommonsBlockComponent::STATUS_APPROVED &&
 									$contentPublishable) : ?>
 							<!-- 承認するボタン -->
-							<?php echo $this->element('approving_buttons', array(
-												'parentId' => $bbsPosts['id'],
-												'comment' => $comment
-								)); ?>
+							<?php echo $this->element('approving_buttons',
+											array('comment' => $comment)); ?>
 							&emsp;
 						<?php endif; ?>
 					</span>

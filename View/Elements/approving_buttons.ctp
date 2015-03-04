@@ -1,7 +1,7 @@
 <?php echo $this->Form->create('BbsPost', array(
 		'div' => false,
 		'type' => 'post',
-		'url' => '/bbses/bbsComments/edit/' . $frameId . '/' . $parentId . '/' . $comment['id'] . '/' . '1',
+		'url' => '/bbses/bbsComments/edit/' . $frameId . '/' . $comment['id'],
 		'style' => 'float:left;'
 	)); ?>
 
@@ -13,10 +13,6 @@
 
 	<?php echo $this->Form->hidden('User.id', array(
 		'value' => $userId,
-	)); ?>
-
-	<?php echo $this->Form->hidden('Bbs.key', array(
-		'value' => $bbses['key'],
 	)); ?>
 
 	<?php echo $this->Form->hidden('title', array(

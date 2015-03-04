@@ -177,7 +177,7 @@ class BbsesController extends BbsesAppController {
 		$conditions['parent_id'] = null;
 
 		//絞り込み条件をセット
-		$conditions = $this->setNarrowDown($conditions, $this->viewVars['narrowDownParams']);
+		$conditions = $this->setNarrowDown($conditions, $this->viewVars['narrowDownParams'], false);
 
 		if (! $bbsPosts = $this->BbsPost->getPosts(
 				$this->viewVars['userId'],
@@ -228,15 +228,17 @@ class BbsesController extends BbsesAppController {
 							);
 			$bbsPost['BbsPost']['readStatus'] = $readStatus;
 
-			//未読(narrowDownParams = '6')の場合、未読記事をセット
-			//未読以外の場合は全ての記事をセット
-			if (($this->viewVars['narrowDownParams'] === '6' && ! $readStatus) ||
-					$this->viewVars['narrowDownParams'] !== '6') {
+			//絞り込みで未読が選択された場合
+			if ($this->viewVars['narrowDownParams'] === '7' && $readStatus === true) {
+				//debug('既読');
 
-				//編集中のコメント数をセット
-				$bbsPost['BbsPost']['editCommentNum'] =
-					(int)$this->__setCommentNum($bbsPost['BbsPost']['lft'], $bbsPost['BbsPost']['rght'])
-						- (int)$bbsPost['BbsPost']['comment_num'];
+			} else {
+				//公開データ以外を含めたコメント数をセット
+				$bbsPost['BbsPost']['allCommentNum'] =
+						$this->__setCommentNum(
+							$bbsPost['BbsPost']['lft'],
+							$bbsPost['BbsPost']['rght']
+					);
 
 				//記事データを配列にセット
 				$results['bbsPosts'][] = $bbsPost['BbsPost'];

@@ -13,7 +13,21 @@ NetCommonsApp.controller('Bbses',
       $scope.initialize = function(data) {
         $scope.bbses = angular.copy(data);
         console.debug($scope.bbses);
+        //編集データセット
+        //$scope.edit.data = angular.copy($scope.bbses.bbsPosts);
       };
+
+      $scope.save = function(status) {
+        console.debug(2);
+      };
+
+      /**
+       * @param {number} frameId
+       * @return {void}
+       */
+      $scope.delete = function(postId) {
+      };
+
     });
 
 NetCommonsApp.controller('BbsPost',
@@ -72,16 +86,15 @@ NetCommonsApp.controller('BbsEdit',
 
       $scope.initialize = function(bbses) {
         $scope.bbses = angular.copy(bbses);
+        console.debug($scope.bbses);
+        //編集データセット
+        //$scope.edit.data = angular.copy($scope.bbses.bbsPosts);
       };
 
-      $scope.initAutoApproval = function() {
-        //コメントを使うONの状態からの操作
-        if ($scope.bbses.use_comment) {
-
-          //自動承認をOFFにする
-          $scope.bbses.auto_approval = false;
-        }
+      $scope.save = function() {
+        console.debug(2);
       };
+
     });
 
 NetCommonsApp.controller('BbsFrameSettings',
@@ -106,24 +119,12 @@ NetCommonsApp.controller('BbsAuthoritySettings',
       $scope.initialize = function(bbses) {
         $scope.bbses = angular.copy(bbses);
         console.debug($scope.bbses);
+        //編集データセット
+        //$scope.edit.data = angular.copy($scope.bbses.bbsPosts);
       };
 
-      $scope.checkAuth = function() {
-        //編集者と一般ONの状態からの操作
-        if (! $scope.bbses.editor_publish_authority &&
-            ! $scope.bbses.general_publish_authority) {
-
-          //編集者をONにする
-          $scope.bbses.editor_publish_authority = true;
-
-        }
-        //編集者と一般OFFの状態からの操作
-        if ($scope.bbses.editor_publish_authority &&
-            $scope.bbses.general_publish_authority) {
-
-          //一般をOFFにする
-          $scope.bbses.general_publish_authority = false;
-
-        }
+      $scope.save = function() {
+        console.debug(4);
       };
+
     });
