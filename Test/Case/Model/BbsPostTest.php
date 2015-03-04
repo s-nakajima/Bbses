@@ -1,8 +1,8 @@
 <?php
 /**
- * Bbs Model Test Case
+ * BbsPost Model Test Case
  *
- * @property Bbs $Bbs
+ * @property BbsPost $BbsPost
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
@@ -11,16 +11,16 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('Bbs', 'Bbses.Model');
+App::uses('BbsPost', 'Bbses.Model');
 App::uses('BbsAppModelTest', 'Bbses.Test/Case/Model');
 
 /**
- * Bbs Model Test Case
+ * BbsPost Model Test Case
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Test\Case\Model
  */
-class BbsTest extends BbsAppModelTest {
+class BbsPostTest extends BbsAppModelTest {
 
 /**
  * Fixtures
@@ -28,7 +28,7 @@ class BbsTest extends BbsAppModelTest {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.bbses.bbs',
+		'plugin.bbses.bbs_post',
 	);
 
 /**
@@ -38,7 +38,7 @@ class BbsTest extends BbsAppModelTest {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Bbs = ClassRegistry::init('Bbs');
+		$this->BbsPost = ClassRegistry::init('Bbses.BbsPost');
 	}
 
 /**
@@ -48,26 +48,5 @@ class BbsTest extends BbsAppModelTest {
  */
 	public function test() {
 		$this->assertTrue(true);
-	}
-
-/**
- * test method
- *
- * @return void
- */
-	public function testGetBbs() {
-		/*$blockId = 1;
-		$result = $this->Bbs->getBbs($blockId);
-
-		$expected = array(
-			'Bbs' => array(
-				'id' => '1',
-				'block_id' => $blockId,
-				'name' => 'テスト掲示板1',
-				'key' => 'bbs_1',
-			),
-		);*/
-
-		/*$this->_assertArray(null, $expected, $result);*/
 	}
 }

@@ -215,22 +215,22 @@ class BbsPostsController extends BbsesAppController {
  * @return void
  */
 	public function delete($frameId, $postId) {
+		//確認ダイアログ経由
+
 		if (! $this->request->isPost()) {
 			return;
 		}
 
-		if (! $this->BbsPost->delete($postId)) {
-			throw new BadRequestException(__d('net_commons', 'Bad Request'));
+		if ($this->BbsPost->delete($postId)) {
+			//記事一覧へリダイレクト
+			$this->redirect(array(
+					'controller' => 'bbses',
+					'action' => 'view',
+					$frameId,
+				));
 		}
 
-		$backUrl = array(
-				'controller' => 'bbses',
-				'action' => 'view',
-				$frameId,
-			);
-
-		//記事一覧へリダイレクト
-		$this->redirect($backUrl);
+		throw new BadRequestException(__d('net_commons', 'Bad Request'));
 	}
 
 /**

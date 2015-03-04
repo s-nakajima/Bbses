@@ -204,9 +204,10 @@ class BbsCommentsController extends BbsesAppController {
  * @param int $frameId frames.id
  * @param int $parentId bbsPosts.id
  * @param int $postId bbsPosts.id
+ * @param bool $isApproval true is approving action, false is normal edit action.
  * @return void
  */
-	public function edit($frameId, $parentId, $postId, $isApproval = '') {
+	public function edit($frameId, $parentId, $postId, $isApproval = 0) {
 		$this->setBbs();
 
 		//根記事をセット
@@ -215,7 +216,7 @@ class BbsCommentsController extends BbsesAppController {
 		//対象のコメントをセット
 		$this->__setCurrentComment($postId);
 
-		if ($this->request->isGet() || $isApproval) {
+		if ($this->request->isGet() || (int)$isApproval) {
 			CakeSession::write('backUrl', $this->request->referer());
 		}
 
@@ -254,24 +255,23 @@ class BbsCommentsController extends BbsesAppController {
  * @return void
  */
 	public function delete($frameId, $postId, $parentId, $commentId = '') {
+		//確認ダイアログ経由
 		if (! $this->request->isPost()) {
 			return;
 		}
 
-		if (! $this->BbsPost->delete(($commentId)? $commentId : $parentId)) {
-			throw new BadRequestException(__d('net_commons', 'Bad Request'));
+		if ($this->BbsPost->delete(($commentId)? $commentId : $parentId)) {
+			//記事一覧orコメント一覧へリダイレクト
+			$this->redirect(array(
+				'controller' => ($commentId)? 'bbsComments' : 'bbsPosts',
+				'action' => 'view',
+				$frameId,
+				$postId,
+				($commentId)? $parentId : '',
+			));
 		}
 
-		$backUrl = array(
-			'controller' => ($commentId)? 'bbsComments' : 'bbsPosts',
-			'action' => 'view',
-			$frameId,
-			$postId,
-			($commentId)? $parentId : '',
-		);
-
-		//記事一覧orコメント一覧へリダイレクト
-		$this->redirect($backUrl);
+		throw new BadRequestException(__d('net_commons', 'Bad Request'));
 	}
 
 /**

@@ -12,7 +12,6 @@ NetCommonsApp.controller('Bbses',
 
       $scope.initialize = function(data) {
         $scope.bbses = angular.copy(data);
-        console.debug($scope.bbses);
       };
     });
 
@@ -32,7 +31,6 @@ NetCommonsApp.controller('BbsPost',
 
       $scope.initialize = function(data) {
         $scope.bbsPosts = angular.copy(data);
-        console.debug($scope.bbsPosts);
       };
     });
 
@@ -105,7 +103,6 @@ NetCommonsApp.controller('BbsAuthoritySettings',
 
       $scope.initialize = function(bbses) {
         $scope.bbses = angular.copy(bbses);
-        console.debug($scope.bbses);
       };
 
       $scope.checkAuth = function() {

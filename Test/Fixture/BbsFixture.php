@@ -53,7 +53,7 @@ class BbsFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'key' => 'bbs_1',
-			'block_id' => 'block_1',
+			'block_id' => 1,
 			'name' => 'テスト掲示板1',
 			'use_comment' => true,
 			'auto_approval' => false,

@@ -11,10 +11,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('Bbs', 'Bbses.Model');
-App::uses('BbsFrameSetting', 'Bbses.Model');
-App::uses('BbsPost', 'Bbses.Model');
-App::uses('BbsPostsUser', 'Bbses.Model');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 App::uses('YACakeTestCase', 'NetCommons.TestSuite');
@@ -33,10 +29,6 @@ class BbsAppModelTest extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_frame_setting',
-		'plugin.bbses.bbs_posts_user',
-		'plugin.bbses.bbs_post',
 		'plugin.bbses.block',
 		'plugin.bbses.comment',
 		'plugin.frames.box',
@@ -55,11 +47,6 @@ class BbsAppModelTest extends YACakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		//$this->Bbs = ClassRegistry::init('Bbses.Bbs');
-		//$this->BbsFrameSetting = ClassRegistry::init('Bbses.BbsFrameSetting');
-		//$this->BbsPost = ClassRegistry::init('Bbses.BbsPost');
-		//$this->BbsPostsUser = ClassRegistry::init('Bbses.BbsPostsUser');
-		$this->Comment = ClassRegistry::init('Comments.Comment');
 	}
 
 /**
@@ -69,9 +56,9 @@ class BbsAppModelTest extends YACakeTestCase {
  */
 	public function tearDown() {
 		unset($this->Bbs);
-		//nset($this->BbsFrameSetting);
-		//unset($this->BbsPost);
-		//unset($this->BbsPostsUser);
+		unset($this->BbsFrameSetting);
+		unset($this->BbsPost);
+		unset($this->BbsPostsUser);
 		unset($this->Comment);
 		parent::tearDown();
 	}
