@@ -457,7 +457,7 @@
 				<!-- 編集 -->
 				<span class="text-left" style="float:right;">
 					<a href="<?php echo $this->Html->url(
-							'/bbses/bbsComments/edit' . '/' . $frameId . '/' . $bbsCurrentComments['id']); ?>"
+							'/bbses/bbsComments/edit' . '/' . $frameId . '/' . $bbsPosts['id'] . '/' . $bbsCurrentComments['id']); ?>"
 							class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
 							<span class="glyphicon glyphicon-edit"></span>
 					</a>
@@ -506,8 +506,10 @@
 				<?php if ($bbsCurrentComments['status'] === NetCommonsBlockComponent::STATUS_APPROVED &&
 							$contentPublishable) : ?>
 					<!-- 承認するボタン -->
-					<?php echo $this->element('approving_buttons',
-									array('comment' => $bbsCurrentComments)); ?>
+					<?php echo $this->element('approving_buttons', array(
+										'parentId' => $bbsPosts['id'],
+										'comment' => $bbsCurrentComments
+						)); ?>
 					&emsp;
 				<?php endif; ?>
 			</span>
@@ -669,7 +671,7 @@
 							<!-- 編集 -->
 							<span class="text-left" style="float:right;">
 								<a href="<?php echo $this->Html->url(
-										'/bbses/bbsComments/edit' . '/' . $frameId . '/' . $comment['id']); ?>"
+										'/bbses/bbsComments/edit' . '/' . $frameId . '/' . $bbsPosts['id'] . '/' . $comment['id']); ?>"
 										class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
 										<span class="glyphicon glyphicon-edit"></span>
 								</a>
@@ -720,8 +722,10 @@
 						<?php if ($comment['status'] === NetCommonsBlockComponent::STATUS_APPROVED &&
 									$contentPublishable) : ?>
 							<!-- 承認するボタン -->
-							<?php echo $this->element('approving_buttons',
-											array('comment' => $comment)); ?>
+							<?php echo $this->element('approving_buttons', array(
+												'parentId' => $bbsPosts['id'],
+												'comment' => $comment
+								)); ?>
 							&emsp;
 						<?php endif; ?>
 					</span>

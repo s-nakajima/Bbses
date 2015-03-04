@@ -4,7 +4,7 @@
 
 <div id="nc-bbs-add-<?php echo (int)$frameId; ?>"
 		ng-controller="BbsComment"
-		ng-init="initialize(<?php echo h(json_encode($bbsPosts)); ?>,
+		ng-init="initialize(<?php echo h(json_encode($bbsCurrentComments)); ?>,
 							<?php echo h(json_encode($bbsComments)); ?>,
 							<?php echo h(json_encode($quotFlag)); ?>)">
 
@@ -31,14 +31,12 @@
 		'value' => $bbses['key'],
 	)); ?>
 	<?php echo $this->Form->hidden('BbsPost.parent_id', array(
-		'value' => $bbsPosts['id'],
+		'value' => $bbsCurrentComments['id'],
 	)); ?>
 
 	<div class="panel panel-default">
 		<div class="panel-body has-feedback">
-			<div>
-				<?php echo $this->element('BbsComments/reference_posts'); ?>
-			</div>
+			<?php //echo $this->element('BbsComments/reference_posts'); ?>
 			<?php echo $this->element('BbsComments/add_comment_form'); ?>
 		</div>
 		<div class="panel-footer text-center">

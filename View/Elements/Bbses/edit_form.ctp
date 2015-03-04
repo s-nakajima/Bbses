@@ -26,31 +26,33 @@
 	</div>
 </div>
 
-<div class='form-group'>
+<div class="form-group">
 	<?php
 		echo $this->Form->input('Bbs.use_comment', array(
 					'label' => __d('bbses', 'Use comment'),
 					'div' => false,
 					'type' => 'checkbox',
 					'ng-model' => 'bbses.use_comment',
+					'ng-click' => "initAutoApproval()",
 				)
 			);
 	?>
 </div>
 
-<div class='form-group col-sm-offset-1 col-xs-offset-1'>
-	<?php
-		echo $this->Form->input('Bbs.auto_approval', array(
-					'label' => __d('bbses', 'Auto approval'),
-					'div' => false,
-					'type' => 'checkbox',
-					'ng-model' => 'bbses.auto_approval',
-				)
-			);
-	?>
-</div>
+	<div class="form-group col-sm-offset-1 col-xs-offset-1">
+		<?php
+			echo $this->Form->input('Bbs.auto_approval', array(
+						'label' => __d('bbses', 'Auto approval'),
+						'div' => false,
+						'type' => 'checkbox',
+						'ng-disabled' => '! bbses.use_comment',
+						'ng-model' => 'bbses.auto_approval',
+					)
+				);
+		?>
+	</div>
 
-<div class='form-group'>
+<div class="form-group">
 	<?php
 		echo $this->Form->input('Bbs.use_like_button', array(
 					'label' => __d('bbses', 'Use like button'),
@@ -63,7 +65,7 @@
 	<span class="glyphicon glyphicon-thumbs-up"></span>
 </div>
 
-<div class='form-group'>
+<div class="form-group">
 	<?php
 		echo $this->Form->input('Bbs.use_unlike_button', array(
 					'label' => __d('bbses', 'Use unlike button'),

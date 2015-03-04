@@ -66,7 +66,8 @@
 
 		<div class="panel panel-default" >
 			<div class="panel-body has-feedback">
-				<?php echo $this->element('Bbses/edit'); ?>
+				<?php echo $this->element('Bbses/edit_form',
+							array('bbses' => $bbses)); ?>
 			</div>
 
 			<div class="panel-footer text-center">
