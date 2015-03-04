@@ -9,7 +9,7 @@
 					   href="#nc-bbs-parent-post-<?php echo 1; ?>"
 					   aria-expanded="false"
 					   aria-controls="nc-bbs-post-<?php echo 1; ?>">
-						<?php echo $bbsPosts['title']; ?>
+						<?php echo $bbsCurrentComments['title']; ?>
 					</a>
 				</div>
 			</div>
@@ -18,7 +18,7 @@
 			 class="panel-collapse collapse">
 			<div class="panel-body">
 				<p>
-					<?php echo $bbsPosts['content']; ?>
+					<?php echo $bbsCurrentComments['content']; ?>
 				</p>
 			</div>
 		</div>
