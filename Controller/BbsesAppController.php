@@ -326,17 +326,17 @@ class BbsesAppController extends AppController {
 					$conditions
 			)? true : false);
 
-		$this->setNextPagination($sortOrder, $conditions);
+		$this->setPaginationRelatedData($sortOrder, $conditions);
 	}
 
 /**
- * setNextPagination method
+ * setPaginationRelatedData method
  *
  * @param array $sortOrder sort order for search
  * @param array $conditions conditions for search
  * @return void
  */
-	public function setNextPagination($sortOrder, $conditions) {
+	public function setPaginationRelatedData($sortOrder, $conditions) {
 		//2ページ先のページがあるか取得
 		$this->set('hasNextSecondPage',
 				$this->BbsPost->getPosts(
