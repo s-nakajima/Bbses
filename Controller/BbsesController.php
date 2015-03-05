@@ -211,7 +211,7 @@ class BbsesController extends BbsesAppController {
 		//記事を$results['bbsPosts']にセット
 		foreach ($bbsPosts as $bbsPost) {
 
-			//いいね・よくないねを取得
+			//評価を取得
 			$likes = $this->BbsPostsUser->getLikes(
 						$bbsPost['BbsPost']['id'],
 						$this->viewVars['userId']

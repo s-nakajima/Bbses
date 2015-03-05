@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2015-03-02 04:50+0000\n"
-"PO-Revision-Date: 2015-03-05 18:15+0900\n"
+"PO-Revision-Date: 2015-03-05 19:52+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -111,19 +111,19 @@ msgstr "古いコメント順"
 
 #: /View/BbsComments/view.ctp:203;387;597 /View/BbsPosts/view.ctp:191;220;399
 msgid "Remove likes"
-msgstr "いいね!を取り消す"
+msgstr "高く評価を取り消す"
 
 #: /View/BbsComments/view.ctp:203;387;597 /View/BbsPosts/view.ctp:191;220;399
 msgid "Do likes"
-msgstr "いいね!する"
+msgstr "高く評価する"
 
 #: /View/BbsComments/view.ctp:232;416;626 /View/BbsPosts/view.ctp:428
 msgid "Remove unlikes"
-msgstr "良くないね!を取り消す"
+msgstr "低く評価を取り消す"
 
 #: /View/BbsComments/view.ctp:232;416;626 /View/BbsPosts/view.ctp:428
 msgid "Do unlikes"
-msgstr "良くないね!する"
+msgstr "低く評価する"
 
 #: /View/BbsComments/view.ctp:269;452;663 /View/BbsPosts/view.ctp:255;465
 msgid "Delete"
@@ -223,8 +223,8 @@ msgstr "自動承認する"
 
 #: /View/Elements/Bbses/edit.ctp:56
 msgid "Use like button"
-msgstr "いいね!ボタンを利用する"
+msgstr "高く評価ボタンを利用する"
 
 #: /View/Elements/Bbses/edit.ctp:69
 msgid "Use unlike button"
-msgstr "良くないね!ボタンを利用する"
+msgstr "低く評価ボタンを利用する"

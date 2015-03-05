@@ -80,6 +80,15 @@ NetCommonsApp.controller('BbsEdit',
           $scope.bbses.auto_approval = false;
         }
       };
+
+      $scope.initUnlikeButton = function() {
+        //評価ボタンONの状態からの操作
+        if ($scope.bbses.use_like_button) {
+
+          //マイナス評価ボタンをOFFにする
+          $scope.bbses.use_unlike_button = false;
+        }
+      };
     });
 
 NetCommonsApp.controller('BbsFrameSettings',

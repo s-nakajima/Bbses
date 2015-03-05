@@ -357,7 +357,7 @@ class BbsPostsController extends BbsesAppController {
 
 		}
 
-		//いいね・よくないねを取得
+		//評価を取得
 		$likes = $this->BbsPostsUser->getLikes(
 					$bbsPosts['BbsPost']['id'],
 					$this->viewVars['userId']
@@ -383,7 +383,7 @@ class BbsPostsController extends BbsesAppController {
 		$results['bbsPosts'] = $bbsPosts['BbsPost'];
 		$results['contentStatus'] = $bbsPosts['BbsPost']['status'];
 
-		//ユーザ名、ID、いいね、よくないねをセット
+		//ユーザ名、ID、評価をセット
 		$results['bbsPosts']['username'] = $user['User']['username'];
 		$results['bbsPosts']['userId'] = $user['User']['id'];
 		$results['bbsPosts']['likesNum'] = $likes['likesNum'];

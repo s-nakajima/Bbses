@@ -59,21 +59,23 @@
 					'div' => false,
 					'type' => 'checkbox',
 					'ng-model' => 'bbses.use_like_button',
+					'ng-click' => "initUnlikeButton()",
 				)
 			);
 	?>
 	<span class="glyphicon glyphicon-thumbs-up"></span>
 </div>
 
-<div class="form-group">
-	<?php
-		echo $this->Form->input('Bbs.use_unlike_button', array(
-					'label' => __d('bbses', 'Use unlike button'),
-					'div' => false,
-					'type' => 'checkbox',
-					'ng-model' => 'bbses.use_unlike_button',
-				)
-			);
-	?>
-	<span class="glyphicon glyphicon-thumbs-down"></span>
-</div>
+	<div class="form-group col-sm-offset-1 col-xs-offset-1">
+		<?php
+			echo $this->Form->input('Bbs.use_unlike_button', array(
+						'label' => __d('bbses', 'Use unlike button'),
+						'div' => false,
+						'type' => 'checkbox',
+						'ng-disabled' => '! bbses.use_like_button',
+						'ng-model' => 'bbses.use_unlike_button',
+					)
+				);
+		?>
+		<span class="glyphicon glyphicon-thumbs-down"></span>
+	</div>

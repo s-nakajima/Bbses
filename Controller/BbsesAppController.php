@@ -250,7 +250,7 @@ class BbsesAppController extends AppController {
 				$conditions
 			);
 
-			//いいね・よくないねを取得
+			//評価を取得
 			$likes = $this->BbsPostsUser->getLikes(
 						$bbsComment['BbsPost']['id'],
 						$this->viewVars['userId']
