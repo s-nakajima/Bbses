@@ -471,7 +471,7 @@ class BbsesAppController extends AppController {
 				return $conditions;
 
 		case '2':
-				//承認待ち/不承認
+				//承認待ち/未承認
 				$narrowDownStr = ($this->name !== 'Bbses')? __d('bbses', 'Disapproval') : __d('net_commons', 'Approving');
 				$this->set('narrowDown', $narrowDownStr);
 				$conditions['status'] = NetCommonsBlockComponent::STATUS_APPROVED;

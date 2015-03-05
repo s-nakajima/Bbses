@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2015-03-02 04:50+0000\n"
-"PO-Revision-Date: 2015-03-05 15:08+0900\n"
+"PO-Revision-Date: 2015-03-05 18:15+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "差し戻し"
 #: /Controller/BbsesAppController.php:393 /View/BbsComments/view.ctp:67
 #: /View/BbsPosts/view.ctp:54 /View/Elements/status_label.ctp:30
 msgid "Disapproval"
-msgstr "不承認"
+msgstr "未承認"
 
 #: /Controller/BbsesAppController.php:403 /View/BbsComments/view.ctp:52
 #: /View/BbsPosts/view.ctp:45 /View/Bbses/view.ctp:41
