@@ -25,7 +25,7 @@ class BbsesAppController extends AppController {
  * @var array
  */
 	public $components = array(
-		//'Security'
+		'Security'
 	);
 
 /**

@@ -255,12 +255,19 @@ class BbsCommentsController extends BbsesAppController {
  * @return void
  */
 	public function delete($frameId, $postId, $parentId, $commentId = '') {
+		//bbses.keyをセット
+		$this->setBbs();
+
 		//確認ダイアログ経由
+
 		if (! $this->request->isPost()) {
 			return;
 		}
 
 		if ($this->BbsPost->delete(($commentId)? $commentId : $parentId)) {
+			//根記事の公開中のコメント数更新
+			$this->__updateCommentNum($this->viewVars['bbses']['key'], $postId);
+
 			//記事一覧orコメント一覧へリダイレクト
 			$this->redirect(array(
 				'controller' => ($commentId)? 'bbsComments' : 'bbsPosts',
