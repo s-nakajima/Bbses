@@ -153,8 +153,7 @@ class BbsPost extends BbsesAppModel {
 
 		}
 
-		//日時フォーマット（一件）
-		return $this->__setDateTime(array($bbsPosts), false);
+		return $bbsPosts;
 	}
 
 /**
@@ -193,10 +192,12 @@ class BbsPost extends BbsesAppModel {
 				'limit' => $visiblePostRow,
 				'page' => $currentPage,
 			);
-		$bbsPosts = $this->find('all', $params);
 
-		//日時フォーマット（記事群）
-		return $this->__setDateTime($bbsPosts, true);
+		if (! $bbsPosts = $this->find('all', $params)) {
+			return false;
+		}
+
+		return $bbsPosts;
 	}
 
 /**
@@ -303,40 +304,4 @@ class BbsPost extends BbsesAppModel {
 		return $this->validationErrors ? false : true;
 	}
 
-/**
- * __setDateTime method
- *
- * @param array $bbsPosts bbsPosts
- * @param bool $isArray true is posts list, false is a posts
- * @return void
- */
-	private function __setDateTime($bbsPosts, $isArray) {
-		$today = date("Y-m-d");
-		$year = date("Y");
-		$index = 0;
-		//再フォーマット
-		foreach ($bbsPosts as $post) {
-			$date = $post['BbsPost']['created'];
-			//日付切り出し
-			$createdDay = substr($post['BbsPost']['created'], 0, 10);
-			//年切り出し
-			$createdYear = substr($post['BbsPost']['created'], 0, 4);
-			//変換
-			if ($today === $createdDay) {
-				//今日
-				$bbsPosts[$index]['BbsPost']['createTime'] = date('G:i', strtotime($date));
-			} elseif ($year !== $createdYear) {
-				//昨年以前
-				$bbsPosts[$index]['BbsPost']['createTime'] = date('Y/m/d', strtotime($date));
-			} elseif ($today > $createdDay) {
-				//今日より前 かつ 今年
-				$bbsPosts[$index]['BbsPost']['createTime'] = date('m/d', strtotime($date));
-			}
-			$index++;
-		}
-		if ($isArray) {
-			return $bbsPosts;
-		}
-		return $bbsPosts[0];
-	}
 }

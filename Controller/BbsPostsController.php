@@ -56,7 +56,7 @@ class BbsPostsController extends BbsesAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Token'
+		'NetCommons.Token',
 	);
 
 /**

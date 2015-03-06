@@ -195,7 +195,9 @@
 								array('status' => $bbsPost['status'])); ?>
 
 					<!-- 作成日時 -->
-					<div class="text-left" style="float:right;"><?php echo $bbsPost['createTime']; ?></div>
+					<div class="text-left" style="float:right;">
+						<?php echo $this->Date->dateFormat($bbsPost['created']); ?>
+					</div>
 
 					<!-- 本文 -->
 					<p>

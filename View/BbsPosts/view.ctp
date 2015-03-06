@@ -160,7 +160,7 @@
 				<!-- 右に表示 -->
 				<span class="text-left" style="float:right;">
 					<!-- 作成時間 -->
-					<span><?php echo $bbsPosts['createTime']; ?></span>
+					<span><?php echo $this->Date->dateFormat($bbsPosts['created']); ?></span>
 				</span>
 			</div>
 		</div>
@@ -360,7 +360,7 @@
 					<!-- 右に表示 -->
 					<span class="text-left" style="float:right;">
 						<!-- 時間 -->
-						<span><?php echo $comment['createTime']; ?></span>
+						<span><?php echo $this->Date->dateFormat($comment['created']); ?></span>
 					</span>
 				</div>
 

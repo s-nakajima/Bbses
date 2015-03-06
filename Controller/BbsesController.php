@@ -275,7 +275,7 @@ class BbsesController extends BbsesAppController {
 		$conditions['and']['rght <'] = $rght;
 
 		//公開データ以外も含めたコメント数を取得
-		$bbsCommnets = $this->BbsPost->getPosts(
+		if (! $bbsCommnets = $this->BbsPost->getPosts(
 				$this->viewVars['userId'],
 				$this->viewVars['contentEditable'],
 				$this->viewVars['contentCreatable'],
@@ -283,7 +283,9 @@ class BbsesController extends BbsesAppController {
 				null,
 				null,
 				$conditions
-			);
+		)) {
+			return 0;
+		}
 
 		return count($bbsCommnets);
 	}

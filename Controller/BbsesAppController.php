@@ -29,6 +29,15 @@ class BbsesAppController extends AppController {
 	);
 
 /**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'NetCommons.Date',
+	);
+
+/**
  * redirectBackUrl
  *
  * @throws BadRequestException

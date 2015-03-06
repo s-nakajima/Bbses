@@ -439,7 +439,7 @@ class BbsCommentsController extends BbsesAppController {
 		$conditions['and']['lft >'] = $parentPosts['BbsPost']['lft'];
 		$conditions['and']['rght <'] = $parentPosts['BbsPost']['rght'];
 		//公開されているコメントを取得
-		$bbsComments = $this->BbsPost->getPosts(
+		if (! $bbsComments = $this->BbsPost->getPosts(
 				false,
 				false,
 				false,
@@ -447,9 +447,14 @@ class BbsCommentsController extends BbsesAppController {
 				false,
 				false,
 				$conditions
-			);
+		)) {
+			$parentPosts['BbsPost']['comment_num'] = 0;
 
-		$parentPosts['BbsPost']['comment_num'] = count($bbsComments);
+		} else {
+			$parentPosts['BbsPost']['comment_num'] = count($bbsComments);
+
+		}
+
 		$parentPosts['Bbs']['key'] = $bbsKey;
 		$parentPosts['Comment']['comment'] = '';
 
