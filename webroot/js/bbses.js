@@ -53,10 +53,13 @@ NetCommonsApp.controller('BbsComment',
         $scope.bbsPosts = angular.copy(bbsPosts);
 
         //引用するONの場合、データをセット
-        if (quotFlag === '1') {
+        if (quotFlag === '1') {console.debug($scope.bbsPosts);
           //引用文に加工する
           $scope.bbsComments['title'] = 'Re:' + $scope.bbsPosts['title'];
-          $scope.bbsComments['content'] = $scope.bbsPosts['content'];
+          $scope.bbsComments['content'] =
+              '<br /><blockquote>' +
+              $scope.bbsPosts['content'] +
+              '</blockquote>';
         }
       };
     });
