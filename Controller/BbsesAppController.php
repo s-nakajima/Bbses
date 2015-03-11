@@ -429,8 +429,11 @@ class BbsesAppController extends AppController {
 				$conditions
 		)) {
 			$this->set('commentNum', 0);
+
+		} else {
+			$this->set('commentNum', count($comments));
+
 		}
-		$this->set('commentNum', count($comments));
 	}
 
 /**
