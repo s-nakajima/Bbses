@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2015-03-02 04:50+0000\n"
-"PO-Revision-Date: 2015-03-05 19:52+0900\n"
+"PO-Revision-Date: 2015-03-16 14:15+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -18,11 +18,11 @@ msgstr ""
 
 #: /Controller/BbsesAppController.php:328 /View/Bbses/view.ctp:102
 msgid "Latest post order"
-msgstr "最新の記事順"
+msgstr "最新の投稿順"
 
 #: /Controller/BbsesAppController.php:334 /View/Bbses/view.ctp:108
 msgid "Older post order"
-msgstr "古い記事順"
+msgstr "古い投稿順"
 
 #: /Controller/BbsesAppController.php:340 /View/Bbses/view.ctp:114
 msgid "Descending order of comments"

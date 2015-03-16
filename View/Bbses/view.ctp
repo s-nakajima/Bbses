@@ -3,7 +3,7 @@
 	<?php if ($contentPublishable) : ?>
 		<div class="text-right">
 			<a href="<?php echo $this->Html->url(
-				'/bbses/bbses/edit/' . $frameId) ?>" class="btn btn-primary">
+				'/bbses/bbses/edit/' . $frameId) ?>" class="btn btn-default">
 				<span class="glyphicon glyphicon-cog"> </span>
 			</a>
 		</div>
