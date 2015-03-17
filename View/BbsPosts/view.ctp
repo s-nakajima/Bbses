@@ -79,12 +79,12 @@
 				<!--     argument:frameId, postId(記事), pageNumber(コメント一覧ページ番号), sortParams(ソート), visibleRow(表示件数), narrowDown(絞り込み)-->
 				<li>
 					<a href="<?php echo $this->Html->url('/' . $baseUrl . '/' . $frameId . '/' . $bbsPosts['id'] . '/' . 1 . '/' . 1 . '/' . $currentVisibleRow . '/' . $narrowDownParams); ?>">
-						<?php echo __d('bbses', 'Latest comment order'); ?>
+						<?php echo __d('bbses', 'Latest post order'); ?>
 					</a>
 				</li>
 				<li>
 					<a href="<?php echo $this->Html->url('/' . $baseUrl . '/' . $frameId . '/' . $bbsPosts['id'] . '/' . 1 . '/' . 2 . '/' . $currentVisibleRow . '/' . $narrowDownParams); ?>">
-						<?php echo __d('bbses', 'Older comment order'); ?>
+						<?php echo __d('bbses', 'Older post order'); ?>
 					</a>
 				</li>
 			</ul>

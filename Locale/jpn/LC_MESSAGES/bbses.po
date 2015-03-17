@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2015-03-02 04:50+0000\n"
-"PO-Revision-Date: 2015-03-16 14:15+0900\n"
+"PO-Revision-Date: 2015-03-17 19:28+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -100,14 +100,6 @@ msgstr "編集"
 #: /View/BbsComments/view.ctp:76 /View/BbsPosts/view.ctp:64
 msgid "Comments"
 msgstr "コメント"
-
-#: /View/BbsComments/view.ctp:93 /View/BbsPosts/view.ctp:80
-msgid "Latest comment order"
-msgstr "最新のコメント順"
-
-#: /View/BbsComments/view.ctp:98 /View/BbsPosts/view.ctp:85
-msgid "Older comment order"
-msgstr "古いコメント順"
 
 #: /View/BbsComments/view.ctp:203;387;597 /View/BbsPosts/view.ctp:191;220;399
 msgid "Remove likes"
