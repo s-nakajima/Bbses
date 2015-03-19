@@ -29,7 +29,7 @@ class BbsPostsController extends BbsesAppController {
 		'Bbses.Bbs',
 		'Bbses.BbsFrameSetting',
 		'Bbses.BbsPost',
-		'Bbses.BbsPostsUser',
+		//'Bbses.BbsPostsUser',
 		'Comments.Comment',
 	);
 
@@ -38,14 +38,24 @@ class BbsPostsController extends BbsesAppController {
  *
  * @var array
  */
+//	public $components = array(
+//		'NetCommons.NetCommonsBlock',
+//		'NetCommons.NetCommonsFrame',
+//		'NetCommons.NetCommonsRoomRole' => array(
+//			//コンテンツの権限設定
+//			'allowedActions' => array(
+//				'contentEditable' => array('add', 'edit', 'delete', 'likes', 'unlikes'),
+//				'contentCreatable' => array('add', 'edit', 'delete', 'likes', 'unlikes'),
+//			),
+//		),
+//	);
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentEditable' => array('add', 'edit', 'delete', 'likes', 'unlikes'),
-				'contentCreatable' => array('add', 'edit', 'delete', 'likes', 'unlikes'),
+				'contentEditable' => array('edit')
 			),
 		),
 	);
@@ -58,6 +68,24 @@ class BbsPostsController extends BbsesAppController {
 	public $helpers = array(
 		'NetCommons.Token',
 	);
+
+/**
+ * index
+ *
+ * @return void
+ */
+	public function index($frameId, $currentPage = '', $sortParams = '',
+								$visiblePostRow = '', $narrowDownParams = '') {
+
+		var_dump('aaaaa');
+		if (! $this->viewVars['blockId']) {
+			$this->view = 'Bbses/notCreateBbs';
+			return;
+		}
+
+		//$this->view = 'Bbses/view';
+		//$this->view($frameId, $currentPage, $sortParams, $visiblePostRow, $narrowDownParams);
+	}
 
 /**
  * view method

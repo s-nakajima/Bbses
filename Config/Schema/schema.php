@@ -45,36 +45,6 @@ class AppSchema extends CakeSchema {
 	}
 
 /**
- * bbses
- *
- * @var string
- */
-	public $bbses = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
-		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs key | 掲示板キー | Hash値 | ', 'charset' => 'utf8'),
-		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs name | 掲示板名称 | | ', 'charset' => 'utf8'),
-		'use_comment' => array('type' => 'boolean', 'null' => false, 'default' => true),
-		'auto_approval' => array('type' => 'boolean', 'null' => false, 'default' => false),
-		'use_like_button' => array('type' => 'boolean', 'null' => false, 'default' => true),
-		'use_unlike_button' => array('type' => 'boolean', 'null' => false, 'default' => true),
-		'post_create_authority' => array('type' => 'boolean', 'null' => false, 'default' => true),
-		'editor_publish_authority' => array('type' => 'boolean', 'null' => false, 'default' => false),
-		'general_publish_authority' => array('type' => 'boolean', 'null' => false, 'default' => false),
-		'comment_create_authority' => array('type' => 'boolean', 'null' => false, 'default' => true),
-		'is_auto_translated' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'translation type. 0:original , 1:auto translation | 翻訳タイプ 0:オリジナル、1:自動翻訳 | | '),
-		'translation_engine' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'translation engine | 翻訳エンジン | | ', 'charset' => 'utf8'),
-		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
-		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 | | '),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-	);
-
-/**
  * bbs_frame_settings
  *
  * @var string
@@ -82,16 +52,16 @@ class AppSchema extends CakeSchema {
 	public $bbs_frame_settings = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
 		'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
-		'visible_post_row' => array('type' => 'integer', 'null' => false, 'default' => '10', 'comment' => 'visible row, 1 post or 5, 10, 20, 50, 100 posts | 表示記事数 1件、5件、10件、20件、50件、100件 | | '),
-		'visible_comment_row' => array('type' => 'integer', 'null' => false, 'default' => '10', 'comment' => 'visible row, 1 post or 5, 10, 20, 50, 100 posts | 表示記事数 1件、5件、10件、20件、50件、100件 | | '),
+		'posts_per_page' => array('type' => 'integer', 'null' => false, 'default' => '10', 'comment' => 'posts visible row, 1 post or 5, 10, 20, 50, 100 | 表示記事数 1件、5件、10件、20件、50件、100件 | | '),
+		'comments_per_page' => array('type' => 'integer', 'null' => false, 'default' => '10', 'comment' => 'comments visible row, 1 post or 5, 10, 20, 50, 100 | 表示記事数 1件、5件、10件、20件、50件、100件 | | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 | | '),
 		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
 /**
@@ -103,14 +73,31 @@ class AppSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
 		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs posts key | 掲示板記事キー | Hash値 | ', 'charset' => 'utf8'),
 		'bbs_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs key | 掲示板キー | Hash値 | ', 'charset' => 'utf8'),
-		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-		'lft' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'rght' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'parent id | 親記事のID treeビヘイビア必須カラム | | '),
+		'lft' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'lft | treeビヘイビア必須カラム | | '),
+		'rght' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'rght | treeビヘイビア必須カラム | | '),
+		'post_no' => array('type' => 'integer', 'null' => false, 'default' => '1', 'comment' => 'comment index | コメントへの採番 | | '),
+		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
+		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 | | '),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+		),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+
+/**
+ * bbs_post_i18ns
+ *
+ * @var string
+ */
+	public $bbs_post_i18ns = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
+		'bbs_post_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'bbsPosts.id | 記事のID | | '),
 		'status' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'comment' => 'public status, 1: public, 2: public pending, 3: draft during 4: remand | 公開状況 1:公開中、2:公開申請中、3:下書き中、4:差し戻し | | '),
 		'title' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'title | タイトル | |', 'charset' => 'utf8'),
 		'content' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'content | 本文 | |', 'charset' => 'utf8'),
-		'comment_num' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'comment_index' => array('type' => 'integer', 'null' => false, 'default' => '1'),
 		'is_auto_translated' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'translation type. 0:original , 1:auto translation | 翻訳タイプ 0:オリジナル、1:自動翻訳 | | '),
 		'translation_engine' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'translation engine | 翻訳エンジン | | ', 'charset' => 'utf8'),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
@@ -118,30 +105,52 @@ class AppSchema extends CakeSchema {
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 | | '),
 		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
 /**
- * bbs_posts_users
+ * bbs_settings
  *
  * @var string
  */
-	public $bbs_posts_users = array(
+	public $bbs_settings = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
-		'post_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'likes_flag' => array('type' => 'boolean', 'null' => false, 'default' => false),
-		'unlikes_flag' => array('type' => 'boolean', 'null' => false, 'default' => false),
+		'bbs_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs key | 掲示板キー | Hash値 | ', 'charset' => 'utf8'),
+		'use_comment' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'use comment, 0:not use comment 1:use it | コメント使用有無 0:使わない 1:使う | | '),
+		'use_like' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'use like button, 0:not use like button 1:use it | 高く評価ボタン使用有無 0:使わない 1:使う | | '),
+		'use_unlike' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'use unlike button, 0:not use unlike button 1:use it | 低く評価ボタン使用有無 0:使わない 1:使う | | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 | | '),
 		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+
+/**
+ * bbses
+ *
+ * @var string
+ */
+	public $bbses = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
+		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs key | 掲示板キー | Hash値 | ', 'charset' => 'utf8'),
+		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs name | 掲示板名称 | | ', 'charset' => 'utf8'),
+		'is_auto_translated' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'translation type. 0:original , 1:auto translation | 翻訳タイプ 0:オリジナル、1:自動翻訳 | | '),
+		'translation_engine' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'translation engine | 翻訳エンジン | | ', 'charset' => 'utf8'),
+		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
+		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 | | '),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+		),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
 }
