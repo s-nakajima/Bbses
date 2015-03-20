@@ -21,7 +21,7 @@
 
 <div class="text-right">
 	<a  class="btn btn-sm btn-success"
-		href="<?php echo $this->Html->url('/bbses/bbs_settings/add/' . $frame['id']); ?>">
+		href="<?php echo $this->Html->url('/bbses/bbs_settings/add/' . $frameId);?>">
 
 		<span class="glyphicon glyphicon-plus"></span>
 	</a>
