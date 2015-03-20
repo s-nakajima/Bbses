@@ -54,13 +54,13 @@ class Bbs extends BbsesAppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'BbsPost' => array(
-			'className' => 'Bbses.BbsPost',
-			'foreignKey' => 'bbs_key',
-			'dependent' => true
-		)
-	);
+	//public $hasMany = array(
+	//	'BbsPost' => array(
+	//		'className' => 'Bbses.BbsPost',
+	//		'foreignKey' => 'bbs_key',
+	//		'dependent' => true
+	//	)
+	//);
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -107,8 +107,30 @@ class Bbs extends BbsesAppModel {
 		));
 		return parent::beforeValidate($options);
 	}
+
 /**
- * get bbs data
+ * Get bbses data
+ *
+ * @param int $roomId rooms.id
+ * @return array
+ */
+	public function getBbses($roomId = '') {
+		$conditions = array(
+			'Blocks.room_id' => $roomId,
+		);
+
+		$bbses = $this->find('all', array(
+				//'recursive' => -1,
+				'conditions' => $conditions,
+				'order' => 'Bbs.id DESC',
+			)
+		);
+
+		return $bbses;
+	}
+
+/**
+ * Get bbs data
  *
  * @param int $blockId blocks.id
  * @return array

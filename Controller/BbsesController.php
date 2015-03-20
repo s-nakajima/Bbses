@@ -78,34 +78,31 @@ class BbsesController extends BbsesAppController {
 //		$this->view($frameId, $currentPage, $sortParams, $visiblePostRow, $narrowDownParams);
 //	}
 	public function index() {
-		//記事一覧にリダイレクト
-		$this->redirect(array(
-			'controller' => 'bbs_posts',
-			'action' => 'index',
-			$this->viewVars['frameId']
-		));
-
 		//$this->view = 'Bbses/view';
-		//$this->view($frameId, $currentPage, $sortParams, $visiblePostRow, $narrowDownParams);
+		//$this->view();
+		var_dump($this->view);
+
+		$this->setAction('view');
 	}
 
 /**
- * index method
+ * view
  *
- * @param int $frameId frames.id
- * @param int $currentPage currentPage
- * @param int $sortParams sortParameter
- * @param int $visiblePostRow visiblePostRow
- * @param int $narrowDownParams narrowDownParameter
  * @return void
  */
-	//public function view($frameId, $currentPage = '', $sortParams = '',
-	//							$visiblePostRow = '', $narrowDownParams = '') {
-	//	//一覧ページのURLをBackURLに保持
-	//	if ($this->request->isGet()) {
-	//			CakeSession::write('backUrl', Router::url(null, true));
-	//	}
-	//
+	public function view() {
+		var_dump($this->view);
+
+		if (! $this->viewVars['blockId']) {
+			$this->autoRender = false;
+			return;
+		}
+
+		//一覧ページのURLをBackURLに保持
+//		if ($this->request->isGet()) {
+//			CakeSession::write('backUrl', Router::url(null, true));
+//		}
+
 	//	//コメント表示数/掲示板名等をセット
 	//	$this->setBbs();
 	//
@@ -135,7 +132,7 @@ class BbsesController extends BbsesAppController {
 	//
 	//	//記事数取得
 	//	$this->__setPostNum();
-	//}
+	}
 
 /**
  * edit method
