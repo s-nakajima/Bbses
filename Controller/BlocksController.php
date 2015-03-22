@@ -41,7 +41,12 @@ class BlocksController extends BbsesAppController {
 	public $components = array(
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(),
+		'NetCommons.NetCommonsRoomRole' => array(
+			//コンテンツの権限設定
+			'allowedActions' => array(
+				'blockEditable' => array('index')
+			),
+		),
 		'Paginator',
 	);
 
@@ -53,6 +58,16 @@ class BlocksController extends BbsesAppController {
 	public $helpers = array(
 		'NetCommons.Token'
 	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->deny('index');
+	}
 
 /**
  * index
@@ -67,11 +82,17 @@ class BlocksController extends BbsesAppController {
 			'Block' => array(
 				'conditions' => array(
 					'Block.block_id = Bbs.block_id',
+					'Block.language_id = ' . $this->viewVars['languageId'],
 					//'CreatedUser.language_id' => 2,
-					'CreatedUser.key' => 'nickname'
+					//'CreatedUser.key' => 'nickname'
 				)
 			)
 		);
-		//$comments = $this->Paginator->paginate('Comment');
+		$bbses = $this->Paginator->paginate('Bbs');
+		$results = array(
+			'bbses' => $bbses
+		);
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
 	}
 }

@@ -38,6 +38,68 @@ class BbsesAppController extends AppController {
 	);
 
 /**
+ * initBbs
+ *
+ * @param array $contains Optional result sets
+ * @return void
+ */
+	public function initBbs($contains = []) {
+		if (in_array('bbs', $contains, true) || in_array('bbsSetting', $contains, true)) {
+			if (! $bbs = $this->Bbs->find('first', array(
+				'recursive' => 0,
+				'conditions' => array(
+					'Block.id' => $this->viewVars['blockId'],
+					'Block.room_id' => $this->viewVars['roomId'],
+				)
+			))) {
+				if ($this->request->is('ajax')) {
+					$this->renderJson(
+						['error' => ['validationErrors' => ['status' => __d('net_commons', 'Invalid request.')]]],
+						__d('net_commons', 'Bad Request'), 400
+					);
+				} else {
+					throw new BadRequestException(__d('net_commons', 'Bad Request'));
+				}
+				return false;
+			}
+			$bbs = $this->camelizeKeyRecursive($bbs);
+			$this->set($bbs);
+		}
+
+		if (in_array('bbsSetting', $contains, true)) {
+			if (! $bbsSetting = $this->BbsSetting->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'bbs_key' => $bbs['bbs']['key']
+				)
+			))) {
+				$bbsSetting = $this->BbsSetting->create(
+					array('id' => null)
+				);
+			}
+			$bbsSetting = $this->camelizeKeyRecursive($bbsSetting);
+			$this->set($bbsSetting);
+		}
+
+		if (in_array('bbsFrameSetting', $contains, true)) {
+			if (! $bbsFrameSetting = $this->BbsFrameSetting->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'frame_key' => $this->viewVars['frameKey']
+				)
+			))) {
+				$bbsFrameSetting = $this->BbsFrameSetting->create(
+					array(
+						'frame_key' => $this->viewVars['frameKey']
+					)
+				);
+			}
+			$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
+			$this->set($bbsFrameSetting);
+		}
+	}
+
+/**
  * redirectBackUrl
  *
  * @throws BadRequestException

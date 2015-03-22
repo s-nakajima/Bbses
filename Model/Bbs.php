@@ -61,6 +61,18 @@ class Bbs extends BbsesAppModel {
 	//		'dependent' => true
 	//	)
 	//);
+	public $hasMany = array(
+		//'BbsPost' => array(
+		//	'className' => 'Bbses.BbsPost',
+		//	'foreignKey' => 'bbs_key',
+		//	'dependent' => true
+		//),
+		'BbsSettings' => array(
+			'className' => 'Bbses.BbsSettings',
+			'foreignKey' => 'bbs_key',
+			'dependent' => true
+		)
+	);
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -73,21 +85,21 @@ class Bbs extends BbsesAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			'block_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'allowEmpty' => false,
-					'required' => true,
-				)
-			),
-			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				)
-			),
+			//'block_id' => array(
+			//	'numeric' => array(
+			//		'rule' => array('numeric'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//		//'allowEmpty' => false,
+			//		//'required' => true,
+			//	)
+			//),
+			//'key' => array(
+			//	'notEmpty' => array(
+			//		'rule' => array('notEmpty'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//		//'required' => true,
+			//	)
+			//),
 
 			//status to set in PublishableBehavior.
 
@@ -109,46 +121,25 @@ class Bbs extends BbsesAppModel {
 	}
 
 /**
- * Get bbses data
- *
- * @param int $roomId rooms.id
- * @return array
- */
-	public function getBbses($roomId = '') {
-		$conditions = array(
-			'Blocks.room_id' => $roomId,
-		);
-
-		$bbses = $this->find('all', array(
-				//'recursive' => -1,
-				'conditions' => $conditions,
-				'order' => 'Bbs.id DESC',
-			)
-		);
-
-		return $bbses;
-	}
-
-/**
  * Get bbs data
  *
  * @param int $blockId blocks.id
  * @return array
  */
-	public function getBbs($blockId = '') {
-		$conditions = array(
-			'block_id' => $blockId,
-		);
-
-		$bbs = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-				'order' => 'Bbs.id DESC',
-			)
-		);
-
-		return $bbs;
-	}
+	//public function getBbs($blockId = '') {
+	//	$conditions = array(
+	//		'block_id' => $blockId,
+	//	);
+	//
+	//	$bbs = $this->find('first', array(
+	//			'recursive' => -1,
+	//			'conditions' => $conditions,
+	//			'order' => 'Bbs.id DESC',
+	//		)
+	//	);
+	//
+	//	return $bbs;
+	//}
 
 /**
  * save bbs
@@ -157,43 +148,43 @@ class Bbs extends BbsesAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function saveBbs($data) {
-		$this->loadModels([
-			'Bbs' => 'Bbses.Bbs',
-			'Block' => 'Blocks.Block',
-		]);
-
-		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
-
-		try {
-			if (!$this->validateBbs($data)) {
-				return false;
-			}
-			//ブロックの登録
-			$block = $this->Block->saveByFrameId($data['Frame']['id'], false);
-
-			//掲示板の登録
-			$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
-			$bbs = $this->save(null, false);
-			if (!$bbs) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			//トランザクションCommit
-			$dataSource->commit();
-		} catch (Exception $ex) {
-			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
-			throw $ex;
-		}
-		return $bbs;
-	}
+	//public function saveBbs($data) {
+	//	$this->loadModels([
+	//		'Bbs' => 'Bbses.Bbs',
+	//		'Block' => 'Blocks.Block',
+	//	]);
+	//
+	//	//トランザクションBegin
+	//	$dataSource = $this->getDataSource();
+	//	$dataSource->begin();
+	//
+	//	try {
+	//		if (!$this->validateBbs($data)) {
+	//			return false;
+	//		}
+	//		//ブロックの登録
+	//		$block = $this->Block->saveByFrameId($data['Frame']['id'], false);
+	//
+	//		//掲示板の登録
+	//		$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
+	//		$bbs = $this->save(null, false);
+	//		if (!$bbs) {
+	//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+	//		}
+	//		//トランザクションCommit
+	//		$dataSource->commit();
+	//	} catch (Exception $ex) {
+	//		//トランザクションRollback
+	//		$dataSource->rollback();
+	//		//エラー出力
+	//		CakeLog::write(LOG_ERR, $ex);
+	//		throw $ex;
+	//	}
+	//	return $bbs;
+	//}
 
 /**
- * validate announcement
+ * validate bbs
  *
  * @param array $data received post data
  * @return bool True on success, false on error

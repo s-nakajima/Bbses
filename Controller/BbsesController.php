@@ -29,6 +29,7 @@ class BbsesController extends BbsesAppController {
 		'Bbses.Bbs',
 		'Bbses.BbsFrameSetting',
 		'Bbses.BbsPost',
+		'Bbses.BbsSetting',
 		//'Bbses.BbsPostsUser',
 	);
 
@@ -56,6 +57,7 @@ class BbsesController extends BbsesAppController {
 			//	'contentEditable' => array('edit')
 			//),
 		),
+		'Paginator',
 	);
 
 /**
@@ -78,10 +80,6 @@ class BbsesController extends BbsesAppController {
 //		$this->view($frameId, $currentPage, $sortParams, $visiblePostRow, $narrowDownParams);
 //	}
 	public function index() {
-		//$this->view = 'Bbses/view';
-		//$this->view();
-		var_dump($this->view);
-
 		$this->setAction('view');
 	}
 
@@ -91,12 +89,43 @@ class BbsesController extends BbsesAppController {
  * @return void
  */
 	public function view() {
-		var_dump($this->view);
-
 		if (! $this->viewVars['blockId']) {
-			$this->autoRender = false;
+			$this->view = 'Bbses/noSetting';
 			return;
 		}
+
+		$this->view = 'BbsPosts/index';
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
+		$this->Paginator->settings = array(
+			//'recursive' => -1,
+			'BbsPost' => array(
+				//'recursive' => -1,
+				'conditions' => array(
+					'BbsPost.bbs_key' => $this->viewVars['bbs']['key'],
+					'BbsPost.parent_id' => 0,
+				),
+				'order' => 'BbsPost.id DESC',
+			),
+			'BbsPostI18n' => array(
+				//'recursive' => -1,
+				'conditions' => array(
+					'BbsPost.id = BbsPostI18n.bbs_post_id',
+					'BbsPostI18n.language_id = ' . $this->viewVars['languageId'],
+					//'CreatedUser.language_id' => 2,
+					//'CreatedUser.key' => 'nickname'
+				),
+				'order' => 'BbsPostI18n.id DESC'
+			)
+		);
+		$posts = $this->Paginator->paginate('BbsPost');
+		$results = array(
+			'bbsPosts' => $posts
+		);
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
+
+		var_dump($this->viewVars);
 
 		//一覧ページのURLをBackURLに保持
 //		if ($this->request->isGet()) {
