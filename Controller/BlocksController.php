@@ -78,11 +78,10 @@ class BlocksController extends BbsesAppController {
 		$this->Paginator->settings = array(
 			'Bbs' => array(
 				'order' => 'Bbs.id DESC',
-			),
-			'Block' => array(
 				'conditions' => array(
-					'Block.block_id = Bbs.block_id',
+					'Block.id = Bbs.block_id',
 					'Block.language_id = ' . $this->viewVars['languageId'],
+					'Block.room_id = ' . $this->viewVars['roomId'],
 					//'CreatedUser.language_id' => 2,
 					//'CreatedUser.key' => 'nickname'
 				)

@@ -97,25 +97,26 @@ class BbsesController extends BbsesAppController {
 		$this->view = 'BbsPosts/index';
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
 
+		$this->BbsPost->bindModel(array('hasMany' => array(
+				'BbsPostI18n' => array(
+					'foreignKey' => 'bbs_post_id',
+					'limit' => 1,
+					'order' => 'BbsPostI18n.id DESC',
+					'conditions' => array(
+						'BbsPostI18n.language_id' => $this->viewVars['languageId']
+					)
+				)
+			)),
+			false
+		);
+
 		$this->Paginator->settings = array(
-			//'recursive' => -1,
 			'BbsPost' => array(
-				//'recursive' => -1,
 				'conditions' => array(
 					'BbsPost.bbs_key' => $this->viewVars['bbs']['key'],
 					'BbsPost.parent_id' => 0,
 				),
 				'order' => 'BbsPost.id DESC',
-			),
-			'BbsPostI18n' => array(
-				//'recursive' => -1,
-				'conditions' => array(
-					'BbsPost.id = BbsPostI18n.bbs_post_id',
-					'BbsPostI18n.language_id = ' . $this->viewVars['languageId'],
-					//'CreatedUser.language_id' => 2,
-					//'CreatedUser.key' => 'nickname'
-				),
-				'order' => 'BbsPostI18n.id DESC'
 			)
 		);
 		$posts = $this->Paginator->paginate('BbsPost');
@@ -125,7 +126,6 @@ class BbsesController extends BbsesAppController {
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);
 
-		var_dump($this->viewVars);
 
 		//一覧ページのURLをBackURLに保持
 //		if ($this->request->isGet()) {
