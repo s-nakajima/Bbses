@@ -47,13 +47,17 @@
 
 				</div>
 				<div class="col-xs-6 text-right">
-					<a href="<?php echo $this->Html->url('/bbses/bbs_posts/edit/' . $frameId . '/' . (int)$rootBbsPost['bbsPost']['id']); ?>"
-							class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
+					<?php echo $this->element('BbsPosts/reply_link', array(
+							'status' => $rootBbsPost['bbsPostI18n'][0]['status'],
+							'rootPostId' => (int)$rootBbsPost['bbsPost']['id'],
+							'parentPostId' => (int)$rootBbsPost['bbsPost']['id'],
+						)); ?>
 
-						<span class="glyphicon glyphicon-edit"></span>
-					</a>
-
-					
+					<?php echo $this->element('BbsPosts/edit_link', array(
+							'status' => $rootBbsPost['bbsPostI18n'][0]['status'],
+							'bbsPostId' => (int)$rootBbsPost['bbsPost']['id'],
+							'createUser' => $rootBbsPost['trackableCreator']['id'],
+						)); ?>
 				</div>
 			</div>
 		</div>

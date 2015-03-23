@@ -15,16 +15,17 @@
 		<div class="col-xs-10">
 			<a href="<?php echo $this->Html->url('/bbses/bbs_posts/view/' . $frameId . '/' . $bbsPost['bbsPost']['id']); ?>">
 				<?php echo String::truncate($bbsPost['bbsPostI18n'][0]['title'], BbsPostI18n::DISPLAY_MAX_TITLE_LENGTH); ?>
-
 				<?php echo $this->element('NetCommons.status_label', array('status' => $bbsPost['bbsPostI18n'][0]['status'])); ?>
+			</a>
+			&nbsp;
 
-				<!-- TODO:コメント数 -->
-				<?php if ($bbsPost['bbsPostI18n'][0]['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-					&nbsp;
+			<!-- TODO:コメント数 -->
+			<?php if ($bbsPost['bbsPostI18n'][0]['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+				<div class="inline-block text-success">
 					<span class="glyphicon glyphicon-comment"> </span>
 					<span tooltip="<?php echo __d('bbses', 'Publishing comments'); ?>">99999<?php //echo $bbsPost['comment_num']; ?></span>
-				<?php endif; ?>
-			</a>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="col-xs-2 text-right">
@@ -45,37 +46,24 @@
 			<?php if ($bbsPost['bbsPostI18n'][0]['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
 				<?php if ($bbsSetting['useLike']) : ?>
 					<!-- TODO:いいね数 -->
-					<span class="glyphicon glyphicon-thumbs-up">99999<?php //echo $bbsPost['likesNum']; ?></span>
+					<div class="inline-block glyphicon glyphicon-thumbs-up">99999<?php //echo $bbsPost['likesNum']; ?></div>
 				<?php endif; ?>
 			<?php endif; ?>
-
-			&nbsp;
 
 			<?php if ($bbsPost['bbsPostI18n'][0]['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
 				<?php if ($bbsSetting['useUnlike']) : ?>
 					<!-- TODO:わるいね数 -->
-					<span class="glyphicon glyphicon-thumbs-down">99999<?php //echo $bbsPost['unlikesNum']; ?></span>
+					<div class="inline-block glyphicon glyphicon-thumbs-down">99999<?php //echo $bbsPost['unlikesNum']; ?></div>
 				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 
 		<div class="col-xs-6 text-right">
-			<!-- TODO:公開権限があれば編集／削除できる -->
-			<!-- もしくは　編集権限があり、公開されていなければ、編集／削除できる -->
-			<!-- もしくは 作成権限があり、自分の書いた記事で、公開されていなければ、編集／削除できる -->
-			<?php if ($contentPublishable ||
-					($contentEditable &&
-						$bbsPost['bbsPostI18n'][0]['status'] !== NetCommonsBlockComponent::STATUS_PUBLISHED) ||
-					($contentCreatable &&
-						$bbsPost['bbsPostI18n'][0]['status'] !== NetCommonsBlockComponent::STATUS_PUBLISHED &&
-							$bbsPost['bbsPost']['created_user'] === $userId)): ?>
-
-				<a href="<?php echo $this->Html->url('/bbses/bbs_posts/edit/' . $frameId . '/' . $bbsPost['bbsPost']['id']); ?>"
-					class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
-
-					<span class="glyphicon glyphicon-edit"> </span>
-				</a>
-			<?php endif; ?>
+			<?php echo $this->element('BbsPosts/edit_link', array(
+					'status' => $bbsPost['bbsPostI18n'][0]['status'],
+					'bbsPostId' => (int)$bbsPost['bbsPost']['id'],
+					'createUser' => $bbsPost['bbsPost']['createdUser'],
+				)); ?>
 		</div>
 	</div>
 </td></tr>

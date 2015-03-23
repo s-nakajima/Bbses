@@ -252,15 +252,15 @@ class BbsPost extends BbsesAppModel {
  * @param bool $contentEditable true can edit the content, false not can edit the content.
  * @return array $rssReader
  */
-	public function getMaxNo($bbsKey) {
-		$conditions = array(
-			'bbs_key' => $bbsKey,
-		);
+	public function getMaxNo($rootPostId) {
+		if (! $rootPostId) {
+			return 0;
+		}
 
 		$bbsPost = $this->find('first', array(
 			'recursive' => -1,
 			'fields' => 'post_no',
-			'conditions' => array('bbs_key' => $bbsKey),
+			'conditions' => array('root_id' => $rootPostId),
 			'order' => 'BbsPost.post_no DESC',
 		));
 

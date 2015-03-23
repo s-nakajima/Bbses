@@ -48,8 +48,8 @@ class BbsPostsController extends BbsesAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentCreatable' => array('add', 'edit', 'delete'),
-				'bbsPostCreatable' => array('add', 'edit', 'delete')
+				'contentCreatable' => array('add', 'reply', 'edit', 'delete'),
+				'bbsPostCreatable' => array('add', 'reply', 'edit', 'delete')
 			),
 		),
 	);
@@ -177,21 +177,32 @@ class BbsPostsController extends BbsesAppController {
 	}
 
 /**
- * add method
+ * add
  *
  * @param int $frameId frames.id
+ * @param int $parentPostId Parent bbs_posts.id
  * @return void
  */
-	public function add($frameId = null, $bbsPostId = null) {
+	public function add($frameId = null, $parentPostId = null) {
 		$this->view = 'BbsPosts/edit';
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		if ($parentPostId) {
+			$this->set('bbsPostId', (int)$parentPostId);
+			$this->initBbs(['bbsPost']);
+			if ((int)$this->viewVars['bbsPost']['root_id'] > 0) {
+				$rootPostId = (int)$this->viewVars['bbsPost']['root_id'];
+			} else {
+				$rootPostId = (int)$this->viewVars['bbsPost']['id'];
+			}
+		}
 
 		$bbsPost = $this->BbsPost->create(
 			array(
 				'id' => null,
 				'key' => null,
 				'bbs_key' => $this->viewVars['bbs']['key'],
-				'parent_id' => isset($bbsPostId) ? (int)$bbsPostId : null,
+				'root_id' => isset($rootPostId) ? $rootPostId : null,
+				'parent_id' => isset($parentPostId) ? (int)$parentPostId : null,
 			)
 		);
 		$bbsPostI18n = $this->BbsPostI18n->create(
@@ -203,6 +214,12 @@ class BbsPostsController extends BbsesAppController {
 				'content' => '',
 			)
 		);
+		if (isset($this->query['quote']) && $this->query['quote']) {
+			$bbsPostI18n['BbsPostI18n']['title'] = isset($this->viewVars['bbsPost']['bbsPostI18n'][0]['title']) ?
+					 'Re: ' . $this->viewVars['bbsPost']['bbsPostI18n'][0]['title'] : '';
+			$bbsPostI18n['BbsPostI18n']['content'] = isset($this->viewVars['bbsPost']['bbsPostI18n'][0]['content']) ?
+					 '<br /><blockquote>' . $this->viewVars['bbsPost']['bbsPostI18n'][0]['content'] . '</blockquote>' : '';
+		}
 
 		$data = Hash::merge($bbsPost, $bbsPostI18n, ['contentStatus' => null, 'comments' => []]);
 
@@ -216,7 +233,7 @@ class BbsPostsController extends BbsesAppController {
 			);
 
 			$this->BbsPost->useDbConfig = 'master';
-			$data['BbsPost']['post_no'] = $this->BbsPost->getMaxNo($this->viewVars['bbs']['key']) + 1;
+			$data['BbsPost']['post_no'] = $this->BbsPost->getMaxNo($rootPostId) + 1;
 			$data['BbsPost']['key'] = Security::hash('bbs_post' . mt_rand() . microtime(), 'md5');
 			unset($data['BbsPost']['id']);
 
@@ -236,13 +253,29 @@ class BbsPostsController extends BbsesAppController {
 	}
 
 /**
+ * reply
+ *
+ * @param int $frameId frames.id
+ * @param int $parentPostId Parent bbs_posts.id
+ * @return void
+ */
+	public function reply($frameId = null, $parentPostId = null) {
+		$this->add($frameId, $parentPostId);
+	}
+
+/**
  * edit method
  *
  * @param int $frameId frames.id
- * @param int $postId bbsPosts.id
+ * @param int $bbsPostId bbsPosts.id
  * @return void
  */
 	public function edit($frameId = null, $bbsPostId = null) {
+		$this->set('bbsPostId', (int)$bbsPostId);
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting', 'bbsPost']);
+
+
+
 		////掲示板名を取得
 		//$this->setBbs();
 		//
