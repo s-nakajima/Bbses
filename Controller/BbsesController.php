@@ -30,6 +30,7 @@ class BbsesController extends BbsesAppController {
 		'Bbses.BbsFrameSetting',
 		'Bbses.BbsPost',
 		'Bbses.BbsSetting',
+		'Bbses.BbsPostI18n',
 		//'Bbses.BbsPostsUser',
 	);
 
@@ -49,6 +50,7 @@ class BbsesController extends BbsesAppController {
 //		),
 //	);
 	public $components = array(
+		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(

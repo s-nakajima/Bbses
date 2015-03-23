@@ -10,6 +10,7 @@
  */
 
 App::uses('BbsesAppController', 'Bbses.Controller');
+App::uses('String', 'Utility');
 
 /**
  * Bbses Controller
@@ -41,8 +42,8 @@ class BbsPostsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsBlock',
+		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
@@ -95,7 +96,27 @@ class BbsPostsController extends BbsesAppController {
 			$this->view = 'Bbses/notCreateBbs';
 			return;
 		}
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
+		$this->set('bbsPostId', (int)$bbsPostId);
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting', 'bbsPost']);
+
+//		if ((int)$this->viewVars['bbsPost']['parent_id'] > 0) {
+//			//コメント表示の場合、根記事を取得
+//			if (! $rootBbsPost = $this->BbsPost->find('first', array(
+//				'recursive' => 0,
+//				'conditions' => array(
+//					'BbsPost.id' => $this->viewVars['bbsPostId'],
+//				)
+//			))) {
+//				$this->_throwBadRequest();
+//				return false;
+//			}
+//		}
+
+		$children = $this->BbsPost->children($this->viewVars['bbsPostId']);
+		$children = $this->camelizeKeyRecursive($children);
+		$this->set($children);
+
 
 		//if (! $postId) {
 		//	BadRequestException(__d('net_commons', 'Bad Request'));

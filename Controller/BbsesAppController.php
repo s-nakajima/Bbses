@@ -52,14 +52,7 @@ class BbsesAppController extends AppController {
 					'Block.room_id' => $this->viewVars['roomId'],
 				)
 			))) {
-				if ($this->request->is('ajax')) {
-					$this->renderJson(
-						['error' => ['validationErrors' => ['status' => __d('net_commons', 'Invalid request.')]]],
-						__d('net_commons', 'Bad Request'), 400
-					);
-				} else {
-					throw new BadRequestException(__d('net_commons', 'Bad Request'));
-				}
+				$this->_throwBadRequest();
 				return false;
 			}
 			$bbs = $this->camelizeKeyRecursive($bbs);
@@ -96,6 +89,37 @@ class BbsesAppController extends AppController {
 			}
 			$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
 			$this->set($bbsFrameSetting);
+		}
+
+		if (in_array('bbsPost', $contains, true)) {
+			if (! $bbsPost = $this->BbsPost->find('first', array(
+				//'recursive' => 0,
+				'conditions' => array(
+					'BbsPost.id' => $this->viewVars['bbsPostId'],
+				)
+			))) {
+				$this->_throwBadRequest();
+				return false;
+			}
+			$bbsPost = $this->camelizeKeyRecursive($bbsPost);
+			$this->set(['bbsPost' => $bbsPost]);
+		}
+	}
+
+/**
+ * throw bad request
+ *
+ * @return void
+ * @throws BadRequestException
+ */
+	protected function _throwBadRequest() {
+		if ($this->request->is('ajax')) {
+			$this->renderJson(
+				['error' => ['validationErrors' => ['status' => __d('net_commons', 'Invalid request.')]]],
+				__d('net_commons', 'Bad Request'), 400
+			);
+		} else {
+			throw new BadRequestException(__d('net_commons', 'Bad Request'));
 		}
 	}
 

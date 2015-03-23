@@ -204,7 +204,7 @@ class BbsPost extends BbsesAppModel {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsPostI18n->validationErrors);
 				return false;
 			}
-			if (! $this->Comment->validateByStatus($data, array('caller' => $this->name))) {
+			if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPostI18n'))) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
 				return false;
 			}

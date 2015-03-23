@@ -88,7 +88,7 @@ class BbsSettingsController extends BbsesAppController {
 		if ($this->request->isPost()) {
 			$data = $this->data;
 
-			if (! $this->viewVars['bbsFrameSetting']['id']) {
+			if (! isset($this->viewVars['bbsFrameSetting']['id'])) {
 				$bbsFrameSetting = $this->BbsFrameSetting->create(
 					array(
 						'frame_key' => $this->viewVars['frameKey']
@@ -119,7 +119,7 @@ class BbsSettingsController extends BbsesAppController {
  * @return void
  */
 	public function edit($frameId = null, $blockId = null) {
-		$this->viewVars['blockId'] = (int)$blockId;
+		$this->set('blockId', (int)$blockId);
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
 
 		if ($this->request->isPost()) {

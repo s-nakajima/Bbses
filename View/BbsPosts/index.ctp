@@ -36,3 +36,13 @@
 
 	</div>
 </div>
+
+<?php if ($bbsPosts) : ?>
+	<table class="table table-striped">
+		<?php foreach ($bbsPosts as $bbsPost) : ?>
+			<?php echo $this->element('BbsPosts/index_bbs_post', array('bbsPost' => $bbsPost)); ?>
+		<?php endforeach; ?>
+	</table>
+<?php else : ?>
+
+<?php endif; ?>
