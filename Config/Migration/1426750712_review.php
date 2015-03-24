@@ -73,7 +73,7 @@ class Review extends CakeMigration {
 				),
 				'bbs_posts' => array(
 					'last_status' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'comment' => 'public status, 1: public, 2: public pending, 3: draft during 4: remand | 公開状況 1:公開中、2:公開申請中、3:下書き中、4:差し戻し | | ', 'after' => 'bbs_key'),
-					'root_id' => array('type' => 'integer', 'null' => false, 'default' => '1', 'comment' => 'root post id | 根記事ID | | ', 'after' => 'last_status'),
+					'root_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'root post id | 根記事ID | | ', 'after' => 'last_status'),
 					'post_no' => array('type' => 'integer', 'null' => false, 'default' => '1', 'comment' => 'comment index | コメントへの採番 | | ', 'after' => 'rght'),
 				),
 			),

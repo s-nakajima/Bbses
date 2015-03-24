@@ -10,16 +10,7 @@
  */
 ?>
 
-<ol class="breadcrumb">
-	<li>
-		<a href="<?php echo $this->Html->url('/bbses/bbses/index/' . $frameId . '/') ?>">
-			<?php echo h($bbs['name']); ?>
-		</a>
-	</li>
-	<li class="active">
-		<?php echo String::truncate($bbsPost['bbsPostI18n']['title'], BbsPostI18n::DISPLAY_MAX_TITLE_LENGTH); ?>
-	</li>
-</ol>
+<?php echo $this->element('BbsPosts/view_breadcrumb'); ?>
 
 <div class="panel-group">
 	<div class="panel panel-info">
@@ -30,7 +21,7 @@
 			)); ?>
 		<?php else : ?>
 			<?php echo $this->element('BbsPosts/view_bbs_post', array(
-				'bbsPost' => $bbsPost,
+				'bbsPost' => $currentBbsPost,
 				'parentBbsPost' => null
 			)); ?>
 		<?php endif; ?>
@@ -41,7 +32,7 @@
 	<div class="panel-group">
 		<div class="panel panel-success">
 			<?php echo $this->element('BbsPosts/view_bbs_post', array(
-				'bbsPost' => $bbsPost,
+				'bbsPost' => $currentBbsPost,
 				'parentBbsPost' => $parentBbsPost
 			)); ?>
 		</div>
@@ -56,7 +47,7 @@
 					<div class="panel panel-default">
 						<?php echo $this->element('BbsPosts/view_bbs_post', array(
 							'bbsPost' => $childBbsPost,
-							'parentBbsPost' => isset($bbsPostChildren[$childBbsPost['bbsPost']['parentId']]) ? $bbsPostChildren[$childBbsPost['bbsPost']['parentId']] : $bbsPost
+							'parentBbsPost' => isset($bbsPostChildren[$childBbsPost['bbsPost']['parentId']]) ? $bbsPostChildren[$childBbsPost['bbsPost']['parentId']] : $currentBbsPost
 						)); ?>
 					</div>
 				</div>

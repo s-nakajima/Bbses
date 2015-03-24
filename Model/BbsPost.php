@@ -221,6 +221,7 @@ class BbsPost extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function saveBbsPost($data) {
+		$this->setDataSource('master');
 		$this->loadModels([
 			'BbsPost' => 'Bbses.BbsPost',
 			'BbsPostI18n' => 'Bbses.BbsPostI18n',
@@ -240,9 +241,12 @@ class BbsPost extends BbsesAppModel {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsPostI18n->validationErrors);
 				return false;
 			}
-			if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPost'))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				return false;
+
+			if (isset($data['Comment'])) {
+				if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPostI18n'))) {
+					$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+					return false;
+				}
 			}
 
 			//BbsPost登録処理
@@ -262,7 +266,7 @@ class BbsPost extends BbsesAppModel {
 			}
 
 			//コメントの登録
-			if ($this->Comment->data) {
+			if (isset($data['Comment']) && $this->Comment->data) {
 				if (! $this->Comment->save(null, false)) {
 					// @codeCoverageIgnoreStart
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error 3'));

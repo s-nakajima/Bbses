@@ -27,11 +27,11 @@
 	)); ?>
 
 <?php echo $this->Form->hidden('BbsPost.root_id', array(
-		'value' => (int)$bbsPost['rootId'],
+		'value' => isset($bbsPost['rootId']) ? (int)$bbsPost['rootId'] : null,
 	)); ?>
 
 <?php echo $this->Form->hidden('BbsPost.parent_id', array(
-		'value' => (int)$bbsPost['parentId'],
+		'value' => isset($bbsPost['parentId']) ? (int)$bbsPost['parentId'] : null,
 	)); ?>
 
 <?php echo $this->Form->hidden('BbsPostI18n.id', array(

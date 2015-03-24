@@ -26,14 +26,21 @@ class BbsPostI18n extends BbsesAppModel {
  *
  * @var int
  */
-	const DISPLAY_MAX_TITLE_LENGTH = 50;
+	const BREADCRUMB_TITLE_LENGTH = 20;
+
+/**
+ * Max length of title
+ *
+ * @var int
+ */
+	const LIST_TITLE_LENGTH = 50;
 
 /**
  * Max length of content
  *
  * @var int
  */
-	const DISPLAY_MAX_CONTENT_LENGTH = 200;
+	const LIST_CONTENT_LENGTH = 200;
 
 /**
  * use behaviors

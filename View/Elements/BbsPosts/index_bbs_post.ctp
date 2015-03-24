@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-xs-10">
 			<a href="<?php echo $this->Html->url('/bbses/bbs_posts/view/' . $frameId . '/' . $bbsPost['bbsPost']['id']); ?>">
-				<?php echo String::truncate($bbsPost['bbsPostI18n']['title'], BbsPostI18n::DISPLAY_MAX_TITLE_LENGTH); ?>
+				<?php echo String::truncate($bbsPost['bbsPostI18n']['title'], BbsPostI18n::LIST_TITLE_LENGTH); ?>
 				<?php echo $this->element('NetCommons.status_label', array('status' => $bbsPost['bbsPostI18n']['status'])); ?>
 			</a>
 			&nbsp;
@@ -36,7 +36,7 @@
 	<div class="row">
 		<div class="col-xs-12 text-muted">
 			<small>
-				<?php echo String::truncate(strip_tags($bbsPost['bbsPostI18n']['content']), BbsPostI18n::DISPLAY_MAX_CONTENT_LENGTH); ?>
+				<?php echo String::truncate(strip_tags($bbsPost['bbsPostI18n']['content']), BbsPostI18n::LIST_CONTENT_LENGTH); ?>
 			</small>
 		</div>
 	</div>

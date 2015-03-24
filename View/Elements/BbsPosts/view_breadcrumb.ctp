@@ -12,23 +12,36 @@
 
 <ol class="breadcrumb form-group">
 	<li>
-		<a href="<?php echo $this->Html->url('/bbses/bbses/index/' . $frameId) ?>">
-			<?php echo $bbs['name']; ?>
+		<a href="<?php echo $this->Html->url('/bbses/bbses/index/' . $frameId . '/') ?>"
+			title="<?php echo h($bbs['name']); ?>">
+
+			<?php echo String::truncate($bbs['name'], BbsPostI18n::BREADCRUMB_TITLE_LENGTH); ?>
 		</a>
 	</li>
-	<?php if (isset($bbsPost['id']) && $this->request->params['action'] !== 'add') : ?>
+
+	<?php if (isset($rootBbsPost)) : ?>
 		<li>
-			<a href="<?php echo $this->Html->url('/bbses/bbs_posts/view/' . $frameId . '/' . $bbsPost['id']) ?>">
-				<?php echo $bbsPost['title']; ?>
+			<a href="<?php echo $this->Html->url('/bbses/bbs_posts/view/' . $frameId . '/' . $rootBbsPost['bbsPost']['id']) ?>"
+				title="<?php echo h($rootBbsPost['bbsPostI18n']['title']); ?>">
+
+				<?php echo String::truncate($rootBbsPost['bbsPostI18n']['title'], BbsPostI18n::BREADCRUMB_TITLE_LENGTH); ?>
 			</a>
 		</li>
 	<?php endif; ?>
 
-	<li class="active">
-		<?php if ($this->request->params['action'] === 'add') : ?>
-			<?php echo __d('bbses', 'Create post'); ?>
-		<?php else : ?>
-			<?php echo __d('bbses', 'Edit'); ?>
-		<?php endif; ?>
-	</li>
+	<?php if (isset($parentBbsPost) && $parentBbsPost['bbsPost']['rootId']) : ?>
+		<li>
+			<a href="<?php echo $this->Html->url('/bbses/bbs_posts/view/' . $frameId . '/' . $parentBbsPost['bbsPost']['id']) ?>"
+				title="<?php echo h($parentBbsPost['bbsPostI18n']['title']); ?>">
+
+				<?php echo String::truncate($parentBbsPost['bbsPostI18n']['title'], BbsPostI18n::BREADCRUMB_TITLE_LENGTH); ?>
+			</a>
+		</li>
+	<?php endif; ?>
+
+	<?php if (isset($currentBbsPost)) : ?>
+		<li class="active">
+			<?php echo String::truncate($currentBbsPost['bbsPostI18n']['title'], BbsPostI18n::LIST_TITLE_LENGTH); ?>
+		</li>
+	<?php endif; ?>
 </ol>

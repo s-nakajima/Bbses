@@ -28,15 +28,22 @@
 		<div class="panel panel-default">
 			<div class="panel-body has-feedback">
 				<?php echo $this->element('BbsPosts/edit_form'); ?>
-				<hr />
-				<?php echo $this->element('Comments.form'); ?>
+
+				<?php if (! $bbsPost['rootId']) : ?>
+					<hr />
+					<?php echo $this->element('Comments.form'); ?>
+				<?php endif; ?>
+
 			</div>
 
 			<div class="panel-footer text-center">
 				<?php echo $this->element('NetCommons.workflow_buttons'); ?>
 			</div>
 		</div>
-		<?php echo $this->element('Comments.index'); ?>
+
+		<?php if (! $bbsPost['rootId']) : ?>
+			<?php echo $this->element('Comments.index'); ?>
+		<?php endif; ?>
 
 	<?php echo $this->Form->end(); ?>
 	</div>

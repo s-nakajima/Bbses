@@ -214,10 +214,10 @@ class BbsPostsController extends BbsesAppController {
 			}
 			$data = Hash::merge(
 				$this->data,
-				['BbsPostI18n' => ['status' => $status]]
+				['BbsPostI18n' => ['status' => $status]],
+				['BbsPost' => ['last_status' => $status]]
 			);
 
-			$this->BbsPost->useDbConfig = 'master';
 			$data['BbsPost']['post_no'] = 1;
 			$data['BbsPost']['key'] = Security::hash('bbs_post' . mt_rand() . microtime(), 'md5');
 			unset($data['BbsPost']['id']);
@@ -251,10 +251,10 @@ class BbsPostsController extends BbsesAppController {
 		$this->set('bbsPostId', (int)$parentPostId);
 		$this->__initBbsPost();
 
-		if ((int)$this->viewVars['bbsPost']['bbsPost']['rootId'] > 0) {
-			$rootPostId = (int)$this->viewVars['bbsPost']['bbsPost']['rootId'];
+		if ((int)$this->viewVars['currentBbsPost']['bbsPost']['rootId'] > 0) {
+			$rootPostId = (int)$this->viewVars['currentBbsPost']['bbsPost']['rootId'];
 		} else {
-			$rootPostId = (int)$this->viewVars['bbsPost']['bbsPost']['id'];
+			$rootPostId = (int)$this->viewVars['currentBbsPost']['bbsPost']['id'];
 		}
 
 		$bbsPost = $this->BbsPost->create(
@@ -277,10 +277,10 @@ class BbsPostsController extends BbsesAppController {
 		);
 
 		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
-			$bbsPostI18n['BbsPostI18n']['title'] = 'Re: ' . $this->viewVars['bbsPost']['bbsPostI18n']['title'];
+			$bbsPostI18n['BbsPostI18n']['title'] = 'Re: ' . $this->viewVars['currentBbsPost']['bbsPostI18n']['title'];
 			$bbsPostI18n['BbsPostI18n']['content'] =
-							'<br /><blockquote>' .
-								$this->viewVars['bbsPost']['bbsPostI18n']['content'] .
+							'<blockquote class="small">' .
+								$this->viewVars['currentBbsPost']['bbsPostI18n']['content'] .
 							'</blockquote>';
 		}
 
@@ -297,10 +297,10 @@ class BbsPostsController extends BbsesAppController {
 
 			$data = Hash::merge(
 				$this->data,
-				['BbsPostI18n' => ['status' => $status]]
+				['BbsPostI18n' => ['status' => $status]],
+				['BbsPost' => ['last_status' => $status]]
 			);
 
-			$this->BbsPost->useDbConfig = 'master';
 			$data['BbsPost']['post_no'] = $this->BbsPost->getMaxNo($rootPostId) + 1;
 			$data['BbsPost']['key'] = Security::hash('bbs_post' . mt_rand() . microtime(), 'md5');
 			unset($data['BbsPost']['id']);
@@ -318,8 +318,6 @@ class BbsPostsController extends BbsesAppController {
 
 		$results = $this->camelizeKeyRecursive($data);
 		$this->set($results);
-
-		var_dump($this->viewVars);
 	}
 
 /**
@@ -335,14 +333,37 @@ class BbsPostsController extends BbsesAppController {
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost(['comments']);
 
-		$data = Hash::merge($this->viewVars['bbsPost'], ['contentStatus' => $this->viewVars['bbsPostI18n']['status']]);
+		$data = Hash::merge(
+			$this->viewVars['currentBbsPost'],
+			array('contentStatus' => $this->viewVars['currentBbsPost']['bbsPostI18n']['status'])
+		);
 
 		if ($this->request->isPost()) {
 			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
 				return;
 			}
+			if ($this->viewVars['currentBbsPost']['bbsPost']['rootId'] > 0 && $status !== NetCommonsBlockComponent::STATUS_IN_DRAFT) {
+				$status = $this->viewVars['bbsPostCommentPublishable'] ?
+								NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
+			}
 
+			$data = Hash::merge(
+				$this->data,
+				['BbsPostI18n' => ['status' => $status]],
+				['BbsPost' => ['last_status' => $status]]
+			);
 
+			if (! $this->viewVars['currentBbsPost']['bbsPost']['rootId']) {
+				unset($data['BbsPostI18n']['id']);
+			}
+
+			$bbsPost = $this->BbsPost->saveBbsPost($data);
+			if ($this->handleValidationError($this->BbsPost->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $bbsPost['BbsPost']['id']);
+				}
+				return;
+			}
 		}
 
 		$results = $this->camelizeKeyRecursive($data);
@@ -461,12 +482,13 @@ class BbsPostsController extends BbsesAppController {
 		if (in_array('comments', $contains, true)) {
 			$comments = $this->Comment->getComments(
 				array(
-					'plugin_key' => 'BbsPost',
+					'plugin_key' => 'BbsPostI18n',
 					'content_key' => $bbsPost['bbsPost']['key']
 				)
 			);
+			$comments = $this->camelizeKeyRecursive($comments);
+			$this->set(['comments' => $comments]);
 		}
-
 	}
 
 /**

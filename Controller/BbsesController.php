@@ -116,7 +116,7 @@ class BbsesController extends BbsesAppController {
 			'BbsPost' => array(
 				'conditions' => array(
 					'BbsPost.bbs_key' => $this->viewVars['bbs']['key'],
-					'BbsPost.parent_id' => 0,
+					'BbsPost.parent_id' => null,
 				),
 				'order' => 'BbsPost.id DESC',
 			)
