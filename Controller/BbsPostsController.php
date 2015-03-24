@@ -433,7 +433,7 @@ class BbsPostsController extends BbsesAppController {
  */
 	private function __initBbsPost($contains = []) {
 		if (! $bbsPost = $this->BbsPost->find('first', array(
-			//'recursive' => 0,
+			'recursive' => 1,
 			'conditions' => array(
 				'BbsPost.id' => $this->viewVars['bbsPostId'],
 			)

@@ -10,6 +10,8 @@
  */
 ?>
 
+<?php echo $this->Html->css('/bbses/css/style.css', false); ?>
+
 <?php if (Page::isSetting()) : ?>
 	<div class="text-right">
 		<a href="<?php echo $this->Html->url('/bbses/blocks/index/' . $frameId) ?>" class="btn btn-default">
