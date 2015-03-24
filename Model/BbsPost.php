@@ -56,6 +56,21 @@ class BbsPost extends BbsesAppModel {
  *
  * @var array
  */
+	//public $hasOne = array(
+	//	'BbsPostI18n' => array(
+	//		'className' => 'Bbses.BbsPostI18n',
+	//		'foreignKey' => 'bbs_post_id',
+	//		'limit' => 1,
+	//		'order' => 'BbsPostI18n.id DESC',
+	//		'dependent' => true,
+	//	)
+	//);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
 	public $hasMany = array(
 		'BbsPostI18n' => array(
 			'className' => 'Bbses.BbsPostI18n',
@@ -65,6 +80,27 @@ class BbsPost extends BbsesAppModel {
 			'dependent' => true,
 		)
 	);
+
+/**
+ * Called after each find operation. Can be used to modify any results returned by find().
+ * Return value should be the (modified) results.
+ *
+ * @param mixed $results The results of the find operation
+ * @param boolean $primary Whether this model is being queried directly (vs. being queried as an association)
+ * @return mixed Result of the find operation
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#afterfind
+ */
+	public function afterFind($results, $primary = false) {
+		foreach ($results as $i => $result) {
+			if (isset($result['BbsPostI18n'][0])) {
+				$bbsPostI18n = $result['BbsPostI18n'][0];
+				unset($results[$i]['BbsPostI18n'][0]);
+				$results[$i]['BbsPostI18n'] = $bbsPostI18n;
+			}
+		}
+
+		return $results;
+	}
 
 /**
  * Called during validation operations, before validation. Please note that custom

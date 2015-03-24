@@ -180,29 +180,19 @@ class BbsPostsController extends BbsesAppController {
  * add
  *
  * @param int $frameId frames.id
- * @param int $parentPostId Parent bbs_posts.id
  * @return void
  */
-	public function add($frameId = null, $parentPostId = null) {
+	public function add($frameId = null) {
 		$this->view = 'BbsPosts/edit';
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
-		if ($parentPostId) {
-			$this->set('bbsPostId', (int)$parentPostId);
-			$this->initBbs(['bbsPost']);
-			if ((int)$this->viewVars['bbsPost']['root_id'] > 0) {
-				$rootPostId = (int)$this->viewVars['bbsPost']['root_id'];
-			} else {
-				$rootPostId = (int)$this->viewVars['bbsPost']['id'];
-			}
-		}
 
 		$bbsPost = $this->BbsPost->create(
 			array(
 				'id' => null,
 				'key' => null,
 				'bbs_key' => $this->viewVars['bbs']['key'],
-				'root_id' => isset($rootPostId) ? $rootPostId : null,
-				'parent_id' => isset($parentPostId) ? (int)$parentPostId : null,
+				'root_id' => null,
+				'parent_id' => null,
 			)
 		);
 		$bbsPostI18n = $this->BbsPostI18n->create(
@@ -214,12 +204,6 @@ class BbsPostsController extends BbsesAppController {
 				'content' => '',
 			)
 		);
-		if (isset($this->query['quote']) && $this->query['quote']) {
-			$bbsPostI18n['BbsPostI18n']['title'] = isset($this->viewVars['bbsPost']['bbsPostI18n'][0]['title']) ?
-					 'Re: ' . $this->viewVars['bbsPost']['bbsPostI18n'][0]['title'] : '';
-			$bbsPostI18n['BbsPostI18n']['content'] = isset($this->viewVars['bbsPost']['bbsPostI18n'][0]['content']) ?
-					 '<br /><blockquote>' . $this->viewVars['bbsPost']['bbsPostI18n'][0]['content'] . '</blockquote>' : '';
-		}
 
 		$data = Hash::merge($bbsPost, $bbsPostI18n, ['contentStatus' => null, 'comments' => []]);
 
@@ -233,7 +217,7 @@ class BbsPostsController extends BbsesAppController {
 			);
 
 			$this->BbsPost->useDbConfig = 'master';
-			$data['BbsPost']['post_no'] = $this->BbsPost->getMaxNo($rootPostId) + 1;
+			$data['BbsPost']['post_no'] = 1;
 			$data['BbsPost']['key'] = Security::hash('bbs_post' . mt_rand() . microtime(), 'md5');
 			unset($data['BbsPost']['id']);
 
@@ -260,7 +244,78 @@ class BbsPostsController extends BbsesAppController {
  * @return void
  */
 	public function reply($frameId = null, $parentPostId = null) {
-		$this->add($frameId, $parentPostId);
+		$this->view = 'BbsPosts/edit';
+
+		$this->set('bbsPostId', (int)$parentPostId);
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting', 'bbsPost']);
+
+		if ((int)$this->viewVars['bbsPost']['bbsPost']['rootId'] > 0) {
+			$rootPostId = (int)$this->viewVars['bbsPost']['bbsPost']['rootId'];
+		} else {
+			$rootPostId = (int)$this->viewVars['bbsPost']['bbsPost']['id'];
+		}
+
+		$bbsPost = $this->BbsPost->create(
+			array(
+				'id' => null,
+				'key' => null,
+				'bbs_key' => $this->viewVars['bbs']['key'],
+				'root_id' => $rootPostId,
+				'parent_id' => (int)$parentPostId,
+			)
+		);
+		$bbsPostI18n = $this->BbsPostI18n->create(
+			array(
+				'id' => null,
+				'key' => null,
+				'bbs_post_id' => null,
+				'title' => null,
+				'content' => '',
+			)
+		);
+
+		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
+			$bbsPostI18n['BbsPostI18n']['title'] = 'Re: ' . $this->viewVars['bbsPost']['bbsPostI18n']['title'];
+			$bbsPostI18n['BbsPostI18n']['content'] =
+							'<br /><blockquote>' .
+								$this->viewVars['bbsPost']['bbsPostI18n']['content'] .
+							'</blockquote>';
+		}
+
+		$data = Hash::merge($bbsPost, $bbsPostI18n, ['contentStatus' => null, 'comments' => []]);
+
+		if ($this->request->isPost()) {
+			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
+				return;
+			}
+			if ($status !== NetCommonsBlockComponent::STATUS_IN_DRAFT) {
+				$status = $this->viewVars['bbsPostCommentPublishable'] ? NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
+			}
+
+			$data = Hash::merge(
+				$this->data,
+				['BbsPostI18n' => ['status' => $status]]
+			);
+
+			$this->BbsPost->useDbConfig = 'master';
+			$data['BbsPost']['post_no'] = $this->BbsPost->getMaxNo($rootPostId) + 1;
+			$data['BbsPost']['key'] = Security::hash('bbs_post' . mt_rand() . microtime(), 'md5');
+			unset($data['BbsPost']['id']);
+
+			$bbsPost = $this->BbsPost->saveBbsPost($data);
+			var_dump($this->BbsPost->validationErrors);
+			if ($this->handleValidationError($this->BbsPost->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $bbsPost['BbsPost']['id']);
+				}
+				return;
+			}
+			$data['contentStatus'] = null;
+			$data['comments'] = null;
+		}
+
+		$results = $this->camelizeKeyRecursive($data);
+		$this->set($results);
 	}
 
 /**

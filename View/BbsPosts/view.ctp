@@ -17,7 +17,7 @@
 		</a>
 	</li>
 	<li class="active">
-		<?php echo String::truncate($bbsPost['bbsPostI18n'][0]['title'], BbsPostI18n::DISPLAY_MAX_TITLE_LENGTH); ?>
+		<?php echo String::truncate($bbsPost['bbsPostI18n']['title'], BbsPostI18n::DISPLAY_MAX_TITLE_LENGTH); ?>
 	</li>
 </ol>
 

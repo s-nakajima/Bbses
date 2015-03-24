@@ -28,7 +28,7 @@
 				</div>
 
 				<div class="col-xs-7 col-sm-8">
-					<?php echo h($rootBbsPost['bbsPostI18n'][0]['title']); ?>
+					<?php echo h($rootBbsPost['bbsPostI18n']['title']); ?>
 				</div>
 
 				<div class="col-xs-2 col-sm-2 text-right">
@@ -38,7 +38,7 @@
 		</div>
 
 		<div class="panel-body">
-			<?php echo $rootBbsPost['bbsPostI18n'][0]['content']; ?>
+			<?php echo $rootBbsPost['bbsPostI18n']['content']; ?>
 		</div>
 
 		<div class="panel-footer">
@@ -48,13 +48,13 @@
 				</div>
 				<div class="col-xs-6 text-right">
 					<?php echo $this->element('BbsPosts/reply_link', array(
-							'status' => $rootBbsPost['bbsPostI18n'][0]['status'],
+							'status' => $rootBbsPost['bbsPostI18n']['status'],
 							'rootPostId' => (int)$rootBbsPost['bbsPost']['id'],
 							'parentPostId' => (int)$rootBbsPost['bbsPost']['id'],
 						)); ?>
 
 					<?php echo $this->element('BbsPosts/edit_link', array(
-							'status' => $rootBbsPost['bbsPostI18n'][0]['status'],
+							'status' => $rootBbsPost['bbsPostI18n']['status'],
 							'bbsPostId' => (int)$rootBbsPost['bbsPost']['id'],
 							'createUser' => $rootBbsPost['trackableCreator']['id'],
 						)); ?>

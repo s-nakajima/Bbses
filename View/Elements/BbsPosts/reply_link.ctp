@@ -26,6 +26,7 @@
 				'div' => false,
 				'type' => 'checkbox',
 				'checked' => true,
+				'hiddenField' => false
 			)); ?><?php echo __d('bbses', 'Quote this posts'); ?>
 		</label>
 

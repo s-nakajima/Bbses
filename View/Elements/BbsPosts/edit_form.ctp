@@ -26,6 +26,10 @@
 		'value' => $bbsPost['key'],
 	)); ?>
 
+<?php echo $this->Form->hidden('BbsPost.root_id', array(
+		'value' => (int)$bbsPost['rootId'],
+	)); ?>
+
 <?php echo $this->Form->hidden('BbsPost.parent_id', array(
 		'value' => (int)$bbsPost['parentId'],
 	)); ?>
