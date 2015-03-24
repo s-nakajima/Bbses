@@ -110,7 +110,7 @@ class BbsFrameSetting extends BbsesAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function saveBbsSetting($data) {
+	public function saveBbsFrameSetting($data) {
 		$this->loadModels([
 			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
 		]);
@@ -160,14 +160,14 @@ class BbsFrameSetting extends BbsesAppModel {
  *
  * @return array
  */
-	//public static function getDisplayNumberOptions() {
-	//	return array(
-	//		1 => 1 . self::DISPLAY_NUMBER_UNIT,
-	//		5 => 5 . self::DISPLAY_NUMBER_UNIT,
-	//		10 => 10 . self::DISPLAY_NUMBER_UNIT,
-	//		20 => 20 . self::DISPLAY_NUMBER_UNIT,
-	//		50 => 50 . self::DISPLAY_NUMBER_UNIT,
-	//		100 => 100 . self::DISPLAY_NUMBER_UNIT,
-	//	);
-	//}
+	public static function getDisplayNumberOptions() {
+		return array(
+			1 => __d('bbses', '%s article', 1),
+			5 => __d('bbses', '%s articles', 5),
+			10 => __d('bbses', '%s articles', 10),
+			20 => __d('bbses', '%s articles', 20),
+			50 => __d('bbses', '%s articles', 50),
+			100 => __d('bbses', '%s articles', 100),
+		);
+	}
 }

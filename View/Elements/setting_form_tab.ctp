@@ -11,13 +11,13 @@
 ?>
 
 <ul class="nav nav-tabs" role="tablist">
-	<li class="<?php if ($active === 'list') : ?>active<?php endif; ?>">
+	<li class="<?php if ($active === 'block_index') : ?>active<?php endif; ?>">
 		<a href="<?php echo $this->Html->url('/bbses/blocks/index/' . $frameId); ?>">
 			<?php echo __d('bbses', 'BBS List'); ?>
 		</a>
 	</li>
-	<li class="<?php if ($active === 'frame_setting') : ?>active<?php endif; ?>">
-		<a href="<?php echo $this->Html->url('/bbses/frame_settings/edit/' . $frameId); ?>">
+	<li class="<?php if ($active === 'bbs_frame_setting') : ?>active<?php endif; ?>">
+		<a href="<?php echo $this->Html->url('/bbses/bbs_frame_settings/edit/' . $frameId); ?>">
 			<?php echo __d('bbses', 'Frame Setting'); ?>
 		</a>
 	</li>

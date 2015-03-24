@@ -1,40 +1,34 @@
 <?php
 /**
- * BbsSettings edit template
+ * faq block index template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
 
-<?php echo $this->Html->script('/bbses/js/bbses.js', false); ?>
-
 <div class="modal-header">
 	<?php echo __d('bbses', 'Plugin name'); ?>
 </div>
 
 <div class="modal-body">
-	<?php echo $this->element('setting_form_tab', array('active' => 'block_index')); ?>
+	<?php echo $this->element('setting_form_tab', array('active' => 'bbs_frame_setting')); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Bbses.BbsSettings/bbs_setting_tab', array('active' => 'bbs_setting')); ?>
-
-		<?php echo $this->Form->create('BbsSetting', array(
+		<?php echo $this->Form->create('BbsFrameSetting', array(
 				'name' => 'form',
 				'novalidate' => true,
-				'ng-controller' => 'Bbses'
 			)); ?>
-
-			<div class="panel panel-default">
+		<div class="panel panel-default">
 				<div class="panel-body has-feedback">
-					<?php echo $this->element('Bbses.BbsSettings/edit_form'); ?>
+					<?php echo $this->element('Bbses.BbsFrameSettings/edit_form'); ?>
 				</div>
 
 				<div class="panel-footer text-center">
-					<button type="button" class="btn btn-default" onclick="location.href = '/bbses/blocks/index/<?php echo $frameId; ?>'">
+					<button type="button" class="btn btn-default" onclick="location.href = '/bbses/bbses/index/<?php echo $frameId; ?>'">
 						<span class="glyphicon glyphicon-remove"></span>
 						<?php echo __d('net_commons', 'Cancel'); ?>
 					</button>

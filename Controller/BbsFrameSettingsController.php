@@ -36,12 +36,12 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentPublishable' => array('edit'),
+				'blockEditable' => array('edit'),
 			),
 		),
 	);
@@ -61,6 +61,25 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
+		$this->initBbs(['bbsFrameSetting']);
+
+		if ($this->request->isPost()) {
+			$data = $this->data;
+			$this->BbsFrameSetting->saveBbsFrameSetting($data);
+
+			if ($this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/bbses/index/' . $this->viewVars['frameId']);
+				}
+				return;
+			}
+
+			$results = $this->camelizeKeyRecursive($data);
+			$this->set($results);
+		}
+
+
+
 	//	//掲示板の表示設定情報を取得
 	//	$bbsSettings = $this->BbsFrameSetting->getBbsSetting(
 	//									$this->viewVars['frameKey']);

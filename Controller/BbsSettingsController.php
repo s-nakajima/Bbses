@@ -28,8 +28,6 @@ class BbsSettingsController extends BbsesAppController {
 		'Bbses.Bbs',
 		'Bbses.BbsFrameSetting',
 		'Bbses.BbsSetting',
-		//'Bbses.BbsPost',
-		//'Bbses.BbsPostsUser',
 		'Blocks.Block',
 		'Frames.Frame',
 	);

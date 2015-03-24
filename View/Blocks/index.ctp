@@ -1,6 +1,6 @@
 <?php
 /**
- * faq block index template
+ * block index template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
@@ -15,7 +15,7 @@
 </div>
 
 <div class="modal-body">
-	<?php echo $this->element('setting_form_tab', array('active' => 'list')); ?>
+	<?php echo $this->element('setting_form_tab', array('active' => 'block_index')); ?>
 
 	<div class="tab-content">
 		<div class="text-right">
@@ -75,8 +75,6 @@
 
 		</div>
 	</div>
-
-
 </div>
 
 
