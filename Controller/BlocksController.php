@@ -88,6 +88,14 @@ class BlocksController extends BbsesAppController {
 			)
 		);
 		$bbses = $this->Paginator->paginate('Bbs');
+
+		var_dump($bbses);
+
+		if (! $bbses) {
+			$this->view = 'Blocks/noBbs';
+			return;
+		}
+
 		$results = array(
 			'bbses' => $bbses
 		);

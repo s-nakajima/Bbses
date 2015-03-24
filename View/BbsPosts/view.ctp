@@ -21,7 +21,47 @@
 	</li>
 </ol>
 
-<?php if (! $bbsPost['bbsPost']['parentId']) : ?>
-	<?php echo $this->element('BbsPosts/view_root_bbs_post', array('rootBbsPost' => $bbsPost)); ?>
+<div class="panel-group">
+	<div class="panel panel-info">
+		<?php if (isset($rootBbsPost)) : ?>
+			<?php echo $this->element('BbsPosts/view_bbs_post', array(
+				'bbsPost' => $rootBbsPost,
+				'parentBbsPost' => null
+			)); ?>
+		<?php else : ?>
+			<?php echo $this->element('BbsPosts/view_bbs_post', array(
+				'bbsPost' => $bbsPost,
+				'parentBbsPost' => null
+			)); ?>
+		<?php endif; ?>
+	</div>
+</div>
+
+<?php if (isset($parentBbsPost)) : ?>
+	<div class="panel-group">
+		<div class="panel panel-success">
+			<?php echo $this->element('BbsPosts/view_bbs_post', array(
+				'bbsPost' => $bbsPost,
+				'parentBbsPost' => $parentBbsPost
+			)); ?>
+		</div>
+	</div>
+<?php endif; ?>
+
+<?php if ($bbsPostChildren) : ?>
+	<?php foreach ($bbsPostChildren as $childBbsPost) : ?>
+		<div class="row">
+			<div class="col-xs-offset-1 col-xs-11">
+				<div class="panel-group">
+					<div class="panel panel-default">
+						<?php echo $this->element('BbsPosts/view_bbs_post', array(
+							'bbsPost' => $childBbsPost,
+							'parentBbsPost' => isset($bbsPostChildren[$childBbsPost['bbsPost']['parentId']]) ? $bbsPostChildren[$childBbsPost['bbsPost']['parentId']] : $bbsPost
+						)); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php endforeach; ?>
 <?php endif; ?>
 

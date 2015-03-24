@@ -10,25 +10,13 @@
  */
 ?>
 
-<ol class="breadcrumb form-group">
+<ol class="breadcrumb">
 	<li>
-		<a href="<?php echo $this->Html->url('/bbses/bbses/index/' . $frameId) ?>">
-			<?php echo $bbs['name']; ?>
+		<a href="<?php echo $this->Html->url('/bbses/bbses/index/' . $frameId . '/') ?>">
+			<?php echo h($bbs['name']); ?>
 		</a>
 	</li>
-	<?php if (isset($bbsPost['id']) && $this->request->params['action'] !== 'add') : ?>
-		<li>
-			<a href="<?php echo $this->Html->url('/bbses/bbs_posts/view/' . $frameId . '/' . $bbsPost['id']) ?>">
-				<?php echo $bbsPost['title']; ?>
-			</a>
-		</li>
-	<?php endif; ?>
-
 	<li class="active">
-		<?php if ($this->request->params['action'] === 'add') : ?>
-			<?php echo __d('bbses', 'Create post'); ?>
-		<?php else : ?>
-			<?php echo __d('bbses', 'Edit'); ?>
-		<?php endif; ?>
+		<?php echo String::truncate($bbsPost['bbsPostI18n']['title'], BbsPostI18n::DISPLAY_MAX_TITLE_LENGTH); ?>
 	</li>
 </ol>

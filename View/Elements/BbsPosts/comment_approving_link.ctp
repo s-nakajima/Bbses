@@ -10,9 +10,8 @@
  */
 ?>
 
-<?php if ($BbsPostChildren) : ?>
-
-
-
-
+<?php if ($status === NetCommonsBlockComponent::STATUS_APPROVED && $contentPublishable) : ?>
+	<button type="button" class="btn btn-warning btn-xs" tooltip="<?php echo __d('bbses', 'Approving'); ?>">
+		<span class="glyphicon glyphicon-ok"></span>
+	</button>
 <?php endif;

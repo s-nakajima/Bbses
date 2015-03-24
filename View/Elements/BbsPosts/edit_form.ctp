@@ -34,7 +34,9 @@
 		'value' => (int)$bbsPost['parentId'],
 	)); ?>
 
-<?php echo $this->Form->hidden('BbsPostI18n.id'); ?>
+<?php echo $this->Form->hidden('BbsPostI18n.id', array(
+		'value' => isset($bbsPostI18n['id']) ? (int)$bbsPostI18n['id'] : null,
+	)); ?>
 
 <?php echo $this->Form->hidden('BbsPostI18n.bbs_post_id', array(
 		'value' => isset($bbsPost['id']) ? (int)$bbsPost['id'] : null,

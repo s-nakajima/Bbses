@@ -20,5 +20,5 @@
 <?php endif; ?>
 
 <div class="text-left">
-	<?php echo __d('bbses', 'There are not published bbs'); ?>
+	<?php echo __d('bbses', 'No BBS found'); ?>
 </div>

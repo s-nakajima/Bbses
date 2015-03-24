@@ -240,7 +240,7 @@ class BbsPost extends BbsesAppModel {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsPostI18n->validationErrors);
 				return false;
 			}
-			if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPostI18n'))) {
+			if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPost'))) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
 				return false;
 			}
@@ -296,7 +296,12 @@ class BbsPost extends BbsesAppModel {
 		$bbsPost = $this->find('first', array(
 			'recursive' => -1,
 			'fields' => 'post_no',
-			'conditions' => array('root_id' => $rootPostId),
+			'conditions' => array(
+				'OR' => array(
+					'root_id' => $rootPostId,
+					'id' => $rootPostId
+				)
+			),
 			'order' => 'BbsPost.post_no DESC',
 		));
 

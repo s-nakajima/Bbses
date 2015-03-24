@@ -97,26 +97,27 @@ class BbsPostsController extends BbsesAppController {
 			return;
 		}
 
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
 		$this->set('bbsPostId', (int)$bbsPostId);
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting', 'bbsPost']);
+		$this->__initBbsPost();
 
-//		if ((int)$this->viewVars['bbsPost']['parent_id'] > 0) {
-//			//コメント表示の場合、根記事を取得
-//			if (! $rootBbsPost = $this->BbsPost->find('first', array(
-//				'recursive' => 0,
-//				'conditions' => array(
-//					'BbsPost.id' => $this->viewVars['bbsPostId'],
+//		$this->BbsPost->Behaviors->load('Tree', array(
+//			'scope' => array(
+//				'OR' => array(
+//					'BbsPost.last_status' => 0,
+//					'BbsPost.root_id' => 1,
 //				)
-//			))) {
-//				$this->_throwBadRequest();
-//				return false;
-//			}
-//		}
+//			)
+//		));
 
-		$children = $this->BbsPost->children($this->viewVars['bbsPostId']);
+		$children = $this->BbsPost->children(
+			$this->viewVars['bbsPostId'], false, null, 'BbsPost.id DESC', null, 1, 1
+		);
 		$children = $this->camelizeKeyRecursive($children);
-		$this->set($children);
+		$children = Hash::combine($children, '{n}.bbsPost.id', '{n}');
 
+		$this->set(['bbsPostChildren' => $children]);
 
 		//if (! $postId) {
 		//	BadRequestException(__d('net_commons', 'Bad Request'));
@@ -245,9 +246,10 @@ class BbsPostsController extends BbsesAppController {
  */
 	public function reply($frameId = null, $parentPostId = null) {
 		$this->view = 'BbsPosts/edit';
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
 
 		$this->set('bbsPostId', (int)$parentPostId);
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting', 'bbsPost']);
+		$this->__initBbsPost();
 
 		if ((int)$this->viewVars['bbsPost']['bbsPost']['rootId'] > 0) {
 			$rootPostId = (int)$this->viewVars['bbsPost']['bbsPost']['rootId'];
@@ -289,7 +291,8 @@ class BbsPostsController extends BbsesAppController {
 				return;
 			}
 			if ($status !== NetCommonsBlockComponent::STATUS_IN_DRAFT) {
-				$status = $this->viewVars['bbsPostCommentPublishable'] ? NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
+				$status = $this->viewVars['bbsPostCommentPublishable'] ?
+								NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
 			}
 
 			$data = Hash::merge(
@@ -303,10 +306,9 @@ class BbsPostsController extends BbsesAppController {
 			unset($data['BbsPost']['id']);
 
 			$bbsPost = $this->BbsPost->saveBbsPost($data);
-			var_dump($this->BbsPost->validationErrors);
 			if ($this->handleValidationError($this->BbsPost->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $bbsPost['BbsPost']['id']);
+					$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $bbsPost['BbsPost']['parent_id']);
 				}
 				return;
 			}
@@ -316,6 +318,8 @@ class BbsPostsController extends BbsesAppController {
 
 		$results = $this->camelizeKeyRecursive($data);
 		$this->set($results);
+
+		var_dump($this->viewVars);
 	}
 
 /**
@@ -326,10 +330,23 @@ class BbsPostsController extends BbsesAppController {
  * @return void
  */
 	public function edit($frameId = null, $bbsPostId = null) {
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
 		$this->set('bbsPostId', (int)$bbsPostId);
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting', 'bbsPost']);
+		$this->__initBbsPost(['comments']);
+
+		$data = Hash::merge($this->viewVars['bbsPost'], ['contentStatus' => $this->viewVars['bbsPostI18n']['status']]);
+
+		if ($this->request->isPost()) {
+			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
+				return;
+			}
 
 
+		}
+
+		$results = $this->camelizeKeyRecursive($data);
+		$this->set($results);
 
 		////掲示板名を取得
 		//$this->setBbs();
@@ -385,6 +402,71 @@ class BbsPostsController extends BbsesAppController {
 		//}
 		//
 		//throw new BadRequestException(__d('net_commons', 'Bad Request'));
+	}
+
+/**
+ * initBbs
+ *
+ * @param array $contains Optional result sets
+ * @return void
+ */
+	private function __initBbsPost($contains = []) {
+		if (! $bbsPost = $this->BbsPost->find('first', array(
+			//'recursive' => 0,
+			'conditions' => array(
+				'BbsPost.id' => $this->viewVars['bbsPostId'],
+			)
+		))) {
+			$this->_throwBadRequest();
+			return false;
+		}
+		$bbsPost = $this->camelizeKeyRecursive($bbsPost);
+		$this->set(['currentBbsPost' => $bbsPost]);
+
+		if ($bbsPost['bbsPost']['rootId'] > 0) {
+			//コメント表示の場合、根記事を取得
+			if (! $rootBbsPost = $this->BbsPost->find('first', array(
+				'recursive' => 1,
+				'conditions' => array(
+					'BbsPost.id' => $bbsPost['bbsPost']['rootId'],
+				)
+			))) {
+				$this->_throwBadRequest();
+				return false;
+			}
+			$rootBbsPost = $this->camelizeKeyRecursive($rootBbsPost);
+			$this->set(['rootBbsPost' => $rootBbsPost]);
+		}
+
+		if ($bbsPost['bbsPost']['parentId'] > 0) {
+			if ($bbsPost['bbsPost']['parentId'] !== $bbsPost['bbsPost']['rootId']) {
+				//コメント表示の場合、根記事を取得
+				if (! $parentBbsPost = $this->BbsPost->find('first', array(
+					'recursive' => 1,
+					'conditions' => array(
+						'BbsPost.id' => $bbsPost['bbsPost']['parentId'],
+					)
+				))) {
+					$this->_throwBadRequest();
+					return false;
+				}
+			} else {
+				$parentBbsPost = $rootBbsPost;
+			}
+			$parentBbsPost = $this->camelizeKeyRecursive($parentBbsPost);
+			$this->set(['parentBbsPost' => $parentBbsPost]);
+		}
+
+		//コメント
+		if (in_array('comments', $contains, true)) {
+			$comments = $this->Comment->getComments(
+				array(
+					'plugin_key' => 'BbsPost',
+					'content_key' => $bbsPost['bbsPost']['key']
+				)
+			);
+		}
+
 	}
 
 /**
