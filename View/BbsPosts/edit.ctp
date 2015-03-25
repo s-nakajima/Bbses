@@ -17,7 +17,7 @@
 <div id="nc-bbs-post-<?php echo $frameId; ?>" ng-controller="BbsPosts"
 		ng-init="initialize(<?php echo h(json_encode(['bbsPostI18n' => ['content' => $bbsPostI18n['content']]])); ?>)">
 
-	<?php echo $this->element('BbsPosts/edit_breadcrumb'); ?>
+	<?php echo $this->element('BbsPosts/breadcrumb'); ?>
 
 	<div>
 		<?php echo $this->Form->create('BbsPost', array(

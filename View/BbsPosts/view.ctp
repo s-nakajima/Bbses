@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php echo $this->element('BbsPosts/view_breadcrumb'); ?>
+<?php echo $this->element('BbsPosts/breadcrumb'); ?>
 
 <div class="panel-group">
 	<div class="panel panel-info">

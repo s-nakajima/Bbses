@@ -41,7 +41,26 @@
 
 	<?php if (isset($currentBbsPost)) : ?>
 		<li class="active">
-			<?php echo String::truncate($currentBbsPost['bbsPostI18n']['title'], BbsPostI18n::LIST_TITLE_LENGTH); ?>
+			<?php if ($this->request->params['action'] === 'add' || $this->request->params['action'] === 'edit') : ?>
+				<a href="<?php echo $this->Html->url('/bbses/bbs_posts/view/' . $frameId . '/' . $currentBbsPost['bbsPost']['id']) ?>"
+					title="<?php echo h($currentBbsPost['bbsPostI18n']['title']); ?>">
+			<?php endif; ?>
+
+				<?php echo String::truncate($currentBbsPost['bbsPostI18n']['title'], BbsPostI18n::LIST_TITLE_LENGTH); ?>
+
+			<?php if ($this->request->params['action'] === 'add' || $this->request->params['action'] === 'edit') : ?>
+				</a>
+			<?php endif; ?>
+		</li>
+	<?php endif; ?>
+
+	<?php if ($this->request->params['action'] === 'add') : ?>
+		<li class="active">
+			<?php echo __d('bbses', 'Create post'); ?>
+		</li>
+	<?php elseif ($this->request->params['action'] === 'edit') : ?>
+		<li class="active">
+			<?php echo __d('bbses', 'Edit'); ?>
 		</li>
 	<?php endif; ?>
 </ol>
