@@ -17,18 +17,20 @@ App::uses('BbsesAppController', 'Bbses.Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Controller
  */
-class AuthoritySettingsController extends BbsesAppController {
+class BlockRolePermissionsController extends BbsesAppController {
 
 /**
  * use models
  *
  * @var array
  */
-	//public $uses = array(
-	//	'Bbses.Bbs',
-	//	'Bbses.BbsFrameSetting',
-	//	'Bbses.BbsPost',
-	//);
+	public $uses = array(
+		'Roles.Role',
+		'Roles.DefaultRolePermission',
+		'Blocks.Block',
+		'Blocks.BlockRolePermission',
+		'Rooms.RolesRoom',
+	);
 
 /**
  * use components
@@ -60,7 +62,83 @@ class AuthoritySettingsController extends BbsesAppController {
  *
  * @return void
  */
-	public function edit() {
+	public function edit($frameId = null, $blockId = null) {
+		if (! $block = $this->Block->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'Block.id' => $blockId,
+			),
+		))) {
+			$this->_throwBadRequest();
+			return false;
+		};
+		$this->set('blockId', $block['Block']['id']);
+		$this->set('blockKey', $block['Block']['key']);
+
+		$roles = $this->Role->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'Role.type' => 2, //TODO定数化
+				'Role.language_id' => $this->viewVars['languageId'],
+			),
+		));
+		$roles = Hash::combine($roles, '{n}.Role.key', '{n}.Role');
+
+		$rolesRooms = $this->RolesRoom->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'RolesRoom.room_id' => $this->viewVars['roomId'],
+			),
+		));
+		$rolesRooms = Hash::combine($rolesRooms, '{n}.RolesRoom.role_key', '{n}.RolesRoom');
+
+		$defaultPermissions = $this->DefaultRolePermission->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'DefaultRolePermission.type' => 'bbs_block_role',
+			),
+		));
+		$defaultPermissions = Hash::combine(
+			$defaultPermissions,
+			'{n}.DefaultRolePermission.role_key',
+			'{n}.DefaultRolePermission',
+			'{n}.DefaultRolePermission.permission'
+		);
+
+		$blockPermissions = $this->BlockRolePermission->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'BlockRolePermission.block_key' => $this->viewVars['blockKey'],
+			),
+		));
+		$blockPermissions = Hash::combine(
+			$blockPermissions,
+			'{n}.BlockRolePermission.roles_room_id',
+			'{n}.BlockRolePermission',
+			'{n}.BlockRolePermission.permission'
+		);
+
+		if ($this->request->isPost()) {
+			$data = $this->data;
+
+			$this->BlockRolePermission->saveBlockRolePermissions($data);
+			if ($this->handleValidationError($this->BlockRolePermission->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+				}
+				return;
+			}
+		}
+
+		$results = array(
+			'blockPermissions' => $blockPermissions,
+			'defaultPermissions' => $defaultPermissions,
+			'roles' => $roles,
+			'rolesRooms' => $rolesRooms,
+		);
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
+
 		//$this->setBbs();
 		//
 		//if (! $this->request->isPost()) {

@@ -66,6 +66,7 @@ class BbsSettingsController extends BbsesAppController {
 		$this->view = 'BbsSettings/edit';
 		$this->initBbs(['bbsFrameSetting']);
 
+		$this->set('blockId', null);
 		$bbs = $this->Bbs->create(
 			array(
 				'id' => null,
@@ -116,8 +117,9 @@ class BbsSettingsController extends BbsesAppController {
  *
  * @return void
  */
-	public function edit($frameId = null, $blockId = null) {
-		$this->set('blockId', (int)$blockId);
+	public function edit() {
+		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
 
 		if ($this->request->isPost()) {
