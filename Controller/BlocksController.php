@@ -52,7 +52,8 @@ class BlocksController extends BbsesAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Token'
+		'NetCommons.Token',
+		//'Paginator'
 	);
 
 /**
@@ -78,15 +79,16 @@ class BlocksController extends BbsesAppController {
 					'Block.id = Bbs.block_id',
 					'Block.language_id = ' . $this->viewVars['languageId'],
 					'Block.room_id = ' . $this->viewVars['roomId'],
-				)
+				),
+				'limit' => 10
 			)
 		);
 		$bbses = $this->Paginator->paginate('Bbs');
 
-		//if (! $bbses) {
-		//	$this->view = 'Blocks/noBbs';
-		//	return;
-		//}
+		if (! $bbses) {
+			$this->view = 'Blocks/noBbs';
+			return;
+		}
 
 		$results = array(
 			'bbses' => $bbses
@@ -96,7 +98,7 @@ class BlocksController extends BbsesAppController {
 	}
 
 /**
- * edit 
+ * edit
  *
  * @return void
  */

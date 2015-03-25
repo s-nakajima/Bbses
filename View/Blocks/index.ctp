@@ -8,6 +8,8 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+
 ?>
 
 <div class="modal-header">
@@ -93,6 +95,10 @@
 					</tbody>
 				</table>
 			<?php echo $this->Form->end(); ?>
+
+			<div class="text-center">
+				<?php echo $this->element('paginator'); ?>
+			</div>
 		</div>
 	</div>
 </div>
