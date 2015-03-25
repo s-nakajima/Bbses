@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php if ($bbsPostCommentCreatable && $bbsSetting['useComment']
+<?php if ($bbsCommentCreatable && $bbsSetting['useComment']
 			&& $status === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
 
 	<?php echo $this->Form->create('', array(

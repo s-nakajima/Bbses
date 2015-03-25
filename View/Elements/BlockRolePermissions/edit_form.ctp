@@ -25,16 +25,16 @@
 	)); ?>
 
 <?php echo $this->element('BlockRolePermissions/block_role_permission', array(
-		'permission' => 'bbs_post_comment_creatable',
+		'permission' => 'bbs_comment_creatable',
 		'label' => __d('bbses', 'Comment creatable authority'),
-		'defaultPermission' => $defaultPermissions['bbsPostCommentCreatable'],
-		'blockPermission' => isset($blockPermissions['bbsPostCommentCreatable']) ? $blockPermissions['bbsPostCommentCreatable'] : null
+		'defaultPermission' => $defaultPermissions['bbsCommentCreatable'],
+		'blockPermission' => isset($blockPermissions['bbsCommentCreatable']) ? $blockPermissions['bbsCommentCreatable'] : null
 	)); ?>
 
 <?php echo $this->element('BlockRolePermissions/block_role_permission', array(
-		'permission' => 'bbs_post_comment_publishable',
+		'permission' => 'bbs_comment_publishable',
 		'label' => __d('bbses', 'Comment publishable authority'),
-		'defaultPermission' => $defaultPermissions['bbsPostCommentPublishable'],
-		'blockPermission' => isset($blockPermissions['bbsPostCommentPublishable']) ? $blockPermissions['bbsPostCommentPublishable'] : null
+		'defaultPermission' => $defaultPermissions['bbsCommentPublishable'],
+		'blockPermission' => isset($blockPermissions['bbsCommentPublishable']) ? $blockPermissions['bbsCommentPublishable'] : null
 	)); ?>
 

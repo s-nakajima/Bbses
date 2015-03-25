@@ -291,7 +291,7 @@ class BbsPostsController extends BbsesAppController {
 				return;
 			}
 			if ($status !== NetCommonsBlockComponent::STATUS_IN_DRAFT) {
-				$status = $this->viewVars['bbsPostCommentPublishable'] ?
+				$status = $this->viewVars['bbsCommentPublishable'] ?
 								NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
 			}
 
@@ -343,7 +343,7 @@ class BbsPostsController extends BbsesAppController {
 				return;
 			}
 			if ($this->viewVars['currentBbsPost']['bbsPost']['rootId'] > 0 && $status !== NetCommonsBlockComponent::STATUS_IN_DRAFT) {
-				$status = $this->viewVars['bbsPostCommentPublishable'] ?
+				$status = $this->viewVars['bbsCommentPublishable'] ?
 								NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
 			}
 
