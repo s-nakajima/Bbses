@@ -74,22 +74,15 @@ class BbsPostsController extends BbsesAppController {
 			return;
 		}
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
-
-		//$this->view = 'Bbses/view';
-		//$this->view($frameId, $currentPage, $sortParams, $visiblePostRow, $narrowDownParams);
 	}
 
 /**
- * view method
+ * view
  *
  * @param int $frameId frames.id
- * @param int $postId posts.id
- * @param int $currentPage currentPage
- * @param int $sortParams sortParameter
- * @param int $visibleCommentRow visibleCommentRow
- * @param int $narrowDownParams narrowDownParameter
- * @throws BadRequestException throw new
+ * @param int $bbsPostId posts.id
  * @return void
+ * @throws BadRequestException throw new
  */
 	public function view($frameId = null, $bbsPostId = null) {
 		if (! $this->viewVars['blockId']) {
@@ -102,14 +95,14 @@ class BbsPostsController extends BbsesAppController {
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost();
 
-//		$this->BbsPost->Behaviors->load('Tree', array(
-//			'scope' => array(
-//				'OR' => array(
-//					'BbsPost.last_status' => 0,
-//					'BbsPost.root_id' => 1,
-//				)
-//			)
-//		));
+		//$this->BbsPost->Behaviors->load('Tree', array(
+		//	'scope' => array(
+		//		'OR' => array(
+		//			'BbsPost.last_status' => 0,
+		//			'BbsPost.root_id' => 1,
+		//		)
+		//	)
+		//));
 
 		$children = $this->BbsPost->children(
 			$this->viewVars['bbsPostId'], false, null, 'BbsPost.id DESC', null, 1, 1
@@ -118,72 +111,14 @@ class BbsPostsController extends BbsesAppController {
 		$children = Hash::combine($children, '{n}.bbsPost.id', '{n}');
 
 		$this->set(['bbsPostChildren' => $children]);
-
-		//if (! $postId) {
-		//	BadRequestException(__d('net_commons', 'Bad Request'));
-		//}
-		//
-		//if ($this->request->isGet()) {
-		//	CakeSession::write('backUrl', $this->request->referer());
-		//}
-		//
-		////コメント表示数/掲示板名等をセット
-		//$this->setBbs();
-		//
-		////選択した記事をセット
-		//$this->__setPost($postId);
-		//
-		////各パラメータをセット
-		//$this->initParams($currentPage, $sortParams, $narrowDownParams);
-		//
-		////表示件数をセット
-		//$visibleCommentRow =
-		//	($visibleCommentRow === '')? $this->viewVars['bbsSettings']['visible_comment_row'] : $visibleCommentRow;
-		//$this->set('currentVisibleRow', $visibleCommentRow);
-		//
-		////Treeビヘイビアのlft,rghtカラムを利用して対象記事のコメントのみ取得
-		//$conditions['and']['lft >'] = $this->viewVars['bbsPosts']['lft'];
-		//$conditions['and']['rght <'] = $this->viewVars['bbsPosts']['rght'];
-		////記事に関するコメントをセット
-		//$this->setComment($conditions);
-		//
-		////Treeビヘイビアのlft,rghtカラムを利用して対象記事のコメントのみ取得
-		//$conditions['and']['lft >'] = $this->viewVars['bbsPosts']['lft'];
-		//$conditions['and']['rght <'] = $this->viewVars['bbsPosts']['rght'];
-		////ページング情報取得
-		//$this->setPagination($conditions, $postId);
-		//
-		////コメント数をセットする
-		//$this->setCommentNum(
-		//		$this->viewVars['bbsPosts']['lft'],
-		//		$this->viewVars['bbsPosts']['rght']
-		//	);
-		//
-		////コメント作成権限をセットする
-		////$this->setCommentCreateAuth();
-		//if (((int)$this->viewVars['rolesRoomId'] !== 0 &&
-		//		(int)$this->viewVars['rolesRoomId'] < 4) ||
-		//		($this->viewVars['bbses']['comment_create_authority'] &&
-		//		$this->viewVars['contentCreatable'])) {
-		//
-		//	$this->set('commentCreatable', true);
-		//
-		//} else {
-		//	$this->set('commentCreatable', false);
-		//
-		//}
-		//
-		////既読情報を登録
-		//$this->__saveReadStatus($postId);
 	}
 
 /**
  * add
  *
- * @param int $frameId frames.id
  * @return void
  */
-	public function add($frameId = null) {
+	public function add() {
 		$this->view = 'BbsPosts/edit';
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
 
@@ -321,7 +256,7 @@ class BbsPostsController extends BbsesAppController {
 	}
 
 /**
- * edit method
+ * edit
  *
  * @param int $frameId frames.id
  * @param int $bbsPostId bbsPosts.id
@@ -368,38 +303,10 @@ class BbsPostsController extends BbsesAppController {
 
 		$results = $this->camelizeKeyRecursive($data);
 		$this->set($results);
-
-		////掲示板名を取得
-		//$this->setBbs();
-		//
-		////編集する記事を取得
-		//$this->__setPost($postId);
-		//
-		//if ($this->request->isGet()) {
-		//	CakeSession::write('backUrl', $this->request->referer());
-		//}
-		//
-		//if (! $this->request->isPost()) {
-		//	return;
-		//}
-		//
-		//if (! $data = $this->setEditSaveData($this->data, $postId)) {
-		//	return;
-		//}
-		//
-		//if (! $this->BbsPost->savePost($data)) {
-		//	if (! $this->handleValidationError($this->BbsPost->validationErrors)) {
-		//		return;
-		//	}
-		//}
-		//
-		//if (! $this->request->is('ajax')) {
-		//	$this->redirectBackUrl();
-		//}
 	}
 
 /**
- * delete method
+ * delete
  *
  * @param int $frameId frames.id
  * @param int $postId postId

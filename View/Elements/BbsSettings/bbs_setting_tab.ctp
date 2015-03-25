@@ -11,7 +11,7 @@
 ?>
 
 <ul class="nav nav-pills" role="tablist">
-	<li class="<?php if ($active === 'bbs_setting') : ?>active<?php endif; ?>">
+	<li class="<?php echo ($active === 'bbs_setting' ? 'active' : ''); ?>">
 		<a href="<?php echo $this->Html->url(
 				'/bbses/bbs_settings/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId); ?>">
 
@@ -19,7 +19,7 @@
 		</a>
 	</li>
 	<?php if ($this->request->params['action'] === 'edit') : ?>
-		<li class="<?php if ($active === 'block_role_permission') : ?>active<?php endif; ?>">
+		<li class="<?php echo ($active === 'block_role_permission' ? 'active' : ''); ?>">
 			<a href="<?php echo $this->Html->url('/bbses/block_role_permissions/edit/' . $frameId . '/' . $blockId); ?>">
 				<?php echo __d('bbses', 'Authority Setting'); ?>
 			</a>

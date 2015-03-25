@@ -25,11 +25,7 @@ class BlocksController extends BbsesAppController {
  * @var array
  */
 	public $uses = array(
-		//'Users.User',
 		'Bbses.Bbs',
-		//'Bbses.BbsFrameSetting',
-		//'Bbses.BbsPost',
-		//'Bbses.BbsPostsUser',
 		'Frames.Frame',
 	);
 
@@ -82,8 +78,6 @@ class BlocksController extends BbsesAppController {
 					'Block.id = Bbs.block_id',
 					'Block.language_id = ' . $this->viewVars['languageId'],
 					'Block.room_id = ' . $this->viewVars['roomId'],
-					//'CreatedUser.language_id' => 2,
-					//'CreatedUser.key' => 'nickname'
 				)
 			)
 		);
@@ -102,10 +96,8 @@ class BlocksController extends BbsesAppController {
 	}
 
 /**
- * edit method
+ * edit 
  *
- * @param int $frameId frames.id
- * @param int $bbsPostId bbsPosts.id
  * @return void
  */
 	public function current() {
@@ -125,51 +117,9 @@ class BlocksController extends BbsesAppController {
 
 		$this->Frame->saveFrame($data);
 		$this->handleValidationError($this->Frame->validationErrors);
-		
+
 		if (! $this->request->is('ajax')) {
 			$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
 		}
-
-//		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
-//
-//		$this->set('bbsPostId', (int)$bbsPostId);
-//		$this->__initBbsPost(['comments']);
-//
-//		$data = Hash::merge(
-//			$this->viewVars['currentBbsPost'],
-//			array('contentStatus' => $this->viewVars['currentBbsPost']['bbsPostI18n']['status'])
-//		);
-//
-//		if ($this->request->isPost()) {
-//			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
-//				return;
-//			}
-//			if ($this->viewVars['currentBbsPost']['bbsPost']['rootId'] > 0 && $status !== NetCommonsBlockComponent::STATUS_IN_DRAFT) {
-//				$status = $this->viewVars['bbsCommentPublishable'] ?
-//								NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
-//			}
-//
-//			$data = Hash::merge(
-//				$this->data,
-//				['BbsPostI18n' => ['status' => $status]],
-//				['BbsPost' => ['last_status' => $status]]
-//			);
-//
-//			if (! $this->viewVars['currentBbsPost']['bbsPost']['rootId']) {
-//				unset($data['BbsPostI18n']['id']);
-//			}
-//
-//			$bbsPost = $this->BbsPost->saveBbsPost($data);
-//			if ($this->handleValidationError($this->BbsPost->validationErrors)) {
-//				if (! $this->request->is('ajax')) {
-//					$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $bbsPost['BbsPost']['id']);
-//				}
-//				return;
-//			}
-//		}
-//
-//		$results = $this->camelizeKeyRecursive($data);
-//		$this->set($results);
 	}
-
 }

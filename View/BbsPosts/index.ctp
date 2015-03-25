@@ -45,6 +45,4 @@
 			<?php echo $this->element('BbsPosts/index_bbs_post', array('bbsPost' => $bbsPost)); ?>
 		<?php endforeach; ?>
 	</table>
-<?php else : ?>
-
-<?php endif; ?>
+<?php endif;

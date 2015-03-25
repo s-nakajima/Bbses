@@ -58,8 +58,10 @@ class BlockRolePermissionsController extends BbsesAppController {
 	);
 
 /**
- * edit method
+ * edit
  *
+ * @param int $frameId frames.id
+ * @param int $blockId posts.id
  * @return void
  */
 	public function edit($frameId = null, $blockId = null) {
@@ -138,65 +140,5 @@ class BlockRolePermissionsController extends BbsesAppController {
 		);
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);
-
-		//$this->setBbs();
-		//
-		//if (! $this->request->isPost()) {
-		//	return;
-		//}
-		//
-		//$data = $this->__setEditSaveData($this->data);
-		//
-		//if (! $this->Bbs->saveBbs($data)) {
-		//	if (! $this->handleValidationError($this->Bbs->validationErrors)) {
-		//		return;
-		//	}
-		//}
-		//
-		//if (! $this->request->is('ajax')) {
-		//	$this->redirectBackUrl();
-		//}
 	}
-
-/**
- * setEditSaveData
- *
- * @param array $postData post data
- * @return array
- */
-	//private function __setEditSaveData($postData) {
-	//	$blockId = isset($this->data['Block']['id']) ? (int)$this->data['Block']['id'] : null;
-	//
-	//	if (! $bbs = $this->Bbs->getBbs($blockId)) {
-	//		//bbsテーブルデータ作成とkey格納
-	//		$bbs = $this->initBbs();
-	//		$bbs['Bbs']['block_id'] = 0;
-	//	}
-	//
-	//	$data['Bbs'] = $results = $this->__convertStringToBoolean($postData, $bbs);
-	//
-	//	$results = Hash::merge($postData, $bbs, $data);
-	//
-	//	//IDリセット
-	//	unset($results['Bbs']['id']);
-	//
-	//	return $results;
-	//}
-
-/**
- * convertStringToBoolean
- *
- * @param array $data post data
- * @param array $bbs bbses
- * @return array
- */
-	//private function __convertStringToBoolean($data, $bbs) {
-	//	//boolean値が文字列になっているため個別で格納し直し
-	//	return $data['Bbs'] = array(
-	//			'post_create_authority' => ($data['Bbs']['post_create_authority'] === '1') ? true : false,
-	//			'editor_publish_authority' => ($data['Bbs']['editor_publish_authority'] === '1') ? true : false,
-	//			'general_publish_authority' => ($data['Bbs']['general_publish_authority'] === '1') ? true : false,
-	//			'comment_create_authority' => ($data['Bbs']['comment_create_authority'] === '1') ? true : false,
-	//		);
-	//}
 }

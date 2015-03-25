@@ -37,36 +37,6 @@ class BbsPost extends BbsesAppModel {
 	public $validate = array();
 
 /**
- * belongsTo associations
- *
- * @var array
- */
-	//public $belongsTo = array(
-	//	'Bbs' => array(
-	//		'className' => 'Bbses.Bbs',
-	//		'foreignKey' => 'bbs_key',
-	//		'conditions' => '',
-	//		'fields' => '',
-	//		'order' => ''
-	//	),
-	//);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	//public $hasOne = array(
-	//	'BbsPostI18n' => array(
-	//		'className' => 'Bbses.BbsPostI18n',
-	//		'foreignKey' => 'bbs_post_id',
-	//		'limit' => 1,
-	//		'order' => 'BbsPostI18n.id DESC',
-	//		'dependent' => true,
-	//	)
-	//);
-
-/**
  * hasMany associations
  *
  * @var array
@@ -86,7 +56,7 @@ class BbsPost extends BbsesAppModel {
  * Return value should be the (modified) results.
  *
  * @param mixed $results The results of the find operation
- * @param boolean $primary Whether this model is being queried directly (vs. being queried as an association)
+ * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
  * @return mixed Result of the find operation
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#afterfind
  */
@@ -132,88 +102,6 @@ class BbsPost extends BbsesAppModel {
 	}
 
 /**
- * get bbs data
- *
- * @param int $userId users.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
- * @param bool $contentCreatable true can create the content, false not can create the content.
- * @param array $conditions databese find condition
- * @return array
- */
-	//public function getOnePosts($userId, $contentEditable, $contentCreatable, $conditions) {
-	//	if (! $conditions['id']) {
-	//		return;
-	//	}
-	//
-	//	//作成権限まで
-	//	if ($contentCreatable && ! $contentEditable) {
-	//		//自分で書いた記事と公開中の記事を取得
-	//		$conditions['or']['created_user'] = $userId;
-	//		$conditions['or']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-	//	}
-	//
-	//	//作成・編集権限なし:公開中の記事のみ取得
-	//	if (! $contentCreatable && ! $contentEditable) {
-	//		$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-	//	}
-	//
-	//	//対象記事のみ取得
-	//	if (! $bbsPosts = $this->find('first', array(
-	//			'recursive' => -1,
-	//			'conditions' => $conditions,
-	//	))) {
-	//		return false;
-	//
-	//	}
-	//
-	//	return $bbsPosts;
-	//}
-
-/**
- * get bbs data
- *
- * @param int $userId users.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
- * @param bool $contentCreatable true can create the content, false not can create the content.
- * @param array $sortOrder databese find condition
- * @param int $visiblePostRow databese find condition
- * @param int $currentPage databese find condition
- * @param array $conditions databese find condition
- * @return array
- */
-	//public function getPosts($userId, $contentEditable, $contentCreatable,
-	//			$sortOrder = '', $visiblePostRow = '', $currentPage = '', $conditions = '') {
-	//	//他人の編集中の記事・コメントが見れない人
-	//	if ($contentCreatable && ! $contentEditable) {
-	//		$conditions['or']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-	//		$conditions['or']['and']['created_user'] = $userId;
-	//		$conditions['or']['and']['status <>'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-	//	}
-	//
-	//	//公開中の記事・コメントしか見れない人
-	//	if (! $contentCreatable && ! $contentEditable) {
-	//		$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-	//	}
-	//
-	//	//記事一覧取得
-	//	$group = array('BbsPost.key');
-	//	$params = array(
-	//			'conditions' => $conditions,
-	//			'recursive' => -1,
-	//			'order' => $sortOrder,
-	//			'group' => $group,
-	//			'limit' => $visiblePostRow,
-	//			'page' => $currentPage,
-	//		);
-	//
-	//	if (! $bbsPosts = $this->find('all', $params)) {
-	//		return false;
-	//	}
-	//
-	//	return $bbsPosts;
-	//}
-
-/**
  * save posts
  *
  * @param array $data received post data
@@ -232,8 +120,6 @@ class BbsPost extends BbsesAppModel {
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 		try {
-			//var_dump($data);
-
 			if (! $this->validateBbsPost($data)) {
 				return false;
 			}
@@ -288,9 +174,8 @@ class BbsPost extends BbsesAppModel {
 /**
  * Get rss reader
  *
- * @param int $blockId blocks.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
- * @return array $rssReader
+ * @param int $rootPostId root post id
+ * @return int number
  */
 	public function getMaxNo($rootPostId) {
 		if (! $rootPostId) {
@@ -311,46 +196,6 @@ class BbsPost extends BbsesAppModel {
 
 		return isset($bbsPost['BbsPost']['post_no']) ? $bbsPost['BbsPost']['post_no'] : 0;
 	}
-
-/**
- * save posts
- *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
- * @throws InternalErrorException
- */
-	//public function saveComment($data) {
-	//	$this->loadModels([
-	//		'BbsPost' => 'Bbses.BbsPost',
-	//	]);
-	//
-	//	//トランザクションBegin
-	//	$dataSource = $this->getDataSource();
-	//	$dataSource->begin();
-	//	try {
-	//		if (!$this->validatePost($data)) {
-	//			return false;
-	//		}
-	//
-	//		$comments = $this->save(null, false);
-	//
-	//		if (! $comments) {
-	//			// @codeCoverageIgnoreStart
-	//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-	//			// @codeCoverageIgnoreEnd
-	//		}
-	//
-	//		//トランザクションCommit
-	//		$dataSource->commit();
-	//	} catch (Exception $ex) {
-	//		//トランザクションRollback
-	//		$dataSource->rollback();
-	//		//エラー出力
-	//		CakeLog::write(LOG_ERR, $ex);
-	//		throw $ex;
-	//	}
-	//	return $comments;
-	//}
 
 /**
  * validate BbsPost

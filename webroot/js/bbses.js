@@ -54,4 +54,4 @@ NetCommonsApp.controller('BbsPosts',
       $scope.initialize = function(data) {
         $scope.bbsPostI18n = data.bbsPostI18n;
       };
-});
+    });

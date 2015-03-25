@@ -21,8 +21,6 @@ App::uses('BbsesAppModel', 'Bbses.Model');
  */
 class BbsFrameSetting extends BbsesAppModel {
 
-	//const DISPLAY_NUMBER_UNIT = '件';
-
 /**
  * Validation rules
  *
@@ -80,28 +78,6 @@ class BbsFrameSetting extends BbsesAppModel {
 		));
 		return parent::beforeValidate($options);
 	}
-/**
- * get bbs setting data
- *
- * @param int $frameKey frames.key
- * @return array
- */
-	//public function getBbsSetting($frameKey) {
-	//	$conditions = array(
-	//		'frame_key' => $frameKey,
-	//	);
-	//	if (!$bbsSetting = $this->find('first', array(
-	//			'recursive' => -1,
-	//			'conditions' => $conditions,
-	//			'order' => 'BbsFrameSetting.id DESC'
-	//		))
-	//	) {
-	//		//初期値を設定
-	//		$bbsSetting = $this->create($conditions);
-	//		$this->saveBbsSetting($bbsSetting);
-	//	}
-	//	return $bbsSetting;
-	//}
 
 /**
  * save bbs

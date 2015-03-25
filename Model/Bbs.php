@@ -54,19 +54,7 @@ class Bbs extends BbsesAppModel {
  *
  * @var array
  */
-	//public $hasMany = array(
-	//	'BbsPost' => array(
-	//		'className' => 'Bbses.BbsPost',
-	//		'foreignKey' => 'bbs_key',
-	//		'dependent' => true
-	//	)
-	//);
 	public $hasMany = array(
-		//'BbsPost' => array(
-		//	'className' => 'Bbses.BbsPost',
-		//	'foreignKey' => 'bbs_key',
-		//	'dependent' => true
-		//),
 		'BbsSettings' => array(
 			'className' => 'Bbses.BbsSettings',
 			'foreignKey' => 'bbs_key',
@@ -119,69 +107,6 @@ class Bbs extends BbsesAppModel {
 		));
 		return parent::beforeValidate($options);
 	}
-
-/**
- * Get bbs data
- *
- * @param int $blockId blocks.id
- * @return array
- */
-	//public function getBbs($blockId = '') {
-	//	$conditions = array(
-	//		'block_id' => $blockId,
-	//	);
-	//
-	//	$bbs = $this->find('first', array(
-	//			'recursive' => -1,
-	//			'conditions' => $conditions,
-	//			'order' => 'Bbs.id DESC',
-	//		)
-	//	);
-	//
-	//	return $bbs;
-	//}
-
-/**
- * save bbs
- *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
- * @throws InternalErrorException
- */
-	//public function saveBbs($data) {
-	//	$this->loadModels([
-	//		'Bbs' => 'Bbses.Bbs',
-	//		'Block' => 'Blocks.Block',
-	//	]);
-	//
-	//	//トランザクションBegin
-	//	$dataSource = $this->getDataSource();
-	//	$dataSource->begin();
-	//
-	//	try {
-	//		if (!$this->validateBbs($data)) {
-	//			return false;
-	//		}
-	//		//ブロックの登録
-	//		$block = $this->Block->saveByFrameId($data['Frame']['id'], false);
-	//
-	//		//掲示板の登録
-	//		$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
-	//		$bbs = $this->save(null, false);
-	//		if (!$bbs) {
-	//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-	//		}
-	//		//トランザクションCommit
-	//		$dataSource->commit();
-	//	} catch (Exception $ex) {
-	//		//トランザクションRollback
-	//		$dataSource->rollback();
-	//		//エラー出力
-	//		CakeLog::write(LOG_ERR, $ex);
-	//		throw $ex;
-	//	}
-	//	return $bbs;
-	//}
 
 /**
  * validate bbs

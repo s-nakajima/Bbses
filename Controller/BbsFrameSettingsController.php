@@ -56,7 +56,7 @@ class BbsFrameSettingsController extends BbsesAppController {
 	);
 
 /**
- * edit method
+ * edit
  *
  * @return void
  */
@@ -77,44 +77,5 @@ class BbsFrameSettingsController extends BbsesAppController {
 			$results = $this->camelizeKeyRecursive($data);
 			$this->set($results);
 		}
-
-
-
-	//	//掲示板の表示設定情報を取得
-	//	$bbsSettings = $this->BbsFrameSetting->getBbsSetting(
-	//									$this->viewVars['frameKey']);
-	//	$results = array(
-	//		'bbsSettings' => $bbsSettings['BbsFrameSetting'],
-	//	);
-	//	$this->set($results);
-	//
-	//	if (! $this->request->isPost()) {
-	//		return;
-	//	}
-	//
-	//	$data = $this->data;
-	//
-	//	if (! $bbsSetting = $this->BbsFrameSetting->getBbsSetting(
-	//		isset($data['Frame']['key']) ? $data['Frame']['key'] : null
-	//	)) {
-	//		//bbsFrameSettingテーブルデータ生成
-	//		$bbsSetting = $this->BbsFrameSetting->create();
-	//	}
-	//
-	//	//作成時間,更新時間を再セット
-	//	unset($bbsSetting['BbsFrameSetting']['created'], $bbsSetting['BbsFrameSetting']['modified']);
-	//	$data = Hash::merge($bbsSetting, $data);
-	//
-	//	if (! $bbsSetting = $this->BbsFrameSetting->saveBbsSetting($data)) {
-	//		if (! $this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
-	//			return;
-	//		}
-	//	}
-	//
-	//	$this->set('frameKey', $bbsSetting['BbsFrameSetting']['frame_key']);
-	//
-	//	if (!$this->request->is('ajax')) {
-	//		$this->redirectBackUrl();
-	//	}
 	}
 }

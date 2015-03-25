@@ -47,12 +47,13 @@
 					<div class="panel panel-default">
 						<?php echo $this->element('BbsPosts/view_bbs_post', array(
 							'bbsPost' => $childBbsPost,
-							'parentBbsPost' => isset($bbsPostChildren[$childBbsPost['bbsPost']['parentId']]) ? $bbsPostChildren[$childBbsPost['bbsPost']['parentId']] : $currentBbsPost
+							'parentBbsPost' => isset($bbsPostChildren[$childBbsPost['bbsPost']['parentId']]) ?
+										$bbsPostChildren[$childBbsPost['bbsPost']['parentId']] : $currentBbsPost
 						)); ?>
 					</div>
 				</div>
 			</div>
 		</div>
 	<?php endforeach; ?>
-<?php endif; ?>
+<?php endif;
 

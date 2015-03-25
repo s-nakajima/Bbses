@@ -36,5 +36,5 @@
 		'label' => __d('bbses', 'Comment publishable authority'),
 		'defaultPermission' => $defaultPermissions['bbsCommentPublishable'],
 		'blockPermission' => isset($blockPermissions['bbsCommentPublishable']) ? $blockPermissions['bbsCommentPublishable'] : null
-	)); ?>
+	));
 

@@ -23,6 +23,7 @@
 						<?php
 							$name = 'BlockRolePermission.' . $permission . '.' . $key;
 							$rolesRoomId = isset($rolesRooms[$key]) ? (int)$rolesRooms[$key]['id'] : null;
+
 							if (! $defaultPermission[$key]['fixed']) {
 								echo $this->Form->checkbox($name . '.value', array(
 										'div' => false,
@@ -47,8 +48,8 @@
 								echo $this->Form->hidden($name . '.permission', array(
 										'value' => $permission,
 									));
-
-							} elseif ($defaultPermission[$key]['value']) {
+							}
+							if ($defaultPermission[$key]['fixed'] && $defaultPermission[$key]['value']) {
 								echo $this->Form->checkbox($name . '.value', array(
 										'div' => false,
 										'disabled' => true,
@@ -63,4 +64,4 @@
 			<?php endforeach; ?>
 		</div>
 	</div>
-<?php endif; ?>
+<?php endif;

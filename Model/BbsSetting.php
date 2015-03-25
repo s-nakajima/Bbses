@@ -56,9 +56,7 @@ class BbsSetting extends BbsesAppModel {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->Bbs->validationErrors);
 				return false;
 			}
-			//TODO
-			//if (! $this->Block->validateBlock($data)) {
-			if (! $this->validateBlock($data)) {
+			if (! $this->Block->validateBlock($data)) {
 				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
 				return false;
 			}
@@ -134,19 +132,6 @@ class BbsSetting extends BbsesAppModel {
 		$this->set($data);
 		$this->validates();
 		return $this->validationErrors ? false : true;
-	}
-
-/**
- * validate block
- *
- * @param array $data received post data
- * @return bool True on success, false on error
- */
-	public function validateBlock($data) {
-		//後でBlocks.Blockに移動
-		$this->Block->set($data);
-		$this->Block->validates();
-		return $this->Block->validationErrors ? false : true;
 	}
 
 }

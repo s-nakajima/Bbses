@@ -26,4 +26,4 @@ $label = isset($labels[$status]) ? $labels[$status] : null;
 	<span class="label <?php echo $labels[$status]['class'] ?>">
 		<?php echo $labels[$status]['message'] ?>
 	</span>
-<?php endif ?>
+<?php endif;

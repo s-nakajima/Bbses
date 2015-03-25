@@ -27,7 +27,8 @@
 				'type' => 'checkbox',
 				'checked' => true,
 				'hiddenField' => false
-			)); ?><?php echo __d('bbses', 'Quote this posts'); ?>
+			));
+			echo __d('bbses', 'Quote this posts'); ?>
 		</label>
 
 		<button type="submit" class="btn btn-success btn-xs" tooltip="<?php echo __d('bbses', 'Write comment'); ?>">
