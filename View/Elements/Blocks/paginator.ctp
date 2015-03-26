@@ -17,7 +17,7 @@
 
 	<?php //echo $this->Paginator->next('>', ['tag' => 'li'], '>', ['tag' => 'li']); ?>
 
-	<?php if ((int)$this->Paginator->counter('{:pages}') > Block::PAGE_MAX_INDEX) : ?>
+	<?php if ((int)$this->Paginator->param('pages') > Block::PAGE_MAX_INDEX) : ?>
 		<?php echo $this->Paginator->numbers(array(
 				'tag' => 'li',
 				'currentTag' => 'a',
