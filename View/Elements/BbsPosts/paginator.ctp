@@ -10,16 +10,20 @@
  */
 ?>
 
-<ul class="pagination">
-	<?php echo $this->Paginator->numbers(array(
-			'tag' => 'li',
-			'currentTag' => 'a',
-			'currentClass' => 'active',
-			'separator' => '',
-			'first' => '<<',
-			'last' => '>>',
-			'modulus' => '4',
-		)); ?>
-	</li>
-</ul>
+<?php if ((int)$this->Paginator->param('count') > 0) : ?>
 
+	<ul class="pagination">
+		<?php echo $this->Paginator->numbers(array(
+				'tag' => 'li',
+				'currentTag' => 'a',
+				'currentClass' => 'active',
+				'separator' => '',
+				'first' => '<<',
+				'last' => '>>',
+				'modulus' => '4',
+				'url' => array('controller' => 'bbs_posts', 'action' => 'index', $frameId)
+			)); ?>
+		</li>
+	</ul>
+
+<?php endif;
