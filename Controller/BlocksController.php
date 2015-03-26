@@ -80,15 +80,15 @@ class BlocksController extends BbsesAppController {
 					'Block.language_id = ' . $this->viewVars['languageId'],
 					'Block.room_id = ' . $this->viewVars['roomId'],
 				),
-				'limit' => 10
+				'limit' => 3
 			)
 		);
 		$bbses = $this->Paginator->paginate('Bbs');
 
-		if (! $bbses) {
-			$this->view = 'Blocks/noBbs';
-			return;
-		}
+		//if (! $bbses) {
+		//	$this->view = 'Blocks/noBbs';
+		//	return;
+		//}
 
 		$results = array(
 			'bbses' => $bbses
@@ -98,7 +98,7 @@ class BlocksController extends BbsesAppController {
 	}
 
 /**
- * edit
+ * current
  *
  * @return void
  */

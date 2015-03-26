@@ -40,7 +40,7 @@ class BbsPostI18n extends BbsesAppModel {
  *
  * @var int
  */
-	const LIST_CONTENT_LENGTH = 200;
+	const LIST_CONTENT_LENGTH = 100;
 
 /**
  * use behaviors

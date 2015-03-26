@@ -214,7 +214,7 @@ class BbsPostsController extends BbsesAppController {
 		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
 			$bbsPostI18n['BbsPostI18n']['title'] = 'Re: ' . $this->viewVars['currentBbsPost']['bbsPostI18n']['title'];
 			$bbsPostI18n['BbsPostI18n']['content'] =
-							'<blockquote class="small">' .
+							'<br /><blockquote class="small">' .
 								$this->viewVars['currentBbsPost']['bbsPostI18n']['content'] .
 							'</blockquote>';
 		}
