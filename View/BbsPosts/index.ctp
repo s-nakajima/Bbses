@@ -45,4 +45,9 @@
 			<?php echo $this->element('BbsPosts/index_bbs_post', array('bbsPost' => $bbsPost)); ?>
 		<?php endforeach; ?>
 	</table>
-<?php endif;
+<?php endif; ?>
+
+<div class="text-center">
+	<?php echo $this->element('BbsPosts/paginator'); ?>
+</div>
+

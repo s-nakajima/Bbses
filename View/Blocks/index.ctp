@@ -40,19 +40,13 @@
 						<tr>
 							<th>#</th>
 							<th>
-								<a href="">
-									<?php echo __d('blocks', 'Name'); ?>
-								</a>
+								<?php echo $this->Paginator->sort('Bbs.name', __d('blocks', 'Name')); ?>
 							</th>
 							<th>
-								<a href="">
-									<?php echo __d('blocks', 'Public Type'); ?>
-								</a>
+								<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Public Type')); ?>
 							</th>
 							<th>
-								<a href="">
-									<?php echo __d('net_commons', 'Updated Date'); ?>
-								</a>
+								<?php echo $this->Paginator->sort('Bbs.modified', __d('net_commons', 'Updated Date')); ?>
 							</th>
 						</tr>
 					</thead>
@@ -97,7 +91,7 @@
 			<?php echo $this->Form->end(); ?>
 
 			<div class="text-center">
-				<?php echo $this->element('paginator'); ?>
+				<?php echo $this->element('Blocks/paginator'); ?>
 			</div>
 		</div>
 	</div>

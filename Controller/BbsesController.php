@@ -99,6 +99,7 @@ class BbsesController extends BbsesAppController {
 					'BbsPost.parent_id' => null,
 				),
 				'order' => 'BbsPost.id DESC',
+				'limit' => $this->viewVars['bbsFrameSetting']['postsPerPage']
 			)
 		);
 		$posts = $this->Paginator->paginate('BbsPost');
