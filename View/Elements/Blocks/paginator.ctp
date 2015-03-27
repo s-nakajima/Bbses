@@ -17,10 +17,10 @@
 				'currentTag' => 'a',
 				'currentClass' => 'active',
 				'separator' => '',
-				'first' => '<<',
-				'last' => '>>',
+				'first' => '«',
+				'last' => '»',
 				//'modulus' => '4',
-				'url' => $url,
+				//'url' => $url,
 			)); ?>
 	</ul>
 <?php endif;

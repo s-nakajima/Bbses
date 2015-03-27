@@ -81,7 +81,7 @@ class BlocksController extends BbsesAppController {
 						'Block.language_id = ' . $this->viewVars['languageId'],
 						'Block.room_id = ' . $this->viewVars['roomId'],
 					),
-					'limit' => 5
+					'limit' => 1
 				)
 			);
 			$bbses = $this->Paginator->paginate('Bbs');

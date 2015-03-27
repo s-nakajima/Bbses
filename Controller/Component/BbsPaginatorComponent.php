@@ -70,6 +70,7 @@ class BbsPaginatorComponent extends Component {
 				),
 				'order' => array('BbsPost.id' => 'desc'),
 				//'limit' => $this->controller->viewVars['bbsFrameSetting']['postsPerPage']
+				//'limit' => 1
 				'limit' => isset($this->controller->params['named']['limit']) ?
 								(int)$this->controller->params['named']['limit'] : $this->controller->viewVars['bbsFrameSetting']['postsPerPage']
 			)
