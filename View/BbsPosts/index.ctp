@@ -25,21 +25,26 @@
 </div>
 
 <div class="row form-group">
-	<div class="col-xs-6">
+	<div class="col-xs-4">
 		<?php if ($contentCreatable && $bbsPostCreatable) : ?>
-			<div class="inline-block">
-				<span class="nc-tooltip" tooltip="<?php echo __d('bbses', 'Create post'); ?>">
-					<a href="<?php echo $this->Html->url('/bbses/bbs_posts/add/' . $frameId); ?>" class="btn btn-success">
-						<span class="glyphicon glyphicon-plus"> </span>
-					</a>
-				</span>
-			</div>
+			<span class="nc-tooltip" tooltip="<?php echo __d('bbses', 'Create post'); ?>">
+				<a href="<?php echo $this->Html->url('/bbses/bbs_posts/add/' . $frameId); ?>" class="btn btn-success">
+					<span class="glyphicon glyphicon-plus"> </span>
+				</a>
+			</span>
 
 			<?php echo $this->element('BbsPosts/select_status'); ?>
 		<?php endif; ?>
 	</div>
-	<div class="col-xs-6">
 
+	<div class="col-xs-8 text-right">
+		<span class="glyphicon glyphicon-duplicate"></span>
+		<?php echo (int)$this->Paginator->param('count'); ?>
+		<small><?php echo __d('bbses', 'Posts'); ?></small>
+
+		<?php echo $this->element('BbsPosts/select_sort'); ?>
+
+		<?php echo $this->element('BbsPosts/select_limit'); ?>
 	</div>
 </div>
 

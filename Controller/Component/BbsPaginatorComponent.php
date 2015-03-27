@@ -46,35 +46,44 @@ class BbsPaginatorComponent extends Component {
  * @return void
  */
 	public function rootBbsPosts() {
-//		var_dump($this->controller->params);
-
-
-		$this->controller->BbsPost->bindModel(array('hasMany' => array(
-				'BbsPostI18n' => array(
-					'foreignKey' => 'bbs_post_id',
-					'limit' => 1,
-					'order' => 'BbsPostI18n.id DESC',
-					'conditions' => array(
-						'BbsPostI18n.language_id' => $this->controller->viewVars['languageId']
+		try {
+			$this->controller->BbsPost->bindModel(array('hasMany' => array(
+					'BbsPostI18n' => array(
+						'foreignKey' => 'bbs_post_id',
+						'limit' => 1,
+						'order' => 'BbsPostI18n.id DESC',
+						'conditions' => array(
+							'BbsPostI18n.language_id' => $this->controller->viewVars['languageId']
+						)
 					)
-				)
-			)),
-			false
-		);
+				)),
+				false
+			);
 
-		$this->Paginator->settings = array(
-			'BbsPost' => array(
-				'conditions' => array(
-					'BbsPost.bbs_key' => $this->controller->viewVars['bbs']['key'],
-					'BbsPost.parent_id' => null,
-				),
-				'order' => array('BbsPost.id' => 'desc'),
-				//'limit' => $this->controller->viewVars['bbsFrameSetting']['postsPerPage']
-				//'limit' => 1
-				'limit' => isset($this->controller->params['named']['limit']) ?
-								(int)$this->controller->params['named']['limit'] : $this->controller->viewVars['bbsFrameSetting']['postsPerPage']
-			)
-		);
-		return $this->Paginator->paginate('BbsPost');
+			$conditions = array(
+				'BbsPost.bbs_key' => $this->controller->viewVars['bbs']['key'],
+				'BbsPost.parent_id' => null,
+			);
+
+			if (isset($this->controller->params['named']['status'])) {
+				$conditions['BbsPost.last_status'] = (int)$this->controller->params['named']['status'];
+			}
+
+			$this->Paginator->settings = array(
+				'BbsPost' => array(
+					'conditions' => $conditions,
+					'order' => isset($this->controller->params['named']['sort']) && isset($this->controller->params['named']['direction']) ?
+									array($this->controller->params['named']['sort'] => $this->controller->params['named']['direction']) : array('BbsPost.created' => 'desc'),
+					//'limit' => 1,
+					'limit' => isset($this->controller->params['named']['limit']) ?
+									(int)$this->controller->params['named']['limit'] : $this->controller->viewVars['bbsFrameSetting']['postsPerPage']
+				)
+			);
+			return $this->Paginator->paginate('BbsPost');
+
+		} catch (Exception $ex) {
+			$this->controller->params['named'] = array();
+			$this->controller->redirect('/bbses/bbs_posts/index/' . $this->controller->viewVars['frameId']);
+		}
 	}
 }

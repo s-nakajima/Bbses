@@ -19,8 +19,6 @@
 				'separator' => '',
 				'first' => '«',
 				'last' => '»',
-				//'modulus' => '4',
-				//'url' => $url,
 			)); ?>
 	</ul>
 <?php endif;
