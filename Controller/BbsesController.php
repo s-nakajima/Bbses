@@ -44,7 +44,7 @@ class BbsesController extends BbsesAppController {
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(),
-		'Paginator',
+		'Bbses.BbsPaginator'
 	);
 
 /**
@@ -76,33 +76,12 @@ class BbsesController extends BbsesAppController {
 			return;
 		}
 
+		$this->params['named'] = array();
+
 		$this->view = 'BbsPosts/index';
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
 
-		$this->BbsPost->bindModel(array('hasMany' => array(
-				'BbsPostI18n' => array(
-					'foreignKey' => 'bbs_post_id',
-					'limit' => 1,
-					'order' => 'BbsPostI18n.id DESC',
-					'conditions' => array(
-						'BbsPostI18n.language_id' => $this->viewVars['languageId']
-					)
-				)
-			)),
-			false
-		);
-
-		$this->Paginator->settings = array(
-			'BbsPost' => array(
-				'conditions' => array(
-					'BbsPost.bbs_key' => $this->viewVars['bbs']['key'],
-					'BbsPost.parent_id' => null,
-				),
-				'order' => 'BbsPost.id DESC',
-				'limit' => $this->viewVars['bbsFrameSetting']['postsPerPage']
-			)
-		);
-		$posts = $this->Paginator->paginate('BbsPost');
+		$posts = $this->BbsPaginator->rootBbsPosts();
 		$results = array(
 			'bbsPosts' => $posts
 		);

@@ -72,29 +72,35 @@ class BlocksController extends BbsesAppController {
  * @return void
  */
 	public function index() {
-		$this->Paginator->settings = array(
-			'Bbs' => array(
-				'order' => 'Bbs.id DESC',
-				'conditions' => array(
-					'Block.id = Bbs.block_id',
-					'Block.language_id = ' . $this->viewVars['languageId'],
-					'Block.room_id = ' . $this->viewVars['roomId'],
-				),
-				'limit' => 3
-			)
-		);
-		$bbses = $this->Paginator->paginate('Bbs');
+		try {
+			$this->Paginator->settings = array(
+				'Bbs' => array(
+					'order' => array('Bbs.id' => 'desc'),
+					'conditions' => array(
+						'Block.id = Bbs.block_id',
+						'Block.language_id = ' . $this->viewVars['languageId'],
+						'Block.room_id = ' . $this->viewVars['roomId'],
+					),
+					'limit' => 5
+				)
+			);
+			$bbses = $this->Paginator->paginate('Bbs');
 
-		//if (! $bbses) {
-		//	$this->view = 'Blocks/noBbs';
-		//	return;
-		//}
+			//if (! $bbses) {
+			//	$this->view = 'Blocks/noBbs';
+			//	return;
+			//}
 
-		$results = array(
-			'bbses' => $bbses
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+			$results = array(
+				'bbses' => $bbses
+			);
+			$results = $this->camelizeKeyRecursive($results);
+			$this->set($results);
+
+		} catch (Exception $ex) {
+			$this->params['named'] = array();
+			$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+		}
 	}
 
 /**
@@ -121,7 +127,8 @@ class BlocksController extends BbsesAppController {
 		$this->handleValidationError($this->Frame->validationErrors);
 
 		if (! $this->request->is('ajax')) {
-			$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+			$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId'] .
+					((int)($this->params['named']['page']) > 1 ? '/page:' . (int)$this->params['named']['page'] : ''));
 		}
 	}
 }

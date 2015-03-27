@@ -52,6 +52,7 @@ class BbsPostsController extends BbsesAppController {
 				'bbsPostCreatable' => array('add', 'reply', 'edit', 'delete')
 			),
 		),
+		'Bbses.BbsPaginator',
 	);
 
 /**
@@ -74,6 +75,13 @@ class BbsPostsController extends BbsesAppController {
 			return;
 		}
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
+		$posts = $this->BbsPaginator->rootBbsPosts();
+		$results = array(
+			'bbsPosts' => $posts
+		);
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
 	}
 
 /**

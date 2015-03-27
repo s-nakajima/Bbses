@@ -21,7 +21,10 @@
 				'first' => '<<',
 				'last' => '>>',
 				'modulus' => '4',
-				'url' => array('controller' => 'bbs_posts', 'action' => 'index', $frameId)
+				'url' => Hash::merge(
+					array('controller' => 'bbs_posts', 'action' => 'index', $frameId),
+					$this->Paginator->params['named']
+				)
 			)); ?>
 		</li>
 	</ul>

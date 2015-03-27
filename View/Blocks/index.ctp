@@ -8,8 +8,6 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-
-
 ?>
 
 <div class="modal-header">
@@ -28,7 +26,7 @@
 
 		<div id="nc-bbs-setting-<?php echo $frameId; ?>">
 			<?php echo $this->Form->create('', array(
-					'url' => '/bbses/blocks/current/' . $frameId
+					'url' => '/bbses/blocks/current/' . $frameId . '/page:' . $this->Paginator->param('page')
 				)); ?>
 
 				<?php echo $this->Form->hidden('Frame.id', array(
