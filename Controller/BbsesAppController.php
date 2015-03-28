@@ -104,6 +104,8 @@ class BbsesAppController extends AppController {
 			$bbsPost = $this->camelizeKeyRecursive($bbsPost);
 			$this->set(['bbsPost' => $bbsPost]);
 		}
+
+		$this->set(['current' => $this->current]);
 	}
 
 /**

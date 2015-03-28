@@ -26,6 +26,9 @@ class BlocksController extends BbsesAppController {
  */
 	public $uses = array(
 		'Bbses.Bbs',
+		'Bbses.BbsFrameSetting',
+		'Bbses.BbsSetting',
+		'Blocks.Block',
 		'Frames.Frame',
 	);
 
@@ -40,7 +43,7 @@ class BlocksController extends BbsesAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'blockEditable' => array('index', 'current')
+				'blockEditable' => array('index', 'current', 'add', 'edit', 'delete')
 			),
 		),
 		'Paginator',
@@ -81,18 +84,19 @@ class BlocksController extends BbsesAppController {
 						'Block.language_id = ' . $this->viewVars['languageId'],
 						'Block.room_id = ' . $this->viewVars['roomId'],
 					),
-					'limit' => 1
+					//'limit' => 1
 				)
 			);
 			$bbses = $this->Paginator->paginate('Bbs');
 
-			//if (! $bbses) {
-			//	$this->view = 'Blocks/noBbs';
-			//	return;
-			//}
+			if (! $bbses) {
+				$this->view = 'Blocks/noBbs';
+				return;
+			}
 
 			$results = array(
-				'bbses' => $bbses
+				'bbses' => $bbses,
+				'current' => $this->current
 			);
 			$results = $this->camelizeKeyRecursive($results);
 			$this->set($results);
@@ -131,4 +135,110 @@ class BlocksController extends BbsesAppController {
 					((int)($this->params['named']['page']) > 1 ? '/page:' . (int)$this->params['named']['page'] : ''));
 		}
 	}
+
+/**
+ * add
+ *
+ * @return void
+ */
+	public function add() {
+		$this->view = 'Blocks/edit';
+		$this->initBbs(['bbsFrameSetting']);
+
+		$this->set('blockId', null);
+		$bbs = $this->Bbs->create(
+			array(
+				'id' => null,
+				'key' => null,
+				'block_id' => null,
+				'name' => __d('bbses', 'New bbs %s', date('YmdHis')),
+			)
+		);
+		$bbsSetting = $this->BbsSetting->create(
+			array('id' => null)
+		);
+		$block = $this->Block->create(
+			array('id' => null, 'key' => null)
+		);
+
+		$data = Hash::merge($bbs, $bbsSetting, $block);
+
+		if ($this->request->isPost()) {
+			$data = $this->data;
+
+			if (! isset($this->viewVars['bbsFrameSetting']['id'])) {
+				$bbsFrameSetting = $this->BbsFrameSetting->create(
+					array(
+						'frame_key' => $this->viewVars['frameKey']
+					)
+				);
+				$data['BbsFrameSetting'] = $bbsFrameSetting['BbsFrameSetting'];
+			}
+			$data['Block']['key'] = Security::hash('bbs_block' . mt_rand() . microtime(), 'md5');
+
+			$this->Bbs->saveBbs($data);
+			if ($this->handleValidationError($this->Bbs->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+				}
+				return;
+			}
+			$data['Block']['id'] = null;
+			$data['Block']['key'] = null;
+		}
+
+		$results = $this->camelizeKeyRecursive($data);
+		$this->set($results);
+	}
+
+/**
+ * edit
+ *
+ * @return void
+ */
+	public function edit() {
+		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
+		if ($this->request->isPost()) {
+			$data = $this->data;
+			$this->Bbs->saveBbs($data);
+
+			if ($this->handleValidationError($this->Bbs->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+				}
+				return;
+			}
+
+			$results = $this->camelizeKeyRecursive($data);
+			$this->set($results);
+		}
+	}
+
+/**
+ * delete
+ *
+ * @param int $frameId frames.id
+ * @param int $postId postId
+ * @throws BadRequestException
+ * @return void
+ */
+	public function delete() {
+		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
+		if ($this->request->isDelete()) {
+			if ($this->Bbs->deleteBbs($this->data)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+				}
+				return;
+			}
+		}
+
+		$this->_throwBadRequest();
+	}
+
 }

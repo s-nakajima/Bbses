@@ -72,7 +72,7 @@ class BbsesController extends BbsesAppController {
  */
 	public function view() {
 		if (! $this->viewVars['blockId']) {
-			$this->view = 'Bbses/noSetting';
+			$this->view = 'BbsPosts/noBbs';
 			return;
 		}
 
@@ -88,4 +88,5 @@ class BbsesController extends BbsesAppController {
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);
 	}
+
 }

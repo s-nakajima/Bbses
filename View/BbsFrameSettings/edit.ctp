@@ -28,10 +28,10 @@
 				</div>
 
 				<div class="panel-footer text-center">
-					<button type="button" class="btn btn-default" onclick="location.href = '/bbses/bbses/index/<?php echo $frameId; ?>'">
-						<span class="glyphicon glyphicon-remove"></span>
+					<a class="btn btn-default" href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>">
+						<span class="glyphicon glyphicon-remove"> </span>
 						<?php echo __d('net_commons', 'Cancel'); ?>
-					</button>
+					</a>
 
 					<?php echo $this->Form->button(__d('net_commons', 'OK'), array(
 							'class' => 'btn btn-primary',

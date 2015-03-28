@@ -71,7 +71,7 @@ class BbsPostsController extends BbsesAppController {
  */
 	public function index() {
 		if (! $this->viewVars['blockId']) {
-			$this->view = 'Bbses/notCreateBbs';
+			$this->view = 'BbsPosts/noBbs';
 			return;
 		}
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
@@ -94,7 +94,7 @@ class BbsPostsController extends BbsesAppController {
  */
 	public function view($frameId = null, $bbsPostId = null) {
 		if (! $this->viewVars['blockId']) {
-			$this->view = 'Bbses/notCreateBbs';
+			$this->view = 'BbsPosts/noBbs';
 			return;
 		}
 
@@ -317,11 +317,30 @@ class BbsPostsController extends BbsesAppController {
  * delete
  *
  * @param int $frameId frames.id
- * @param int $postId postId
+ * @param int $bbsPostId postId
  * @throws BadRequestException
  * @return void
  */
-	public function delete($frameId, $postId) {
+	public function delete($frameId = null, $bbsPostId = null) {
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
+		$this->set('bbsPostId', (int)$bbsPostId);
+		$this->__initBbsPost();
+
+		if ($this->request->isDelete()) {
+			if ($this->BbsPost->deleteBbsPost($this->data)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/bbs_posts/' .
+							($this->viewVars['currentBbsPost']['bbsPost']['parentId'] ? 'view' : 'index') . '/' .
+							$this->viewVars['frameId'] . '/' . $this->viewVars['currentBbsPost']['bbsPost']['parentId']);
+				}
+				return;
+			}
+		}
+
+		$this->_throwBadRequest();
+
+
 		//確認ダイアログ経由
 
 		//if (! $this->request->isPost()) {

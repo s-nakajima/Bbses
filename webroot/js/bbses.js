@@ -13,6 +13,13 @@
 NetCommonsApp.controller('Bbses', function($scope) {
 
   /**
+   * dangerZone
+   *
+   * @type {object}
+   */
+  $scope.dangerZone = false;
+
+  /**
    * Use like button
    *
    * @return {void}

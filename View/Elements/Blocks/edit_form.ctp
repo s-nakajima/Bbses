@@ -11,35 +11,44 @@
 ?>
 
 <?php echo $this->Form->hidden('id', array(
-	'value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null,
-)); ?>
+		'value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null,
+	)); ?>
 
 <?php echo $this->Form->hidden('Frame.id', array(
-	'value' => $frameId,
-)); ?>
+		'value' => $frameId,
+	)); ?>
 
 <?php echo $this->Form->hidden('Block.id', array(
-	'value' => $block['id'],
-)); ?>
+		'value' => $block['id'],
+	)); ?>
+
 <?php echo $this->Form->hidden('Block.key', array(
-	'value' => $block['key'],
-)); ?>
+		'value' => $block['key'],
+	)); ?>
+
 <?php echo $this->Form->hidden('Block.language_id', array(
-	'value' => $languageId,
-)); ?>
+		'value' => $languageId,
+	)); ?>
+
 <?php echo $this->Form->hidden('Block.room_id', array(
-	'value' => $roomId,
-)); ?>
+		'value' => $roomId,
+	)); ?>
+
 <?php echo $this->Form->hidden('Block.plugin_key', array(
-	'value' => 'bbses',
-)); ?>
+		'value' => 'bbses',
+	)); ?>
 
 <?php echo $this->Form->hidden('Bbs.id', array(
-	'value' => isset($bbs['id']) ? (int)$bbs['id'] : null,
-)); ?>
+		'value' => isset($bbs['id']) ? (int)$bbs['id'] : null,
+	)); ?>
+
 <?php echo $this->Form->hidden('Bbs.key', array(
-	'value' => isset($bbs['key']) ? $bbs['key'] : null,
-)); ?>
+		'value' => isset($bbs['key']) ? $bbs['key'] : null,
+	)); ?>
+
+<?php echo $this->Form->hidden('BbsSetting.id', array(
+		'value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null,
+	)); ?>
 
 <?php echo $this->element('input_text_field', array(
 			'model' => 'Bbs',
@@ -91,4 +100,3 @@
 			); ?>
 	</div>
 </div>
-

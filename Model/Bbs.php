@@ -109,6 +109,100 @@ class Bbs extends BbsesAppModel {
 	}
 
 /**
+ * Save bbses
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function saveBbs($data) {
+		$this->loadModels([
+			'Bbs' => 'Bbses.Bbs',
+			'BbsSetting' => 'Bbses.BbsSetting',
+			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
+			'Block' => 'Blocks.Block',
+			'Frame' => 'Frames.Frame',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			if (! $this->validateBbs($data)) {
+				return false;
+			}
+			if (! $this->BbsSetting->validateBbsSetting($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsSetting->validationErrors);
+				return false;
+			}
+			if (! $this->Block->validateBlock($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
+				return false;
+			}
+
+			if (isset($data['BbsFrameSetting'])) {
+				if (! $this->BbsFrameSetting->validateBbsFrameSetting($data)) {
+					$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsFrameSetting->validationErrors);
+					return false;
+				}
+			}
+
+			$frame = $this->Frame->findById($data['Frame']['id']);
+			if (! $frame) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//ブロックの登録
+			$block = $this->Block->save(null, false);
+
+			//framesテーブル更新
+			if (! $frame['Frame']['block_id']) {
+				$frame['Frame']['block_id'] = (int)$block['Block']['id'];
+				if (! $this->Frame->save($frame, false)) {
+					// @codeCoverageIgnoreStart
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+					// @codeCoverageIgnoreEnd
+				}
+			}
+
+			//登録処理
+			$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
+			$this->data['Bbs']['key'] = $block['Block']['key'];
+			if (! $this->save(null, false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			$this->BbsSetting->data['BbsSetting']['bbs_key'] = $block['Block']['key'];
+			if (! $this->BbsSetting->save(null, false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+			if (isset($data['BbsFrameSetting'])) {
+				if (! $this->BbsFrameSetting->save(null, false)) {
+					// @codeCoverageIgnoreStart
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+					// @codeCoverageIgnoreEnd
+				}
+			}
+
+			//トランザクションCommit
+			$dataSource->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		return true;
+	}
+
+/**
  * validate bbs
  *
  * @param array $data received post data
@@ -118,6 +212,84 @@ class Bbs extends BbsesAppModel {
 		$this->set($data);
 		$this->validates();
 		return $this->validationErrors ? false : true;
+	}
+
+/**
+ * Delete bbses
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function deleteBbs($data) {
+		$this->setDataSource('master');
+
+		$this->loadModels([
+			'Bbs' => 'Bbses.Bbs',
+			'BbsSetting' => 'Bbses.BbsSetting',
+			'BbsPost' => 'Bbses.BbsPost',
+			'BbsPostI18n' => 'Bbses.BbsPostI18n',
+			'Block' => 'Blocks.Block',
+			'BlockRolePermission' => 'Blocks.BlockRolePermission',
+			'Comment' => 'Comments.Comment',
+			'Frame' => 'Frames.Frame',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['Bbs']['key']), false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			if (! $this->BbsSetting->deleteAll(array($this->BbsSetting->alias . '.bbs_key' => $data['Bbs']['key']), false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			if (! $this->BbsPost->deleteAll(array($this->BbsPost->alias . '.bbs_key' => $data['Bbs']['key']), true)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			if (! $this->Block->deleteAll(array($this->Block->alias . '.key' => $data['Block']['key']), true)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			if (! $this->Frame->updateAll(
+					array('Frame.block_id' => null),
+					array('Frame.block_id' => (int)$data['Block']['id'])
+			)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			if (! $this->BlockRolePermission->deleteAll(array($this->BlockRolePermission->alias . '.block_key' => $data['Block']['key']), true)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			//トランザクションCommit
+			$dataSource->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		return true;
 	}
 
 }

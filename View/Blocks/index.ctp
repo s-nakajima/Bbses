@@ -18,11 +18,7 @@
 	<?php echo $this->element('setting_form_tab', array('active' => 'block_index')); ?>
 
 	<div class="tab-content">
-		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/bbses/bbs_settings/add/' . $frameId);?>">
-				<span class="glyphicon glyphicon-plus"> </span>
-			</a>
-		</div>
+		<?php echo $this->element('Blocks/header_button'); ?>
 
 		<div id="nc-bbs-setting-<?php echo $frameId; ?>">
 			<?php echo $this->Form->create('', array(
@@ -66,7 +62,7 @@
 										)); ?>
 								</td>
 								<td>
-									<a href="<?php echo $this->Html->url('/bbses/bbs_settings/edit/' . $frameId . '/' . (int)$bbs['block']['id']); ?>">
+									<a href="<?php echo $this->Html->url('/bbses/blocks/edit/' . $frameId . '/' . (int)$bbs['block']['id']); ?>">
 										<?php echo h($bbs['bbs']['name']); ?>
 									</a>
 								</td>
@@ -89,7 +85,12 @@
 			<?php echo $this->Form->end(); ?>
 
 			<div class="text-center">
-				<?php echo $this->element('Blocks/paginator'); ?>
+				<?php echo $this->element('paginator', array(
+						'url' => Hash::merge(
+							array('controller' => 'blocks', 'action' => 'index', $frameId),
+							$this->Paginator->params['named']
+						)
+					)); ?>
 			</div>
 		</div>
 	</div>

@@ -20,7 +20,7 @@
 	<?php echo $this->element('setting_form_tab', array('active' => 'block_index')); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Bbses.BbsSettings/bbs_setting_tab', array('active' => 'block_role_permission')); ?>
+		<?php echo $this->element('Bbses.Blocks/bbs_setting_tab', array('active' => 'block_role_permission')); ?>
 
 		<?php echo $this->Form->create('BlockRolePermission', array(
 				'name' => 'form',

@@ -8,12 +8,6 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-
-$url = Hash::merge(
-	array('controller' => 'bbs_posts', 'action' => 'index', $frameId),
-	$this->Paginator->params['named']
-);
-
 ?>
 
 <?php if ((int)$this->Paginator->param('count') > 0) : ?>
@@ -21,7 +15,7 @@ $url = Hash::merge(
 	<ul class="pagination">
 		<?php echo $this->Paginator->first('«', array(
 				'tag' => 'li',
-				'url' => $url
+				'url' => (isset($url) ? $url : null)
 			)); ?>
 
 		<?php echo $this->Paginator->numbers(array(
@@ -31,13 +25,13 @@ $url = Hash::merge(
 				'separator' => '',
 				'first' => false,
 				'last' => false,
-				'modulus' => '4',
-				'url' => $url
+				'modulus' => isset($modulus) ? $modulus : null,
+				'url' => (isset($url) ? $url : null)
 			)); ?>
 
 		<?php echo $this->Paginator->last('»', array(
 				'tag' => 'li',
-				'url' => $url
+				'url' => (isset($url) ? $url : null)
 			)); ?>
 		</li>
 	</ul>

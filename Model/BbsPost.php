@@ -48,8 +48,49 @@ class BbsPost extends BbsesAppModel {
 			'limit' => 1,
 			'order' => 'BbsPostI18n.id DESC',
 			'dependent' => true,
-		)
+		),
 	);
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+//	public $belongsTo = array(
+//		'Comment' => array(
+//			'className' => 'Comments.Comment',
+//			'foreignKey' => false,
+//			'conditions' => array('Comment.plugin_key' => 'bbspost', 'BbsPost.key = Comment.content_key'),
+//			'fields' => '',
+//			'order' => 'Comment.id DESC',
+//			'dependent' => true,
+//		),
+//		'Plugin' => array(
+//			'className' => 'Plugin',
+//			'foreignKey' => false,
+//			'conditions' => array('PluginsRole.plugin_key = Plugin.key'),
+//			'fields' => '',
+//			'order' => ''
+//		),
+//	);
+
+/**
+ * hasAndBelongsToMany associations
+ *
+ * @var array
+ */
+	//public $hasAndBelongsToMany = array(
+	//	'Comment' => array(
+	//		'className' => 'Comments.Comment',
+	//		'joinTable' => 'Bbses.BbsPost',
+	//		'foreignKey' => 'id',
+	//		//'foreignKey'
+	//		'associationForeignKey' => false,
+	//		'conditions' => array('Comment.plugin_key' => 'bbspost', 'BbsPost.key = Comment.content_key'),
+	//		'order' => 'Comment.id DESC',
+	//		'dependent' => true,
+	//	),
+	//);
 
 /**
  * Called after each find operation. Can be used to modify any results returned by find().
@@ -129,7 +170,8 @@ class BbsPost extends BbsesAppModel {
 			}
 
 			if (isset($data['Comment'])) {
-				if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPostI18n'))) {
+				$data['BbsPost']['status'] = $data['BbsPostI18n']['status'];
+				if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPost'))) {
 					$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
 					return false;
 				}
@@ -139,7 +181,7 @@ class BbsPost extends BbsesAppModel {
 			$bbsPost = $this->save(null, false);
 			if (! $bbsPost) {
 				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error 1'));
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				// @codeCoverageIgnoreEnd
 			}
 
@@ -147,7 +189,7 @@ class BbsPost extends BbsesAppModel {
 			$this->BbsPostI18n->data['BbsPostI18n']['bbs_post_id'] = $this->id;
 			if (! $this->BbsPostI18n->save(null, false)) {
 				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error 2'));
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				// @codeCoverageIgnoreEnd
 			}
 
@@ -155,7 +197,7 @@ class BbsPost extends BbsesAppModel {
 			if (isset($data['Comment']) && $this->Comment->data) {
 				if (! $this->Comment->save(null, false)) {
 					// @codeCoverageIgnoreStart
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error 3'));
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 					// @codeCoverageIgnoreEnd
 				}
 			}
@@ -169,6 +211,44 @@ class BbsPost extends BbsesAppModel {
 			throw $ex;
 		}
 		return $bbsPost;
+	}
+
+/**
+ * Delete posts
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function deleteBbsPost($data) {
+		$this->setDataSource('master');
+		$this->loadModels([
+			'BbsPost' => 'Bbses.BbsPost',
+			'BbsPostI18n' => 'Bbses.BbsPostI18n',
+			'Comment' => 'Comments.Comment',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['BbsPost']['key']), true, true)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+			//トランザクションCommit
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			//エラー出力
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+
+		return true;
 	}
 
 /**

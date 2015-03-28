@@ -13,7 +13,7 @@
 <ul class="nav nav-pills" role="tablist">
 	<li class="<?php echo ($active === 'bbs_setting' ? 'active' : ''); ?>">
 		<a href="<?php echo $this->Html->url(
-				'/bbses/bbs_settings/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId); ?>">
+				'/bbses/blocks/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId); ?>">
 
 			<?php echo __d('bbses', 'BBS Setting'); ?>
 		</a>
