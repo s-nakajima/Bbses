@@ -16,7 +16,7 @@ $labels = [
 	],
 	NetCommonsBlockComponent::STATUS_APPROVED => [
 		'class' => 'label-warning',
-		'message' => __d('net_commons', 'Comment approving'),
+		'message' => __d('net_commons', 'Approving'),
 	],
 ];
 $label = isset($labels[$status]) ? $labels[$status] : null;

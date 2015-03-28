@@ -15,7 +15,7 @@
 
 	<?php echo $this->Form->create('', array(
 			'div' => false,
-			'class' => 'inline-block',
+			'class' => 'inline-block-left',
 			'type' => 'get',
 			'url' => '/bbses/bbs_posts/reply/' . $frameId . '/' . $parentPostId
 		)); ?>
@@ -31,9 +31,10 @@
 			echo __d('bbses', 'Quote this posts'); ?>
 		</label>
 
-		<button type="submit" class="btn btn-success btn-xs" tooltip="<?php echo __d('bbses', 'Write comment'); ?>">
-			<span class="glyphicon glyphicon-comment"></span>
-		</button>
-	<?php echo $this->Form->end(); ?>
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-comment"></span>', array(
+				'class' => 'btn btn-success btn-xs',
+				'tooltip' => __d('bbses', 'Write comment')
+			)); ?>
 
+	<?php echo $this->Form->end(); ?>
 <?php endif;

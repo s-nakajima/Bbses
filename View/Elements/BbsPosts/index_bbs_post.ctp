@@ -34,24 +34,27 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<!-- TODO:コメント数 -->
-			<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-				<div class="inline-block glyphicon glyphicon-comment text-info"
-					 tooltip="<?php echo __d('bbses', 'Publishing comments'); ?>">99999<?php //echo $bbsPost['comment_num']; ?></div>
+			<?php if ($bbsSetting['useComment']) : ?>
+				<div class="inline-block text-success" tooltip="<?php echo __d('bbses', 'Publishing comments'); ?>">
+					<span class="glyphicon glyphicon-comment"></span>
+					<?php echo (int)$bbsPost['bbsPost']['publishedCommentCounts']; ?>
+				</div>
 			<?php endif; ?>
 
-			<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-				<?php if ($bbsSetting['useLike']) : ?>
-					<!-- TODO:いいね数 -->
-					<div class="inline-block glyphicon glyphicon-thumbs-up">99999<?php //echo $bbsPost['likesNum']; ?></div>
-				<?php endif; ?>
+			<?php if ($bbsSetting['useLike']) : ?>
+				<!-- TODO:いいね数 -->
+				<div class="inline-block text-success">
+					<span class="glyphicon glyphicon-thumbs-up"></span>
+					<?php echo (int)$bbsPost['bbsPost']['likeCounts']; ?>
+				</div>
 			<?php endif; ?>
 
-			<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-				<?php if ($bbsSetting['useUnlike']) : ?>
-					<!-- TODO:わるいね数 -->
-					<div class="inline-block glyphicon glyphicon-thumbs-down">99999<?php //echo $bbsPost['unlikesNum']; ?></div>
-				<?php endif; ?>
+			<?php if ($bbsSetting['useUnlike']) : ?>
+				<!-- TODO:わるいね数 -->
+				<div class="inline-block text-success">
+					<span class="glyphicon glyphicon-thumbs-down"></span>
+					<?php echo (int)$bbsPost['bbsPost']['unlikeCounts']; ?>
+				</div>
 			<?php endif; ?>
 		</div>
 	</div>

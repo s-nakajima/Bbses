@@ -56,7 +56,13 @@ class BbsPaginatorComponent extends Component {
 						'conditions' => array(
 							'BbsPostI18n.language_id' => $this->controller->viewVars['languageId']
 						)
-					)
+					),
+					'BbsPostsUser' => array(
+						'foreignKey' => 'bbs_post_id',
+						'conditions' => array(
+							'BbsPostsUser.user_id' => (int)$this->controller->Auth->user('id')
+						)
+					),
 				)),
 				false
 			);

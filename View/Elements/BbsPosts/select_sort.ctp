@@ -28,10 +28,10 @@ $options = array(
 		'sort' => 'BbsPost.created',
 		'direction' => 'asc'
 	),
-	'BbsPost.id.asc' => array(
+	'BbsPost.published_comment_counts.desc' => array(
 		'label' => __d('bbses', 'Descending order of comments'),
-		'sort' => 'BbsPost.id',
-		'direction' => 'asc'
+		'sort' => 'BbsPost.published_comment_counts',
+		'direction' => 'desc'
 	),
 );
 

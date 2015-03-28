@@ -10,6 +10,8 @@
  */
 ?>
 
+<?php echo $this->Html->css('/bbses/css/style.css', false); ?>
+
 <?php echo $this->element('BbsPosts/breadcrumb'); ?>
 
 <div class="panel-group">

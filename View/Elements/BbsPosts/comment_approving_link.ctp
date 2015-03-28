@@ -10,8 +10,26 @@
  */
 ?>
 
-<?php if ($status === NetCommonsBlockComponent::STATUS_APPROVED && $contentPublishable) : ?>
-	<button type="button" class="btn btn-warning btn-xs" tooltip="<?php echo __d('bbses', 'Approving'); ?>">
-		<span class="glyphicon glyphicon-ok"></span>
-	</button>
+<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_APPROVED && $contentPublishable) : ?>
+	<?php echo $this->Form->create('', array(
+			'div' => false,
+			'class' => 'inline-block-left',
+			'type' => 'post',
+			'url' => '/bbses/bbs_posts/approve/' . $frameId . '/' . $bbsPost['bbsPost']['id']
+		)); ?>
+
+		<?php echo $this->Form->hidden('BbsPost.id', array(
+				'value' => isset($bbsPost['bbsPost']['id']) ? (int)$bbsPost['bbsPost']['id'] : null,
+			)); ?>
+
+		<?php echo $this->Form->hidden('BbsPostI18n.id', array(
+				'value' => isset($bbsPost['bbsPostI18n']['id']) ? (int)$bbsPost['bbsPostI18n']['id'] : null,
+			)); ?>
+
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-ok"></span>', array(
+				'name' => 'save_' . NetCommonsBlockComponent::STATUS_PUBLISHED,
+				'class' => 'btn btn-warning btn-xs',
+				'tooltip' => __d('bbses', 'Approving')
+			)); ?>
+	<?php echo $this->Form->end(); ?>
 <?php endif;

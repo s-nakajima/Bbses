@@ -105,6 +105,7 @@ class BbsesAppController extends AppController {
 			$this->set(['bbsPost' => $bbsPost]);
 		}
 
+		$this->set('userId', (int)$this->Auth->user('id'));
 		$this->set(['current' => $this->current]);
 	}
 

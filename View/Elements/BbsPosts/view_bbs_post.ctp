@@ -20,7 +20,7 @@
 				<?php echo $this->Html->image('/bbses/img/avatar.PNG', array('alt' => 'no image')); ?>
 			</span>
 			<a href="">
-				<?php echo h($bbsPost['trackableCreator']['username']); ?>
+				<?php echo h($bbsPost['createdUser']['value']); ?>
 			</a>
 		</div>
 
@@ -56,18 +56,36 @@
 	<div class="row">
 		<div class="col-xs-6">
 			<!-- TODO:いいね -->
-			<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-				<?php if ($bbsSetting['useLike']) : ?>
-					<!-- TODO:いいね数 -->
-					<a href="" class="inline-block glyphicon glyphicon-thumbs-up">99999<?php //echo $bbsPost['likesNum']; ?></a>
-				<?php endif; ?>
+			<?php if ($bbsSetting['useLike']) : ?>
+				<!-- TODO:いいね数 -->
+				<div class="inline-block text-success">
+					<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+						<a href="">
+					<?php endif; ?>
+
+						<span class="glyphicon glyphicon-thumbs-up"></span>
+						<?php echo (int)$bbsPost['bbsPost']['likeCounts']; ?>
+
+					<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+						</a>
+					<?php endif; ?>
+				</div>
 			<?php endif; ?>
 
-			<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-				<?php if ($bbsSetting['useUnlike']) : ?>
-					<!-- TODO:わるいね数 -->
-					<a href="" class="inline-block glyphicon glyphicon-thumbs-down">99999<?php //echo $bbsPost['unlikesNum']; ?></a>
-				<?php endif; ?>
+			<?php if ($bbsSetting['useUnlike']) : ?>
+				<!-- TODO:わるいね数 -->
+				<div class="inline-block text-success">
+					<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+						<a href="">
+					<?php endif; ?>
+
+						<span class="glyphicon glyphicon-thumbs-down"></span>
+						<?php echo (int)$bbsPost['bbsPost']['unlikeCounts']; ?>
+
+					<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+						</a>
+					<?php endif; ?>
+				</div>
 			<?php endif; ?>
 		</div>
 		<div class="col-xs-6 text-right">
@@ -78,9 +96,7 @@
 
 			<?php if ($bbsPost['bbsPost']['rootId'] > 0) : ?>
 				<?php echo $this->element('BbsPosts/comment_approving_link', array(
-						'status' => $bbsPost['bbsPostI18n']['status'],
-						'bbsPostId' => (int)$bbsPost['bbsPost']['id'],
-						'createUser' => (int)$bbsPost['trackableCreator']['id'],
+						'bbsPost' => $bbsPost,
 					)); ?>
 			<?php endif; ?>
 

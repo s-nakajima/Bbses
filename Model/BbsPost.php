@@ -37,6 +37,24 @@ class BbsPost extends BbsesAppModel {
 	public $validate = array();
 
 /**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'CreatedUser' => array(
+			'className' => 'Users.UserAttributesUser',
+			'foreignKey' => false,
+			'conditions' => array(
+				'BbsPost.created_user = CreatedUser.user_id',
+				'CreatedUser.key' => 'nickname'
+			),
+			'fields' => array('CreatedUser.key', 'CreatedUser.value'),
+			'order' => ''
+		)
+	);
+
+/**
  * hasMany associations
  *
  * @var array
@@ -47,6 +65,11 @@ class BbsPost extends BbsesAppModel {
 			'foreignKey' => 'bbs_post_id',
 			'limit' => 1,
 			'order' => 'BbsPostI18n.id DESC',
+			'dependent' => true,
+		),
+		'BbsPostsUser' => array(
+			'className' => 'Bbses.BbsPostsUser',
+			'foreignKey' => 'bbs_post_id',
 			'dependent' => true,
 		),
 	);
@@ -67,6 +90,8 @@ class BbsPost extends BbsesAppModel {
 				unset($results[$i]['BbsPostI18n'][0]);
 				$results[$i]['BbsPostI18n'] = $bbsPostI18n;
 			}
+			$results[$i]['BbsPost']['like_counts'] = 0;
+			$results[$i]['BbsPost']['unlike_counts'] = 0;
 		}
 
 		return $results;
@@ -160,6 +185,10 @@ class BbsPost extends BbsesAppModel {
 					// @codeCoverageIgnoreEnd
 				}
 			}
+
+			//コメント数の更新
+			$this->__updateCommentCounts($data['BbsPost']['root_id'], $data['BbsPostI18n']['status']);
+
 			//トランザクションCommit
 			$dataSource->commit();
 		} catch (Exception $ex) {
@@ -170,6 +199,75 @@ class BbsPost extends BbsesAppModel {
 			throw $ex;
 		}
 		return $bbsPost;
+	}
+
+/**
+ * save posts
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function saveCommentAsPublish($data) {
+		$this->setDataSource('master');
+		$this->loadModels([
+			'BbsPost' => 'Bbses.BbsPost',
+			'BbsPostI18n' => 'Bbses.BbsPostI18n',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+		try {
+			//BbsPost登録処理
+			$this->id = (int)$data['BbsPost']['id'];
+			if (! $this->saveField('last_status', $data['BbsPost']['last_status'], false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			//BbsPostI18n登録処理
+			$this->BbsPostI18n->id = (int)$data['BbsPostI18n']['id'];
+			if (! $this->BbsPostI18n->saveField('status', $data['BbsPostI18n']['status'], false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			//コメント数の更新
+			$this->__updateCommentCounts($data['BbsPost']['root_id'], $data['BbsPostI18n']['status']);
+
+			//トランザクションCommit
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			//エラー出力
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+		return true;
+	}
+
+/**
+ * Update published_comment_counts
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	private function __updateCommentCounts($rootId, $status, $increment = 1) {
+		if ((int)$rootId > 0 && (int)$status === (int)NetCommonsBlockComponent::STATUS_PUBLISHED) {
+			if (! $this->updateAll(
+					array('BbsPost.published_comment_counts' => 'BbsPost.published_comment_counts + (' . $increment . ')'),
+					array('BbsPost.id' => (int)$rootId)
+			)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+		}
 	}
 
 /**
@@ -197,6 +295,10 @@ class BbsPost extends BbsesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				// @codeCoverageIgnoreEnd
 			}
+
+			//コメント数の更新
+			$this->__updateCommentCounts($data['BbsPost']['root_id'], $data['BbsPost']['last_status'], -1);
+
 			//トランザクションCommit
 			$dataSource->commit();
 		} catch (Exception $ex) {

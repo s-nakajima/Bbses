@@ -327,36 +327,65 @@ class BbsPostsController extends BbsesAppController {
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost();
 
-		if ($this->request->isDelete()) {
-			if ($this->BbsPost->deleteBbsPost($this->data)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_posts/' .
-							($this->viewVars['currentBbsPost']['bbsPost']['parentId'] ? 'view' : 'index') . '/' .
-							$this->viewVars['frameId'] . '/' . $this->viewVars['currentBbsPost']['bbsPost']['parentId']);
-				}
-				return;
+		if (! $this->request->isDelete()) {
+			$this->_throwBadRequest();
+			return;
+		}
+		if (! $this->BbsPost->deleteBbsPost($this->data)) {
+			$this->_throwBadRequest();
+			return;
+		}
+		if (! $this->request->is('ajax')) {
+			$this->redirect('/bbses/bbs_posts/' .
+					($this->viewVars['currentBbsPost']['bbsPost']['parentId'] ? 'view' : 'index') . '/' .
+					$this->viewVars['frameId'] . '/' . $this->viewVars['currentBbsPost']['bbsPost']['parentId']);
+		}
+	}
+
+/**
+ * edit
+ *
+ * @param int $frameId frames.id
+ * @param int $bbsPostId bbsPosts.id
+ * @return void
+ */
+	public function approve($frameId = null, $bbsPostId = null) {
+		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+
+		$this->set('bbsPostId', (int)$bbsPostId);
+		$this->__initBbsPost();
+
+		if (! $this->request->isPost()) {
+			$this->_throwBadRequest();
+			return;
+		}
+		if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
+			$this->_throwBadRequest();
+			return;
+		}
+		if (! $this->viewVars['currentBbsPost']['bbsPost']['rootId']) {
+			$this->_throwBadRequest();
+			return;
+		}
+
+		$data = Hash::merge(
+			$this->data,
+			array('BbsPostI18n' => array('status' => $status)),
+			array('BbsPost' => array(
+				'last_status' => $status,
+				'root_id' => $this->viewVars['currentBbsPost']['bbsPost']['rootId']
+			))
+		);
+
+		$this->BbsPost->saveCommentAsPublish($data);
+		if ($this->handleValidationError($this->BbsPost->validationErrors)) {
+			if (! $this->request->is('ajax')) {
+				$this->redirect($this->request->referer());
 			}
+			return;
 		}
 
 		$this->_throwBadRequest();
-
-
-		//確認ダイアログ経由
-
-		//if (! $this->request->isPost()) {
-		//	return;
-		//}
-		//
-		//if ($this->BbsPost->delete($postId)) {
-		//	//記事一覧へリダイレクト
-		//	$this->redirect(array(
-		//			'controller' => 'bbses',
-		//			'action' => 'view',
-		//			$frameId,
-		//		));
-		//}
-		//
-		//throw new BadRequestException(__d('net_commons', 'Bad Request'));
 	}
 
 /**
@@ -501,110 +530,5 @@ class BbsPostsController extends BbsesAppController {
 	//	$backUrl = CakeSession::read('backUrl');
 	//	CakeSession::delete('backUrl');
 	//	$this->redirect($backUrl);
-	//}
-
-/**
- * __initPost method
- *
- * @return void
- */
-	//private function __initPost() {
-	//	//新規記事データセット
-	//	$bbsPosts = $this->BbsPost->create();
-	//
-	//	//新規の記事名称
-	//	$bbsPosts['BbsPost']['title'] = '新規記事_' . date('YmdHis');
-	//
-	//	$comments = $this->Comment->getComments(
-	//		array(
-	//			'plugin_key' => 'bbsPosts',
-	//			'content_key' => isset($bbsPosts['BbsPost']['key']) ? $bbsPosts['BbsPost']['key'] : null,
-	//		)
-	//	);
-	//	$results['comments'] = $comments;
-	//	$results = $this->camelizeKeyRecursive($results);
-	//	$results['bbsPosts'] = $bbsPosts['BbsPost'];
-	//	$results['contentStatus'] = null;
-	//	$this->set($results);
-	//}
-
-/**
- * __setPost method
- *
- * @param int $postId bbsPosts.id
- * @throws BadRequestException
- * @return void
- */
-	//private function __setPost($postId) {
-	//	$conditions['bbs_key'] = $this->viewVars['bbses']['key'];
-	//	$conditions['id'] = $postId;
-	//
-	//	if (! $bbsPosts = $this->BbsPost->getOnePosts(
-	//			$this->viewVars['userId'],
-	//			$this->viewVars['contentEditable'],
-	//			$this->viewVars['contentCreatable'],
-	//			$conditions
-	//	)) {
-	//		throw new BadRequestException(__d('net_commons', 'Bad Request'));
-	//
-	//	}
-	//
-	//	//評価を取得
-	//	$likes = $this->BbsPostsUser->getLikes(
-	//				$bbsPosts['BbsPost']['id'],
-	//				$this->viewVars['userId']
-	//			);
-	//
-	//	//取得した記事の作成者IDからユーザ情報を取得
-	//	$user = $this->User->find('first', array(
-	//			'recursive' => -1,
-	//			'conditions' => array(
-	//				'id' => $bbsPosts['BbsPost']['created_user'],
-	//			)
-	//		)
-	//	);
-	//
-	//	$comments = $this->Comment->getComments(
-	//		array(
-	//			'plugin_key' => 'bbsPosts',
-	//			'content_key' => isset($bbsPosts['BbsPost']['key']) ? $bbsPosts['BbsPost']['key'] : null,
-	//		)
-	//	);
-	//	$results['comments'] = $comments;
-	//	$results = $this->camelizeKeyRecursive($results);
-	//	$results['bbsPosts'] = $bbsPosts['BbsPost'];
-	//	$results['contentStatus'] = $bbsPosts['BbsPost']['status'];
-	//
-	//	//ユーザ名、ID、評価をセット
-	//	$results['bbsPosts']['username'] = $user['User']['username'];
-	//	$results['bbsPosts']['userId'] = $user['User']['id'];
-	//	$results['bbsPosts']['likesNum'] = $likes['likesNum'];
-	//	$results['bbsPosts']['unlikesNum'] = $likes['unlikesNum'];
-	//	$results['bbsPosts']['likesFlag'] = $likes['likesFlag'];
-	//	$results['bbsPosts']['unlikesFlag'] = $likes['unlikesFlag'];
-	//	$this->set($results);
-	//}
-
-/**
- * __saveReadStatus method
- *
- * @param int $postId bbsPosts.id
- * @return void
- */
-	//private function __saveReadStatus($postId) {
-	//	//既読情報がなければデータ登録
-	//	if (! $this->BbsPostsUser->getPostsUsers(
-	//			$postId,
-	//			$this->viewVars['userId']
-	//	)) {
-	//		$default = $this->BbsPostsUser->create();
-	//		$default['BbsPostsUser'] = array(
-	//					'post_id' => $postId,
-	//					'user_id' => $this->viewVars['userId'],
-	//					'likes_flag' => false,
-	//					'unlikes_flag' => false,
-	//			);
-	//		$this->BbsPostsUser->savePostsUsers($default);
-	//	}
 	//}
 }

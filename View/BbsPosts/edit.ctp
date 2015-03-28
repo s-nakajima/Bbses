@@ -61,6 +61,14 @@
 							'value' => isset($bbsPost['id']) ? $bbsPost['id'] : null,
 						)); ?>
 
+					<?php echo $this->Form->hidden('BbsPost.root_id', array(
+							'value' => isset($bbsPost['rootId']) ? $bbsPost['rootId'] : null,
+						)); ?>
+
+					<?php echo $this->Form->hidden('BbsPost.last_status', array(
+							'value' => isset($bbsPost['lastStatus']) ? $bbsPost['lastStatus'] : null,
+						)); ?>
+
 					<?php echo $this->Form->hidden('BbsPost.key', array(
 							'value' => isset($bbsPost['key']) ? $bbsPost['key'] : null,
 						)); ?>

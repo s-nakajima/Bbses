@@ -20,9 +20,11 @@
 			$status !== NetCommonsBlockComponent::STATUS_PUBLISHED &&
 				$createUser === $userId)): ?>
 
-	<a href="<?php echo $this->Html->url('/bbses/bbs_posts/edit/' . $frameId . '/' . $bbsPostId); ?>"
-		class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
+	<div class="inline-block-left">
+		<a href="<?php echo $this->Html->url('/bbses/bbs_posts/edit/' . $frameId . '/' . $bbsPostId); ?>"
+			class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
 
-		<span class="glyphicon glyphicon-edit"> </span>
-	</a>
+			<span class="glyphicon glyphicon-edit"> </span>
+		</a>
+	</div>
 <?php endif;

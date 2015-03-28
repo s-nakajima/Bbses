@@ -54,14 +54,15 @@
 			<?php echo $this->element('BbsPosts/index_bbs_post', array('bbsPost' => $bbsPost)); ?>
 		<?php endforeach; ?>
 	</table>
-<?php endif; ?>
+	<div class="text-center">
+		<?php echo $this->element('paginator', array(
+				'url' => Hash::merge(
+					array('controller' => 'bbs_posts', 'action' => 'index', $frameId),
+					$this->Paginator->params['named']
+				)
+			)); ?>
+	</div>
 
-<div class="text-center">
-	<?php echo $this->element('paginator', array(
-			'url' => Hash::merge(
-				array('controller' => 'bbs_posts', 'action' => 'index', $frameId),
-				$this->Paginator->params['named']
-			)
-		)); ?>
-</div>
-
+<?php else : ?>
+	<?php echo __d('bbses', 'No article found.') ?>
+<?php endif;
