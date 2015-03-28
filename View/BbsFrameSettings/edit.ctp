@@ -10,9 +10,7 @@
  */
 ?>
 
-<div class="modal-header">
-	<?php echo __d('bbses', 'Plugin name'); ?>
-</div>
+<?php echo $this->element('edit_header'); ?>
 
 <div class="modal-body">
 	<?php echo $this->element('setting_form_tab', array('active' => 'bbs_frame_setting')); ?>

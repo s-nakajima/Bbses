@@ -12,9 +12,7 @@
 
 <?php echo $this->Html->script('/bbses/js/bbses.js', false); ?>
 
-<div class="modal-header">
-	<?php echo __d('bbses', 'Plugin name'); ?>
-</div>
+<?php echo $this->element('edit_header'); ?>
 
 <div class="modal-body">
 	<?php echo $this->element('setting_form_tab', array('active' => 'block_index')); ?>
@@ -27,6 +25,7 @@
 				'novalidate' => true,
 				'ng-controller' => 'Bbses'
 			)); ?>
+
 
 			<div class="panel panel-default">
 				<div class="panel-body has-feedback">

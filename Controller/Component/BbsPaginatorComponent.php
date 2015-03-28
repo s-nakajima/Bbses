@@ -47,6 +47,7 @@ class BbsPaginatorComponent extends Component {
  */
 	public function rootBbsPosts() {
 		try {
+			//言語の指定
 			$this->controller->BbsPost->bindModel(array('hasMany' => array(
 					'BbsPostI18n' => array(
 						'foreignKey' => 'bbs_post_id',
@@ -59,25 +60,29 @@ class BbsPaginatorComponent extends Component {
 				)),
 				false
 			);
-
+			//条件
 			$conditions = array(
 				'BbsPost.bbs_key' => $this->controller->viewVars['bbs']['key'],
 				'BbsPost.parent_id' => null,
 			);
-
 			if (isset($this->controller->params['named']['status'])) {
 				$conditions['BbsPost.last_status'] = (int)$this->controller->params['named']['status'];
 			}
-
+			//ソート
+			if (isset($this->controller->params['named']['sort']) && isset($this->controller->params['named']['direction'])) {
+				$order = array($this->controller->params['named']['sort'] => $this->controller->params['named']['direction']);
+			} else {
+				$order = array('BbsPost.created' => 'desc');
+			}
+			//表示件数
+			if (isset($this->controller->params['named']['limit'])) {
+				$limit = (int)$this->controller->params['named']['limit'];
+			} else {
+				$limit = (int)$this->controller->viewVars['bbsFrameSetting']['postsPerPage'];
+			}
+			//Paginatorの設定
 			$this->Paginator->settings = array(
-				'BbsPost' => array(
-					'conditions' => $conditions,
-					'order' => isset($this->controller->params['named']['sort']) && isset($this->controller->params['named']['direction']) ?
-									array($this->controller->params['named']['sort'] => $this->controller->params['named']['direction']) : array('BbsPost.created' => 'desc'),
-					//'limit' => 1,
-					'limit' => isset($this->controller->params['named']['limit']) ?
-									(int)$this->controller->params['named']['limit'] : $this->controller->viewVars['bbsFrameSetting']['postsPerPage']
-				)
+				'BbsPost' => array('conditions' => $conditions, 'order' => $order, 'limit' => $limit)
 			);
 			return $this->Paginator->paginate('BbsPost');
 

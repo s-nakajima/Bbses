@@ -52,47 +52,6 @@ class BbsPost extends BbsesAppModel {
 	);
 
 /**
- * belongsTo associations
- *
- * @var array
- */
-//	public $belongsTo = array(
-//		'Comment' => array(
-//			'className' => 'Comments.Comment',
-//			'foreignKey' => false,
-//			'conditions' => array('Comment.plugin_key' => 'bbspost', 'BbsPost.key = Comment.content_key'),
-//			'fields' => '',
-//			'order' => 'Comment.id DESC',
-//			'dependent' => true,
-//		),
-//		'Plugin' => array(
-//			'className' => 'Plugin',
-//			'foreignKey' => false,
-//			'conditions' => array('PluginsRole.plugin_key = Plugin.key'),
-//			'fields' => '',
-//			'order' => ''
-//		),
-//	);
-
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-	//public $hasAndBelongsToMany = array(
-	//	'Comment' => array(
-	//		'className' => 'Comments.Comment',
-	//		'joinTable' => 'Bbses.BbsPost',
-	//		'foreignKey' => 'id',
-	//		//'foreignKey'
-	//		'associationForeignKey' => false,
-	//		'conditions' => array('Comment.plugin_key' => 'bbspost', 'BbsPost.key = Comment.content_key'),
-	//		'order' => 'Comment.id DESC',
-	//		'dependent' => true,
-	//	),
-	//);
-
-/**
  * Called after each find operation. Can be used to modify any results returned by find().
  * Return value should be the (modified) results.
  *

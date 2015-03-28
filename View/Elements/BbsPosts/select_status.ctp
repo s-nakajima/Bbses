@@ -34,11 +34,11 @@ $options = array(
 		'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT,
 	),
 	'BbsPost.last_status_' . NetCommonsBlockComponent::STATUS_APPROVED => array(
-		'label' => __d('bbses', 'Approving'),
+		'label' => __d('net_commons', 'Approving'),
 		'status' => NetCommonsBlockComponent::STATUS_APPROVED,
 	),
 	'BbsPost.last_status_' . NetCommonsBlockComponent::STATUS_DISAPPROVED => array(
-		'label' => __d('bbses', 'Remand'),
+		'label' => __d('net_commons', 'Disapproving'),
 		'status' => NetCommonsBlockComponent::STATUS_DISAPPROVED,
 	),
 );

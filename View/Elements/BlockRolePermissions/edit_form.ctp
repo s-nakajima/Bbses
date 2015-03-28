@@ -10,31 +10,117 @@
  */
 ?>
 
-<?php echo $this->element('BlockRolePermissions/block_role_permission', array(
-		'permission' => 'bbs_post_creatable',
-		'label' => __d('bbses', 'Post creatable authority'),
-		'defaultPermission' => $defaultPermissions['bbsPostCreatable'],
-		'blockPermission' => isset($blockPermissions['bbsPostCreatable']) ? $blockPermissions['bbsPostCreatable'] : null
+<?php echo $this->Form->hidden('BbsSetting.id', array(
+		'value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null,
 	)); ?>
 
-<?php echo $this->element('BlockRolePermissions/block_role_permission', array(
-		'permission' => 'bbs_post_publishable',
-		'label' => __d('bbses', 'Post publishable authority'),
-		'defaultPermission' => $defaultPermissions['bbsPostPublishable'],
-		'blockPermission' => isset($blockPermissions['bbsPostPublishable']) ? $blockPermissions['bbsPostPublishable'] : null
-	)); ?>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<?php echo __d('bbses', 'Posts') ?>
+	</div>
 
-<?php echo $this->element('BlockRolePermissions/block_role_permission', array(
-		'permission' => 'bbs_comment_creatable',
-		'label' => __d('bbses', 'Comment creatable authority'),
-		'defaultPermission' => $defaultPermissions['bbsCommentCreatable'],
-		'blockPermission' => isset($blockPermissions['bbsCommentCreatable']) ? $blockPermissions['bbsCommentCreatable'] : null
-	)); ?>
+	<div class="panel-body has-feedback">
+		<div class="row form-group">
+			<div class="col-xs-12">
+				<strong><?php echo __d('bbses', 'Post creatable authority'); ?></strong>
+			</div>
+			<div class="col-xs-12">
+				<?php echo $this->element('BlockRolePermissions/block_role_permission', array(
+						'permission' => 'bbs_post_creatable',
+						'defaultPermission' => $defaultPermissions['bbsPostCreatable'],
+						'blockPermission' => isset($blockPermissions['bbsPostCreatable']) ? $blockPermissions['bbsPostCreatable'] : null
+					)); ?>
+			</div>
+		</div>
 
-<?php echo $this->element('BlockRolePermissions/block_role_permission', array(
-		'permission' => 'bbs_comment_publishable',
-		'label' => __d('bbses', 'Comment publishable authority'),
-		'defaultPermission' => $defaultPermissions['bbsCommentPublishable'],
-		'blockPermission' => isset($blockPermissions['bbsCommentPublishable']) ? $blockPermissions['bbsCommentPublishable'] : null
-	));
+		<div class="row form-group">
+			<div class="col-xs-12">
+				<strong><?php echo __d('bbses', 'Approval'); ?></strong>
+			</div>
+			<div class="col-xs-12">
+				<?php
+					$options = array(
+						'0' => __d('blocks', 'Unused'),
+						'1' => __d('blocks', 'Use')
+					);
+					echo $this->Form->radio('BbsSetting.use_post_approval', $options, array(
+							'value' => (int)$bbsSetting['usePostApproval'],
+							'legend' => false,
+							'separator' => '<span class="inline-block"></span>',
+						));
+				?>
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-xs-offset-1 col-xs-11">
+				<strong><?php echo __d('bbses', 'Post publishable authority'); ?></strong>
+			</div>
+
+			<div class="col-xs-offset-1 col-xs-11">
+				<?php echo $this->element('BlockRolePermissions/block_role_permission', array(
+						'permission' => 'bbs_post_publishable',
+						'defaultPermission' => $defaultPermissions['bbsPostPublishable'],
+						'blockPermission' => isset($blockPermissions['bbsPostPublishable']) ? $blockPermissions['bbsPostPublishable'] : null
+					)); ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<?php echo __d('bbses', 'Comments') ?>
+	</div>
+
+	<div class="panel-body has-feedback">
+		<div class="row form-group">
+			<div class="col-xs-12">
+				<strong><?php echo __d('bbses', 'Comment creatable authority'); ?></strong>
+			</div>
+			<div class="col-xs-12">
+				<?php echo $this->element('BlockRolePermissions/block_role_permission', array(
+						'permission' => 'bbs_comment_creatable',
+						'defaultPermission' => $defaultPermissions['bbsCommentCreatable'],
+						'blockPermission' => isset($blockPermissions['bbsCommentCreatable']) ? $blockPermissions['bbsCommentCreatable'] : null
+					)); ?>
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-xs-12">
+				<strong><?php echo __d('bbses', 'Approval'); ?></strong>
+			</div>
+			<div class="col-xs-12">
+				<?php
+					$options = array(
+						'0' => __d('blocks', 'Unused'),
+						'1' => __d('blocks', 'Use')
+					);
+					echo $this->Form->radio('BbsSetting.use_comment_approval', $options, array(
+							'value' => (int)$bbsSetting['useCommentApproval'],
+							'legend' => false,
+							'separator' => '<span class="inline-block"></span>',
+						));
+				?>
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-xs-offset-1 col-xs-11">
+				<strong><?php echo __d('bbses', 'Comment publishable authority'); ?></strong>
+			</div>
+			<div class="col-xs-offset-1 col-xs-11">
+				<?php echo $this->element('BlockRolePermissions/block_role_permission', array(
+						'permission' => 'bbs_comment_publishable',
+						'defaultPermission' => $defaultPermissions['bbsCommentPublishable'],
+						'blockPermission' => isset($blockPermissions['bbsCommentPublishable']) ? $blockPermissions['bbsCommentPublishable'] : null
+					)); ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 

@@ -56,6 +56,19 @@
 	<div class="row">
 		<div class="col-xs-6">
 			<!-- TODO:いいね -->
+			<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+				<?php if ($bbsSetting['useLike']) : ?>
+					<!-- TODO:いいね数 -->
+					<a href="" class="inline-block glyphicon glyphicon-thumbs-up">99999<?php //echo $bbsPost['likesNum']; ?></a>
+				<?php endif; ?>
+			<?php endif; ?>
+
+			<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+				<?php if ($bbsSetting['useUnlike']) : ?>
+					<!-- TODO:わるいね数 -->
+					<a href="" class="inline-block glyphicon glyphicon-thumbs-down">99999<?php //echo $bbsPost['unlikesNum']; ?></a>
+				<?php endif; ?>
+			<?php endif; ?>
 		</div>
 		<div class="col-xs-6 text-right">
 			<?php echo $this->element('BbsPosts/reply_link', array(

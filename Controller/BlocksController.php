@@ -164,7 +164,7 @@ class BlocksController extends BbsesAppController {
 		$data = Hash::merge($bbs, $bbsSetting, $block);
 
 		if ($this->request->isPost()) {
-			$data = $this->data;
+			$data = $this->__parseRequestData();
 
 			if (! isset($this->viewVars['bbsFrameSetting']['id'])) {
 				$bbsFrameSetting = $this->BbsFrameSetting->create(
@@ -202,9 +202,9 @@ class BlocksController extends BbsesAppController {
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
 
 		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->Bbs->saveBbs($data);
+			$data = $this->__parseRequestData();
 
+			$this->Bbs->saveBbs($data);
 			if ($this->handleValidationError($this->Bbs->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
@@ -239,6 +239,23 @@ class BlocksController extends BbsesAppController {
 		}
 
 		$this->_throwBadRequest();
+	}
+
+/**
+ * Parse data from request
+ *
+ * @return array
+ */
+	private function __parseRequestData() {
+		$data = $this->data;
+		if ($data['Block']['public_type'] === '2') {
+			//$data['Block']['from'] = implode('-', $data['Block']['from']);
+			//$data['Block']['to'] = implode('-', $data['Block']['to']);
+		} else {
+			unset($data['Block']['from'], $data['Block']['to']);
+		}
+
+		return $data;
 	}
 
 }

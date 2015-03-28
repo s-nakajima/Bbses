@@ -27,6 +27,8 @@ class BlockRolePermissionsController extends BbsesAppController {
 	public $uses = array(
 		'Roles.Role',
 		'Roles.DefaultRolePermission',
+		'Bbses.Bbs',
+		'Bbses.BbsSetting',
 		'Blocks.Block',
 		'Blocks.BlockRolePermission',
 		'Rooms.RolesRoom',
@@ -60,15 +62,16 @@ class BlockRolePermissionsController extends BbsesAppController {
 /**
  * edit
  *
- * @param int $frameId frames.id
- * @param int $blockId posts.id
  * @return void
  */
-	public function edit($frameId = null, $blockId = null) {
+	public function edit() {
+		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+		$this->initBbs(['bbs', 'bbsSetting']);
+
 		if (! $block = $this->Block->find('first', array(
 			'recursive' => -1,
 			'conditions' => array(
-				'Block.id' => $blockId,
+				'Block.id' => $this->viewVars['blockId'],
 			),
 		))) {
 			$this->_throwBadRequest();
@@ -123,8 +126,8 @@ class BlockRolePermissionsController extends BbsesAppController {
 		if ($this->request->isPost()) {
 			$data = $this->data;
 
-			$this->BlockRolePermission->saveBlockRolePermissions($data);
-			if ($this->handleValidationError($this->BlockRolePermission->validationErrors)) {
+			$this->BbsSetting->saveBbsSetting($data);
+			if ($this->handleValidationError($this->BbsSetting->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
 				}
@@ -137,6 +140,7 @@ class BlockRolePermissionsController extends BbsesAppController {
 			'defaultPermissions' => $defaultPermissions,
 			'roles' => $roles,
 			'rolesRooms' => $rolesRooms,
+			'current' => $this->current,
 		);
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);

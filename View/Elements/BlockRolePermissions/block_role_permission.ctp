@@ -11,57 +11,49 @@
 ?>
 
 <?php if ($defaultPermission) : ?>
-	<div class="row form-group">
-		<div class="col-xs-12">
-			<strong><?php echo h($label); ?></strong>
-		</div>
+	<?php foreach ($roles as $key => $role) : ?>
+		<?php if (isset($defaultPermission[$key]) && isset($rolesRooms[$key])) : ?>
+			<div class="inline-block">
+				<?php
+					$name = 'BlockRolePermission.' . $permission . '.' . $key;
+					$rolesRoomId = isset($rolesRooms[$key]) ? (int)$rolesRooms[$key]['id'] : null;
 
-		<div class="col-xs-offset-1 col-xs-11">
-			<?php foreach ($roles as $key => $role) : ?>
-				<?php if (isset($defaultPermission[$key]) && isset($rolesRooms[$key])) : ?>
-					<div class="inline-block">
-						<?php
-							$name = 'BlockRolePermission.' . $permission . '.' . $key;
-							$rolesRoomId = isset($rolesRooms[$key]) ? (int)$rolesRooms[$key]['id'] : null;
+					if (! $defaultPermission[$key]['fixed']) {
+						echo $this->Form->checkbox($name . '.value', array(
+								'div' => false,
+								'checked' => isset($blockPermission[$rolesRoomId]) ?
+												(int)$blockPermission[$rolesRoomId]['value'] : (int)$defaultPermission[$key]['value'],
+							));
 
-							if (! $defaultPermission[$key]['fixed']) {
-								echo $this->Form->checkbox($name . '.value', array(
-										'div' => false,
-										'checked' => isset($blockPermission[$rolesRoomId]) ?
-														(int)$blockPermission[$rolesRoomId]['value'] : (int)$defaultPermission[$key]['value'],
-									));
+						echo $this->Form->label($name . '.value', h($role['name']));
 
-								echo $this->Form->label($name . '.value', h($role['name']));
+						echo $this->Form->hidden($name . '.id', array(
+								'value' => isset($blockPermission[$rolesRoomId]) ? $blockPermission[$rolesRoomId]['id'] : null,
+							));
 
-								echo $this->Form->hidden($name . '.id', array(
-										'value' => isset($blockPermission[$rolesRoomId]) ? $blockPermission[$rolesRoomId]['id'] : null,
-									));
+						echo $this->Form->hidden($name . '.roles_room_id', array(
+								'value' => $rolesRoomId,
+							));
 
-								echo $this->Form->hidden($name . '.roles_room_id', array(
-										'value' => $rolesRoomId,
-									));
+						echo $this->Form->hidden($name . '.block_key', array(
+								'value' => $blockKey,
+							));
 
-								echo $this->Form->hidden($name . '.block_key', array(
-										'value' => $blockKey,
-									));
+						echo $this->Form->hidden($name . '.permission', array(
+								'value' => $permission,
+							));
+					}
+					if ($defaultPermission[$key]['fixed'] && $defaultPermission[$key]['value']) {
+						echo $this->Form->checkbox($name . '.value', array(
+								'div' => false,
+								'disabled' => true,
+								'checked' => (int)$defaultPermission[$key]['value']
+							));
 
-								echo $this->Form->hidden($name . '.permission', array(
-										'value' => $permission,
-									));
-							}
-							if ($defaultPermission[$key]['fixed'] && $defaultPermission[$key]['value']) {
-								echo $this->Form->checkbox($name . '.value', array(
-										'div' => false,
-										'disabled' => true,
-										'checked' => (int)$defaultPermission[$key]['value']
-									));
-
-								echo $this->Form->label('', h($role['name']));
-							}
-						?>
-					</div>
-				<?php endif; ?>
-			<?php endforeach; ?>
-		</div>
-	</div>
+						echo $this->Form->label('', h($role['name']));
+					}
+				?>
+			</div>
+		<?php endif; ?>
+	<?php endforeach; ?>
 <?php endif;

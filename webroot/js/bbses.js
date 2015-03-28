@@ -3,7 +3,6 @@
  * @author nakajimashouhei@gmail.com (Shohei Nakajima)
  */
 
-
 /**
  * Bbses Javascript
  *
@@ -18,6 +17,27 @@ NetCommonsApp.controller('Bbses', function($scope) {
    * @type {object}
    */
   $scope.dangerZone = false;
+
+  /**
+   * initialize
+   *
+   * @return {void}
+   */
+  $scope.initialize = function() {
+//    var blockFrom = $('#BlockFrom');
+//    if (blockFrom) {
+//      blockFrom.datepicker({
+//        language: "ja"
+//      });
+//    }
+//
+//    var blockTo = $('#BlockTo');
+//    if (blockTo) {
+//      blockTo.datepicker({
+//        language: "ja"
+//      });
+//    }
+  };
 
   /**
    * Use like button

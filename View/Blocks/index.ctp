@@ -10,15 +10,17 @@
  */
 ?>
 
-<div class="modal-header">
-	<?php echo __d('bbses', 'Plugin name'); ?>
-</div>
+<?php echo $this->element('edit_header'); ?>
 
 <div class="modal-body">
 	<?php echo $this->element('setting_form_tab', array('active' => 'block_index')); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks/header_button'); ?>
+		<div class="text-right">
+			<a class="btn btn-success" href="<?php echo $this->Html->url('/bbses/blocks/add/' . $frameId);?>">
+				<span class="glyphicon glyphicon-plus"> </span>
+			</a>
+		</div>
 
 		<div id="nc-bbs-setting-<?php echo $frameId; ?>">
 			<?php echo $this->Form->create('', array(
