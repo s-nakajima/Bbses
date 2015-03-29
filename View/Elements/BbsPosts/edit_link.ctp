@@ -8,11 +8,12 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+//公開権限があれば編集／削除できる
+//もしくは　編集権限があり、公開されていなければ、編集／削除できる
+//もしくは 作成権限があり、自分の書いた記事で、公開されていなければ、編集／削除できる
 ?>
 
-<!-- TODO:公開権限があれば編集／削除できる -->
-<!-- もしくは　編集権限があり、公開されていなければ、編集／削除できる -->
-<!-- もしくは 作成権限があり、自分の書いた記事で、公開されていなければ、編集／削除できる -->
 <?php if ($contentPublishable ||
 		($contentEditable &&
 			$status !== NetCommonsBlockComponent::STATUS_PUBLISHED) ||

@@ -50,12 +50,28 @@
 		'value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null,
 	)); ?>
 
-<?php echo $this->element('input_text_field', array(
-			'model' => 'Bbs',
-			'field' => 'name',
-			'label' => __d('bbses', 'Bbs name') . $this->element('NetCommons.required'),
-		)
-	); ?>
+<div class="row form-group">
+	<div class="col-xs-12">
+		<?php echo $this->Form->input(
+				'Bbs.name', array(
+					'type' => 'text',
+					'label' => __d('bbses', 'Bbs name') . $this->element('NetCommons.required'),
+					'error' => false,
+					'class' => 'form-control',
+					'value' => (isset($bbs['name']) ? $bbs['name'] : '')
+				)
+			); ?>
+	</div>
+
+	<div class="col-xs-12">
+		<?php echo $this->element(
+			'NetCommons.errors', [
+				'errors' => $this->validationErrors,
+				'model' => 'Bbs',
+				'field' => 'name',
+			]); ?>
+	</div>
+</div>
 
 <div class="row form-group">
 	<div class="col-xs-12">
@@ -104,7 +120,6 @@
 		</div>
 	</div>
 </div>
-
 
 <div class="row form-group">
 	<div class="col-xs-12">

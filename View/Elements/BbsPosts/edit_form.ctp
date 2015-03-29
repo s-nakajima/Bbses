@@ -46,12 +46,28 @@
 		'value' => $languageId,
 	)); ?>
 
-<?php echo $this->element('input_text_field', array(
-			'model' => 'BbsPostI18n',
-			'field' => 'title',
-			'label' => __d('bbses', 'Title') . $this->element('NetCommons.required'),
-		)
-	); ?>
+<div class="row form-group">
+	<div class="col-xs-12">
+		<?php echo $this->Form->input(
+				'BbsPostI18n.title', array(
+					'type' => 'text',
+					'label' => __d('bbses', 'Title') . $this->element('NetCommons.required'),
+					'error' => false,
+					'class' => 'form-control',
+					'value' => (isset($bbsPostI18n['title']) ? $bbsPostI18n['title'] : '')
+				)
+			); ?>
+	</div>
+
+	<div class="col-xs-12">
+		<?php echo $this->element(
+			'NetCommons.errors', [
+				'errors' => $this->validationErrors,
+				'model' => 'BbsPostI18n',
+				'field' => 'title',
+			]); ?>
+	</div>
+</div>
 
 <div class="row form-group">
 	<div class="col-xs-12">
@@ -72,7 +88,7 @@
 	</div>
 	<div class="col-xs-12">
 		<?php echo $this->element(
-			'errors', [
+			'NetCommons.errors', [
 				'errors' => $this->validationErrors,
 				'model' => 'BbsPostI18n',
 				'field' => 'content',
