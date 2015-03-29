@@ -75,15 +75,15 @@
 
 <div class="row form-group">
 	<div class="col-xs-12">
-		<?php echo $this->Form->label('Block.public_type', __d('blocks', 'Publishing setting')); ?>
+		<?php echo $this->Form->label('Block.public_type', __d('bbses', 'Publishing setting')); ?>
 	</div>
 
 	<div class="col-xs-offset-1 col-xs-11">
 		<?php
 			$options = array(
-				'0' => __d('blocks', 'No display'),
-				'1' => __d('blocks', 'Display'),
-				'2' => __d('blocks', 'Limited Public'),
+				'0' => __d('bbses', 'No display'),
+				'1' => __d('bbses', 'Display'),
+				'2' => __d('bbses', 'Limited Public'),
 			);
 
 			echo $this->Form->radio('Block.public_type', $options, array(

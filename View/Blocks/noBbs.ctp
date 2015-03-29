@@ -23,7 +23,7 @@
 		</div>
 
 		<div class="text-left">
-			<?php echo __d('bbses', 'Not found BBS'); ?>
+			<?php echo __d('bbses', 'Not found bbs.'); ?>
 		</div>
 	</div>
 

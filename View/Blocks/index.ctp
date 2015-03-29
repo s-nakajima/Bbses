@@ -36,13 +36,13 @@
 						<tr>
 							<th>#</th>
 							<th>
-								<?php echo $this->Paginator->sort('Bbs.name', __d('blocks', 'Name')); ?>
+								<?php echo $this->Paginator->sort('Bbs.name', __d('bbses', 'Bbs name')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Public Type')); ?>
+								<?php echo $this->Paginator->sort('Block.public_type', __d('bbses', 'Public Type')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Bbs.modified', __d('net_commons', 'Updated Date')); ?>
+								<?php echo $this->Paginator->sort('Bbs.modified', __d('bbses', 'Updated Date')); ?>
 							</th>
 						</tr>
 					</thead>
@@ -70,11 +70,11 @@
 								</td>
 								<td>
 									<?php if ($bbs['block']['publicType'] === '0') : ?>
-										<?php echo __d('blocks', 'Private'); ?>
+										<?php echo __d('bbses', 'Private'); ?>
 									<?php elseif ($bbs['block']['publicType'] === '1') : ?>
-										<?php echo __d('blocks', 'Public'); ?>
+										<?php echo __d('bbses', 'Public'); ?>
 									<?php elseif ($bbs['block']['publicType'] === '2') : ?>
-										<?php echo __d('blocks', 'Limited Public'); ?>
+										<?php echo __d('bbses', 'Limited Public'); ?>
 									<?php endif; ?>
 								</td>
 								<td>

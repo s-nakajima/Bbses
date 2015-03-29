@@ -40,8 +40,8 @@
 			<div class="col-xs-12">
 				<?php
 					$options = array(
-						'0' => __d('blocks', 'Unused'),
-						'1' => __d('blocks', 'Use')
+						'0' => __d('bbses', 'Unused'),
+						'1' => __d('bbses', 'Use')
 					);
 					echo $this->Form->radio('BbsSetting.use_post_approval', $options, array(
 							'value' => (int)$bbsSetting['usePostApproval'],
@@ -94,8 +94,8 @@
 			<div class="col-xs-12">
 				<?php
 					$options = array(
-						'0' => __d('blocks', 'Unused'),
-						'1' => __d('blocks', 'Use')
+						'0' => __d('bbses', 'Unused'),
+						'1' => __d('bbses', 'Use')
 					);
 					echo $this->Form->radio('BbsSetting.use_comment_approval', $options, array(
 							'value' => (int)$bbsSetting['useCommentApproval'],

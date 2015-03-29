@@ -52,7 +52,7 @@
 						</accordion-heading>
 
 						<div class="inline-block">
-							<?php echo __d('bbses', 'Delete all data associated with the %s.', 'BBS'); ?>
+							<?php echo sprintf(__d('bbses', 'Delete all data associated with the %s.'), __d('bbses', 'BBS')); ?>
 						</div>
 
 						<?php echo $this->Form->hidden('Block.id', array(
@@ -70,7 +70,7 @@
 						<?php echo $this->Form->button(__d('net_commons', 'Delete'), array(
 								'name' => 'delete',
 								'class' => 'btn btn-danger pull-right',
-								'onclick' => 'return confirm(\'' . __d('bbses', 'Deleting the %s. Are you sure to proceed?', 'BBS') . '\')'
+								'onclick' => 'return confirm(\'' . sprintf(__d('bbses', 'Deleting the %s. Are you sure to proceed?'), __d('bbses', 'BBS')) . '\')'
 							)); ?>
 					</accordion-group>
 				</accordion>
