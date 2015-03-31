@@ -249,6 +249,8 @@ class BbsPostsController extends BbsesAppController {
 				['BbsPost' => ['last_status' => $status]]
 			);
 
+			$this->BbsPost->setDataSource('master');
+
 			$data['BbsPost']['post_no'] = $this->BbsPost->getMaxNo($rootPostId) + 1;
 			$data['BbsPost']['key'] = Security::hash('bbs_post' . mt_rand() . microtime(), 'md5');
 			unset($data['BbsPost']['id']);
@@ -305,6 +307,7 @@ class BbsPostsController extends BbsesAppController {
 				unset($data['BbsPostI18n']['id']);
 			}
 
+			$this->BbsPost->setDataSource('master');
 			$bbsPost = $this->BbsPost->saveBbsPost($data);
 			if ($this->handleValidationError($this->BbsPost->validationErrors)) {
 				if (! $this->request->is('ajax')) {
@@ -382,6 +385,7 @@ class BbsPostsController extends BbsesAppController {
 			))
 		);
 
+		$this->BbsPost->setDataSource('master');
 		$this->BbsPost->saveCommentAsPublish($data);
 		if ($this->handleValidationError($this->BbsPost->validationErrors)) {
 			if (! $this->request->is('ajax')) {

@@ -126,6 +126,7 @@ class BlockRolePermissionsController extends BbsesAppController {
 		if ($this->request->isPost()) {
 			$data = $this->data;
 
+			$this->BbsSetting->setDataSource('master');
 			$this->BbsSetting->saveBbsSetting($data);
 			if ($this->handleValidationError($this->BbsSetting->validationErrors)) {
 				if (! $this->request->is('ajax')) {

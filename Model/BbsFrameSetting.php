@@ -87,7 +87,6 @@ class BbsFrameSetting extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function saveBbsFrameSetting($data) {
-		//$this->setDataSource('master');
 		$this->loadModels([
 			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
 		]);

@@ -118,6 +118,7 @@ class BlocksController extends BbsesAppController {
 			return;
 		}
 
+		$this->Frame->setDataSource('master');
 		$frame = $this->Frame->find('first', array(
 			'recursive' => -1,
 			'conditions' => array(

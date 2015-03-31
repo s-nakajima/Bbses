@@ -134,7 +134,6 @@ class BbsPost extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function saveBbsPost($data) {
-		$this->setDataSource('master');
 		$this->loadModels([
 			'BbsPost' => 'Bbses.BbsPost',
 			'BbsPostI18n' => 'Bbses.BbsPostI18n',
@@ -209,7 +208,6 @@ class BbsPost extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function saveCommentAsPublish($data) {
-		$this->setDataSource('master');
 		$this->loadModels([
 			'BbsPost' => 'Bbses.BbsPost',
 			'BbsPostI18n' => 'Bbses.BbsPostI18n',
@@ -278,7 +276,6 @@ class BbsPost extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function deleteBbsPost($data) {
-		$this->setDataSource('master');
 		$this->loadModels([
 			'BbsPost' => 'Bbses.BbsPost',
 			'BbsPostI18n' => 'Bbses.BbsPostI18n',
