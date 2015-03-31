@@ -160,34 +160,34 @@ class BbsPostsUser extends BbsesAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	//public function savePostsUsers($data) {
-	//	$this->loadModels([
-	//		'BbsPostsUser' => 'Bbses.BbsPostsUser',
-	//	]);
-	//
-	//	//トランザクションBegin
-	//	$dataSource = $this->getDataSource();
-	//	$dataSource->begin();
-	//	try {
-	//		if (! $this->validateBbsPostsUser($data)) {
-	//			return false;
-	//		}
-	//
-	//		$bbsPostsUser = $this->save(null, false);
-	//		if (! $bbsPostsUser) {
-	//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-	//		}
-	//		//トランザクションCommit
-	//		$dataSource->commit();
-	//	} catch (Exception $ex) {
-	//		//トランザクションRollback
-	//		$dataSource->rollback();
-	//		//エラー出力
-	//		CakeLog::write(LOG_ERR, $ex);
-	//		throw $ex;
-	//	}
-	//	return $bbsPostsUser;
-	//}
+	public function savePostsUsers($data) {
+		$this->loadModels([
+			'BbsPostsUser' => 'Bbses.BbsPostsUser',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+		try {
+			if (! $this->validateBbsPostsUser($data)) {
+				return false;
+			}
+
+			$bbsPostsUser = $this->save(null, false);
+			if (! $bbsPostsUser) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+			//トランザクションCommit
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			//エラー出力
+			CakeLog::write(LOG_ERR, $ex);
+			throw $ex;
+		}
+		return $bbsPostsUser;
+	}
 
 /**
  * validate BbsPostsUser

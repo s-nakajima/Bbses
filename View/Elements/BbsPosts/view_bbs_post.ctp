@@ -26,13 +26,23 @@
 
 		<div class="col-xs-7 col-sm-8">
 			<a href="<?php echo $this->Html->url('/bbses/bbs_posts/view/' . $frameId . '/' . $bbsPost['bbsPost']['id']); ?>">
+				<?php if (! $bbsPost['bbsPostsUser']) : ?>
+					<strong>
+				<?php endif; ?>
+
 				<?php echo h($bbsPost['bbsPostI18n']['title']); ?>
+
+				<?php if (! $bbsPost['bbsPostsUser']) : ?>
+					</strong>
+				<?php endif; ?>
 			</a>
-			<?php if ($bbsPost['bbsPost']['rootId'] > 0) : ?>
-				<?php echo $this->element('BbsPosts/comment_status_label', array('status' => $bbsPost['bbsPostI18n']['status'])); ?>
-			<?php else : ?>
-				<?php echo $this->element('NetCommons.status_label', array('status' => $bbsPost['bbsPostI18n']['status'])); ?>
-			<?php endif; ?>
+			<span>
+				<?php if ($bbsPost['bbsPost']['rootId'] > 0) : ?>
+					<?php echo $this->element('BbsPosts/comment_status_label', array('status' => $bbsPost['bbsPostI18n']['status'])); ?>
+				<?php else : ?>
+					<?php echo $this->element('NetCommons.status_label', array('status' => $bbsPost['bbsPostI18n']['status'])); ?>
+				<?php endif; ?>
+			</span>
 		</div>
 
 		<div class="col-xs-2 col-sm-2 text-right">

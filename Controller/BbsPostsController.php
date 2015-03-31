@@ -32,6 +32,7 @@ class BbsPostsController extends BbsesAppController {
 		'Bbses.BbsPost',
 		'Bbses.BbsPostI18n',
 		'Bbses.BbsSetting',
+		'Bbses.BbsPostsUser',
 		'Users.User',
 		'Comments.Comment',
 	);
@@ -102,6 +103,10 @@ class BbsPostsController extends BbsesAppController {
 
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost();
+
+//		if ($this->viewVars['userId'] && ! $$this->viewVars['currentBbsPost']['bbsPostsUser']) {
+//
+//		}
 
 		//$this->BbsPost->Behaviors->load('Tree', array(
 		//	'scope' => array(
@@ -445,7 +450,7 @@ class BbsPostsController extends BbsesAppController {
 		if (in_array('comments', $contains, true)) {
 			$comments = $this->Comment->getComments(
 				array(
-					'plugin_key' => 'BbsPostI18n',
+					'plugin_key' => 'bbsposts',
 					'content_key' => $bbsPost['bbsPost']['key']
 				)
 			);
