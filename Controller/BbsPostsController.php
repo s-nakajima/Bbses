@@ -104,9 +104,17 @@ class BbsPostsController extends BbsesAppController {
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost();
 
-//		if ($this->viewVars['userId'] && ! $$this->viewVars['currentBbsPost']['bbsPostsUser']) {
-//
-//		}
+		//既読
+		if ($this->viewVars['userId'] && ! $this->viewVars['currentBbsPost']['bbsPostsUser']) {
+			$data = $this->BbsPostsUser->create(array(
+				'bbs_post_id' => $bbsPostId,
+				'user_id' => $this->viewVars['userId']
+			));
+			$this->BbsPostsUser->setDataSource('master');
+			$result = $this->BbsPostsUser->savePostsUser($data);
+			$result = $this->camelizeKeyRecursive($result);
+			$this->viewVars['currentBbsPost']['bbsPostsUser'] = $result;
+		}
 
 		//$this->BbsPost->Behaviors->load('Tree', array(
 		//	'scope' => array(

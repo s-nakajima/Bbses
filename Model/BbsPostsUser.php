@@ -160,7 +160,7 @@ class BbsPostsUser extends BbsesAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function savePostsUsers($data) {
+	public function savePostsUser($data) {
 		$this->loadModels([
 			'BbsPostsUser' => 'Bbses.BbsPostsUser',
 		]);
