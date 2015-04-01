@@ -44,7 +44,6 @@ class BbsesController extends BbsesAppController {
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(),
-		'Bbses.BbsPaginator'
 	);
 
 /**
@@ -62,31 +61,11 @@ class BbsesController extends BbsesAppController {
  * @return void
  */
 	public function index() {
-		$this->setAction('view');
-	}
-
-/**
- * view
- *
- * @return void
- */
-	public function view() {
-		if (! $this->viewVars['blockId']) {
-			$this->view = 'BbsPosts/noBbs';
-			return;
-		}
-
-		$this->params['named'] = array();
-
-		$this->view = 'BbsPosts/index';
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
-
-		$posts = $this->BbsPaginator->rootBbsPosts();
-		$results = array(
-			'bbsPosts' => $posts
+		$html = $this->requestAction(
+			array('controller' => 'bbs_posts', 'action' => 'index', $this->viewVars['frameId']),
+			array('return')
 		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
-	}
 
+		$this->set('html', $html);
+	}
 }

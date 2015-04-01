@@ -53,7 +53,7 @@ class BbsPostsController extends BbsesAppController {
 				'bbsPostCreatable' => array('add', 'reply', 'edit', 'delete')
 			),
 		),
-		'Bbses.BbsPaginator',
+		'Paginator',
 	);
 
 /**
@@ -77,7 +77,56 @@ class BbsPostsController extends BbsesAppController {
 		}
 		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
 
-		$posts = $this->BbsPaginator->rootBbsPosts();
+		//言語の指定
+		$this->BbsPost->bindModel(array('hasMany' => array(
+				'BbsPostI18n' => array(
+					'foreignKey' => 'bbs_post_id',
+					'limit' => 1,
+					'order' => 'BbsPostI18n.id DESC',
+					'conditions' => array(
+						'BbsPostI18n.language_id' => $this->viewVars['languageId']
+					)
+				),
+				'BbsPostsUser' => array(
+					'foreignKey' => 'bbs_post_id',
+					'conditions' => array(
+						'BbsPostsUser.user_id' => (int)$this->Auth->user('id')
+					)
+				),
+			)),
+			false
+		);
+		//条件
+		$conditions = array(
+			'BbsPost.bbs_key' => $this->viewVars['bbs']['key'],
+			'BbsPost.parent_id' => null,
+		);
+		if (isset($this->params['named']['status'])) {
+			$conditions['BbsPost.last_status'] = (int)$this->params['named']['status'];
+		}
+		//ソート
+		if (isset($this->params['named']['sort']) && isset($this->params['named']['direction'])) {
+			$order = array($this->params['named']['sort'] => $this->params['named']['direction']);
+		} else {
+			$order = array('BbsPost.created' => 'desc');
+		}
+		//表示件数
+		if (isset($this->params['named']['limit'])) {
+			$limit = (int)$this->params['named']['limit'];
+		} else {
+			$limit = (int)$this->viewVars['bbsFrameSetting']['postsPerPage'];
+		}
+		//Paginatorの設定
+		$this->Paginator->settings = array(
+			'BbsPost' => array('conditions' => $conditions, 'order' => $order, 'limit' => $limit)
+		);
+
+		try {
+			$posts = $this->Paginator->paginate('BbsPost');
+		} catch (Exception $ex) {
+			$this->params['named'] = array();
+			$posts = $this->Paginator->paginate('BbsPost');
+		}
 		$results = array(
 			'bbsPosts' => $posts
 		);
