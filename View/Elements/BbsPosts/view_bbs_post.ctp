@@ -65,39 +65,34 @@
 <div class="panel-footer">
 	<div class="row">
 		<div class="col-xs-6">
-			<!-- TODO:いいね -->
 			<?php if ($bbsSetting['useLike']) : ?>
-				<!-- TODO:いいね数 -->
-				<div class="inline-block text-success">
-					<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-						<a href="">
-					<?php endif; ?>
-
-						<span class="glyphicon glyphicon-thumbs-up"></span>
-						<?php echo (int)$bbsPost['bbsPost']['likeCounts']; ?>
-
-					<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-						</a>
-					<?php endif; ?>
-				</div>
+				 <div class="inline-block text-success">
+					  <?php if (! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+						   <?php echo $this->element('Likes.like', array(
+									 'likeCounts' => (int)$bbsPost['bbsPost']['likeCounts'],
+									 'contentKey' => $bbsPost['bbsPost']['key'],
+								)); ?>
+					  <?php else : ?>
+						   <span class="glyphicon glyphicon-thumbs-up"></span>
+						   <?php echo (int)$bbsPost['bbsPost']['likeCounts']; ?>
+					  <?php endif; ?>
+				 </div>
 			<?php endif; ?>
 
 			<?php if ($bbsSetting['useUnlike']) : ?>
-				<!-- TODO:わるいね数 -->
-				<div class="inline-block text-success">
-					<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-						<a href="">
-					<?php endif; ?>
-
-						<span class="glyphicon glyphicon-thumbs-down"></span>
-						<?php echo (int)$bbsPost['bbsPost']['unlikeCounts']; ?>
-
-					<?php if ($bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-						</a>
-					<?php endif; ?>
-				</div>
+				 <div class="inline-block text-success">
+					  <?php if (! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+						   <?php echo $this->element('Likes.unlike', array(
+									 'unlikeCounts' => (int)$bbsPost['bbsPost']['unlikeCounts'],
+									 'contentKey' => $bbsPost['bbsPost']['key'],
+								)); ?>
+					  <?php else : ?>
+						   <span class="glyphicon glyphicon-thumbs-down"></span>
+						   <?php echo (int)$bbsPost['bbsPost']['unlikeCounts']; ?>
+					  <?php endif; ?>
+				 </div>
 			<?php endif; ?>
-		</div>
+		 </div>
 		<div class="col-xs-6 text-right">
 			<?php echo $this->element('BbsPosts/reply_link', array(
 					'status' => $bbsPost['bbsPostI18n']['status'],

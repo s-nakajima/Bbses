@@ -10,6 +10,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
 App::uses('BbsesAppModel', 'Bbses.Model');
 
 /**
@@ -27,6 +28,7 @@ class BbsPost extends BbsesAppModel {
  */
 	public $actsAs = array(
 		'Tree',
+		'Likes.Like'
 	);
 
 /**
@@ -75,29 +77,6 @@ class BbsPost extends BbsesAppModel {
 	);
 
 /**
- * Called after each find operation. Can be used to modify any results returned by find().
- * Return value should be the (modified) results.
- *
- * @param mixed $results The results of the find operation
- * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
- * @return mixed Result of the find operation
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#afterfind
- */
-	public function afterFind($results, $primary = false) {
-		foreach ($results as $i => $result) {
-			if (isset($result['BbsPostI18n'][0])) {
-				$bbsPostI18n = $result['BbsPostI18n'][0];
-				unset($results[$i]['BbsPostI18n'][0]);
-				$results[$i]['BbsPostI18n'] = $bbsPostI18n;
-			}
-			$results[$i]['BbsPost']['like_counts'] = 0;
-			$results[$i]['BbsPost']['unlike_counts'] = 0;
-		}
-
-		return $results;
-	}
-
-/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -124,6 +103,26 @@ class BbsPost extends BbsesAppModel {
 			),
 		));
 		return parent::beforeValidate($options);
+	}
+
+/**
+ * Called after each find operation. Can be used to modify any results returned by find().
+ * Return value should be the (modified) results.
+ *
+ * @param mixed $results The results of the find operation
+ * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
+ * @return mixed Result of the find operation
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#afterfind
+ */
+	public function afterFind($results, $primary = false) {
+		foreach ($results as $i => $result) {
+			if (isset($result['BbsPostI18n'][0])) {
+				$bbsPostI18n = $result['BbsPostI18n'][0];
+				unset($results[$i]['BbsPostI18n'][0]);
+				$results[$i]['BbsPostI18n'] = $bbsPostI18n;
+			}
+		}
+		return $results;
 	}
 
 /**
