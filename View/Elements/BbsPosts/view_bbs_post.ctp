@@ -69,8 +69,8 @@
 				 <div class="inline-block text-success">
 					  <?php if (! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
 						   <?php echo $this->element('Likes.like', array(
-									 'likeCounts' => (int)$bbsPost['bbsPost']['likeCounts'],
-									 'contentKey' => $bbsPost['bbsPost']['key'],
+									'likeCounts' => (int)$bbsPost['bbsPost']['likeCounts'],
+									'contentKey' => $bbsPost['bbsPost']['key'],
 								)); ?>
 					  <?php else : ?>
 						   <span class="glyphicon glyphicon-thumbs-up"></span>
@@ -83,8 +83,8 @@
 				 <div class="inline-block text-success">
 					  <?php if (! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
 						   <?php echo $this->element('Likes.unlike', array(
-									 'unlikeCounts' => (int)$bbsPost['bbsPost']['unlikeCounts'],
-									 'contentKey' => $bbsPost['bbsPost']['key'],
+									'unlikeCounts' => (int)$bbsPost['bbsPost']['unlikeCounts'],
+									'contentKey' => $bbsPost['bbsPost']['key'],
 								)); ?>
 					  <?php else : ?>
 						   <span class="glyphicon glyphicon-thumbs-down"></span>

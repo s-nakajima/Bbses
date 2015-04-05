@@ -26,7 +26,7 @@ class BbsPostsControllerTest extends ControllerTestCase {
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_post',
 		'plugin.bbses.bbs_posts_user',
-		'plugin.bbses.site_setting'
+		'plugin.net_commons.site_setting',
 	);
 
 /**

@@ -221,8 +221,6 @@ class BlocksController extends BbsesAppController {
 /**
  * delete
  *
- * @param int $frameId frames.id
- * @param int $postId postId
  * @throws BadRequestException
  * @return void
  */

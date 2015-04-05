@@ -29,7 +29,7 @@ class BbsesAppTest extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'site_setting',
+		'plugin.net_commons.site_setting',
 		'plugin.bbses.bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_posts_user',

@@ -250,7 +250,9 @@ class BbsPost extends BbsesAppModel {
 /**
  * Update published_comment_counts
  *
- * @param array $data received post data
+ * @param int $rootId RootId for bbs posts
+ * @param int $status status
+ * @param int $increment increment
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
