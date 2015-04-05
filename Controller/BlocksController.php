@@ -144,7 +144,6 @@ class BlocksController extends BbsesAppController {
  */
 	public function add() {
 		$this->view = 'Blocks/edit';
-		$this->initBbs(['bbsFrameSetting']);
 
 		$this->set('blockId', null);
 		$bbs = $this->Bbs->create(
@@ -200,7 +199,7 @@ class BlocksController extends BbsesAppController {
 	public function edit() {
 		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
 
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		if ($this->request->isPost()) {
 			$data = $this->__parseRequestData();
@@ -226,7 +225,7 @@ class BlocksController extends BbsesAppController {
  */
 	public function delete() {
 		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		if ($this->request->isDelete()) {
 			if ($this->Bbs->deleteBbs($this->data)) {

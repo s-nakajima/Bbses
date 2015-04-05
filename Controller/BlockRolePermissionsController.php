@@ -66,7 +66,7 @@ class BlockRolePermissionsController extends BbsesAppController {
  */
 	public function edit() {
 		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
-		$this->initBbs(['bbs', 'bbsSetting']);
+		$this->initBbs();
 
 		if (! $block = $this->Block->find('first', array(
 			'recursive' => -1,

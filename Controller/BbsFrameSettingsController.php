@@ -61,7 +61,7 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		$this->initBbs(['bbsFrameSetting']);
+		$this->__initBbsFrameSetting();
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
@@ -78,4 +78,27 @@ class BbsFrameSettingsController extends BbsesAppController {
 			$this->set($results);
 		}
 	}
+
+/**
+ * initBbs
+ *
+ * @return void
+ */
+	private function __initBbsFrameSetting() {
+		if (! $bbsFrameSetting = $this->BbsFrameSetting->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'frame_key' => $this->viewVars['frameKey']
+			)
+		))) {
+			$bbsFrameSetting = $this->BbsFrameSetting->create(
+				array(
+					'frame_key' => $this->viewVars['frameKey']
+				)
+			);
+		}
+		$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
+		$this->set($bbsFrameSetting);
+	}
+
 }

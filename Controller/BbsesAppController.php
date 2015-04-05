@@ -38,41 +38,47 @@ class BbsesAppController extends AppController {
 	);
 
 /**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->set(['current' => $this->current]);
+	}
+
+/**
  * initBbs
  *
  * @param array $contains Optional result sets
  * @return void
  */
 	public function initBbs($contains = []) {
-		if (in_array('bbs', $contains, true) || in_array('bbsSetting', $contains, true)) {
-			if (! $bbs = $this->Bbs->find('first', array(
-				'recursive' => 0,
-				'conditions' => array(
-					'Block.id' => $this->viewVars['blockId'],
-					'Block.room_id' => $this->viewVars['roomId'],
-				)
-			))) {
-				$this->_throwBadRequest();
-				return false;
-			}
-			$bbs = $this->camelizeKeyRecursive($bbs);
-			$this->set($bbs);
+		if (! $bbs = $this->Bbs->find('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'Block.id' => $this->viewVars['blockId'],
+				'Block.room_id' => $this->viewVars['roomId'],
+			)
+		))) {
+			$this->_throwBadRequest();
+			return false;
 		}
+		$bbs = $this->camelizeKeyRecursive($bbs);
+		$this->set($bbs);
 
-		if (in_array('bbsSetting', $contains, true)) {
-			if (! $bbsSetting = $this->BbsSetting->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'bbs_key' => $bbs['bbs']['key']
-				)
-			))) {
-				$bbsSetting = $this->BbsSetting->create(
-					array('id' => null)
-				);
-			}
-			$bbsSetting = $this->camelizeKeyRecursive($bbsSetting);
-			$this->set($bbsSetting);
+		if (! $bbsSetting = $this->BbsSetting->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'bbs_key' => $bbs['bbs']['key']
+			)
+		))) {
+			$bbsSetting = $this->BbsSetting->create(
+				array('id' => null)
+			);
 		}
+		$bbsSetting = $this->camelizeKeyRecursive($bbsSetting);
+		$this->set($bbsSetting);
 
 		if (in_array('bbsFrameSetting', $contains, true)) {
 			if (! $bbsFrameSetting = $this->BbsFrameSetting->find('first', array(
@@ -91,22 +97,7 @@ class BbsesAppController extends AppController {
 			$this->set($bbsFrameSetting);
 		}
 
-		if (in_array('bbsPost', $contains, true)) {
-			if (! $bbsPost = $this->BbsPost->find('first', array(
-				//'recursive' => 0,
-				'conditions' => array(
-					'BbsPost.id' => $this->viewVars['bbsPostId'],
-				)
-			))) {
-				$this->_throwBadRequest();
-				return false;
-			}
-			$bbsPost = $this->camelizeKeyRecursive($bbsPost);
-			$this->set(['bbsPost' => $bbsPost]);
-		}
-
 		$this->set('userId', (int)$this->Auth->user('id'));
-		$this->set(['current' => $this->current]);
 	}
 
 /**

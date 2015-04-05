@@ -12,7 +12,7 @@
 
 <ol class="breadcrumb form-group">
 	<li>
-		<a href="<?php echo $this->Html->url('/bbses/bbses/index/' . $frameId . '/') ?>"
+		<a href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null) ?>"
 			title="<?php echo h($bbs['name']); ?>">
 
 			<?php echo String::truncate($bbs['name'], BbsPostI18n::BREADCRUMB_TITLE_LENGTH); ?>

@@ -112,7 +112,7 @@ class Bbs extends BbsesAppModel {
  * Save bbses
  *
  * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @return bool True on success, false on validation errors
  * @throws InternalErrorException
  */
 	public function saveBbs($data) {
@@ -129,65 +129,13 @@ class Bbs extends BbsesAppModel {
 		$dataSource->begin();
 
 		try {
-			if (! $this->validateBbs($data)) {
+			//バリデーション
+			if (! $this->validateBbs($data, ['bbsSetting', 'block', 'bbsFrameSetting'])) {
 				return false;
-			}
-			if (! $this->BbsSetting->validateBbsSetting($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsSetting->validationErrors);
-				return false;
-			}
-			if (! $this->Block->validateBlock($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-				return false;
-			}
-
-			if (isset($data['BbsFrameSetting'])) {
-				if (! $this->BbsFrameSetting->validateBbsFrameSetting($data)) {
-					$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsFrameSetting->validationErrors);
-					return false;
-				}
-			}
-
-			$frame = $this->Frame->findById($data['Frame']['id']);
-			if (! $frame) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			//ブロックの登録
-			$block = $this->Block->save(null, false);
-
-			//framesテーブル更新
-			if (! $frame['Frame']['block_id']) {
-				$frame['Frame']['block_id'] = (int)$block['Block']['id'];
-				if (! $this->Frame->save($frame, false)) {
-					// @codeCoverageIgnoreStart
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-					// @codeCoverageIgnoreEnd
-				}
 			}
 
 			//登録処理
-			$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
-			$this->data['Bbs']['key'] = $block['Block']['key'];
-			if (! $this->save(null, false)) {
-				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
-			}
-
-			$this->BbsSetting->data['BbsSetting']['bbs_key'] = $block['Block']['key'];
-			if (! $this->BbsSetting->save(null, false)) {
-				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
-			}
-			if (isset($data['BbsFrameSetting'])) {
-				if (! $this->BbsFrameSetting->save(null, false)) {
-					// @codeCoverageIgnoreStart
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-					// @codeCoverageIgnoreEnd
-				}
-			}
+			$this->__saveBbs($data);
 
 			//トランザクションCommit
 			$dataSource->commit();
@@ -203,15 +151,90 @@ class Bbs extends BbsesAppModel {
 	}
 
 /**
+ * Save bbses
+ *
+ * @param array $data received post data
+ * @return bool True on success, false on validation errors
+ * @throws InternalErrorException
+ */
+	private function __saveBbs($data) {
+		//ブロックの登録
+		$block = $this->Block->save(null, false);
+
+		//framesテーブル更新
+		if (! $frame = $this->Frame->findById($data['Frame']['id'])) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
+		if (! $frame['Frame']['block_id']) {
+			$frame['Frame']['block_id'] = (int)$block['Block']['id'];
+			if (! $this->Frame->save($frame, false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+		}
+
+		//登録処理
+		$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
+		$this->data['Bbs']['key'] = $block['Block']['key'];
+		if (! $this->save(null, false)) {
+			// @codeCoverageIgnoreStart
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			// @codeCoverageIgnoreEnd
+		}
+
+		$this->BbsSetting->data['BbsSetting']['bbs_key'] = $block['Block']['key'];
+		if (! $this->BbsSetting->save(null, false)) {
+			// @codeCoverageIgnoreStart
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			// @codeCoverageIgnoreEnd
+		}
+		if (isset($data['BbsFrameSetting'])) {
+			if (! $this->BbsFrameSetting->save(null, false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+		}
+
+		return true;
+	}
+
+/**
  * validate bbs
  *
  * @param array $data received post data
- * @return bool True on success, false on error
+ * @param array $contains Optional validate sets
+ * @return bool True on success, false on validation errors
  */
-	public function validateBbs($data) {
+	public function validateBbs($data, $contains = []) {
 		$this->set($data);
 		$this->validates();
-		return $this->validationErrors ? false : true;
+		if ($this->validationErrors) {
+			return false;
+		}
+
+		if (in_array('bbsSetting', $contains, true)) {
+			if (! $this->BbsSetting->validateBbsSetting($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsSetting->validationErrors);
+				return false;
+			}
+		}
+
+		if (in_array('block', $contains, true)) {
+			if (! $this->Block->validateBlock($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
+				return false;
+			}
+		}
+
+		if (in_array('bbsFrameSetting', $contains, true) && isset($data['BbsFrameSetting'])) {
+			if (! $this->BbsFrameSetting->validateBbsFrameSetting($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsFrameSetting->validationErrors);
+				return false;
+			}
+		}
+		return true;
 	}
 
 /**
@@ -291,5 +314,4 @@ class Bbs extends BbsesAppModel {
 
 		return true;
 	}
-
 }

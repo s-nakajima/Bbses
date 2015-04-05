@@ -75,7 +75,7 @@ class BbsPostsController extends BbsesAppController {
 			$this->view = 'BbsPosts/noBbs';
 			return;
 		}
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		//言語の指定
 		$this->BbsPost->bindModel(array('hasMany' => array(
@@ -148,7 +148,7 @@ class BbsPostsController extends BbsesAppController {
 			return;
 		}
 
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost();
@@ -190,7 +190,7 @@ class BbsPostsController extends BbsesAppController {
  */
 	public function add() {
 		$this->view = 'BbsPosts/edit';
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		$bbsPost = $this->BbsPost->create(
 			array(
@@ -228,10 +228,7 @@ class BbsPostsController extends BbsesAppController {
 			unset($data['BbsPost']['id']);
 
 			$bbsPost = $this->BbsPost->saveBbsPost($data);
-			if ($this->handleValidationError($this->BbsPost->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $bbsPost['BbsPost']['id']);
-				}
+			if ($this->__handleValidationError($bbsPost, $this->BbsPost->validationErrors, 'id')) {
 				return;
 			}
 			$data['contentStatus'] = null;
@@ -251,7 +248,7 @@ class BbsPostsController extends BbsesAppController {
  */
 	public function reply($frameId = null, $parentPostId = null) {
 		$this->view = 'BbsPosts/edit';
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		$this->set('bbsPostId', (int)$parentPostId);
 		$this->__initBbsPost();
@@ -284,9 +281,9 @@ class BbsPostsController extends BbsesAppController {
 		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
 			$bbsPostI18n['BbsPostI18n']['title'] = 'Re: ' . $this->viewVars['currentBbsPost']['bbsPostI18n']['title'];
 			$bbsPostI18n['BbsPostI18n']['content'] =
-							'<br /><blockquote class="small">' .
+							'<p></p><blockquote class="small">' .
 								$this->viewVars['currentBbsPost']['bbsPostI18n']['content'] .
-							'</blockquote>';
+							'</blockquote><p></p>';
 		}
 
 		$data = Hash::merge($bbsPost, $bbsPostI18n, ['contentStatus' => null, 'comments' => []]);
@@ -313,10 +310,7 @@ class BbsPostsController extends BbsesAppController {
 			unset($data['BbsPost']['id']);
 
 			$bbsPost = $this->BbsPost->saveBbsPost($data);
-			if ($this->handleValidationError($this->BbsPost->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $bbsPost['BbsPost']['parent_id']);
-				}
+			if ($this->__handleValidationError($bbsPost, $this->BbsPost->validationErrors, 'parent_id')) {
 				return;
 			}
 			$data['contentStatus'] = null;
@@ -335,7 +329,7 @@ class BbsPostsController extends BbsesAppController {
  * @return void
  */
 	public function edit($frameId = null, $bbsPostId = null) {
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost(['comments']);
@@ -366,10 +360,7 @@ class BbsPostsController extends BbsesAppController {
 
 			$this->BbsPost->setDataSource('master');
 			$bbsPost = $this->BbsPost->saveBbsPost($data);
-			if ($this->handleValidationError($this->BbsPost->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $bbsPost['BbsPost']['id']);
-				}
+			if ($this->__handleValidationError($bbsPost, $this->BbsPost->validationErrors, 'id')) {
 				return;
 			}
 		}
@@ -387,7 +378,7 @@ class BbsPostsController extends BbsesAppController {
  * @return void
  */
 	public function delete($frameId = null, $bbsPostId = null) {
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost();
@@ -408,14 +399,14 @@ class BbsPostsController extends BbsesAppController {
 	}
 
 /**
- * edit
+ * approve
  *
  * @param int $frameId frames.id
  * @param int $bbsPostId bbsPosts.id
  * @return void
  */
 	public function approve($frameId = null, $bbsPostId = null) {
-		$this->initBbs(['bbs', 'bbsSetting', 'bbsFrameSetting']);
+		$this->initBbs(['bbsFrameSetting']);
 
 		$this->set('bbsPostId', (int)$bbsPostId);
 		$this->__initBbsPost();
@@ -518,5 +509,23 @@ class BbsPostsController extends BbsesAppController {
 			$comments = $this->camelizeKeyRecursive($comments);
 			$this->set(['comments' => $comments]);
 		}
+	}
+
+/**
+ * __handleValidationError
+ *
+ * @param array $results save results
+ * @param array $errors validation errors
+ * @param string $containKey redirect key
+ * @return bool true on success, false on error
+ */
+	private function __handleValidationError($results, $errors, $containKey) {
+		if ($this->handleValidationError($errors)) {
+			if (! $this->request->is('ajax')) {
+				$this->redirect('/bbses/bbs_posts/view/' . $this->viewVars['frameId'] . '/' . $results['BbsPost'][$containKey]);
+			}
+			return true;
+		}
+		return false;
 	}
 }

@@ -183,7 +183,7 @@ class BbsPostsUser extends BbsesAppModel {
 			//トランザクションRollback
 			$dataSource->rollback();
 			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
 		return $bbsPostsUser;

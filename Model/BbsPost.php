@@ -113,6 +113,7 @@ class BbsPost extends BbsesAppModel {
  * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
  * @return mixed Result of the find operation
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#afterfind
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function afterFind($results, $primary = false) {
 		foreach ($results as $i => $result) {
@@ -143,20 +144,8 @@ class BbsPost extends BbsesAppModel {
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 		try {
-			if (! $this->validateBbsPost($data)) {
+			if (! $this->validateBbsPost($data, ['bbsPostI18n', 'comment'])) {
 				return false;
-			}
-			if (! $this->BbsPostI18n->validateBbsPostI18n($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsPostI18n->validationErrors);
-				return false;
-			}
-
-			if (isset($data['Comment'])) {
-				$data['BbsPost']['status'] = $data['BbsPostI18n']['status'];
-				if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPost'))) {
-					$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-					return false;
-				}
 			}
 
 			//BbsPost登録処理
@@ -193,7 +182,7 @@ class BbsPost extends BbsesAppModel {
 			//トランザクションRollback
 			$dataSource->rollback();
 			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
 		return $bbsPost;
@@ -241,32 +230,10 @@ class BbsPost extends BbsesAppModel {
 			//トランザクションRollback
 			$dataSource->rollback();
 			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
 		return true;
-	}
-
-/**
- * Update published_comment_counts
- *
- * @param int $rootId RootId for bbs posts
- * @param int $status status
- * @param int $increment increment
- * @return mixed On success Model::$data if its not empty or true, false on failure
- * @throws InternalErrorException
- */
-	private function __updateCommentCounts($rootId, $status, $increment = 1) {
-		if ((int)$rootId > 0 && (int)$status === (int)NetCommonsBlockComponent::STATUS_PUBLISHED) {
-			if (! $this->updateAll(
-					array('BbsPost.published_comment_counts' => 'BbsPost.published_comment_counts + (' . $increment . ')'),
-					array('BbsPost.id' => (int)$rootId)
-			)) {
-				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
-			}
-		}
 	}
 
 /**
@@ -303,7 +270,7 @@ class BbsPost extends BbsesAppModel {
 			//トランザクションRollback
 			$dataSource->rollback();
 			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
 
@@ -340,12 +307,53 @@ class BbsPost extends BbsesAppModel {
  * validate BbsPost
  *
  * @param array $data received post data
- * @return bool|array True on success, validation errors array on error
+ * @param array $contains Optional validate sets
+ * @return bool True on success, false on validation errors
  */
-	public function validateBbsPost($data) {
+	public function validateBbsPost($data, $contains = []) {
 		$this->set($data);
 		$this->validates();
-		return $this->validationErrors ? false : true;
+		if ($this->validationErrors) {
+			return false;
+		}
+
+		if (in_array('bbsPostI18n', $contains, true)) {
+			if (! $this->BbsPostI18n->validateBbsPostI18n($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsPostI18n->validationErrors);
+				return false;
+			}
+		}
+
+		if (in_array('comment', $contains, true) && isset($data['Comment'])) {
+			$data['BbsPost']['status'] = $data['BbsPostI18n']['status'];
+			if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPost'))) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+				return false;
+			}
+		}
+
+		return true;
 	}
 
+/**
+ * Update published_comment_counts
+ *
+ * @param int $rootId RootId for bbs posts
+ * @param int $status status
+ * @param int $increment increment
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	private function __updateCommentCounts($rootId, $status, $increment = 1) {
+		if ((int)$rootId > 0 && (int)$status === (int)NetCommonsBlockComponent::STATUS_PUBLISHED) {
+			if (! $this->updateAll(
+					array('BbsPost.published_comment_counts' => 'BbsPost.published_comment_counts + (' . (int)$increment . ')'),
+					array('BbsPost.id' => (int)$rootId)
+			)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+		}
+	}
 }
