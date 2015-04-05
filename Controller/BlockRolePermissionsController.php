@@ -74,7 +74,7 @@ class BlockRolePermissionsController extends BbsesAppController {
 				'Block.id' => $this->viewVars['blockId'],
 			),
 		))) {
-			$this->_throwBadRequest();
+			$this->throwBadRequest();
 			return false;
 		};
 		$this->set('blockId', $block['Block']['id']);

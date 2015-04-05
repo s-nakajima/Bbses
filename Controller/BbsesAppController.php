@@ -61,7 +61,7 @@ class BbsesAppController extends AppController {
 				'Block.room_id' => $this->viewVars['roomId'],
 			)
 		))) {
-			$this->_throwBadRequest();
+			$this->throwBadRequest();
 			return false;
 		}
 		$bbs = $this->camelizeKeyRecursive($bbs);
@@ -106,7 +106,7 @@ class BbsesAppController extends AppController {
  * @return void
  * @throws BadRequestException
  */
-	protected function _throwBadRequest() {
+	public function throwBadRequest() {
 		if ($this->request->is('ajax')) {
 			$this->renderJson(
 				['error' => ['validationErrors' => ['status' => __d('net_commons', 'Invalid request.')]]],

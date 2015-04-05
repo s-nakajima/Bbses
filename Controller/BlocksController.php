@@ -114,7 +114,7 @@ class BlocksController extends BbsesAppController {
  */
 	public function current() {
 		if (! $this->request->isPost()) {
-			$this->_throwBadRequest();
+			$this->throwBadRequest();
 			return;
 		}
 
@@ -236,7 +236,7 @@ class BlocksController extends BbsesAppController {
 			}
 		}
 
-		$this->_throwBadRequest();
+		$this->throwBadRequest();
 	}
 
 /**
