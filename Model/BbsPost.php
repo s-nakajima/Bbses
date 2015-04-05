@@ -10,6 +10,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
 App::uses('BbsesAppModel', 'Bbses.Model');
 
 /**
@@ -20,17 +21,14 @@ App::uses('BbsesAppModel', 'Bbses.Model');
  */
 class BbsPost extends BbsesAppModel {
 
-	const DISPLAY_MAX_TITLE_LENGTH = '50';
-	const DISPLAY_MAX_CONTENT_LENGTH = '200';
-
 /**
  * use behaviors
  *
  * @var array
  */
 	public $actsAs = array(
-		//'NetCommons.Publishable',
 		'Tree',
+		'Likes.Like'
 	);
 
 /**
@@ -46,12 +44,35 @@ class BbsPost extends BbsesAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Bbs' => array(
-			'className' => 'Bbses.Bbs',
-			'foreignKey' => 'bbs_key',
-			'conditions' => '',
-			'fields' => '',
+		'CreatedUser' => array(
+			'className' => 'Users.UserAttributesUser',
+			'foreignKey' => false,
+			'conditions' => array(
+				'BbsPost.created_user = CreatedUser.user_id',
+				'CreatedUser.key' => 'nickname'
+			),
+			'fields' => array('CreatedUser.key', 'CreatedUser.value'),
 			'order' => ''
+		)
+	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'BbsPostI18n' => array(
+			'className' => 'Bbses.BbsPostI18n',
+			'foreignKey' => 'bbs_post_id',
+			'limit' => 1,
+			'order' => 'BbsPostI18n.id DESC',
+			'dependent' => true,
+		),
+		'BbsPostsUser' => array(
+			'className' => 'Bbses.BbsPostsUser',
+			'foreignKey' => 'bbs_post_id',
+			'dependent' => true,
 		),
 	);
 
@@ -80,124 +101,29 @@ class BbsPost extends BbsesAppModel {
 					'required' => true,
 				)
 			),
-
-			//status to set in PublishableBehavior.
-			'status' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-				'range' => array(
-					'rule' => array('range', 0, 5),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-
-			'is_auto_translated' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				)
-			),
-			'title' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('bbses', 'Title')),
-					'required'
-					=> true
-				),
-			),
-			'content' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('bbses', 'Content')),
-					'required' => true
-				),
-			),
 		));
 		return parent::beforeValidate($options);
 	}
 
 /**
- * get bbs data
+ * Called after each find operation. Can be used to modify any results returned by find().
+ * Return value should be the (modified) results.
  *
- * @param int $userId users.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
- * @param bool $contentCreatable true can create the content, false not can create the content.
- * @param array $conditions databese find condition
- * @return array
+ * @param mixed $results The results of the find operation
+ * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
+ * @return mixed Result of the find operation
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#afterfind
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function getOnePosts($userId, $contentEditable, $contentCreatable, $conditions) {
-		if (! $conditions['id']) {
-			return;
+	public function afterFind($results, $primary = false) {
+		foreach ($results as $i => $result) {
+			if (isset($result['BbsPostI18n'][0])) {
+				$bbsPostI18n = $result['BbsPostI18n'][0];
+				unset($results[$i]['BbsPostI18n'][0]);
+				$results[$i]['BbsPostI18n'] = $bbsPostI18n;
+			}
 		}
-
-		//作成権限まで
-		if ($contentCreatable && ! $contentEditable) {
-			//自分で書いた記事と公開中の記事を取得
-			$conditions['or']['created_user'] = $userId;
-			$conditions['or']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
-
-		//作成・編集権限なし:公開中の記事のみ取得
-		if (! $contentCreatable && ! $contentEditable) {
-			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
-
-		//対象記事のみ取得
-		if (! $bbsPosts = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-		))) {
-			return false;
-
-		}
-
-		return $bbsPosts;
-	}
-
-/**
- * get bbs data
- *
- * @param int $userId users.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
- * @param bool $contentCreatable true can create the content, false not can create the content.
- * @param array $sortOrder databese find condition
- * @param int $visiblePostRow databese find condition
- * @param int $currentPage databese find condition
- * @param array $conditions databese find condition
- * @return array
- */
-	public function getPosts($userId, $contentEditable, $contentCreatable,
-				$sortOrder = '', $visiblePostRow = '', $currentPage = '', $conditions = '') {
-		//他人の編集中の記事・コメントが見れない人
-		if ($contentCreatable && ! $contentEditable) {
-			$conditions['or']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-			$conditions['or']['and']['created_user'] = $userId;
-			$conditions['or']['and']['status <>'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
-
-		//公開中の記事・コメントしか見れない人
-		if (! $contentCreatable && ! $contentEditable) {
-			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
-
-		//記事一覧取得
-		$group = array('BbsPost.key');
-		$params = array(
-				'conditions' => $conditions,
-				'recursive' => -1,
-				'order' => $sortOrder,
-				'group' => $group,
-				'limit' => $visiblePostRow,
-				'page' => $currentPage,
-			);
-
-		if (! $bbsPosts = $this->find('all', $params)) {
-			return false;
-		}
-
-		return $bbsPosts;
+		return $results;
 	}
 
 /**
@@ -207,9 +133,10 @@ class BbsPost extends BbsesAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function savePost($data) {
+	public function saveBbsPost($data) {
 		$this->loadModels([
 			'BbsPost' => 'Bbses.BbsPost',
+			'BbsPostI18n' => 'Bbses.BbsPostI18n',
 			'Comment' => 'Comments.Comment',
 		]);
 
@@ -217,36 +144,45 @@ class BbsPost extends BbsesAppModel {
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 		try {
-			if (!$this->validatePost($data)) {
-				return false;
-			}
-			if (!$this->Comment->validateByStatus($data, array('caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+			if (! $this->validateBbsPost($data, ['bbsPostI18n', 'comment'])) {
 				return false;
 			}
 
+			//BbsPost登録処理
 			$bbsPost = $this->save(null, false);
-			if (!$bbsPost) {
+			if (! $bbsPost) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			//BbsPostI18n登録処理
+			$this->BbsPostI18n->data['BbsPostI18n']['bbs_post_id'] = $this->id;
+			if (! $this->BbsPostI18n->save(null, false)) {
 				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				// @codeCoverageIgnoreEnd
 			}
 
 			//コメントの登録
-			if ($this->Comment->data) {
+			if (isset($data['Comment']) && $this->Comment->data) {
 				if (! $this->Comment->save(null, false)) {
 					// @codeCoverageIgnoreStart
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 					// @codeCoverageIgnoreEnd
 				}
 			}
+
+			//コメント数の更新
+			$this->__updateCommentCounts($data['BbsPost']['root_id'], $data['BbsPostI18n']['status']);
+
 			//トランザクションCommit
 			$dataSource->commit();
 		} catch (Exception $ex) {
 			//トランザクションRollback
 			$dataSource->rollback();
 			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
 		return $bbsPost;
@@ -259,26 +195,34 @@ class BbsPost extends BbsesAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function saveComment($data) {
+	public function saveCommentAsPublish($data) {
 		$this->loadModels([
 			'BbsPost' => 'Bbses.BbsPost',
+			'BbsPostI18n' => 'Bbses.BbsPostI18n',
 		]);
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 		try {
-			if (!$this->validatePost($data)) {
-				return false;
-			}
-
-			$comments = $this->save(null, false);
-
-			if (! $comments) {
+			//BbsPost登録処理
+			$this->id = (int)$data['BbsPost']['id'];
+			if (! $this->saveField('last_status', $data['BbsPost']['last_status'], false)) {
 				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				// @codeCoverageIgnoreEnd
 			}
+
+			//BbsPostI18n登録処理
+			$this->BbsPostI18n->id = (int)$data['BbsPostI18n']['id'];
+			if (! $this->BbsPostI18n->saveField('status', $data['BbsPostI18n']['status'], false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			//コメント数の更新
+			$this->__updateCommentCounts($data['BbsPost']['root_id'], $data['BbsPostI18n']['status']);
 
 			//トランザクションCommit
 			$dataSource->commit();
@@ -286,22 +230,130 @@ class BbsPost extends BbsesAppModel {
 			//トランザクションRollback
 			$dataSource->rollback();
 			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
-		return $comments;
+		return true;
 	}
 
 /**
- * validate post
+ * Delete posts
  *
  * @param array $data received post data
- * @return bool|array True on success, validation errors array on error
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
  */
-	public function validatePost($data) {
-		$this->set($data);
-		$this->validates();
-		return $this->validationErrors ? false : true;
+	public function deleteBbsPost($data) {
+		$this->loadModels([
+			'BbsPost' => 'Bbses.BbsPost',
+			'BbsPostI18n' => 'Bbses.BbsPostI18n',
+			'Comment' => 'Comments.Comment',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['BbsPost']['key']), true, true)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			//コメント数の更新
+			$this->__updateCommentCounts($data['BbsPost']['root_id'], $data['BbsPost']['last_status'], -1);
+
+			//トランザクションCommit
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			//エラー出力
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		return true;
 	}
 
+/**
+ * Get rss reader
+ *
+ * @param int $rootPostId root post id
+ * @return int number
+ */
+	public function getMaxNo($rootPostId) {
+		if (! $rootPostId) {
+			return 0;
+		}
+
+		$bbsPost = $this->find('first', array(
+			'recursive' => -1,
+			'fields' => 'post_no',
+			'conditions' => array(
+				'OR' => array(
+					'root_id' => $rootPostId,
+					'id' => $rootPostId
+				)
+			),
+			'order' => 'BbsPost.post_no DESC',
+		));
+
+		return isset($bbsPost['BbsPost']['post_no']) ? $bbsPost['BbsPost']['post_no'] : 0;
+	}
+
+/**
+ * validate BbsPost
+ *
+ * @param array $data received post data
+ * @param array $contains Optional validate sets
+ * @return bool True on success, false on validation errors
+ */
+	public function validateBbsPost($data, $contains = []) {
+		$this->set($data);
+		$this->validates();
+		if ($this->validationErrors) {
+			return false;
+		}
+
+		if (in_array('bbsPostI18n', $contains, true)) {
+			if (! $this->BbsPostI18n->validateBbsPostI18n($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsPostI18n->validationErrors);
+				return false;
+			}
+		}
+
+		if (in_array('comment', $contains, true) && isset($data['Comment'])) {
+			$data['BbsPost']['status'] = $data['BbsPostI18n']['status'];
+			if (! $this->Comment->validateByStatus($data, array('caller' => 'BbsPost'))) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+/**
+ * Update published_comment_counts
+ *
+ * @param int $rootId RootId for bbs posts
+ * @param int $status status
+ * @param int $increment increment
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	private function __updateCommentCounts($rootId, $status, $increment = 1) {
+		if ((int)$rootId > 0 && (int)$status === (int)NetCommonsBlockComponent::STATUS_PUBLISHED) {
+			if (! $this->updateAll(
+					array('BbsPost.published_comment_counts' => 'BbsPost.published_comment_counts + (' . (int)$increment . ')'),
+					array('BbsPost.id' => (int)$rootId)
+			)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+		}
+	}
 }

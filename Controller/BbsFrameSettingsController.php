@@ -36,12 +36,12 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentPublishable' => array('edit'),
+				'blockEditable' => array('edit'),
 			),
 		),
 	);
@@ -56,46 +56,49 @@ class BbsFrameSettingsController extends BbsesAppController {
 	);
 
 /**
- * edit method
+ * edit
  *
  * @return void
  */
 	public function edit() {
-		//掲示板の表示設定情報を取得
-		$bbsSettings = $this->BbsFrameSetting->getBbsSetting(
-										$this->viewVars['frameKey']);
-		$results = array(
-			'bbsSettings' => $bbsSettings['BbsFrameSetting'],
-		);
-		$this->set($results);
+		$this->__initBbsFrameSetting();
 
-		if (! $this->request->isPost()) {
-			return;
-		}
+		if ($this->request->isPost()) {
+			$data = $this->data;
+			$this->BbsFrameSetting->saveBbsFrameSetting($data);
 
-		$data = $this->data;
-
-		if (! $bbsSetting = $this->BbsFrameSetting->getBbsSetting(
-			isset($data['Frame']['key']) ? $data['Frame']['key'] : null
-		)) {
-			//bbsFrameSettingテーブルデータ生成
-			$bbsSetting = $this->BbsFrameSetting->create();
-		}
-
-		//作成時間,更新時間を再セット
-		unset($bbsSetting['BbsFrameSetting']['created'], $bbsSetting['BbsFrameSetting']['modified']);
-		$data = Hash::merge($bbsSetting, $data);
-
-		if (! $bbsSetting = $this->BbsFrameSetting->saveBbsSetting($data)) {
-			if (! $this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
+			if ($this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/bbses/bbses/index/' . $this->viewVars['frameId']);
+				}
 				return;
 			}
-		}
 
-		$this->set('frameKey', $bbsSetting['BbsFrameSetting']['frame_key']);
-
-		if (!$this->request->is('ajax')) {
-			$this->redirectBackUrl();
+			$results = $this->camelizeKeyRecursive($data);
+			$this->set($results);
 		}
 	}
+
+/**
+ * initBbs
+ *
+ * @return void
+ */
+	private function __initBbsFrameSetting() {
+		if (! $bbsFrameSetting = $this->BbsFrameSetting->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'frame_key' => $this->viewVars['frameKey']
+			)
+		))) {
+			$bbsFrameSetting = $this->BbsFrameSetting->create(
+				array(
+					'frame_key' => $this->viewVars['frameKey']
+				)
+			);
+		}
+		$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
+		$this->set($bbsFrameSetting);
+	}
+
 }

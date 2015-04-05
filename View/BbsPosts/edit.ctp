@@ -1,58 +1,65 @@
-<?php echo $this->Html->script('/net_commons/base/js/workflow.js', false); ?>
+<?php
+/**
+ * BbsPosts edit
+ *
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+?>
+
+<?php //echo $this->Html->script('/net_commons/base/js/workflow.js', false); ?>
 <?php echo $this->Html->script('/net_commons/base/js/wysiwyg.js', false); ?>
 <?php echo $this->Html->script('/bbses/js/bbses.js', false); ?>
 
-<div id="nc-bbs-add-<?php echo (int)$frameId; ?>"
-		ng-controller="BbsPost"
-		ng-init="initialize(<?php echo h(json_encode($bbsPosts)); ?>)">
+<div id="nc-bbs-post-<?php echo $frameId; ?>" ng-controller="BbsPosts"
+		ng-init="initialize(<?php echo h(json_encode(['bbsPostI18n' => ['content' => $bbsPostI18n['content']]])); ?>)">
 
-<!-- パンくずリスト -->
-<ol class="breadcrumb">
-	<li><a href="<?php echo $this->Html->url(
-				'/bbses/bbses/index/' . $frameId) ?>">
-		<?php echo $bbses['name']; ?></a>
-	</li>
-	<?php if (isset($bbsPosts['id'])) : ?>
-		<li><a href="<?php echo $this->Html->url(
-					'/bbses/bbsPosts/view/' . $frameId . '/' . $bbsPosts['id']) ?>">
-			<?php echo $bbsPosts['title']; ?></a>
-		</li>
-	<?php endif; ?>
-	<li class="active"><?php echo __d('bbses', 'Edit'); ?></li>
-</ol>
-
-<div>
-<?php echo $this->Form->create('BbsPost', array(
-		'name' => 'form',
-		'novalidate' => true,
-	)); ?>
-	<?php echo $this->Form->hidden('id'); ?>
-	<?php echo $this->Form->hidden('Bbs.key', array(
-		'value' => $bbses['key'],
-	)); ?>
-	<?php echo $this->Form->hidden('User.id', array(
-		'value' => $userId,
-	)); ?>
+	<?php echo $this->element('BbsPosts/breadcrumb'); ?>
 
 	<div class="panel panel-default">
-		<div class="panel-body has-feedback">
+		<?php echo $this->Form->create('BbsPost', array('novalidate' => true)); ?>
+			<div class="panel-body has-feedback">
+				<?php echo $this->element('BbsPosts/edit_form'); ?>
+				<?php if (! $bbsPost['rootId']) : ?>
+					<hr />
+					<?php echo $this->element('Comments.form'); ?>
+				<?php endif; ?>
+			</div>
+			<div class="panel-footer text-center">
+				<?php echo $this->element('NetCommons.workflow_buttons'); ?>
+			</div>
+		<?php echo $this->Form->end(); ?>
 
-			<?php echo $this->element('BbsPosts/post_form'); ?>
-
-			<hr />
-
-			<?php echo $this->element('Comments.form'); ?>
-
-		</div>
-		<div class="panel-footer text-center">
-
-			<?php echo $this->element('Bbses.post_workflow_buttons'); ?>
-
-		</div>
+		<?php if ($this->request->params['action'] === 'edit') : ?>
+			<div class="panel-footer text-right">
+				<?php echo $this->Form->create('BbsPost', array('type' => 'delete', 'action' => 'delete/' . $frameId . '/' . (int)$bbsPost['id'])); ?>
+					<?php echo $this->Form->hidden('BbsPost.id', array(
+							'value' => isset($bbsPost['id']) ? $bbsPost['id'] : null,
+						)); ?>
+					<?php echo $this->Form->hidden('BbsPost.root_id', array(
+							'value' => isset($bbsPost['rootId']) ? $bbsPost['rootId'] : null,
+						)); ?>
+					<?php echo $this->Form->hidden('BbsPost.last_status', array(
+							'value' => isset($bbsPost['lastStatus']) ? $bbsPost['lastStatus'] : null,
+						)); ?>
+					<?php echo $this->Form->hidden('BbsPost.key', array(
+							'value' => isset($bbsPost['key']) ? $bbsPost['key'] : null,
+						)); ?>
+					<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span>', array(
+							'name' => 'delete',
+							'class' => 'btn btn-danger',
+							'onclick' => 'return confirm(\'' . sprintf(__d('bbses', 'Deleting the %s. Are you sure to proceed?'), __d('bbses', 'article')) . '\')'
+						)); ?>
+				<?php echo $this->Form->end(); ?>
+			</div>
+		<?php endif; ?>
 	</div>
-	<?php echo $this->element('Comments.index'); ?>
 
-<?php echo $this->Form->end(); ?>
-</div>
+	<?php if (! $bbsPost['rootId']) : ?>
+		<?php echo $this->element('Comments.index'); ?>
+	<?php endif; ?>
 
 </div>

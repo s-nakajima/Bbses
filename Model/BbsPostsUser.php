@@ -21,13 +21,6 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 class BbsPostsUser extends BbsesAppModel {
 
 /**
- * use tables
- *
- * @var string
- */
-	public $useTable = 'bbs_posts_users';
-
-/**
  * Validation rules
  *
  * @var array
@@ -42,7 +35,7 @@ class BbsPostsUser extends BbsesAppModel {
 	public $belongsTo = array(
 		'BbsPost' => array(
 			'className' => 'Bbses.BbsPost',
-			'foreignKey' => 'post_id',
+			'foreignKey' => 'bbs_post_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -67,7 +60,7 @@ class BbsPostsUser extends BbsesAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			'post_id' => array(
+			'bbs_post_id' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
 					'message' => __d('net_commons', 'Invalid request.'),
@@ -81,18 +74,6 @@ class BbsPostsUser extends BbsesAppModel {
 					'required' => true,
 				)
 			),
-			'likes_flag' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				)
-			),
-			'unlikes_flag' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				)
-			),
 		));
 		return parent::beforeValidate($options);
 	}
@@ -104,22 +85,22 @@ class BbsPostsUser extends BbsesAppModel {
  * @param int $userId users.id
  * @return array or not find data is false
  */
-	public function getPostsUsers($postId, $userId) {
-		$conditions = array(
-			'post_id' => $postId,
-			'user_id' => $userId,
-		);
-
-		if (! $postsUsers = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			))
-		) {
-			return false;
-
-		}
-		return $postsUsers;
-	}
+	//public function getPostsUsers($postId, $userId) {
+	//	$conditions = array(
+	//		'post_id' => $postId,
+	//		'user_id' => $userId,
+	//	);
+	//
+	//	if (! $postsUsers = $this->find('first', array(
+	//			'recursive' => -1,
+	//			'conditions' => $conditions,
+	//		))
+	//	) {
+	//		return false;
+	//
+	//	}
+	//	return $postsUsers;
+	//}
 
 /**
  * getLikes
@@ -128,49 +109,49 @@ class BbsPostsUser extends BbsesAppModel {
  * @param int $userId users.id
  * @return array
  */
-	public function getLikes($postId, $userId) {
-		if (! $likesPosts = $this->find('all', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'post_id' => $postId,
-					'likes_flag' => true,
-				),
-			))
-		) {
-			$results['likesNum'] = 0;
-
-		} else {
-			$results['likesNum'] = count($likesPosts);
-
-		}
-
-		if (! $unlikesPosts = $this->find('all', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'post_id' => $postId,
-					'unlikes_flag' => true,
-				),
-			))
-		) {
-			$results['unlikesNum'] = 0;
-
-		} else {
-			$results['unlikesNum'] = count($unlikesPosts);
-
-		}
-
-		if (! $postsUsers = $this->getPostsUsers($postId, $userId)) {
-			$results['likesFlag'] = false;
-			$results['unlikesFlag'] = false;
-
-		} else {
-			$results['likesFlag'] = $postsUsers['BbsPostsUser']['likes_flag'];
-			$results['unlikesFlag'] = $postsUsers['BbsPostsUser']['unlikes_flag'];
-
-		}
-
-		return $results;
-	}
+	//public function getLikes($postId, $userId) {
+	//	if (! $likesPosts = $this->find('all', array(
+	//			'recursive' => -1,
+	//			'conditions' => array(
+	//				'post_id' => $postId,
+	//				'likes_flag' => true,
+	//			),
+	//		))
+	//	) {
+	//		$results['likesNum'] = 0;
+	//
+	//	} else {
+	//		$results['likesNum'] = count($likesPosts);
+	//
+	//	}
+	//
+	//	if (! $unlikesPosts = $this->find('all', array(
+	//			'recursive' => -1,
+	//			'conditions' => array(
+	//				'post_id' => $postId,
+	//				'unlikes_flag' => true,
+	//			),
+	//		))
+	//	) {
+	//		$results['unlikesNum'] = 0;
+	//
+	//	} else {
+	//		$results['unlikesNum'] = count($unlikesPosts);
+	//
+	//	}
+	//
+	//	if (! $postsUsers = $this->getPostsUsers($postId, $userId)) {
+	//		$results['likesFlag'] = false;
+	//		$results['unlikesFlag'] = false;
+	//
+	//	} else {
+	//		$results['likesFlag'] = $postsUsers['BbsPostsUser']['likes_flag'];
+	//		$results['unlikesFlag'] = $postsUsers['BbsPostsUser']['unlikes_flag'];
+	//
+	//	}
+	//
+	//	return $results;
+	//}
 
 /**
  * save bbs
@@ -179,7 +160,7 @@ class BbsPostsUser extends BbsesAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function savePostsUsers($data) {
+	public function savePostsUser($data) {
 		$this->loadModels([
 			'BbsPostsUser' => 'Bbses.BbsPostsUser',
 		]);
@@ -202,14 +183,14 @@ class BbsPostsUser extends BbsesAppModel {
 			//トランザクションRollback
 			$dataSource->rollback();
 			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
 		return $bbsPostsUser;
 	}
 
 /**
- * validate announcement
+ * validate BbsPostsUser
  *
  * @param array $data received post data
  * @return bool True on success, false on error

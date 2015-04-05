@@ -10,6 +10,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
 App::uses('BbsesAppModel', 'Bbses.Model');
 
 /**
@@ -19,8 +20,6 @@ App::uses('BbsesAppModel', 'Bbses.Model');
  * @package NetCommons\Bbses\Model
  */
 class BbsFrameSetting extends BbsesAppModel {
-
-	const DISPLAY_NUMBER_UNIT = '件';
 
 /**
  * Validation rules
@@ -62,15 +61,15 @@ class BbsFrameSetting extends BbsesAppModel {
 					'required' => true,
 				)
 			),
-			'visible_post_row' => array(
-				'boolean' => array(
+			'posts_per_page' => array(
+				'number' => array(
 					'rule' => array('notEmpty'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 				)
 			),
-			'visible_comment_row' => array(
-				'boolean' => array(
+			'comments_per_page' => array(
+				'number' => array(
 					'rule' => array('notEmpty'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
@@ -78,28 +77,6 @@ class BbsFrameSetting extends BbsesAppModel {
 			),
 		));
 		return parent::beforeValidate($options);
-	}
-/**
- * get bbs setting data
- *
- * @param int $frameKey frames.key
- * @return array
- */
-	public function getBbsSetting($frameKey) {
-		$conditions = array(
-			'frame_key' => $frameKey,
-		);
-		if (!$bbsSetting = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-				'order' => 'BbsFrameSetting.id DESC'
-			))
-		) {
-			//初期値を設定
-			$bbsSetting = $this->create($conditions);
-			$this->saveBbsSetting($bbsSetting);
-		}
-		return $bbsSetting;
 	}
 
 /**
@@ -109,7 +86,7 @@ class BbsFrameSetting extends BbsesAppModel {
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function saveBbsSetting($data) {
+	public function saveBbsFrameSetting($data) {
 		$this->loadModels([
 			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
 		]);
@@ -117,34 +94,38 @@ class BbsFrameSetting extends BbsesAppModel {
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
+
 		try {
-			if (!$this->validateBbsSetting($data)) {
+			//バリデーション
+			if (!$this->validateBbsFrameSetting($data)) {
 				return false;
 			}
 
-			$bbsSetting = $this->save(null, false);
-			if (!$bbsSetting) {
+			//登録処理
+			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
 			//トランザクションCommit
 			$dataSource->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
 			$dataSource->rollback();
-			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
-		return $bbsSetting;
+
+		return true;
 	}
 
 /**
- * validate announcement
+ * validate bbs_frame_setting
  *
  * @param array $data received post data
  * @return bool True on success, false on error
  */
-	public function validateBbsSetting($data) {
+	public function validateBbsFrameSetting($data) {
 		$this->set($data);
 		$this->validates();
 		return $this->validationErrors ? false : true;
@@ -157,12 +138,12 @@ class BbsFrameSetting extends BbsesAppModel {
  */
 	public static function getDisplayNumberOptions() {
 		return array(
-			1 => 1 . self::DISPLAY_NUMBER_UNIT,
-			5 => 5 . self::DISPLAY_NUMBER_UNIT,
-			10 => 10 . self::DISPLAY_NUMBER_UNIT,
-			20 => 20 . self::DISPLAY_NUMBER_UNIT,
-			50 => 50 . self::DISPLAY_NUMBER_UNIT,
-			100 => 100 . self::DISPLAY_NUMBER_UNIT,
+			1 => __d('bbses', '%s article', 1),
+			5 => __d('bbses', '%s articles', 5),
+			10 => __d('bbses', '%s articles', 10),
+			20 => __d('bbses', '%s articles', 20),
+			50 => __d('bbses', '%s articles', 50),
+			100 => __d('bbses', '%s articles', 100),
 		);
 	}
 }

@@ -1,222 +1,235 @@
 # LANGUAGE translation of CakePHP Application
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 #
-# fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-03-02 04:50+0000\n"
-"PO-Revision-Date: 2015-03-17 19:28+0900\n"
+"POT-Creation-Date: 2015-03-29 15:38+0000\n"
+"PO-Revision-Date: 2015-03-31 11:41+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.7.4\n"
-"Language: ja_JP\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 1.6.10\n"
 
-#: /Controller/BbsesAppController.php:328 /View/Bbses/view.ctp:102
-msgid "Latest post order"
-msgstr "最新の投稿順"
+#: Controller/BlocksController.php:154
+msgid "New bbs %s"
+msgstr "新しい掲示板 %s"
 
-#: /Controller/BbsesAppController.php:334 /View/Bbses/view.ctp:108
-msgid "Older post order"
-msgstr "古い投稿順"
-
-#: /Controller/BbsesAppController.php:340 /View/Bbses/view.ctp:114
-msgid "Descending order of comments"
-msgstr "コメントの多い順"
-
-#: /Controller/BbsesAppController.php:357 /View/BbsComments/view.ctp:57
-#: /View/BbsPosts/view.ctp:48 /View/Bbses/view.ctp:53
-msgid "Published"
-msgstr "公開中"
-
-#: /Controller/BbsesAppController.php:384 /View/Bbses/view.ctp:65
-#: /View/Elements/post_workflow_buttons.ctp:20
-#: /View/Elements/status_label.ctp:24
-msgid "Remand"
-msgstr "差し戻し"
-
-#: /Controller/BbsesAppController.php:393 /View/BbsComments/view.ctp:67
-#: /View/BbsPosts/view.ctp:54 /View/Elements/status_label.ctp:30
-msgid "Disapproval"
-msgstr "未承認"
-
-#: /Controller/BbsesAppController.php:403 /View/BbsComments/view.ctp:52
-#: /View/BbsPosts/view.ctp:45 /View/Bbses/view.ctp:41
-msgid "Display all posts"
-msgstr "全て表示"
-
-#: /Controller/BbsesAppController.php:409 /View/Bbses/view.ctp:47
-msgid "Unread"
-msgstr "未読"
-
-#: /Model/Bbs.php:103 /View/Elements/Bbses/edit.ctp:3
+#: Model/Bbs.php:103 View/Blocks/index.ctp:39
+#: View/Elements/Blocks/edit_form.ctp:58
 msgid "Bbs name"
 msgstr "掲示板名称"
 
-#: /Model/BbsPost.php:95 /View/Elements/BbsComments/add_comment_form.ctp:15
-#: /View/Elements/BbsPosts/post_form.ctp:3
+#: Model/BbsFrameSetting.php:142
+msgid "%s article"
+msgstr "%s 件"
+
+#: Model/BbsFrameSetting.php:143;144;145;146;147
+msgid "%s articles"
+msgstr "%s 件"
+
+#: Model/BbsPostI18n.php:92 View/Elements/BbsPosts/edit_form.ctp:54
 msgid "Title"
 msgstr "タイトル"
 
-#: /Model/BbsPost.php:103 /View/Elements/BbsComments/add_comment_form.ctp:47
-#: /View/Elements/BbsPosts/post_form.ctp:33
+#: Model/BbsPostI18n.php:100 View/Elements/BbsPosts/edit_form.ctp:75
 msgid "Content"
 msgstr "本文"
 
-#: /View/BbsAuthoritySettings/edit.ctp:11 /View/BbsFrameSettings/edit.ctp:11
-#: /View/Bbses/edit.ctp:11
-msgid "Plugin name"
-msgstr "掲示板"
+#: View/BbsPosts/edit.ctp:57 View/Blocks/edit.ctp:55
+msgid "Delete all data associated with the %s."
+msgstr ""
+"%sに関連するデータをすべて削除します。<br />一度削除すると元に戻せません。"
 
-#: /View/BbsAuthoritySettings/edit.ctp:18 /View/BbsFrameSettings/edit.ctp:18
-#: /View/Bbses/edit.ctp:17
-msgid "Bbs edit"
-msgstr "編集"
+#: View/BbsPosts/edit.ctp:57;79
+msgid "article"
+msgstr "記事"
 
-#: /View/BbsAuthoritySettings/edit.ctp:24 /View/BbsFrameSettings/edit.ctp:23
-#: /View/Bbses/edit.ctp:23
-msgid "Display change"
-msgstr "表示方法変更"
+#: View/BbsPosts/edit.ctp:79 View/Blocks/edit.ctp:73
+msgid "Deleting the %s. Are you sure to proceed?"
+msgstr "%sを削除します。本当によろしいですか。"
 
-#: /View/BbsAuthoritySettings/edit.ctp:29 /View/BbsFrameSettings/edit.ctp:29
-#: /View/Bbses/edit.ctp:29
-msgid "Authority setting"
-msgstr "権限設定"
-
-#: /View/BbsComments/add.ctp:21
-msgid "Create comment"
-msgstr "コメント作成"
-
-#: /View/BbsComments/edit.ctp:21 /View/BbsComments/view.ctp:279;461;672
-#: /View/BbsPosts/edit.ctp:21 /View/BbsPosts/view.ctp:265;474
-#: /View/Bbses/view.ctp:234
-msgid "Edit"
-msgstr "編集"
-
-#: /View/BbsComments/view.ctp:76 /View/BbsPosts/view.ctp:64
-msgid "Comments"
-msgstr "コメント"
-
-#: /View/BbsComments/view.ctp:203;387;597 /View/BbsPosts/view.ctp:191;220;399
-msgid "Remove likes"
-msgstr "高く評価を取り消す"
-
-#: /View/BbsComments/view.ctp:203;387;597 /View/BbsPosts/view.ctp:191;220;399
-msgid "Do likes"
-msgstr "高く評価する"
-
-#: /View/BbsComments/view.ctp:232;416;626 /View/BbsPosts/view.ctp:428
-msgid "Remove unlikes"
-msgstr "低く評価を取り消す"
-
-#: /View/BbsComments/view.ctp:232;416;626 /View/BbsPosts/view.ctp:428
-msgid "Do unlikes"
-msgstr "低く評価する"
-
-#: /View/BbsComments/view.ctp:269;452;663 /View/BbsPosts/view.ctp:255;465
-msgid "Delete"
-msgstr "削除"
-
-#: /View/BbsComments/view.ctp:307;488;701 /View/BbsPosts/view.ctp:292;502
-msgid "Quote this posts"
-msgstr "引用する"
-
-#: /View/BbsComments/view.ctp:317;498;711 /View/BbsPosts/view.ctp:302;512
-msgid "Write comment"
-msgstr "コメントを書く"
-
-#: /View/BbsComments/view.ctp:522
-msgid "This comments has not yet been published"
-msgstr "このコメントはまだ公開されていません"
-
-#: /View/BbsComments/view.ctp:530 /View/BbsPosts/view.ctp:326
-msgid "There are not comments"
-msgstr "コメントはありません"
-
-#: /View/BbsPosts/add.ctp:15 /View/Bbses/view.ctp:23
+#: View/BbsPosts/index.ctp:30 View/Elements/BbsPosts/breadcrumb.ctp:59
 msgid "Create post"
-msgstr "記事作成"
+msgstr "記事の作成"
 
-#: /View/BbsPosts/view.ctp:318
-msgid "This posts has not yet been published"
-msgstr "この記事はまだ公開されていません"
-
-#: /View/Bbses/notCreateBbs.ctp:12
-msgid "There are not published bbs"
-msgstr "公開されている掲示板はありません"
-
-#: /View/Bbses/view.ctp:87
+#: View/BbsPosts/index.ctp:43
+#: View/Elements/BlockRolePermissions/edit_form.ctp:19
 msgid "Posts"
 msgstr "記事"
 
-#: /View/Bbses/view.ctp:187
-msgid "Publishing comments"
-msgstr "公開中のコメント"
+#: View/BbsPosts/index.ctp:67
+msgid "No article found."
+msgstr "一つも記事がありません。"
 
-#: /View/Bbses/view.ctp:189
-msgid "Edit status of comments"
-msgstr "編集中のコメント"
+#: View/BbsPosts/noBbs.ctp:23
+msgid "Not found published bbs."
+msgstr "公開されている掲示板がありません。"
 
-#: /View/Bbses/view.ctp:255
-msgid "There are not posts"
-msgstr "記事はありません"
+#: View/Blocks/edit.ctp:55;73
+msgid "BBS"
+msgstr "掲示板"
 
-#: /View/Elements/approving_buttons.ctp:30
+#: View/Blocks/index.ctp:42
+msgid "Public Type"
+msgstr "公開設定"
+
+#: View/Blocks/index.ctp:45
+msgid "Updated Date"
+msgstr "更新日"
+
+#: View/Blocks/index.ctp:73
+msgid "Private"
+msgstr "非公開"
+
+#: View/Blocks/index.ctp:75
+msgid "Public"
+msgstr "公開"
+
+#: View/Blocks/index.ctp:77 View/Elements/Blocks/edit_form.ctp:86
+msgid "Limited Public"
+msgstr "期間限定公開"
+
+#: View/Blocks/noBbs.ctp:26
+msgid "Not found bbs."
+msgstr "登録されている掲示板がありません。"
+
+#: View/Elements/edit_header.ctp:17
+msgid "Plugin name"
+msgstr "掲示板"
+
+#: View/Elements/setting_form_tab.ctp:16
+msgid "BBS List"
+msgstr "一覧表示"
+
+#: View/Elements/setting_form_tab.ctp:21
+msgid "Frame Setting"
+msgstr "表示方法変更"
+
+#: View/Elements/BbsFrameSettings/edit_form.ctp:27
+msgid "Show articles per page"
+msgstr "１ページに表示する記事数"
+
+#: View/Elements/BbsFrameSettings/edit_form.ctp:46
+msgid "Show comments per page"
+msgstr "１ページに表示するコメント数"
+
+#: View/Elements/BbsPosts/breadcrumb.ctp:63
+#: View/Elements/BbsPosts/edit_link.ctp:26
+msgid "Edit"
+msgstr "編集"
+
+#: View/Elements/BbsPosts/comment_approving_link.ctp:32
 msgid "Approving"
 msgstr "承認する"
 
-#: /View/Elements/BbsAuthoritySettings/auth_setting.ctp:3
+#: View/Elements/BbsPosts/comment_status_label.ctp:19
+msgid "Comment approving"
+msgstr "未承認"
+
+#: View/Elements/BbsPosts/index_bbs_post.ctp:38
+msgid "Publishing comments"
+msgstr "コメント数"
+
+#: View/Elements/BbsPosts/reply_link.ctp:31
+msgid "Quote this posts"
+msgstr "引用する"
+
+#: View/Elements/BbsPosts/reply_link.ctp:36
+msgid "Write comment"
+msgstr "コメントを書く"
+
+#: View/Elements/BbsPosts/select_sort.ctp:22
+msgid "Latest post order"
+msgstr "最新の投稿順"
+
+#: View/Elements/BbsPosts/select_sort.ctp:27
+msgid "Older post order"
+msgstr "古い投稿順"
+
+#: View/Elements/BbsPosts/select_sort.ctp:32
+msgid "Descending order of comments"
+msgstr "コメントの多い順"
+
+#: View/Elements/BbsPosts/select_status.ctp:21
+msgid "Display all posts"
+msgstr "全てのステータス"
+
+#: View/Elements/BbsPosts/select_status.ctp:29
+msgid "Published"
+msgstr "公開中"
+
+#: View/Elements/BbsPosts/view_bbs_post.ctp:17
+msgid "%s. "
+msgstr ""
+
+#: View/Elements/BbsPosts/view_bbs_post.ctp:48
+msgid "&gt;&gt; %s"
+msgstr ""
+
+#: View/Elements/BlockRolePermissions/edit_form.ctp:25
 msgid "Post creatable authority"
-msgstr "記事作成権限"
+msgstr "作成者"
 
-#: /View/Elements/BbsAuthoritySettings/auth_setting.ctp:10;64;117
-msgid "Room administrator"
-msgstr "ルーム管理者"
+#: View/Elements/BlockRolePermissions/edit_form.ctp:38;92
+msgid "Approval"
+msgstr "承認機能"
 
-#: /View/Elements/BbsAuthoritySettings/auth_setting.ctp:21;75;128
-msgid "Cheif editor"
-msgstr "編集長"
+#: View/Elements/BlockRolePermissions/edit_form.ctp:43;97
+msgid "Unused"
+msgstr "しない"
 
-#: /View/Elements/BbsAuthoritySettings/auth_setting.ctp:32;86;139
-msgid "Editor"
-msgstr "編集者"
+#: View/Elements/BlockRolePermissions/edit_form.ctp:44;98
+msgid "Use"
+msgstr "する"
 
-#: /View/Elements/BbsAuthoritySettings/auth_setting.ctp:43;97;150
-msgid "General"
-msgstr "一般"
-
-#: /View/Elements/BbsAuthoritySettings/auth_setting.ctp:57
+#: View/Elements/BlockRolePermissions/edit_form.ctp:57
 msgid "Post publishable authority"
-msgstr "記事公開権限"
+msgstr "承認者"
 
-#: /View/Elements/BbsAuthoritySettings/auth_setting.ctp:110
+#: View/Elements/BlockRolePermissions/edit_form.ctp:73
+msgid "Comments"
+msgstr "コメント"
+
+#: View/Elements/BlockRolePermissions/edit_form.ctp:79
 msgid "Comment creatable authority"
-msgstr "コメント作成権限"
+msgstr "作成者"
 
-#: /View/Elements/BbsFrameSettings/frame_setting.ctp:3
-msgid "Visible post row"
-msgstr "記事表示件数"
+#: View/Elements/BlockRolePermissions/edit_form.ctp:111
+msgid "Comment publishable authority"
+msgstr "承認者"
 
-#: /View/Elements/BbsFrameSettings/frame_setting.ctp:22
-msgid "Visible comment row"
-msgstr "コメント表示件数"
+#: View/Elements/Blocks/bbs_setting_tab.ctp:18
+msgid "BBS Setting"
+msgstr "コンテンツ"
 
-#: /View/Elements/Bbses/edit.ctp:32
+#: View/Elements/Blocks/bbs_setting_tab.ctp:24
+msgid "Authority Setting"
+msgstr "権限設定"
+
+#: View/Elements/Blocks/edit_form.ctp:78
+msgid "Publishing setting"
+msgstr "公開設定"
+
+#: View/Elements/Blocks/edit_form.ctp:84
+msgid "No display"
+msgstr "非公開"
+
+#: View/Elements/Blocks/edit_form.ctp:85
+msgid "Display"
+msgstr "公開"
+
+#: View/Elements/Blocks/edit_form.ctp:132
 msgid "Use comment"
-msgstr "コメントを利用する"
+msgstr "コメントを使用する"
 
-#: /View/Elements/Bbses/edit.ctp:44
-msgid "Auto approval"
-msgstr "自動承認する"
-
-#: /View/Elements/Bbses/edit.ctp:56
+#: View/Elements/Blocks/edit_form.ctp:147
 msgid "Use like button"
-msgstr "高く評価ボタンを利用する"
+msgstr "高い評価ボタンを使用する"
 
-#: /View/Elements/Bbses/edit.ctp:69
+#: View/Elements/Blocks/edit_form.ctp:161
 msgid "Use unlike button"
-msgstr "低く評価ボタンを利用する"
+msgstr "低い評価ボタンも使用する"
