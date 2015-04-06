@@ -83,7 +83,7 @@ class BlockRolePermissionsController extends BbsesAppController {
 		$roles = $this->Role->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
-				'Role.type' => 2, //TODO定数化
+				'Role.type' => 2, //後で定数化
 				'Role.language_id' => $this->viewVars['languageId'],
 			),
 		));
