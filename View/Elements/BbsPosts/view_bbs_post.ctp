@@ -64,35 +64,26 @@
 
 <div class="panel-footer">
 	<div class="row">
-		<div class="col-xs-6">
+		<div class="col-xs-6" <?php echo $this->element('Likes.like_init_attributes', array(
+					'contentKey' => $bbsPost['bbsPost']['key'],
+					'disabled' => !(! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED),
+					'likeCounts' => (int)$bbsPost['bbsPost']['likeCounts'],
+					'unlikeCounts' => (int)$bbsPost['bbsPost']['unlikeCounts'],
+				)); ?>>
+
 			<?php if ($bbsSetting['useLike']) : ?>
-				 <div class="inline-block text-muted">
-					  <?php if (! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-						   <?php echo $this->element('Likes.like', array(
-									'likeCounts' => (int)$bbsPost['bbsPost']['likeCounts'],
-									'contentKey' => $bbsPost['bbsPost']['key'],
-								)); ?>
-					  <?php else : ?>
-						   <span class="glyphicon glyphicon-thumbs-up"></span>
-						   <?php echo (int)$bbsPost['bbsPost']['likeCounts']; ?>
-					  <?php endif; ?>
+				 <div class="inline-block">
+					<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_LIKE)); ?>
 				 </div>
 			<?php endif; ?>
 
 			<?php if ($bbsSetting['useUnlike']) : ?>
-				 <div class="inline-block text-muted">
-					  <?php if (! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
-						   <?php echo $this->element('Likes.unlike', array(
-									'unlikeCounts' => (int)$bbsPost['bbsPost']['unlikeCounts'],
-									'contentKey' => $bbsPost['bbsPost']['key'],
-								)); ?>
-					  <?php else : ?>
-						   <span class="glyphicon glyphicon-thumbs-down"></span>
-						   <?php echo (int)$bbsPost['bbsPost']['unlikeCounts']; ?>
-					  <?php endif; ?>
+				 <div class="inline-block">
+					<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_UNLIKE)); ?>
 				 </div>
 			<?php endif; ?>
-		 </div>
+		</div>
+
 		<div class="col-xs-6 text-right">
 			<?php echo $this->element('BbsPosts/reply_link', array(
 					'status' => $bbsPost['bbsPostI18n']['status'],

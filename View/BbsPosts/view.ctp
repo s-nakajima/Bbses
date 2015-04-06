@@ -11,6 +11,8 @@
 ?>
 
 <?php echo $this->Html->css('/bbses/css/style.css', false); ?>
+<?php echo $this->Html->script('/likes/js/likes.js', false); ?>
+<?php echo $this->Html->css('/likes/css/style.css', false); ?>
 
 <?php echo $this->element('BbsPosts/breadcrumb'); ?>
 
