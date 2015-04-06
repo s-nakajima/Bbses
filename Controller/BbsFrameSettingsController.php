@@ -56,6 +56,19 @@ class BbsFrameSettingsController extends BbsesAppController {
 	);
 
 /**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		$this->layout = 'Frames.setting';
+		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
+		$this->set($results);
+	}
+
+/**
  * edit
  *
  * @return void

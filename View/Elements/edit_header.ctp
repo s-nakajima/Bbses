@@ -9,10 +9,3 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-
-<div class="modal-header">
-	<a class="close" href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>">
-		<span class="glyphicon glyphicon-remove"> </span>
-	</a>
-	<?php echo __d('bbses', 'Plugin name'); ?>
-</div>
