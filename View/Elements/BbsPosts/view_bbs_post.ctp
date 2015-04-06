@@ -66,7 +66,7 @@
 	<div class="row">
 		<div class="col-xs-6">
 			<?php if ($bbsSetting['useLike']) : ?>
-				 <div class="inline-block text-success">
+				 <div class="inline-block text-muted">
 					  <?php if (! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
 						   <?php echo $this->element('Likes.like', array(
 									'likeCounts' => (int)$bbsPost['bbsPost']['likeCounts'],
@@ -80,7 +80,7 @@
 			<?php endif; ?>
 
 			<?php if ($bbsSetting['useUnlike']) : ?>
-				 <div class="inline-block text-success">
+				 <div class="inline-block text-muted">
 					  <?php if (! isset($bbsPost['like']) && $bbsPost['bbsPostI18n']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
 						   <?php echo $this->element('Likes.unlike', array(
 									'unlikeCounts' => (int)$bbsPost['bbsPost']['unlikeCounts'],
