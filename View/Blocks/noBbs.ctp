@@ -10,8 +10,6 @@
  */
 ?>
 
-<?php echo $this->element('edit_header'); ?>
-
 <div class="modal-body">
 	<?php echo $this->element('setting_form_tab', array('active' => 'block_index')); ?>
 
