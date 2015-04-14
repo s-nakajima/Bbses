@@ -43,7 +43,7 @@ class BlocksController extends BbsesAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'blockEditable' => array('index', 'current', 'add', 'edit', 'delete')
+				'blockEditable' => array('index', 'add', 'edit', 'delete')
 			),
 		),
 		'Paginator',
@@ -88,7 +88,7 @@ class BlocksController extends BbsesAppController {
 						'Block.language_id = ' . $this->viewVars['languageId'],
 						'Block.room_id = ' . $this->viewVars['roomId'],
 					),
-					//'limit' => 1
+					'limit' => 1
 				)
 			);
 			$bbses = $this->Paginator->paginate('Bbs');
@@ -108,36 +108,6 @@ class BlocksController extends BbsesAppController {
 		} catch (Exception $ex) {
 			$this->params['named'] = array();
 			$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
-		}
-	}
-
-/**
- * current
- *
- * @return void
- */
-	public function current() {
-		if (! $this->request->isPost()) {
-			$this->throwBadRequest();
-			return;
-		}
-
-		$this->Frame->setDataSource('master');
-		$frame = $this->Frame->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'Frame.id' => $this->viewVars['frameId'],
-			),
-		));
-
-		$data = Hash::merge($frame, $this->data);
-
-		$this->Frame->saveFrame($data);
-		$this->handleValidationError($this->Frame->validationErrors);
-
-		if (! $this->request->is('ajax')) {
-			$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId'] .
-					((int)($this->params['named']['page']) > 1 ? '/page:' . (int)$this->params['named']['page'] : ''));
 		}
 	}
 

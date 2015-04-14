@@ -22,7 +22,7 @@
 
 		<div id="nc-bbs-setting-<?php echo $frameId; ?>">
 			<?php echo $this->Form->create('', array(
-					'url' => '/bbses/blocks/current/' . $frameId . '/page:' . $this->Paginator->param('page')
+					'url' => '/frames/frames/edit/' . $frameId
 				)); ?>
 
 				<?php echo $this->Form->hidden('Frame.id', array(
