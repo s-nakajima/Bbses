@@ -68,7 +68,7 @@ class BlocksController extends BbsesAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		$this->layout = 'Frames.setting';
+		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
 	}

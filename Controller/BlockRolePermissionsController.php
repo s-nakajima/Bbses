@@ -67,7 +67,7 @@ class BlockRolePermissionsController extends BbsesAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->layout = 'Frames.setting';
+		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
 	}
