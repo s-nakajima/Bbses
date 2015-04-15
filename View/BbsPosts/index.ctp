@@ -110,7 +110,7 @@
 		<?php endforeach; ?>
 	</table>
 	<div class="text-center">
-		<?php echo $this->element('paginator', array(
+		<?php echo $this->element('NetCommons.paginator', array(
 				'url' => Hash::merge(
 					array('controller' => 'bbs_posts', 'action' => 'index', $frameId),
 					$this->Paginator->params['named']

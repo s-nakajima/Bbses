@@ -85,7 +85,7 @@
 			<?php echo $this->Form->end(); ?>
 
 			<div class="text-center">
-				<?php echo $this->element('paginator', array(
+				<?php echo $this->element('NetCommons.paginator', array(
 						'url' => Hash::merge(
 							array('controller' => 'blocks', 'action' => 'index', $frameId),
 							$this->Paginator->params['named']
