@@ -56,7 +56,6 @@ class BlocksController extends BbsesAppController {
  */
 	public $helpers = array(
 		'NetCommons.Token',
-		//'Paginator'
 	);
 
 /**
@@ -88,7 +87,7 @@ class BlocksController extends BbsesAppController {
 						'Block.language_id = ' . $this->viewVars['languageId'],
 						'Block.room_id = ' . $this->viewVars['roomId'],
 					),
-					'limit' => 1
+					//'limit' => 1
 				)
 			);
 			$bbses = $this->Paginator->paginate('Bbs');
