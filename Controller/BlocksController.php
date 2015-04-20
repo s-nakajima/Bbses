@@ -84,8 +84,8 @@ class BlocksController extends BbsesAppController {
 					'order' => array('Bbs.id' => 'desc'),
 					'conditions' => array(
 						'Block.id = Bbs.block_id',
-						'Block.language_id = ' . $this->viewVars['languageId'],
-						'Block.room_id = ' . $this->viewVars['roomId'],
+						'Block.language_id' => $this->viewVars['languageId'],
+						'Block.room_id' => $this->viewVars['roomId'],
 					),
 					//'limit' => 1
 				)
