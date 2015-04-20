@@ -93,7 +93,7 @@ class BlocksController extends BbsesAppController {
 			$bbses = $this->Paginator->paginate('Bbs');
 
 			if (! $bbses) {
-				$this->view = 'Blocks/noBbs';
+				$this->view = 'Blocks/not_found';
 				return;
 			}
 

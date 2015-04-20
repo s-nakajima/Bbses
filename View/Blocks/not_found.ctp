@@ -11,7 +11,13 @@
 ?>
 
 <div class="modal-body">
-	<?php echo $this->element('setting_form_tab', array('active' => 'block_index')); ?>
+	<?php echo $this->element('NetCommons.setting_tabs', array(
+			'tabs' => array(
+				'block_index' => '/bbses/blocks/index/' . $frameId,
+				'frame_settings' => '/bbses/bbs_frame_settings/edit/' . $frameId,
+			),
+			'active' => 'block_index'
+		)); ?>
 
 	<div class="tab-content">
 		<div class="text-right">
@@ -21,7 +27,7 @@
 		</div>
 
 		<div class="text-left">
-			<?php echo __d('bbses', 'Not found bbs.'); ?>
+			<?php echo __d('net_commons', 'Not found.'); ?>
 		</div>
 	</div>
 

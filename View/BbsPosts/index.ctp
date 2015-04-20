@@ -12,14 +12,6 @@
 
 <?php echo $this->Html->css('/bbses/css/style.css', false); ?>
 
-<?php if (Page::isSetting()) : ?>
-	<div class="text-right">
-		<a href="<?php echo $this->Html->url('/bbses/blocks/index/' . $frameId) ?>" class="btn btn-default">
-			<span class="glyphicon glyphicon-cog"> </span>
-		</a>
-	</div>
-<?php endif; ?>
-
 <div class="row form-group">
 	<div class="col-xs-10">
 		<h2 class="h4"><?php echo $bbs['name']; ?></h2>

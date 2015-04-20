@@ -11,31 +11,25 @@
 ?>
 
 <div class="modal-body">
-	<?php echo $this->element('setting_form_tab', array('active' => 'bbs_frame_setting')); ?>
+	<?php echo $this->element('NetCommons.setting_tabs', array(
+			'tabs' => array(
+				'block_index' => '/bbses/blocks/index/' . $frameId,
+				'frame_settings' => '/bbses/bbs_frame_settings/edit/' . $frameId,
+			),
+			'active' => 'frame_settings'
+		)); ?>
 
 	<div class="tab-content">
 		<?php echo $this->Form->create('BbsFrameSetting', array(
 				'name' => 'form',
 				'novalidate' => true,
 			)); ?>
-		<div class="panel panel-default">
-				<div class="panel-body has-feedback">
-					<?php echo $this->element('Bbses.BbsFrameSettings/edit_form'); ?>
-				</div>
 
-				<div class="panel-footer text-center">
-					<a class="btn btn-default" href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null); ?>">
-						<span class="glyphicon glyphicon-remove"> </span>
-						<?php echo __d('net_commons', 'Cancel'); ?>
-					</a>
-
-					<?php echo $this->Form->button(__d('net_commons', 'OK'), array(
-							'class' => 'btn btn-primary',
-							'name' => 'save',
-						)); ?>
-				</div>
-			</div>
-
-		<?php echo $this->Form->end(); ?>
+		<?php echo $this->element('Blocks.edit_form', array(
+				'controller' => 'Blocks',
+				'action' => 'edit' . '/' . $frameId,
+				'callback' => 'Bbses.BbsFrameSettings/edit_form',
+				'cancel' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
+			)); ?>
 	</div>
 </div>
