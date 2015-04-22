@@ -1,6 +1,6 @@
 <?php
 /**
- * BbsAuthoritySettings Controller
+ * BlockRolePermissions Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
@@ -12,7 +12,7 @@
 App::uses('BbsesAppController', 'Bbses.Controller');
 
 /**
- * BbsAuthoritySettings Controller
+ * BlockRolePermissions Controller
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Controller
