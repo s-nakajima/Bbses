@@ -222,7 +222,6 @@ class Bbs extends BbsesAppModel {
 			'Block' => 'Blocks.Block',
 			'BlockRolePermission' => 'Blocks.BlockRolePermission',
 			'Comment' => 'Comments.Comment',
-			'Frame' => 'Frames.Frame',
 		]);
 
 		//トランザクションBegin
@@ -231,42 +230,23 @@ class Bbs extends BbsesAppModel {
 
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Bbs']['key']), false)) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 
 			if (! $this->BbsSetting->deleteAll(array($this->BbsSetting->alias . '.bbs_key' => $data['Bbs']['key']), false)) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 
 			if (! $this->BbsPost->deleteAll(array($this->BbsPost->alias . '.bbs_key' => $data['Bbs']['key']), true)) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 
-			if (! $this->Block->deleteAll(array($this->Block->alias . '.key' => $data['Block']['key']), true)) {
-				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
-			}
+			//Blockデータ削除
+			$this->Block->deleteBlock($data['Block']['key']);
 
-			if (! $this->Frame->updateAll(
-					array('Frame.block_id' => null),
-					array('Frame.block_id' => (int)$data['Block']['id'])
-			)) {
-				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
-			}
-
+			//BlockRolePermissionデータ削除
 			if (! $this->BlockRolePermission->deleteAll(array($this->BlockRolePermission->alias . '.block_key' => $data['Block']['key']), true)) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 
 			//トランザクションCommit

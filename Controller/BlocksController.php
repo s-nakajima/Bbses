@@ -219,7 +219,7 @@ class BlocksController extends BbsesAppController {
  */
 	private function __parseRequestData() {
 		$data = $this->data;
-		if ($data['Block']['public_type'] === '2') {
+		if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
 			//$data['Block']['from'] = implode('-', $data['Block']['from']);
 			//$data['Block']['to'] = implode('-', $data['Block']['to']);
 		} else {
