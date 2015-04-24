@@ -99,7 +99,6 @@ class BlocksController extends BbsesAppController {
 
 			$results = array(
 				'bbses' => $bbses,
-				'current' => $this->current
 			);
 			$results = $this->camelizeKeyRecursive($results);
 			$this->set($results);

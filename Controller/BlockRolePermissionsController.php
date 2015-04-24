@@ -154,7 +154,6 @@ class BlockRolePermissionsController extends BbsesAppController {
 			'defaultPermissions' => $defaultPermissions,
 			'roles' => $roles,
 			'rolesRooms' => $rolesRooms,
-			'current' => $this->current,
 		);
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);

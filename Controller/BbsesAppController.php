@@ -99,21 +99,4 @@ class BbsesAppController extends AppController {
 
 		$this->set('userId', (int)$this->Auth->user('id'));
 	}
-
-/**
- * throw bad request
- *
- * @return void
- * @throws BadRequestException
- */
-	public function throwBadRequest() {
-		if ($this->request->is('ajax')) {
-			$this->renderJson(
-				['error' => ['validationErrors' => ['status' => __d('net_commons', 'Invalid request.')]]],
-				__d('net_commons', 'Bad Request'), 400
-			);
-		} else {
-			throw new BadRequestException(__d('net_commons', 'Bad Request'));
-		}
-	}
 }
