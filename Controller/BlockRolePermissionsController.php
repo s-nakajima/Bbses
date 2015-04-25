@@ -41,6 +41,7 @@ class BlockRolePermissionsController extends BbsesAppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
@@ -93,47 +94,9 @@ class BlockRolePermissionsController extends BbsesAppController {
 		$this->set('blockId', $block['Block']['id']);
 		$this->set('blockKey', $block['Block']['key']);
 
-		$roles = $this->Role->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'Role.type' => 2, //後で定数化
-				'Role.language_id' => $this->viewVars['languageId'],
-			),
-		));
-		$roles = Hash::combine($roles, '{n}.Role.key', '{n}.Role');
-
-		$rolesRooms = $this->RolesRoom->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'RolesRoom.room_id' => $this->viewVars['roomId'],
-			),
-		));
-		$rolesRooms = Hash::combine($rolesRooms, '{n}.RolesRoom.role_key', '{n}.RolesRoom');
-
-		$defaultPermissions = $this->DefaultRolePermission->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'DefaultRolePermission.type' => 'bbs_block_role',
-			),
-		));
-		$defaultPermissions = Hash::combine(
-			$defaultPermissions,
-			'{n}.DefaultRolePermission.role_key',
-			'{n}.DefaultRolePermission',
-			'{n}.DefaultRolePermission.permission'
-		);
-
-		$blockPermissions = $this->BlockRolePermission->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'BlockRolePermission.block_key' => $this->viewVars['blockKey'],
-			),
-		));
-		$blockPermissions = Hash::combine(
-			$blockPermissions,
-			'{n}.BlockRolePermission.roles_room_id',
-			'{n}.BlockRolePermission',
-			'{n}.BlockRolePermission.permission'
+		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
+			$this->viewVars['blockKey'],
+			['content_creatable', 'content_publishable', 'comment_creatable', 'comment_publishable']
 		);
 
 		if ($this->request->isPost()) {
@@ -150,10 +113,9 @@ class BlockRolePermissionsController extends BbsesAppController {
 		}
 
 		$results = array(
-			'blockPermissions' => $blockPermissions,
-			'defaultPermissions' => $defaultPermissions,
-			'roles' => $roles,
-			'rolesRooms' => $rolesRooms,
+			'blockRolePermissions' => $permissions['BlockRolePermissions'],
+			'roles' => $permissions['Roles'],
+			'current' => $this->current,
 		);
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);

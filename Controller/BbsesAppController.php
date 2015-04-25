@@ -44,7 +44,8 @@ class BbsesAppController extends AppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->set(['current' => $this->current]);
+		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+		$this->set($results);
 	}
 
 /**

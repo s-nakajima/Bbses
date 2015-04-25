@@ -10,15 +10,6 @@
  */
 ?>
 
-<!-- Todo:フレーム管理に移動する -->
-<?php if (Page::isSetting()) : ?>
-	<div class="text-right">
-		<a href="<?php echo $this->Html->url('/bbses/blocks/index/' . $frameId) ?>" class="btn btn-default">
-			<span class="glyphicon glyphicon-cog"> </span>
-		</a>
-	</div>
-<?php endif; ?>
-
 <div class="text-left">
 	<?php echo __d('bbses', 'Not found published bbs.'); ?>
 </div>
