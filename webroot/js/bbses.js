@@ -1,5 +1,5 @@
 /**
- * @fileoverview Rssreader Javascript
+ * @fileoverview Bbses Javascript
  * @author nakajimashouhei@gmail.com (Shohei Nakajima)
  */
 
