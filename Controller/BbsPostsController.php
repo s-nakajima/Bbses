@@ -50,7 +50,6 @@ class BbsPostsController extends BbsesAppController {
 			//コンテンツの権限設定
 			'allowedActions' => array(
 				'contentCreatable' => array('add', 'reply', 'edit', 'delete'),
-				'bbsPostCreatable' => array('add', 'reply', 'edit', 'delete')
 			),
 		),
 		'Paginator',
