@@ -148,7 +148,7 @@ class BbsPostsController extends BbsesAppController {
  * @return void
  */
 	public function add() {
-		$this->view = 'BbsPosts/edit';
+		$this->view = 'edit';
 		$this->initBbs(['bbsFrameSetting']);
 
 		$bbsPost = $this->BbsPost->create(
