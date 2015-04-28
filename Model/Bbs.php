@@ -244,11 +244,6 @@ class Bbs extends BbsesAppModel {
 			//Blockデータ削除
 			$this->Block->deleteBlock($data['Block']['key']);
 
-			//BlockRolePermissionデータ削除
-			if (! $this->BlockRolePermission->deleteAll(array($this->BlockRolePermission->alias . '.block_key' => $data['Block']['key']), true)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
 			//トランザクションCommit
 			$dataSource->commit();
 
