@@ -3,7 +3,7 @@
  * Bbses CakeMigration
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -12,7 +12,7 @@
 /**
  * Bbses CakeMigration
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Config\Migration
  */
 class RenameIsCommentAutoApproval extends CakeMigration {
@@ -31,20 +31,26 @@ class RenameIsCommentAutoApproval extends CakeMigration {
  */
 	public $migration = array(
 		'up' => array(
-			'create_table' => array(),
-			'alter_field' => array(
+			'create_table' => array(
+			),
+			'create_field' => array(
 				'bbs_settings' => array(
-					'use_comment' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'Use comments, 0:Unused 1:Use | コメント機能 0:使わない 1:使う | | '),
-					'is_comment_auto_approval' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'Use comments auto approval, 0:Unused 1:Use | コメントの承認機能 0:使わない 1:使う | | '),
+					'is_comment_auto_approval' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'Use of comments approval, 0:Unused 1:Use | コメントの承認機能 0:使わない 1:使う | | ', 'after' => 'use_comment'),
 				),
+			),
+			'drop_field' => array(
+				'bbs_settings' => array('use_comment_approval'),
 			),
 		),
 		'down' => array(
-			'drop_table' => array(),
-			'alter_field' => array(
+			'drop_table' => array(
+			),
+			'drop_field' => array(
+				'bbs_settings' => array('is_comment_auto_approval'),
+			),
+			'create_field' => array(
 				'bbs_settings' => array(
-					'use_comment' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'Use of comments, 0:Unused 1:Use | コメント機能 0:使わない 1:使う | | '),
-					'is_comment_auto_approval' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'Use of comments approval, 0:Unused 1:Use | コメントの承認機能 0:使わない 1:使う | | '),
+					'use_comment_approval' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'Use of comments approval, 0:Unused 1:Use | コメントの承認機能 0:使わない 1:使う | | '),
 				),
 			),
 		),
