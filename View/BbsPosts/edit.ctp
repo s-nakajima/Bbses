@@ -10,8 +10,7 @@
  */
 ?>
 
-<?php //echo $this->Html->script('/net_commons/base/js/workflow.js', false); ?>
-<?php echo $this->Html->script('/net_commons/base/js/wysiwyg.js', false); ?>
+<?php echo $this->Html->script('/net_commons/js/wysiwyg.js', false); ?>
 <?php echo $this->Html->script('/bbses/js/bbses.js', false); ?>
 
 <div id="nc-bbs-post-<?php echo $frameId; ?>" ng-controller="BbsPosts"
