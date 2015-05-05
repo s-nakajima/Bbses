@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-03-29 15:38+0000\n"
+"POT-Creation-Date: 2015-05-05 15:31+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,229 +14,133 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/BlocksController.php:154
+#: Bbses/Controller/BlocksController.php:126
 msgid "New bbs %s"
 msgstr ""
 
-#: Model/Bbs.php:103
-#: View/Blocks/index.ctp:39
-#: View/Elements/Blocks/edit_form.ctp:58
+#: Bbses/Model/Bbs.php:103
+#: Bbses/View/Blocks/index.ctp:43
+#: Bbses/View/Elements/Blocks/edit_form.ctp:58
 msgid "Bbs name"
 msgstr ""
 
-#: Model/BbsFrameSetting.php:142
+#: Bbses/Model/BbsFrameSetting.php:141
 msgid "%s article"
 msgstr ""
 
-#: Model/BbsFrameSetting.php:143;144;145;146;147
+#: Bbses/Model/BbsFrameSetting.php:142;143;144;145;146
 msgid "%s articles"
 msgstr ""
 
-#: Model/BbsPostI18n.php:92
-#: View/Elements/BbsPosts/edit_form.ctp:54
+#: Bbses/Model/BbsPostI18n.php:92
+#: Bbses/View/Elements/BbsPosts/edit_form.ctp:54
 msgid "Title"
 msgstr ""
 
-#: Model/BbsPostI18n.php:100
-#: View/Elements/BbsPosts/edit_form.ctp:75
+#: Bbses/Model/BbsPostI18n.php:100
+#: Bbses/View/Elements/BbsPosts/edit_form.ctp:75
 msgid "Content"
 msgstr ""
 
-#: View/BbsPosts/edit.ctp:57
-#: View/Blocks/edit.ctp:55
-msgid "Delete all data associated with the %s."
-msgstr ""
-
-#: View/BbsPosts/edit.ctp:57;79
+#: Bbses/View/BbsPosts/edit.ctp:53
 msgid "article"
 msgstr ""
 
-#: View/BbsPosts/edit.ctp:79
-#: View/Blocks/edit.ctp:73
-msgid "Deleting the %s. Are you sure to proceed?"
-msgstr ""
-
-#: View/BbsPosts/index.ctp:30
-#: View/Elements/BbsPosts/breadcrumb.ctp:59
+#: Bbses/View/BbsPosts/index.ctp:22
+#: Bbses/View/Elements/BbsPosts/breadcrumb.ctp:59
 msgid "Create post"
 msgstr ""
 
-#: View/BbsPosts/index.ctp:43
-#: View/Elements/BlockRolePermissions/edit_form.ctp:19
+#: Bbses/View/BbsPosts/index.ctp:41
 msgid "Posts"
 msgstr ""
 
-#: View/BbsPosts/index.ctp:67
-msgid "No article found."
-msgstr ""
-
-#: View/BbsPosts/noBbs.ctp:23
-msgid "Not found published bbs."
-msgstr ""
-
-#: View/Blocks/edit.ctp:55;73
-msgid "BBS"
-msgstr ""
-
-#: View/Blocks/index.ctp:42
-msgid "Public Type"
-msgstr ""
-
-#: View/Blocks/index.ctp:45
-msgid "Updated Date"
-msgstr ""
-
-#: View/Blocks/index.ctp:73
-msgid "Private"
-msgstr ""
-
-#: View/Blocks/index.ctp:75
-msgid "Public"
-msgstr ""
-
-#: View/Blocks/index.ctp:77
-#: View/Elements/Blocks/edit_form.ctp:86
-msgid "Limited Public"
-msgstr ""
-
-#: View/Blocks/noBbs.ctp:26
-msgid "Not found bbs."
-msgstr ""
-
-#: View/Elements/edit_header.ctp:17
-msgid "Plugin name"
-msgstr ""
-
-#: View/Elements/setting_form_tab.ctp:16
-msgid "BBS List"
-msgstr ""
-
-#: View/Elements/setting_form_tab.ctp:21
-msgid "Frame Setting"
-msgstr ""
-
-#: View/Elements/BbsFrameSettings/edit_form.ctp:27
-msgid "Show articles per page"
-msgstr ""
-
-#: View/Elements/BbsFrameSettings/edit_form.ctp:46
-msgid "Show comments per page"
-msgstr ""
-
-#: View/Elements/BbsPosts/breadcrumb.ctp:63
-#: View/Elements/BbsPosts/edit_link.ctp:26
-msgid "Edit"
-msgstr ""
-
-#: View/Elements/BbsPosts/comment_approving_link.ctp:32
-msgid "Approving"
-msgstr ""
-
-#: View/Elements/BbsPosts/comment_status_label.ctp:19
-msgid "Comment approving"
-msgstr ""
-
-#: View/Elements/BbsPosts/index_bbs_post.ctp:38
+#: Bbses/View/BbsPosts/index.ctp:78
 msgid "Publishing comments"
 msgstr ""
 
-#: View/Elements/BbsPosts/reply_link.ctp:31
+#: Bbses/View/BbsPosts/index.ctp:114
+msgid "No article found."
+msgstr ""
+
+#: Bbses/View/BbsPosts/noBbs.ctp:14
+msgid "Not found published bbs."
+msgstr ""
+
+#: Bbses/View/Elements/edit_header.ctp:17
+msgid "Plugin name"
+msgstr ""
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:27
+msgid "Show articles per page"
+msgstr ""
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:46
+msgid "Show comments per page"
+msgstr ""
+
+#: Bbses/View/Elements/BbsPosts/breadcrumb.ctp:63
+#: Bbses/View/Elements/BbsPosts/edit_link.ctp:26
+msgid "Edit"
+msgstr ""
+
+#: Bbses/View/Elements/BbsPosts/comment_approving_link.ctp:32
+msgid "Approving"
+msgstr ""
+
+#: Bbses/View/Elements/BbsPosts/comment_status_label.ctp:19
+msgid "Comment approving"
+msgstr ""
+
+#: Bbses/View/Elements/BbsPosts/reply_link.ctp:31
 msgid "Quote this posts"
 msgstr ""
 
-#: View/Elements/BbsPosts/reply_link.ctp:36
+#: Bbses/View/Elements/BbsPosts/reply_link.ctp:36
 msgid "Write comment"
 msgstr ""
 
-#: View/Elements/BbsPosts/select_sort.ctp:22
+#: Bbses/View/Elements/BbsPosts/select_sort.ctp:22
 msgid "Latest post order"
 msgstr ""
 
-#: View/Elements/BbsPosts/select_sort.ctp:27
+#: Bbses/View/Elements/BbsPosts/select_sort.ctp:27
 msgid "Older post order"
 msgstr ""
 
-#: View/Elements/BbsPosts/select_sort.ctp:32
+#: Bbses/View/Elements/BbsPosts/select_sort.ctp:32
 msgid "Descending order of comments"
 msgstr ""
 
-#: View/Elements/BbsPosts/select_status.ctp:21
+#: Bbses/View/Elements/BbsPosts/select_status.ctp:21
 msgid "Display all posts"
 msgstr ""
 
-#: View/Elements/BbsPosts/select_status.ctp:29
+#: Bbses/View/Elements/BbsPosts/select_status.ctp:29
 msgid "Published"
 msgstr ""
 
-#: View/Elements/BbsPosts/view_bbs_post.ctp:17
+#: Bbses/View/Elements/BbsPosts/view_bbs_post.ctp:17
 msgid "%s. "
 msgstr ""
 
-#: View/Elements/BbsPosts/view_bbs_post.ctp:48
+#: Bbses/View/Elements/BbsPosts/view_bbs_post.ctp:58
 msgid "&gt;&gt; %s"
 msgstr ""
 
-#: View/Elements/BlockRolePermissions/edit_form.ctp:25
-msgid "Post creatable authority"
+#: Bbses/View/Elements/Blocks/delete_form.ctp:14;28
+msgid "BBS"
 msgstr ""
 
-#: View/Elements/BlockRolePermissions/edit_form.ctp:38;92
-msgid "Approval"
-msgstr ""
-
-#: View/Elements/BlockRolePermissions/edit_form.ctp:43;97
-msgid "Unused"
-msgstr ""
-
-#: View/Elements/BlockRolePermissions/edit_form.ctp:44;98
-msgid "Use"
-msgstr ""
-
-#: View/Elements/BlockRolePermissions/edit_form.ctp:57
-msgid "Post publishable authority"
-msgstr ""
-
-#: View/Elements/BlockRolePermissions/edit_form.ctp:73
-msgid "Comments"
-msgstr ""
-
-#: View/Elements/BlockRolePermissions/edit_form.ctp:79
-msgid "Comment creatable authority"
-msgstr ""
-
-#: View/Elements/BlockRolePermissions/edit_form.ctp:111
-msgid "Comment publishable authority"
-msgstr ""
-
-#: View/Elements/Blocks/bbs_setting_tab.ctp:18
-msgid "BBS Setting"
-msgstr ""
-
-#: View/Elements/Blocks/bbs_setting_tab.ctp:24
-msgid "Authority Setting"
-msgstr ""
-
-#: View/Elements/Blocks/edit_form.ctp:78
-msgid "Publishing setting"
-msgstr ""
-
-#: View/Elements/Blocks/edit_form.ctp:84
-msgid "No display"
-msgstr ""
-
-#: View/Elements/Blocks/edit_form.ctp:85
-msgid "Display"
-msgstr ""
-
-#: View/Elements/Blocks/edit_form.ctp:132
+#: Bbses/View/Elements/Blocks/edit_form.ctp:86
 msgid "Use comment"
 msgstr ""
 
-#: View/Elements/Blocks/edit_form.ctp:147
+#: Bbses/View/Elements/Blocks/edit_form.ctp:101
 msgid "Use like button"
 msgstr ""
 
-#: View/Elements/Blocks/edit_form.ctp:161
+#: Bbses/View/Elements/Blocks/edit_form.ctp:115
 msgid "Use unlike button"
 msgstr ""
 

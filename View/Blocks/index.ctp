@@ -43,10 +43,10 @@
 								<?php echo $this->Paginator->sort('Bbs.name', __d('bbses', 'Bbs name')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Block.public_type', __d('bbses', 'Public Type')); ?>
+								<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Publishing setting')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Bbs.modified', __d('bbses', 'Updated Date')); ?>
+								<?php echo $this->Paginator->sort('Bbs.modified', __d('net_commons', 'Updated date')); ?>
 							</th>
 						</tr>
 					</thead>
@@ -74,11 +74,11 @@
 								</td>
 								<td>
 									<?php if ($bbs['block']['publicType'] === '0') : ?>
-										<?php echo __d('bbses', 'Private'); ?>
+										<?php echo __d('blocks', 'Private'); ?>
 									<?php elseif ($bbs['block']['publicType'] === '1') : ?>
-										<?php echo __d('bbses', 'Public'); ?>
+										<?php echo __d('blocks', 'Public'); ?>
 									<?php elseif ($bbs['block']['publicType'] === '2') : ?>
-										<?php echo __d('bbses', 'Limited Public'); ?>
+										<?php echo __d('blocks', 'Limited'); ?>
 									<?php endif; ?>
 								</td>
 								<td>

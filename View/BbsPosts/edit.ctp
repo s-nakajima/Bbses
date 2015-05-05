@@ -50,7 +50,7 @@
 					<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span>', array(
 							'name' => 'delete',
 							'class' => 'btn btn-danger',
-							'onclick' => 'return confirm(\'' . sprintf(__d('bbses', 'Deleting the %s. Are you sure to proceed?'), __d('bbses', 'article')) . '\')'
+							'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('bbses', 'article')) . '\')'
 						)); ?>
 				<?php echo $this->Form->end(); ?>
 			</div>
