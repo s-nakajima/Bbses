@@ -46,7 +46,7 @@ class BlockRolePermissionsController extends BbsesAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'blockEditable' => array('edit')
+				'blockPermissionEditable' => array('edit')
 			),
 		),
 	);
