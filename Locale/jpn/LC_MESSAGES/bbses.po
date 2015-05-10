@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-05 15:31+0000\n"
-"PO-Revision-Date: 2015-05-06 00:48+0900\n"
+"POT-Creation-Date: 2015-05-10 01:29+0000\n"
+"PO-Revision-Date: 2015-05-10 10:48+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr "新しい掲示板 %s"
 #: Bbses/Model/Bbs.php:103 Bbses/View/Blocks/index.ctp:43
 #: Bbses/View/Elements/Blocks/edit_form.ctp:58
 msgid "Bbs name"
-msgstr "掲示板名称"
+msgstr "掲示板名"
 
 #: Bbses/Model/BbsFrameSetting.php:141
 msgid "%s article"
@@ -132,13 +132,5 @@ msgid "BBS"
 msgstr ""
 
 #: Bbses/View/Elements/Blocks/edit_form.ctp:86
-msgid "Use comment"
-msgstr "コメントを使用する"
-
-#: Bbses/View/Elements/Blocks/edit_form.ctp:101
-msgid "Use like button"
-msgstr "高い評価ボタンを使用する"
-
-#: Bbses/View/Elements/Blocks/edit_form.ctp:115
-msgid "Use unlike button"
-msgstr "低い評価ボタンも使用する"
+msgid "Use content comment"
+msgstr "コメントを付けられる"

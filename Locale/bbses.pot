@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-05 15:31+0000\n"
+"POT-Creation-Date: 2015-05-10 01:29+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -134,13 +134,5 @@ msgstr ""
 
 #: Bbses/View/Elements/Blocks/edit_form.ctp:86
 msgid "Use comment"
-msgstr ""
-
-#: Bbses/View/Elements/Blocks/edit_form.ctp:101
-msgid "Use like button"
-msgstr ""
-
-#: Bbses/View/Elements/Blocks/edit_form.ctp:115
-msgid "Use unlike button"
 msgstr ""
 
