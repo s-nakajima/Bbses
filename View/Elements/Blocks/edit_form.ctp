@@ -98,7 +98,7 @@
 
 		<?php echo $this->Form->label('BbsSetting.use_like',
 				'<span class="glyphicon glyphicon-thumbs-up"> </span> ' .
-				__d('bbses', 'Use like button')
+				__d('likes', 'Use like button')
 			); ?>
 	</div>
 
@@ -112,7 +112,7 @@
 
 		<?php echo $this->Form->label('BbsSetting.use_unlike',
 				'<span class="glyphicon glyphicon-thumbs-down"> </span> ' .
-				__d('bbses', 'Use unlike button')
+				__d('likes', 'Use unlike button')
 			); ?>
 	</div>
 </div>
