@@ -20,6 +20,13 @@ App::uses('BbsesAppController', 'Bbses.Controller');
 class BlockRolePermissionsController extends BbsesAppController {
 
 /**
+ * layout
+ *
+ * @var array
+ */
+	public $layout = 'NetCommons.setting';
+
+/**
  * use models
  *
  * @var array
@@ -68,7 +75,6 @@ class BlockRolePermissionsController extends BbsesAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
 	}

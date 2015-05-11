@@ -20,6 +20,13 @@ App::uses('BbsesAppController', 'Bbses.Controller');
 class BlocksController extends BbsesAppController {
 
 /**
+ * layout
+ *
+ * @var array
+ */
+	public $layout = 'NetCommons.setting';
+
+/**
  * use models
  *
  * @var array
@@ -67,7 +74,6 @@ class BlocksController extends BbsesAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
 	}

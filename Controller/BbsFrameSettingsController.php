@@ -20,6 +20,13 @@ App::uses('BbsesAppController', 'Bbses.Controller');
 class BbsFrameSettingsController extends BbsesAppController {
 
 /**
+ * layout
+ *
+ * @var array
+ */
+	public $layout = 'NetCommons.setting';
+
+/**
  * use models
  *
  * @var array
@@ -63,7 +70,6 @@ class BbsFrameSettingsController extends BbsesAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
 	}
