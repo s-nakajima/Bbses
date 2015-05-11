@@ -15,8 +15,8 @@
 <div class="modal-body">
 	<?php echo $this->element('NetCommons.setting_tabs', array(
 			'tabs' => array(
-				'block_index' => '/bbses/blocks/index/' . $frameId,
-				'frame_settings' => '/bbses/bbs_frame_settings/edit/' . $frameId,
+				'block_index' => array('url' => '/bbses/blocks/index/' . $frameId),
+				'frame_settings' => array('url' => '/bbses/bbs_frame_settings/edit/' . $frameId),
 			),
 			'active' => 'block_index'
 		)); ?>
@@ -24,8 +24,8 @@
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.setting_tabs', array(
 				'tabs' => array(
-					'block_settings' => '/bbses/blocks/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
-					'role_permissions' => '/bbses/block_role_permissions/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId
+					'block_settings' => array('url' => '/bbses/blocks/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId),
+					'role_permissions' => array('url' => '/bbses/block_role_permissions/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId)
 				),
 				'active' => 'role_permissions'
 			)); ?>
