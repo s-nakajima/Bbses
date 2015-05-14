@@ -1,21 +1,21 @@
 <?php
 /**
- * BbsSettingFixture
+ * BbsArticlesUserFixture
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 
 /**
- * BbsSettingFixture
+ * BbsArticlesUserFixture
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Test\Fixture
  */
-class BbsSettingFixture extends CakeTestFixture {
+class BbsArticlesUserFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -24,10 +24,8 @@ class BbsSettingFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
-		'bbs_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs key | 掲示板キー | Hash値 | ', 'charset' => 'utf8'),
-		'use_comment' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'use comment, 0:not use comment 1:use it | コメント使用有無 0:使わない 1:使う | | '),
-		'use_like' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'use like button, 0:not use like button 1:use it | 高く評価ボタン使用有無 0:使わない 1:使う | | '),
-		'use_unlike' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'use unlike button, 0:not use unlike button 1:use it | 低く評価ボタン使用有無 0:使わない 1:使う | | '),
+		'bbs_article_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Article ID | 記事ID | bbs_posts.id | '),
+		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'User ID | ユーザID | users.id | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
@@ -46,14 +44,12 @@ class BbsSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'bbs_key' => 'Lorem ipsum dolor sit amet',
-			'use_comment' => 1,
-			'use_like' => 1,
-			'use_unlike' => 1,
+			'bbs_article_id' => 1,
+			'user_id' => 1,
 			'created_user' => 1,
-			'created' => '2015-03-20 23:20:51',
+			'created' => '2015-05-14 07:10:20',
 			'modified_user' => 1,
-			'modified' => '2015-03-20 23:20:51'
+			'modified' => '2015-05-14 07:10:20'
 		),
 	);
 

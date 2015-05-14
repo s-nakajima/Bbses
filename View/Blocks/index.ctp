@@ -43,10 +43,10 @@
 								<?php echo $this->Paginator->sort('Bbs.name', __d('bbses', 'Bbs name')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Publishing setting')); ?>
+								<?php echo $this->Paginator->sort('Bbs.article_count', __d('bbses', 'Article count')); ?>
 							</th>
 							<th>
-								<?php echo $this->Paginator->sort('Bbs.modified', __d('net_commons', 'Updated date')); ?>
+								<?php echo $this->Paginator->sort('Bbs.article_modified', __d('bbses', 'Article updated datetime')); ?>
 							</th>
 						</tr>
 					</thead>
@@ -73,16 +73,10 @@
 									</a>
 								</td>
 								<td>
-									<?php if ($bbs['block']['publicType'] === Block::TYPE_PRIVATE) : ?>
-										<?php echo __d('blocks', 'Private'); ?>
-									<?php elseif ($bbs['block']['publicType'] === Block::TYPE_PUBLIC) : ?>
-										<?php echo __d('blocks', 'Public'); ?>
-									<?php elseif ($bbs['block']['publicType'] === Block::TYPE_LIMITED) : ?>
-										<?php echo __d('blocks', 'Limited'); ?>
-									<?php endif; ?>
+									<?php echo h($bbs['bbs']['article_count']); ?>
 								</td>
 								<td>
-									<?php echo $this->Date->dateFormat($bbs['bbs']['modified']); ?>
+									<?php echo $this->Date->dateFormat($bbs['bbs']['article_modified']); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>

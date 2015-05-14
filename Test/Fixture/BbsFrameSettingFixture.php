@@ -11,6 +11,9 @@
 
 /**
  * BbsFrameSettingFixture
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\Bbses\Test\Fixture
  */
 class BbsFrameSettingFixture extends CakeTestFixture {
 

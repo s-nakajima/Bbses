@@ -40,13 +40,20 @@ class BlocksController extends BbsesAppController {
 	);
 
 /**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'NetCommons.Date',
+	);
+
+/**
  * use components
  *
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
@@ -54,15 +61,6 @@ class BlocksController extends BbsesAppController {
 			),
 		),
 		'Paginator',
-	);
-
-/**
- * use helpers
- *
- * @var array
- */
-	public $helpers = array(
-		'NetCommons.Token',
 	);
 
 /**
@@ -76,43 +74,51 @@ class BlocksController extends BbsesAppController {
 
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
+
+		//タブの設定
+		$this->initTabs('block_index', 'block_settings');
 	}
 
 /**
  * index
  *
  * @return void
+ * @throws Exception
  */
 	public function index() {
-		try {
-			$this->Paginator->settings = array(
-				'Bbs' => array(
-					'order' => array('Bbs.id' => 'desc'),
-					'conditions' => array(
-						'Block.id = Bbs.block_id',
-						'Block.language_id' => $this->viewVars['languageId'],
-						'Block.room_id' => $this->viewVars['roomId'],
-					),
-					//'limit' => 1
-				)
-			);
-			$bbses = $this->Paginator->paginate('Bbs');
+		$this->Paginator->settings = array(
+			'Bbs' => array(
+				'order' => array('Bbs.id' => 'desc'),
+				'conditions' => array(
+					'Block.id = Bbs.block_id',
+					'Block.language_id' => $this->viewVars['languageId'],
+					'Block.room_id' => $this->viewVars['roomId'],
+				),
+				//'limit' => 1
+			)
+		);
 
-			if (! $bbses) {
-				$this->view = 'Blocks/not_found';
+		try {
+			$bbses = $this->Paginator->paginate('Bbs');
+		} catch (Exception $ex) {
+			if (isset($this->request['paging']) && $this->params['named']) {
+				$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
 				return;
 			}
-
-			$results = array(
-				'bbses' => $bbses,
-			);
-			$results = $this->camelizeKeyRecursive($results);
-			$this->set($results);
-
-		} catch (Exception $ex) {
-			$this->params['named'] = array();
-			$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+			CakeLog::error($ex);
+			throw $ex;
 		}
+
+		if (! $bbses) {
+			$this->view = 'Blocks/not_found';
+			return;
+		}
+
+		$results = array(
+			'bbses' => $bbses,
+		);
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
 	}
 
 /**

@@ -25,6 +25,7 @@ class BbsesAppController extends AppController {
  * @var array
  */
 	public $components = array(
+		'NetCommons.NetCommonsFrame',
 		'Security'
 	);
 
@@ -62,7 +63,7 @@ class BbsesAppController extends AppController {
 				'Block.room_id' => $this->viewVars['roomId'],
 			)
 		))) {
-			$this->throwBadRequest();
+			//$this->throwBadRequest();
 			return false;
 		}
 		$bbs = $this->camelizeKeyRecursive($bbs);
