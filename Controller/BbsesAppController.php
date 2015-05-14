@@ -101,4 +101,69 @@ class BbsesAppController extends AppController {
 
 		$this->set('userId', (int)$this->Auth->user('id'));
 	}
+
+/**
+ * initTabs
+ *
+ * @param string $mainActiveTab Main active tab
+ * @param string $blockActiveTab Block active tab
+ * @return void
+ */
+	public function initTabs($mainActiveTab, $blockActiveTab) {
+		if (isset($this->params['pass'][1])) {
+			$blockId = (int)$this->params['pass'][1];
+		} else {
+			$blockId = null;
+		}
+
+		//タブの設定
+		$settingTabs = array(
+			'tabs' => array(
+				'block_index' => array(
+					'url' => array(
+						'plugin' => $this->params['plugin'],
+						'controller' => 'blocks',
+						'action' => 'index',
+						$this->viewVars['frameId'],
+					)
+				),
+				'frame_settings' => array(
+					'url' => array(
+						'plugin' => $this->params['plugin'],
+						'controller' => 'bbs_frame_settings',
+						'action' => 'edit',
+						$this->viewVars['frameId'],
+					)
+				),
+			),
+			'active' => $mainActiveTab
+		);
+		$this->set('settingTabs', $settingTabs);
+
+		$blockSettingTabs = array(
+			'tabs' => array(
+				'block_settings' => array(
+					'url' => array(
+						'plugin' => $this->params['plugin'],
+						'controller' => 'blocks',
+						'action' => $this->params['action'],
+						$this->viewVars['frameId'],
+						$blockId
+					)
+				),
+				'role_permissions' => array(
+					'url' => array(
+						'plugin' => $this->params['plugin'],
+						'controller' => 'block_role_permissions',
+						'action' => 'edit',
+						$this->viewVars['frameId'],
+						$blockId
+					)
+				),
+			),
+			'active' => $blockActiveTab
+		);
+		$this->set('blockSettingTabs', $blockSettingTabs);
+	}
+
 }

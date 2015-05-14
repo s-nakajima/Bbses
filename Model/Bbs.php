@@ -36,6 +36,15 @@ class Bbs extends BbsesAppModel {
 	public $validate = array();
 
 /**
+ * use behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'NetCommons.OriginalKey',
+	);
+
+/**
  * belongsTo associations
  *
  * @var array
@@ -82,22 +91,18 @@ class Bbs extends BbsesAppModel {
 			//		//'required' => true,
 			//	)
 			//),
-			//'key' => array(
-			//	'notEmpty' => array(
-			//		'rule' => array('notEmpty'),
-			//		'message' => __d('net_commons', 'Invalid request.'),
-			//		//'required' => true,
-			//	)
-			//),
+			'key' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'allowEmpty' => false,
+					'required' => true,
+					'on' => 'update', // Limit validation to 'create' or 'update' operations
+				),
+			),
 
 			//status to set in PublishableBehavior.
 
-			'is_auto_translated' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				)
-			),
 			'name' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
@@ -126,6 +131,7 @@ class Bbs extends BbsesAppModel {
 		]);
 
 		//トランザクションBegin
+		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
@@ -140,12 +146,11 @@ class Bbs extends BbsesAppModel {
 
 			//登録処理
 			$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
-			$this->data['Bbs']['key'] = $block['Block']['key'];
-			if (! $this->save(null, false)) {
+			if (! $bbs = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$this->BbsSetting->data['BbsSetting']['bbs_key'] = $block['Block']['key'];
+			$this->BbsSetting->data['BbsSetting']['bbs_key'] = $bbs['Bbs']['key'];
 			if (! $this->BbsSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}

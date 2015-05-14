@@ -11,13 +11,7 @@
 ?>
 
 <div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', array(
-			'tabs' => array(
-				'block_index' => array('url' => '/bbses/blocks/index/' . $frameId),
-				'frame_settings' => array('url' => '/bbses/bbs_frame_settings/edit/' . $frameId),
-			),
-			'active' => 'frame_settings'
-		)); ?>
+	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
 		<?php echo $this->Form->create('BbsFrameSetting', array(

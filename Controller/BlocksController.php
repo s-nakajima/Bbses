@@ -135,7 +135,7 @@ class BlocksController extends BbsesAppController {
 				'id' => null,
 				'key' => null,
 				'block_id' => null,
-				'name' => __d('bbses', 'New bbs %s', date('YmdHis')),
+				'name' => __d('bbses', 'New bbs %s ', date('YmdHis')),
 			)
 		);
 		$bbsSetting = $this->BbsSetting->create(
@@ -145,8 +145,7 @@ class BlocksController extends BbsesAppController {
 			array('id' => null, 'key' => null)
 		);
 
-		$data = Hash::merge($bbs, $bbsSetting, $block);
-
+		$data = array();
 		if ($this->request->isPost()) {
 			$data = $this->__parseRequestData();
 
@@ -158,7 +157,6 @@ class BlocksController extends BbsesAppController {
 				);
 				$data['BbsFrameSetting'] = $bbsFrameSetting['BbsFrameSetting'];
 			}
-			$data['Block']['key'] = Security::hash('bbs_block' . mt_rand() . microtime(), 'md5');
 
 			$this->Bbs->saveBbs($data);
 			if ($this->handleValidationError($this->Bbs->validationErrors)) {
@@ -169,8 +167,10 @@ class BlocksController extends BbsesAppController {
 			}
 			$data['Block']['id'] = null;
 			$data['Block']['key'] = null;
+			unset($data['Frame']);
 		}
 
+		$data = Hash::merge($bbs, $bbsSetting, $block, $data);
 		$results = $this->camelizeKeyRecursive($data);
 		$this->set($results);
 	}
