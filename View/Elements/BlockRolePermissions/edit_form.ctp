@@ -14,20 +14,75 @@
 		'value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null,
 	)); ?>
 
-<?php echo $this->element('Blocks.content_role_setting', array(
-		'roles' => $roles,
-		'permissions' => isset($blockRolePermissions) ? $blockRolePermissions : null,
-		'useWorkflow' => array(
-			'name' => 'BbsSetting.use_workflow',
-			'value' => $bbsSetting['useWorkflow']
-		),
-	)); ?>
+<div class="panel panel-default">
 
-<?php echo $this->element('Blocks.comment_role_setting', array(
-		'roles' => $roles,
-		'permissions' => isset($blockRolePermissions) ? $blockRolePermissions : null,
-		'isAutoApproval' => array(
-			'name' => 'BbsSetting.is_comment_auto_approval',
-			'value' => $bbsSetting['isCommentAutoApproval']
-		),
-	));
+	<div class="panel-heading">
+		<?php echo __d('blocks', 'Creatable settings') ?>
+	</div>
+
+	<div class="panel-body">
+		<div class="form-group">
+			<div>
+				<strong><?php echo __d('blocks', 'Content creatable roles'); ?></strong>
+			</div>
+			<div>
+				<?php echo $this->element('Blocks.block_role_permission', array(
+						'permission' => 'content_creatable',
+						'roles' => $roles,
+						'rolePermissions' => isset($blockRolePermissions['contentCreatable']) ? $blockRolePermissions['contentCreatable'] : null
+					)); ?>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div>
+				<strong><?php echo __d('blocks', 'Content comment creatable roles'); ?></strong>
+			</div>
+			<div>
+				<?php echo $this->element('Blocks.block_role_permission', array(
+						'permission' => 'content_comment_creatable',
+						'roles' => $roles,
+						'rolePermissions' => isset($blockRolePermissions['contentCommentCreatable']) ? $blockRolePermissions['contentCommentCreatable'] : null
+					)); ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<?php echo __d('blocks', 'Approval settings') ?>
+	</div>
+
+	<div class="panel-body">
+		<div class="form-group">
+			<?php
+				$options = array(
+					BbsSetting::NEED_BOTH_APPROVAL => __d('blocks', 'Need approval in both %s and comments ', __d('bbses', 'articles')),
+					BbsSetting::NEED_COMMENT_APPROVAL => __d('blocks', 'Need only comments approval'),
+					BbsSetting::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),
+				);
+
+				echo $this->Form->radio('BbsSetting.approval_type', $options, array(
+					'value' => isset($bbsSetting['approvalType']) ? $bbsSetting['approvalType'] : '',
+					'legend' => false,
+					'separator' => '<br>'
+				));
+			?>
+		</div>
+
+		<div class="form-group">
+			<div>
+				<strong><?php echo __d('blocks', 'Content comment publishable roles'); ?></strong>
+			</div>
+			<div>
+				<?php echo $this->element('Blocks.block_role_permission', array(
+						'permission' => 'content_comment_publishable',
+						'roles' => $roles,
+						'rolePermissions' => isset($blockRolePermissions['contentCommentPublishable']) ? $blockRolePermissions['contentCommentPublishable'] : null
+					)); ?>
+			</div>
+		</div>
+	</div>
+</div>
+

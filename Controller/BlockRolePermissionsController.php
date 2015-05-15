@@ -47,9 +47,8 @@ class BlockRolePermissionsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsWorkflow',
+		//'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
@@ -77,6 +76,9 @@ class BlockRolePermissionsController extends BbsesAppController {
 
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
+
+		//タブの設定
+		$this->initTabs('block_index', 'role_permissions');
 	}
 
 /**
@@ -85,7 +87,12 @@ class BlockRolePermissionsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+		if (! $this->NetCommonsBlock->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('blockId', (int)$this->params['pass'][1]);
+
 		$this->initBbs();
 
 		if (! $block = $this->Block->find('first', array(
@@ -102,13 +109,11 @@ class BlockRolePermissionsController extends BbsesAppController {
 
 		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
 			$this->viewVars['blockKey'],
-			['content_creatable', 'content_publishable', 'comment_creatable', 'comment_publishable']
+			['content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable']
 		);
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
-
-			$this->BbsSetting->setDataSource('master');
 			$this->BbsSetting->saveBbsSetting($data);
 			if ($this->handleValidationError($this->BbsSetting->validationErrors)) {
 				if (! $this->request->is('ajax')) {
@@ -121,7 +126,6 @@ class BlockRolePermissionsController extends BbsesAppController {
 		$results = array(
 			'blockRolePermissions' => $permissions['BlockRolePermissions'],
 			'roles' => $permissions['Roles'],
-			'current' => $this->current,
 		);
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);

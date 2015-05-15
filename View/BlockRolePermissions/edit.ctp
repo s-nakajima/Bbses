@@ -11,11 +11,17 @@
 ?>
 
 <?php echo $this->Html->script('/bbses/js/bbses.js', false); ?>
+<?php echo $this->Html->script('/blocks/js/block_role_permissions.js', false); ?>
 
 <div class="modal-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
-	<div class="tab-content">
+	<div class="tab-content"
+		ng-controller="BlockRolePermissions"
+		ng-init="initialize(<?php echo h(json_encode(array(
+				'roles' => $roles, 'frameId' => $frameId
+			))); ?>)">
+
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
