@@ -48,7 +48,6 @@ class BlockRolePermissionsController extends BbsesAppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsBlock',
-		//'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(

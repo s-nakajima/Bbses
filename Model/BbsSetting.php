@@ -22,16 +22,6 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 class BbsSetting extends BbsesAppModel {
 
 /**
- * Approval type
- *
- * @var int
- */
-	const
-		NOT_NEED_APPROVAL = '0',
-		NEED_COMMENT_APPROVAL = '1',
-		NEED_BOTH_APPROVAL = '2';
-
-/**
  * Validation rules
  *
  * @var array
@@ -39,30 +29,23 @@ class BbsSetting extends BbsesAppModel {
 	public $validate = array();
 
 /**
- * Called after each find operation. Can be used to modify any results returned by find().
- * Return value should be the (modified) results.
+ * Get bbs setting data
  *
- * @param mixed $results The results of the find operation
- * @param bool $primary Whether this model is being queried directly (vs. being queried as an association)
- * @return mixed Result of the find operation
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#afterfind
- * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * @param string $bbsKey bbses.key
+ * @return array
  */
-	public function afterFind($results, $primary = false) {
-		foreach ($results as $i => $result) {
-			if (array_key_exists('use_workflow', $result[$this->alias]) &&
-					array_key_exists('is_comment_auto_approval', $result[$this->alias])) {
+	public function getBbsSetting($bbsKey) {
+		$conditions = array(
+			'bbs_key' => $bbsKey
+		);
 
-				if ($result[$this->alias]['use_workflow']) {
-					$results[$i][$this->alias]['approval_type'] = self::NEED_BOTH_APPROVAL;
-				} else if ($result[$this->alias]['is_comment_auto_approval']) {
-					$results[$i][$this->alias]['approval_type'] = self::NEED_COMMENT_APPROVAL;
-				} else {
-					$results[$i][$this->alias]['approval_type'] = self::NOT_NEED_APPROVAL;
-				}
-			}
-		}
-		return $results;
+		$bbsSetting = $this->find('first', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			)
+		);
+
+		return $bbsSetting;
 	}
 
 /**

@@ -115,6 +115,28 @@ class Bbs extends BbsesAppModel {
 	}
 
 /**
+ * Get bbs data
+ *
+ * @param int $blockId blocks.id
+ * @param int $roomId rooms.id
+ * @return array
+ */
+	public function getBbs($blockId, $roomId) {
+		$conditions = array(
+			'Block.id' => $blockId,
+			'Block.room_id' => $roomId,
+		);
+
+		$faq = $this->find('first', array(
+				'recursive' => 0,
+				'conditions' => $conditions,
+			)
+		);
+
+		return $faq;
+	}
+
+/**
  * Save bbses
  *
  * @param array $data received post data

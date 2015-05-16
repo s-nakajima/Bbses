@@ -20,42 +20,6 @@ App::uses('BbsesAppController', 'Bbses.Controller');
 class BbsesController extends BbsesAppController {
 
 /**
- * use models
- *
- * @var array
- */
-	public $uses = array(
-		'Frames.Frame',
-		'Bbses.Bbs',
-		'Bbses.BbsFrameSetting',
-		'Bbses.BbsPost',
-		'Bbses.BbsSetting',
-		'Bbses.BbsPostI18n',
-		//'Bbses.BbsPostsUser',
-	);
-
-/**
- * use components
- *
- * @var array
- */
-	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(),
-	);
-
-/**
- * use helpers
- *
- * @var array
- */
-	public $helpers = array(
-		'NetCommons.Token'
-	);
-
-/**
  * index
  *
  * @return void

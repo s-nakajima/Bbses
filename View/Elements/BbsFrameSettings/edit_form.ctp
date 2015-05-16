@@ -15,47 +15,39 @@
 	)); ?>
 
 <?php echo $this->Form->hidden('BbsFrameSetting.id', array(
-	'value' => (int)$bbsFrameSetting['id'],
+	'value' => isset($bbsFrameSetting['id']) ? (int)$bbsFrameSetting['id'] : null,
 	)); ?>
 
 <?php echo $this->Form->hidden('BbsFrameSetting.frame_key', array(
 	'value' => $frameKey,
 	)); ?>
 
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->label(__d('bbses', 'Show articles per page')); ?>
-	</div>
-	<div class="col-xs-12">
-		<?php echo $this->Form->select('BbsFrameSetting.posts_per_page',
-				BbsFrameSetting::getDisplayNumberOptions(),
-				array(
-					//'label' => false,
-					'type' => 'select',
-					'class' => 'form-control',
-					'value' => $bbsFrameSetting['postsPerPage'],
-					//'legend' => false,
-					'empty' => false,
-				)
-			); ?>
-	</div>
+<div class="form-group">
+	<?php echo $this->Form->label(__d('bbses', 'Show articles per page')); ?>
+	<?php echo $this->Form->select('BbsFrameSetting.articles_per_page',
+			BbsFrameSetting::getDisplayNumberOptions(),
+			array(
+				//'label' => false,
+				'type' => 'select',
+				'class' => 'form-control',
+				'value' => $bbsFrameSetting['articlesPerPage'],
+				//'legend' => false,
+				'empty' => false,
+			)
+		); ?>
 </div>
 
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->label(__d('bbses', 'Show comments per page')); ?>
-	</div>
-	<div class="col-xs-12">
-		<?php echo $this->Form->select('BbsFrameSetting.comments_per_page',
-				BbsFrameSetting::getDisplayNumberOptions(),
-				array(
-					//'label' => false,
-					'type' => 'select',
-					'class' => 'form-control',
-					'value' => $bbsFrameSetting['commentsPerPage'],
-					//'legend' => false,
-					'empty' => false,
-				)
-			); ?>
-	</div>
+<div class="form-group">
+	<?php echo $this->Form->label(__d('bbses', 'Show comments per page')); ?>
+	<?php echo $this->Form->select('BbsFrameSetting.comments_per_page',
+			BbsFrameSetting::getDisplayNumberOptions(),
+			array(
+				//'label' => false,
+				'type' => 'select',
+				'class' => 'form-control',
+				'value' => $bbsFrameSetting['commentsPerPage'],
+				//'legend' => false,
+				'empty' => false,
+			)
+		); ?>
 </div>

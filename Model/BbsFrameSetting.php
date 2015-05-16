@@ -61,7 +61,7 @@ class BbsFrameSetting extends BbsesAppModel {
 					'required' => true,
 				)
 			),
-			'posts_per_page' => array(
+			'articles_per_page' => array(
 				'number' => array(
 					'rule' => array('notEmpty'),
 					'message' => __d('net_commons', 'Invalid request.'),
@@ -77,6 +77,26 @@ class BbsFrameSetting extends BbsesAppModel {
 			),
 		));
 		return parent::beforeValidate($options);
+	}
+
+/**
+ * Get bbs frame setting data
+ *
+ * @param string $frameKey frames.key
+ * @return array
+ */
+	public function getBbsFrameSetting($frameKey) {
+		$conditions = array(
+			'frame_key' => $frameKey
+		);
+
+		$bbsFrameSetting = $this->find('first', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			)
+		);
+
+		return $bbsFrameSetting;
 	}
 
 /**

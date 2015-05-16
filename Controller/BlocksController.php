@@ -32,11 +32,8 @@ class BlocksController extends BbsesAppController {
  * @var array
  */
 	public $uses = array(
-		'Bbses.Bbs',
 		'Bbses.BbsFrameSetting',
-		'Bbses.BbsSetting',
 		'Blocks.Block',
-		'Frames.Frame',
 	);
 
 /**
@@ -181,7 +178,11 @@ class BlocksController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+		if (! $this->NetCommonsBlock->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('blockId', (int)$this->params['pass'][1]);
 
 		$this->initBbs(['bbsFrameSetting']);
 
@@ -204,11 +205,15 @@ class BlocksController extends BbsesAppController {
 /**
  * delete
  *
- * @throws BadRequestException
  * @return void
  */
 	public function delete() {
-		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+		if (! $this->NetCommonsBlock->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('blockId', (int)$this->params['pass'][1]);
+
 		$this->initBbs(['bbsFrameSetting']);
 
 		if ($this->request->isDelete()) {

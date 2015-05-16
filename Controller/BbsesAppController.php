@@ -30,6 +30,16 @@ class BbsesAppController extends AppController {
 	);
 
 /**
+ * use models
+ *
+ * @var array
+ */
+	public $uses = array(
+		'Bbses.Bbs',
+		'Bbses.BbsSetting'
+	);
+
+/**
  * use helpers
  *
  * @var array
@@ -56,44 +66,27 @@ class BbsesAppController extends AppController {
  * @return void
  */
 	public function initBbs($contains = []) {
-		if (! $bbs = $this->Bbs->find('first', array(
-			'recursive' => 0,
-			'conditions' => array(
-				'Block.id' => $this->viewVars['blockId'],
-				'Block.room_id' => $this->viewVars['roomId'],
-			)
-		))) {
-			//$this->throwBadRequest();
+		if (! $bbs = $this->Bbs->getBbs($this->viewVars['blockId'], $this->viewVars['roomId'])) {
+			$this->throwBadRequest();
 			return false;
 		}
 		$bbs = $this->camelizeKeyRecursive($bbs);
 		$this->set($bbs);
 
-		if (! $bbsSetting = $this->BbsSetting->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
+		if (! $bbsSetting = $this->BbsSetting->getBbsSetting($bbs['bbs']['key'])) {
+			$bbsSetting = $this->BbsSetting->create(array(
+				'id' => null,
 				'bbs_key' => $bbs['bbs']['key']
-			)
-		))) {
-			$bbsSetting = $this->BbsSetting->create(
-				array('id' => null)
-			);
+			));
 		}
 		$bbsSetting = $this->camelizeKeyRecursive($bbsSetting);
 		$this->set($bbsSetting);
 
 		if (in_array('bbsFrameSetting', $contains, true)) {
-			if (! $bbsFrameSetting = $this->BbsFrameSetting->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
+			if (! $bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting($this->viewVars['frameKey'])) {
+				$bbsFrameSetting = $this->BbsFrameSetting->create(array(
 					'frame_key' => $this->viewVars['frameKey']
-				)
-			))) {
-				$bbsFrameSetting = $this->BbsFrameSetting->create(
-					array(
-						'frame_key' => $this->viewVars['frameKey']
-					)
-				);
+				));
 			}
 			$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
 			$this->set($bbsFrameSetting);

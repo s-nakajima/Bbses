@@ -36,11 +36,11 @@
 							<th>
 								<?php echo $this->Paginator->sort('Bbs.name', __d('bbses', 'Bbs name')); ?>
 							</th>
-							<th>
+							<th class="text-right">
 								<?php echo $this->Paginator->sort('Bbs.article_count', __d('bbses', 'Article count')); ?>
 							</th>
-							<th>
-								<?php echo $this->Paginator->sort('Bbs.article_modified', __d('bbses', 'Article updated datetime')); ?>
+							<th class="text-right">
+								<?php echo $this->Paginator->sort('Bbs.article_modified', __d('bbses', 'Article modified')); ?>
 							</th>
 						</tr>
 					</thead>
@@ -66,10 +66,10 @@
 										<?php echo h($bbs['bbs']['name']); ?>
 									</a>
 								</td>
-								<td>
+								<td class="text-right">
 									<?php echo h($bbs['bbs']['articleCount']); ?>
 								</td>
-								<td>
+								<td class="text-right">
 									<?php echo $this->Date->dateFormat($bbs['bbs']['articleModified']); ?>
 								</td>
 							</tr>

@@ -32,9 +32,7 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @var array
  */
 	public $uses = array(
-		'Bbses.Bbs',
 		'Bbses.BbsFrameSetting',
-		'Bbses.BbsPost',
 	);
 
 /**
@@ -43,23 +41,12 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
 				'blockEditable' => array('edit'),
 			),
 		),
-	);
-
-/**
- * use helpers
- *
- * @var array
- */
-	public $helpers = array(
-		'NetCommons.Token'
 	);
 
 /**
@@ -72,6 +59,9 @@ class BbsFrameSettingsController extends BbsesAppController {
 
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
+
+		//タブの設定
+		$this->initTabs('frame_settings', '');
 	}
 
 /**
@@ -80,44 +70,33 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		$this->__initBbsFrameSetting();
+		if (! $this->NetCommonsFrame->validateFrameId()) {
+			$this->throwBadRequest();
+			return false;
+		}
 
+		if (! $bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting($this->viewVars['frameKey'])) {
+			$bbsFrameSetting = $this->BbsFrameSetting->create(array(
+				'frame_key' => $this->viewVars['frameKey']
+			));
+		}
+
+		$data = array();
 		if ($this->request->isPost()) {
 			$data = $this->data;
 			$this->BbsFrameSetting->saveBbsFrameSetting($data);
 
 			if ($this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbses/index/' . $this->viewVars['frameId']);
-				}
+				$this->redirectByFrameId();
 				return;
 			}
-
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
 		}
-	}
 
-/**
- * initBbs
- *
- * @return void
- */
-	private function __initBbsFrameSetting() {
-		if (! $bbsFrameSetting = $this->BbsFrameSetting->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'frame_key' => $this->viewVars['frameKey']
-			)
-		))) {
-			$bbsFrameSetting = $this->BbsFrameSetting->create(
-				array(
-					'frame_key' => $this->viewVars['frameKey']
-				)
-			);
-		}
-		$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
-		$this->set($bbsFrameSetting);
+		$data = Hash::merge(
+			$bbsFrameSetting, $data
+		);
+		$results = $this->camelizeKeyRecursive($data);
+		$this->set($results);
 	}
 
 }

@@ -72,7 +72,7 @@ class BbsPostsComponent extends Component {
 		if (isset($this->controller->params['named']['limit'])) {
 			$limit = (int)$this->controller->params['named']['limit'];
 		} else {
-			$limit = (int)$this->controller->viewVars['bbsFrameSetting']['postsPerPage'];
+			$limit = (int)$this->controller->viewVars['bbsFrameSetting']['articlesPerPage'];
 		}
 
 		//Paginatorの設定

@@ -19,79 +19,42 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 class BbsArticle extends BbsesAppModel {
 
 /**
- * Use database config
+ * Max length of title
  *
- * @var string
+ * @var int
  */
-	public $useDbConfig = 'master';
+	const BREADCRUMB_TITLE_LENGTH = 20;
+
+/**
+ * Max length of title
+ *
+ * @var int
+ */
+	const LIST_TITLE_LENGTH = 50;
+
+/**
+ * Max length of content
+ *
+ * @var int
+ */
+	const LIST_CONTENT_LENGTH = 100;
+
+/**
+ * use behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'NetCommons.Publishable',
+		'NetCommons.OriginalKey',
+	);
 
 /**
  * Validation rules
  *
  * @var array
  */
-	public $validate = array(
-		'language_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'status' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'is_active' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'is_latest' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'title' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+	public $validate = array();
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -102,19 +65,19 @@ class BbsArticle extends BbsesAppModel {
  */
 	public $belongsTo = array(
 		'Bbs' => array(
-			'className' => 'Bbs',
+			'className' => 'Bbses.Bbs',
 			'foreignKey' => 'bbs_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Language' => array(
-			'className' => 'Language',
-			'foreignKey' => 'language_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+//		'Language' => array(
+//			'className' => 'Language',
+//			'foreignKey' => 'language_id',
+//			'conditions' => '',
+//			'fields' => '',
+//			'order' => ''
+//		)
 	);
 
 /**
@@ -124,7 +87,7 @@ class BbsArticle extends BbsesAppModel {
  */
 	public $hasAndBelongsToMany = array(
 		'User' => array(
-			'className' => 'User',
+			'className' => 'Users.User',
 			'joinTable' => 'bbs_articles_users',
 			'foreignKey' => 'bbs_article_id',
 			'associationForeignKey' => 'user_id',
@@ -137,5 +100,38 @@ class BbsArticle extends BbsesAppModel {
 			'finderQuery' => '',
 		)
 	);
+
+/**
+ * Called during validation operations, before validation. Please note that custom
+ * validation rules can be defined in $validate.
+ *
+ * @param array $options Options passed from Model::save().
+ * @return bool True if validate operation should continue, false to abort
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
+ * @see Model::save()
+ */
+	public function beforeValidate($options = array()) {
+		$this->validate = Hash::merge($this->validate, array(
+			'title' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('bbses', 'Title')),
+					'required'
+					=> true
+				),
+			),
+			'content' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('bbses', 'Content')),
+					'required' => true
+				),
+			),
+
+			//status to set in PublishableBehavior.
+
+		));
+		return parent::beforeValidate($options);
+	}
 
 }
