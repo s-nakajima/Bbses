@@ -19,19 +19,15 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 class BbsArticleTree extends BbsesAppModel {
 
 /**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'master';
-
-/**
  * Behaviors
  *
  * @var array
  */
 	public $actsAs = array(
 		'Tree',
+		'Likes.Like' => array(
+			'model' => 'BbsArticle'
+		),
 	);
 
 /**
@@ -39,68 +35,7 @@ class BbsArticleTree extends BbsesAppModel {
  *
  * @var array
  */
-	public $validate = array(
-		'bbs_key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'bbs_article_key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'lft' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'rght' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'article_no' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'published_comment_counts' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+	public $validate = array();
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -110,20 +45,20 @@ class BbsArticleTree extends BbsesAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Root' => array(
-			'className' => 'Root',
-			'foreignKey' => 'root_id',
-			'conditions' => '',
+		'BbsArticle' => array(
+			'className' => 'Bbses.BbsArticle',
+			'foreignKey' => false,
+			'conditions' => 'BbsArticleTree.bbs_article_key=BbsArticle.key',
 			'fields' => '',
 			'order' => ''
 		),
-		'ParentBbsArticleTree' => array(
-			'className' => 'BbsArticleTree',
-			'foreignKey' => 'parent_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+		//'ParentBbsArticleTree' => array(
+		//	'className' => 'Bbses.BbsArticleTree',
+		//	'foreignKey' => 'parent_id',
+		//	'conditions' => '',
+		//	'fields' => '',
+		//	'order' => ''
+		//)
 	);
 
 /**
@@ -132,19 +67,148 @@ class BbsArticleTree extends BbsesAppModel {
  * @var array
  */
 	public $hasMany = array(
-		'ChildBbsArticleTree' => array(
-			'className' => 'BbsArticleTree',
-			'foreignKey' => 'parent_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
+		//'ChildBbsArticleTree' => array(
+		//	'className' => 'Bbses.BbsArticleTree',
+		//	'foreignKey' => 'parent_id',
+		//	'dependent' => false,
+		//	'conditions' => '',
+		//	'fields' => '',
+		//	'order' => '',
+		//	'limit' => '',
+		//	'offset' => '',
+		//	'exclusive' => '',
+		//	'finderQuery' => '',
+		//	'counterQuery' => ''
+		//)
 	);
+
+/**
+ * Called during validation operations, before validation. Please note that custom
+ * validation rules can be defined in $validate.
+ *
+ * @param array $options Options passed from Model::save().
+ * @return bool True if validate operation should continue, false to abort
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
+ * @see Model::save()
+ */
+	public function beforeValidate($options = array()) {
+		$this->validate = Hash::merge($this->validate, array(
+			'bbs_key' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+			),
+			'bbs_article_key' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'on' => 'update', // Limit validation to 'create' or 'update' operations
+				),
+			),
+			'lft' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'rght' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'article_no' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+		));
+		return parent::beforeValidate($options);
+	}
+
+/**
+ * Set bindModel BbsArticlesUser
+ *
+ * @param int $userId users.id
+ * @return void
+ */
+	public function bindModelBbsArticlesUser($userId) {
+		$this->bindModel(array('belongsTo' => array(
+				'BbsArticlesUser' => array(
+					'className' => 'Bbses.BbsArticlesUser',
+					'foreignKey' => false,
+					'conditions' => array(
+						'BbsArticlesUser.bbs_article_key=BbsArticleTree.bbs_article_key',
+						'BbsArticlesUser.user_id' => $userId
+					)
+				),
+			)),
+			false
+		);
+	}
+
+/**
+ * Get max article no
+ *
+ * @param int $rootArticleTreeId root article id
+ * @return int number
+ */
+	public function getMaxNo($rootArticleTreeId) {
+		if (! $rootArticleTreeId) {
+			return 0;
+		}
+
+		$bbsArticleTree = $this->find('first', array(
+			'recursive' => -1,
+			'fields' => 'article_no',
+			'conditions' => array(
+				'OR' => array(
+					'root_id' => $rootArticleTreeId,
+					'id' => $rootArticleTreeId
+				)
+			),
+			'order' => $this->alias . '.article_no DESC',
+		));
+
+		return isset($bbsArticleTree[$this->alias]['article_no']) ? $bbsArticleTree[$this->alias]['article_no'] : 0;
+	}
+
+/**
+ * Update published_comment_counts
+ *
+ * @param int $rootId RootId for bbs posts
+ * @param int $status status
+ * @param int $increment increment
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function updateCommentCounts($rootId, $status, $increment = 1) {
+		if ((int)$rootId > 0 && (int)$status === (int)NetCommonsBlockComponent::STATUS_PUBLISHED) {
+			if (! $this->updateAll(
+					array('BbsArticleTree.published_comment_count' => 'BbsArticleTree.published_comment_count + (' . (int)$increment . ')'),
+					array('BbsArticleTree.id' => (int)$rootId)
+			)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+	}
+
+/**
+ * Validate BbsArticleTree
+ *
+ * @param array $data received post data
+ * @return bool|array True on success, validation errors array on error
+ */
+	public function validateBbsArticleTree($data) {
+		$this->set($data);
+		$this->validates();
+		if ($this->validationErrors) {
+			return false;
+		}
+		return true;
+	}
 
 }

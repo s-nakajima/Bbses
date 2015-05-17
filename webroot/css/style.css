@@ -6,7 +6,7 @@
  * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-.bbses-root-posts {
+/*.bbses-root-posts {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
@@ -14,4 +14,16 @@
 .inline-block-left {
     display: inline-block;
     padding-left: 20px;
+}*/
+
+.nc-bbs-edit-link {
+    display: inline-block;
+    padding-left: 20px;
+}
+
+.frame .nc-content-list article h1.nc-bbses-view-title,
+.frame .nc-content-list article h2.nc-bbses-view-title,
+.frame .nc-content-list article h3.nc-bbses-view-title {
+	margin-top: 0px;
+	bottom: 0px;
 }

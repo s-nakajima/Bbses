@@ -19,10 +19,10 @@
 			$status !== NetCommonsBlockComponent::STATUS_PUBLISHED) ||
 		($contentCreatable &&
 			$status !== NetCommonsBlockComponent::STATUS_PUBLISHED &&
-				$createUser === $userId)): ?>
+				$createdUser === $userId)): ?>
 
-	<div class="inline-block">
-		<a href="<?php echo $this->Html->url('/bbses/bbs_posts/edit/' . $frameId . '/' . $bbsPostId); ?>"
+	<div class="nc-bbs-edit-link">
+		<a href="<?php echo $this->Html->url('/bbses/bbs_articles/edit/' . $frameId . '/' . $bbsArticleKey); ?>"
 			class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
 
 			<span class="glyphicon glyphicon-edit"> </span>

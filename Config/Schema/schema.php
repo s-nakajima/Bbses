@@ -58,7 +58,7 @@ class BbsesSchema extends CakeSchema {
 		'lft' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'lft | treeビヘイビア必須カラム | | '),
 		'rght' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'rght | treeビヘイビア必須カラム | | '),
 		'article_no' => array('type' => 'integer', 'null' => false, 'default' => '1', 'comment' => 'comment index | 記事毎の採番 | | '),
-		'published_comment_counts' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'Published comment counts | 公開されたコメント数 | | '),
+		'published_comment_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'comment' => 'Published comment counts | 公開されたコメント数 | | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),

@@ -47,6 +47,7 @@ class BbsArticle extends BbsesAppModel {
 	public $actsAs = array(
 		'NetCommons.Publishable',
 		'NetCommons.OriginalKey',
+		'Likes.Like'
 	);
 
 /**
@@ -71,13 +72,23 @@ class BbsArticle extends BbsesAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-//		'Language' => array(
-//			'className' => 'Language',
-//			'foreignKey' => 'language_id',
-//			'conditions' => '',
-//			'fields' => '',
-//			'order' => ''
-//		)
+		'BbsArticleTree' => array(
+			'className' => 'Bbses.BbsArticleTree',
+			'foreignKey' => false,
+			'conditions' => 'BbsArticleTree.bbs_article_key=BbsArticle.key',
+			'fields' => '',
+			'order' => ''
+		),
+		'CreatedUser' => array(
+			'className' => 'Users.UserAttributesUser',
+			'foreignKey' => false,
+			'conditions' => array(
+				'BbsArticle.created_user = CreatedUser.user_id',
+				'CreatedUser.key' => 'nickname'
+			),
+			'fields' => array('CreatedUser.key', 'CreatedUser.value'),
+			'order' => ''
+		)
 	);
 
 /**
@@ -85,21 +96,21 @@ class BbsArticle extends BbsesAppModel {
  *
  * @var array
  */
-	public $hasAndBelongsToMany = array(
-		'User' => array(
-			'className' => 'Users.User',
-			'joinTable' => 'bbs_articles_users',
-			'foreignKey' => 'bbs_article_id',
-			'associationForeignKey' => 'user_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-		)
-	);
+//	public $hasAndBelongsToMany = array(
+//		'User' => array(
+//			'className' => 'Users.User',
+//			'joinTable' => 'bbs_articles_users',
+//			'foreignKey' => 'BbsArticlesUser.bbs_article_key=BbsArticle.key',
+//			'associationForeignKey' => 'user_id',
+//			'unique' => 'keepExisting',
+//			'conditions' => '',
+//			'fields' => '',
+//			'order' => '',
+//			'limit' => '',
+//			'offset' => '',
+//			'finderQuery' => '',
+//		)
+//	);
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -132,6 +143,149 @@ class BbsArticle extends BbsesAppModel {
 
 		));
 		return parent::beforeValidate($options);
+	}
+
+/**
+ * Set bindModel BbsArticlesUser
+ *
+ * @param int $userId users.id
+ * @return void
+ */
+	public function bindModelBbsArticlesUser($userId) {
+		$this->bindModel(array('belongsTo' => array(
+				'BbsArticlesUser' => array(
+					'className' => 'Bbses.BbsArticlesUser',
+					'foreignKey' => false,
+					'conditions' => array(
+						'BbsArticlesUser.bbs_article_key=BbsArticle.key',
+						'BbsArticlesUser.user_id' => $userId
+					)
+				),
+			)),
+			false
+		);
+	}
+
+/**
+ * Get BbsArticles
+ *
+ * @param array $conditions findAll conditions
+ * @return array BbsArticles
+ */
+	public function getBbsArticles($conditions) {
+		$bbsArticles = $this->find('all', array(
+				'recursive' => 0,
+				'conditions' => $conditions,
+			)
+		);
+		return $bbsArticles;
+	}
+
+/**
+ * Get BbsArticle
+ *
+ * @param string $bbsArticleKey bbs_article.key
+ * @param array $conditions find conditions
+ * @return array BbsArticle
+ */
+	public function getBbsArticle($bbsArticleKey, $conditions = []) {
+		$conditions[$this->alias . '.key'] = $bbsArticleKey;
+
+		$bbsArticle = $this->find('first', array(
+				'recursive' => 0,
+				'conditions' => $conditions,
+			)
+		);
+
+		return $bbsArticle;
+	}
+
+/**
+ * Save article
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function saveBbsArticle($data) {
+		$this->loadModels([
+			'BbsArticle' => 'Bbses.BbsArticle',
+			'BbsArticle' => 'Bbses.BbsArticleTree',
+			'Comment' => 'Comments.Comment',
+		]);
+
+		//トランザクションBegin
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			if (! $this->validateBbsArticle($data, ['bbsArticleTree', 'comment'])) {
+				return false;
+			}
+
+			//BbsArticle登録処理
+			if (! $bbsArticle = $this->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//BbsArticleTree登録処理
+			$this->BbsArticleTree->data['BbsArticleTree']['bbs_article_key'] = $bbsArticle[$this->alias]['key'];
+			if (! $this->BbsArticleTree->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//コメントの登録
+			if (isset($data['Comment']) && $this->Comment->data) {
+				if (! $this->Comment->save(null, false)) {
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				}
+			}
+
+			//コメント数の更新
+			$this->BbsArticleTree->updateCommentCounts($data['BbsArticleTree']['root_id'], $data['BbsArticle']['status']);
+
+			//トランザクションCommit
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			//エラー出力
+			CakeLog::error($ex);
+			throw $ex;
+		}
+		return $bbsArticle;
+	}
+
+/**
+ * Validate BbsArticle
+ *
+ * @param array $data received post data
+ * @param array $contains Optional validate sets
+ * @return bool True on success, false on validation error
+ */
+	public function validateBbsArticle($data, $contains = []) {
+		$this->set($data);
+		$this->validates();
+		if ($this->validationErrors) {
+			return false;
+		}
+
+		if (in_array('bbsArticleTree', $contains, true)) {
+			if (! $this->BbsArticleTree->validateBbsArticleTree($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsArticleTree->validationErrors);
+				return false;
+			}
+		}
+
+		if (in_array('comment', $contains, true) && isset($data['Comment'])) {
+			if (! $this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 }

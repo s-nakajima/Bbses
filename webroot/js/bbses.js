@@ -31,27 +31,27 @@ NetCommonsApp.controller('Bbses', function($scope) {
 
 
 /**
- * BbsPosts Javascript
+ * BbsArticlesEdit Javascript
  *
  * @param {string} Controller name
  * @param {function($scope, NetCommonsWysiwyg)} Controller
  */
-NetCommonsApp.controller('BbsPosts',
-    function($scope, NetCommonsWysiwyg) {
+NetCommonsApp.controller('BbsArticlesEdit',
+      function($scope, NetCommonsWysiwyg) {
 
-      /**
-       * tinymce
-       *
-       * @type {object}
-       */
-      $scope.tinymce = NetCommonsWysiwyg.new();
+    /**
+     * tinymce
+     *
+     * @type {object}
+     */
+    $scope.tinymce = NetCommonsWysiwyg.new();
 
-      /**
-       * initialize
-       *
-       * @return {void}
-       */
-      $scope.initialize = function(data) {
-        $scope.bbsPostI18n = data.bbsPostI18n;
-      };
-    });
+    /**
+     * initialize
+     *
+     * @return {void}
+     */
+    $scope.initialize = function(data) {
+      $scope.bbsArticle = data.bbsArticle;
+    };
+  });

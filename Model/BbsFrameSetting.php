@@ -22,6 +22,13 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 class BbsFrameSetting extends BbsesAppModel {
 
 /**
+ * listStyle
+ *
+ * @var array
+ */
+	static public $displayNumberOptions = array();
+
+/**
  * Validation rules
  *
  * @var array
@@ -42,6 +49,29 @@ class BbsFrameSetting extends BbsesAppModel {
 			'order' => ''
 		),
 	);
+
+/**
+ * Constructor. Binds the model's database table to the object.
+ *
+ * @param bool|int|string|array $id Set this ID for this model on startup,
+ * can also be an array of options, see above.
+ * @param string $table Name of database table to use.
+ * @param string $ds DataSource connection name.
+ * @see Model::__construct()
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		self::$displayNumberOptions = array(
+			1 => __d('bbses', '%s article', 1),
+			5 => __d('bbses', '%s articles', 5),
+			10 => __d('bbses', '%s articles', 10),
+			20 => __d('bbses', '%s articles', 20),
+			50 => __d('bbses', '%s articles', 50),
+			100 => __d('bbses', '%s articles', 100),
+		);
+	}
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -148,22 +178,9 @@ class BbsFrameSetting extends BbsesAppModel {
 	public function validateBbsFrameSetting($data) {
 		$this->set($data);
 		$this->validates();
-		return $this->validationErrors ? false : true;
-	}
-
-/**
- * getDisplayNumberOptions
- *
- * @return array
- */
-	public static function getDisplayNumberOptions() {
-		return array(
-			1 => __d('bbses', '%s article', 1),
-			5 => __d('bbses', '%s articles', 5),
-			10 => __d('bbses', '%s articles', 10),
-			20 => __d('bbses', '%s articles', 20),
-			50 => __d('bbses', '%s articles', 50),
-			100 => __d('bbses', '%s articles', 100),
-		);
+		if ($this->validationErrors) {
+			return false;
+		}
+		return true;
 	}
 }
