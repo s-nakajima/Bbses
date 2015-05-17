@@ -13,7 +13,7 @@
 <?php if ($bbsArticle['bbsArticle']['status'] === NetCommonsBlockComponent::STATUS_APPROVED && $contentPublishable) : ?>
 	<?php echo $this->Form->create('', array(
 			'div' => false,
-			'class' => 'inline-block',
+			'class' => 'nc-bbs-edit-link',
 			'type' => 'post',
 			'url' => '/bbses/bbs_articles/approve/' . $frameId . '/' . $bbsArticle['bbsArticle']['key']
 		)); ?>
