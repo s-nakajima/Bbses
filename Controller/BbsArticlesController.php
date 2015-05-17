@@ -120,7 +120,6 @@ class BbsArticlesController extends BbsesAppController {
 		}
 
 		$conditions = $this->BbsArticles->setConditions();
-
 		$this->BbsArticleTree->bindModelBbsArticlesUser($this->viewVars['userId']);
 		$this->BbsArticleTree->Behaviors->load('Tree', array(
 			'scope' => array(

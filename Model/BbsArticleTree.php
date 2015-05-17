@@ -52,6 +52,16 @@ class BbsArticleTree extends BbsesAppModel {
 			'fields' => '',
 			'order' => ''
 		),
+		'CreatedUser' => array(
+			'className' => 'Users.UserAttributesUser',
+			'foreignKey' => false,
+			'conditions' => array(
+				'BbsArticle.created_user = CreatedUser.user_id',
+				'CreatedUser.key' => 'nickname'
+			),
+			'fields' => array('CreatedUser.key', 'CreatedUser.value'),
+			'order' => ''
+		),
 		//'ParentBbsArticleTree' => array(
 		//	'className' => 'Bbses.BbsArticleTree',
 		//	'foreignKey' => 'parent_id',

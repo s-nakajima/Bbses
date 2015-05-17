@@ -21,7 +21,7 @@
 
 	<?php if (isset($rootBbsArticle)) : ?>
 		<li>
-			<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $rootBbsArticle['bbsPost']['id']) ?>"
+			<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $rootBbsArticle['bbsArticle']['key']) ?>"
 				title="<?php echo h($rootBbsArticle['bbsArticle']['title']); ?>">
 
 				<?php echo String::truncate($rootBbsArticle['bbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH); ?>
@@ -29,9 +29,9 @@
 		</li>
 	<?php endif; ?>
 
-	<?php if (isset($parentBbsArticle) && $parentBbsArticle['bbsPost']['rootId']) : ?>
+	<?php if (isset($parentBbsArticle) && $parentBbsArticle['bbsArticleTree']['rootId']) : ?>
 		<li>
-			<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $parentBbsArticle['bbsPost']['id']) ?>"
+			<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $parentBbsArticle['bbsArticle']['key']) ?>"
 				title="<?php echo h($parentBbsArticle['bbsArticle']['title']); ?>">
 
 				<?php echo String::truncate($parentBbsArticle['bbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH); ?>
@@ -42,7 +42,7 @@
 	<?php if (isset($currentBbsArticle)) : ?>
 		<li class="active">
 			<?php if ($this->request->params['action'] === 'add' || $this->request->params['action'] === 'edit') : ?>
-				<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $currentBbsArticle['bbsPost']['id']) ?>"
+				<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $currentBbsArticle['bbsArticle']['key']) ?>"
 					title="<?php echo h($currentBbsArticle['bbsArticle']['title']); ?>">
 			<?php endif; ?>
 

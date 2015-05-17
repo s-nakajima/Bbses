@@ -133,13 +133,12 @@ class BbsArticlesComponent extends Component {
 		//子記事の場合、根記事を取得する
 		if ($bbsArticle['bbsArticleTree']['rootId'] > 0) {
 			//コメント表示の場合、根記事を取得
-			$conditions = $this->setConditions();
-			$conditions['BbsArticleTree.id'] = $bbsArticle['bbsArticleTree']['rootId'];
 			$this->controller->BbsArticle->bindModelBbsArticlesUser($this->controller->viewVars['userId']);
-			$rootBbsArticle = $this->controller->BbsArticle->getBbsArticle(
-				$bbsArticleKey,
+			$rootBbsArticle = $this->controller->BbsArticle->getBbsArticleByTreeId(
+				$bbsArticle['bbsArticleTree']['rootId'],
 				$conditions
 			);
+
 			if (! $rootBbsArticle) {
 				$this->controller->throwBadRequest();
 				return false;
@@ -152,10 +151,9 @@ class BbsArticlesComponent extends Component {
 		if ($bbsArticle['bbsArticleTree']['parentId'] > 0) {
 			if ($bbsArticle['bbsArticleTree']['parentId'] !== $bbsArticle['bbsArticleTree']['rootId']) {
 				$conditions = $this->setConditions();
-				$conditions['BbsArticleTree.id'] = $bbsArticle['bbsArticleTree']['parentId'];
 				$this->controller->BbsArticle->bindModelBbsArticlesUser($this->controller->viewVars['userId']);
-				$parentBbsArticle = $this->controller->BbsArticle->getBbsArticle(
-					$bbsArticleKey,
+				$parentBbsArticle = $this->controller->BbsArticle->getBbsArticleByTreeId(
+					$bbsArticle['bbsArticleTree']['parentId'],
 					$conditions
 				);
 				if (! $parentBbsArticle) {
@@ -167,8 +165,8 @@ class BbsArticlesComponent extends Component {
 			} else {
 				$parentBbsArticle = $rootBbsArticle;
 			}
-			$parentBbsPost = $this->controller->camelizeKeyRecursive($parentBbsPost);
-			$this->controller->set(['parentBbsPost' => $parentBbsPost]);
+			$parentBbsArticle = $this->controller->camelizeKeyRecursive($parentBbsArticle);
+			$this->controller->set(['parentBbsArticle' => $parentBbsArticle]);
 		}
 
 //		//コメント

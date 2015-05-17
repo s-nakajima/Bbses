@@ -201,6 +201,25 @@ class BbsArticle extends BbsesAppModel {
 	}
 
 /**
+ * Get BbsArticle by bbs_article_trees.id
+ *
+ * @param id $bbsArticleTreeId bbs_article_trees.id
+ * @param array $conditions find conditions
+ * @return array BbsArticle
+ */
+	public function getBbsArticleByTreeId($bbsArticleTreeId, $conditions = []) {
+		$conditions['BbsArticleTree.id'] = $bbsArticleTreeId;
+
+		$bbsArticle = $this->find('first', array(
+				'recursive' => 0,
+				'conditions' => $conditions,
+			)
+		);
+
+		return $bbsArticle;
+	}
+
+/**
  * Save article
  *
  * @param array $data received post data

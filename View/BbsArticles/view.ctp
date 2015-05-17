@@ -26,7 +26,7 @@
 						<?php echo $this->element('BbsArticles/view_bbs_article', array(
 							'bbsArticle' => $rootBbsArticle,
 							'parentBbsArticle' => null,
-							'headTag' => 'h2'
+							'headTag' => 'h1'
 						)); ?>
 					<?php else : ?>
 						<?php echo $this->element('BbsArticles/view_bbs_article', array(
@@ -69,7 +69,7 @@
 												<?php echo $this->element('BbsArticles/view_bbs_article', array(
 														'bbsArticle' => $childBbsArticle,
 														'parentBbsArticle' => $currentBbsArticle,
-														'headTag' => 'h1'
+														'headTag' => 'h2'
 													)); ?>
 
 											<?php endif; ?>

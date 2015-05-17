@@ -27,7 +27,10 @@
 		<div class="col-xs-9 col-sm-10">
 			<div class="clearfix">
 				<<?php echo $headTag; ?> class="nc-bbses-view-title clearfix">
-					<small>
+					<?php if ($headTag === 'h1') : ?>
+						<small>
+					<?php endif; ?>
+
 						<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $bbsArticle['bbsArticle']['key']); ?>">
 							<?php if (! $bbsArticle['bbsArticlesUser']) : ?>
 								<strong>
@@ -51,7 +54,10 @@
 								<?php echo $this->Date->dateFormat($bbsArticle['bbsArticle']['created']); ?>
 							</small>
 						</div>
-					</small>
+
+					<?php if ($headTag === 'h1') : ?>
+						</small>
+					<?php endif; ?>
 				</<?php echo $headTag; ?>>
 			</div>
 		</div>
