@@ -6,15 +6,20 @@
  * @property BbsArticleTree $ParentBbsArticleTree
  * @property BbsArticleTree $ChildBbsArticleTree
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
  */
 
 App::uses('BbsesAppModel', 'Bbses.Model');
 
 /**
- * Summary for BbsArticleTree Model
+ * BbsArticleTree Model
+ *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @package NetCommons\Bbses\Model
  */
 class BbsArticleTree extends BbsesAppModel {
 
@@ -159,9 +164,8 @@ class BbsArticleTree extends BbsesAppModel {
 	}
 
 /**
- * Set bindModel BbsArticlesUser
+ * Set unbindModel BbsArticleTree
  *
- * @param int $userId users.id
  * @return void
  */
 	public function unbindModelBbsArticleTree() {

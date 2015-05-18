@@ -24,8 +24,8 @@ class BbsFrameSettingsControllerTest extends ControllerTestCase {
 	public $fixtures = array(
 		'plugin.bbses.bbs',
 		'plugin.bbses.bbs_frame_setting',
-		'plugin.bbses.bbs_post',
-		'plugin.bbses.bbs_posts_user',
+		'plugin.bbses.bbs_article',
+		'plugin.bbses.bbs_articles_user',
 		'plugin.net_commons.site_setting',
 	);
 

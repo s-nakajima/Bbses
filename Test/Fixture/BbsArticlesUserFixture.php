@@ -24,7 +24,7 @@ class BbsArticlesUserFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
-		'bbs_article_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Article ID | 記事ID | bbs_posts.id | '),
+		'bbs_article_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Article ID | 記事ID | bbs_articles.id | '),
 		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'User ID | ユーザID | users.id | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),

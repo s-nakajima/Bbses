@@ -6,15 +6,20 @@
  * @property Language $Language
  * @property User $User
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
  */
 
 App::uses('BbsesAppModel', 'Bbses.Model');
 
 /**
- * Summary for BbsArticle Model
+ * BbsArticle Model
+ *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @package NetCommons\Bbses\Model
  */
 class BbsArticle extends BbsesAppModel {
 
@@ -90,27 +95,6 @@ class BbsArticle extends BbsesAppModel {
 			'order' => ''
 		)
 	);
-
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-//	public $hasAndBelongsToMany = array(
-//		'User' => array(
-//			'className' => 'Users.User',
-//			'joinTable' => 'bbs_articles_users',
-//			'foreignKey' => 'BbsArticlesUser.bbs_article_key=BbsArticle.key',
-//			'associationForeignKey' => 'user_id',
-//			'unique' => 'keepExisting',
-//			'conditions' => '',
-//			'fields' => '',
-//			'order' => '',
-//			'limit' => '',
-//			'offset' => '',
-//			'finderQuery' => '',
-//		)
-//	);
 
 /**
  * Called during validation operations, before validation. Please note that custom

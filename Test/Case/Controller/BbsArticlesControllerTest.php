@@ -1,6 +1,6 @@
 <?php
 /**
- * BbsPostsController Test Case
+ * BbsArticlesController Test Case
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
@@ -9,12 +9,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BbsPostsController', 'Bbses.Controller');
+App::uses('BbsArticlesController', 'Bbses.Controller');
 
 /**
- * BbsPostsController Test Case
+ * BbsArticlesController Test Case
  */
-class BbsPostsControllerTest extends ControllerTestCase {
+class BbsArticlesControllerTest extends ControllerTestCase {
 
 /**
  * Fixtures
@@ -24,8 +24,8 @@ class BbsPostsControllerTest extends ControllerTestCase {
 	public $fixtures = array(
 		'plugin.bbses.bbs',
 		'plugin.bbses.bbs_frame_setting',
-		'plugin.bbses.bbs_post',
-		'plugin.bbses.bbs_posts_user',
+		'plugin.bbses.bbs_article',
+		'plugin.bbses.bbs_articles_user',
 		'plugin.net_commons.site_setting',
 	);
 

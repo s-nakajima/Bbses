@@ -57,8 +57,8 @@ class BbsAppModelTest extends YACakeTestCase {
 	public function tearDown() {
 		unset($this->Bbs);
 		unset($this->BbsFrameSetting);
-		unset($this->BbsPost);
-		unset($this->BbsPostsUser);
+		unset($this->BbsArticle);
+		unset($this->BbsArticlesUser);
 		unset($this->Comment);
 		parent::tearDown();
 	}

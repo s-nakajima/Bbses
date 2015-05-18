@@ -26,14 +26,10 @@ class BbsArticlesController extends BbsesAppController {
  * @var array
  */
 	public $uses = array(
-//		'Frames.Frame',
-//		'Bbses.Bbs',
 		'Bbses.BbsFrameSetting',
 		'Bbses.BbsArticle',
 		'Bbses.BbsArticleTree',
-//		'Bbses.BbsSetting',
 		'Bbses.BbsArticlesUser',
-//		'Users.User',
 		'Comments.Comment',
 	);
 
@@ -223,20 +219,8 @@ class BbsArticlesController extends BbsesAppController {
 			'content' => '',
 		));
 
+		$bbsArticle['BbsArticle']['title'] = $this->__replyTitle($this->viewVars['currentBbsArticle']['bbsArticle']['title']);
 		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
-			$matches = array();
-			$title = $this->viewVars['currentBbsArticle']['bbsArticle']['title'];
-
-			if (preg_match('/^Re(\d)?:/', $title, $matches)) {
-				if (isset($matches[1])) {
-					$count = (int)$matches[1];
-				} else {
-					$count = 1;
-				}
-				$bbsArticle['BbsArticle']['title'] = preg_replace('/^Re(\d)?:/', 'Re' . ($count + 1) . ': ', $title);
-			} else {
-				$bbsArticle['BbsArticle']['title'] = 'Re: ' . $title;
-			}
 			$bbsArticle['BbsArticle']['content'] =
 							'<p></p><blockquote class="small">' .
 								$this->viewVars['currentBbsArticle']['bbsArticle']['content'] .
@@ -274,6 +258,31 @@ class BbsArticlesController extends BbsesAppController {
 		);
 		$results = $this->camelizeKeyRecursive($data);
 		$this->set($results);
+	}
+
+/**
+ * Title of reply
+ *
+ * @param string $title bbs_articles.title
+ * @return string bbs_articles.title
+ */
+	private function __replyTitle($title) {
+		$title = '';
+		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
+			$matches = array();
+			if (preg_match('/^Re(\d)?:/', $title, $matches)) {
+				if (isset($matches[1])) {
+					$count = (int)$matches[1];
+				} else {
+					$count = 1;
+				}
+				$title = preg_replace('/^Re(\d)?:/', 'Re' . ($count + 1) . ': ', $title);
+			} else {
+				$title = 'Re: ' . $title;
+			}
+		}
+
+		return $title;
 	}
 
 /**
@@ -327,7 +336,6 @@ class BbsArticlesController extends BbsesAppController {
 			$this->viewVars['currentBbsArticle'], $data
 		);
 		$this->set($results);
-
 	}
 
 /**

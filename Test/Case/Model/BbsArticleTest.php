@@ -1,8 +1,8 @@
 <?php
 /**
- * BbsPostsUser Model Test Case
+ * BbsArticle Model Test Case
  *
- * @property BbsPostsUser $BbsPostsUser
+ * @property BbsArticle $BbsArticle
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
@@ -11,16 +11,16 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BbsPostsUser', 'Bbses.Model');
+App::uses('BbsArticle', 'Bbses.Model');
 App::uses('BbsAppModelTest', 'Bbses.Test/Case/Model');
 
 /**
- * BbsPostsUser Model Test Case
+ * BbsArticle Model Test Case
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Test\Case\Model
  */
-class BbsPostsUserTest extends BbsAppModelTest {
+class BbsArticleTest extends BbsAppModelTest {
 
 /**
  * Fixtures
@@ -28,7 +28,7 @@ class BbsPostsUserTest extends BbsAppModelTest {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.bbses.bbs_posts_user',
+		'plugin.bbses.bbs_article',
 	);
 
 /**
@@ -38,7 +38,7 @@ class BbsPostsUserTest extends BbsAppModelTest {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->BbsPostsUser = ClassRegistry::init('Bbses.BbsPostsUser');
+		$this->BbsArticle = ClassRegistry::init('Bbses.BbsArticle');
 	}
 
 /**
