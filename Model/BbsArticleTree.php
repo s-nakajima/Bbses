@@ -147,17 +147,27 @@ class BbsArticleTree extends BbsesAppModel {
  */
 	public function bindModelBbsArticlesUser($userId) {
 		$this->bindModel(array('belongsTo' => array(
-				'BbsArticlesUser' => array(
-					'className' => 'Bbses.BbsArticlesUser',
-					'foreignKey' => false,
-					'conditions' => array(
-						'BbsArticlesUser.bbs_article_key=BbsArticleTree.bbs_article_key',
-						'BbsArticlesUser.user_id' => $userId
-					)
-				),
-			)),
-			false
-		);
+			'BbsArticlesUser' => array(
+				'className' => 'Bbses.BbsArticlesUser',
+				'foreignKey' => false,
+				'conditions' => array(
+					'BbsArticlesUser.bbs_article_key=BbsArticleTree.bbs_article_key',
+					'BbsArticlesUser.user_id' => $userId
+				)
+			),
+		)), false);
+	}
+
+/**
+ * Set bindModel BbsArticlesUser
+ *
+ * @param int $userId users.id
+ * @return void
+ */
+	public function unbindModelBbsArticleTree() {
+		$this->unbindModel(
+			array('belongsTo' => array_keys($this->belongsTo),
+		), true);
 	}
 
 /**

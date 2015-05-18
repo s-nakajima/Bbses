@@ -52,7 +52,6 @@ class BbsArticlesComponent extends Component {
 				'BbsArticle.created_user !=' => $this->controller->viewVars['userId'],
 			);
 			$latestConditons = array(
-				'BbsArticle.is_active' => false,
 				'BbsArticle.is_latest' => true,
 				'BbsArticle.created_user' => $this->controller->viewVars['userId'],
 			);
@@ -73,19 +72,6 @@ class BbsArticlesComponent extends Component {
  * @return void
  */
 	public function paginatorSettings() {
-		//言語の指定
-		$this->controller->BbsArticle->bindModel(array('belongsTo' => array(
-				'BbsArticlesUser' => array(
-					'foreignKey' => false,
-					'conditions' => array(
-						'BbsArticlesUser.bbs_article_key=BbsArticle.key',
-						'BbsArticlesUser.user_id' => $this->controller->viewVars['userId']
-					)
-				),
-			)),
-			false
-		);
-
 		//条件
 		$conditions = $this->setConditions();
 		$conditions['BbsArticleTree.parent_id'] = null;
@@ -113,9 +99,10 @@ class BbsArticlesComponent extends Component {
  * View set BbsArticle
  *
  * @param string $bbsArticleKey bbs_articles.key
+ * @param array $contains Optional result sets
  * @return void
  */
-	public function setBbsArticle($bbsArticleKey) {
+	public function setBbsArticle($bbsArticleKey, $contains = []) {
 		//カレントの記事を取得
 		$conditions = $this->setConditions();
 		$this->controller->BbsArticle->bindModelBbsArticlesUser($this->controller->viewVars['userId']);
@@ -131,8 +118,27 @@ class BbsArticlesComponent extends Component {
 		$this->controller->set(['currentBbsArticle' => $bbsArticle]);
 
 		//子記事の場合、根記事を取得する
+		if (in_array('rootBbsArticle', $contains, true)) {
+			$this->__setRootBbsArticle($bbsArticle);
+		}
+
+		//子記事の場合、親記事を取得する
+		if (in_array('parentBbsArticle', $contains, true)) {
+			$this->__setParentBbsArticle($bbsArticle);
+		}
+	}
+
+/**
+ * View set root BbsArticle
+ *
+ * @param object $bbsArticle bbs_articles data
+ * @return void
+ */
+	private function __setRootBbsArticle($bbsArticle) {
+		//子記事の場合、根記事を取得する
 		if ($bbsArticle['bbsArticleTree']['rootId'] > 0) {
-			//コメント表示の場合、根記事を取得
+			$conditions = $this->setConditions();
+
 			$this->controller->BbsArticle->bindModelBbsArticlesUser($this->controller->viewVars['userId']);
 			$rootBbsArticle = $this->controller->BbsArticle->getBbsArticleByTreeId(
 				$bbsArticle['bbsArticleTree']['rootId'],
@@ -146,11 +152,21 @@ class BbsArticlesComponent extends Component {
 			$rootBbsArticle = $this->controller->camelizeKeyRecursive($rootBbsArticle);
 			$this->controller->set(['rootBbsArticle' => $rootBbsArticle]);
 		}
+	}
 
+/**
+ * View set root BbsArticle
+ *
+ * @param object $bbsArticle bbs_articles data
+ * @return void
+ */
+	private function __setParentBbsArticle($bbsArticle) {
 		//子記事の場合、親記事を取得する
 		if ($bbsArticle['bbsArticleTree']['parentId'] > 0) {
+			$conditions = $this->setConditions();
+
+			$parentBbsArticle = null;
 			if ($bbsArticle['bbsArticleTree']['parentId'] !== $bbsArticle['bbsArticleTree']['rootId']) {
-				$conditions = $this->setConditions();
 				$this->controller->BbsArticle->bindModelBbsArticlesUser($this->controller->viewVars['userId']);
 				$parentBbsArticle = $this->controller->BbsArticle->getBbsArticleByTreeId(
 					$bbsArticle['bbsArticleTree']['parentId'],
@@ -160,46 +176,36 @@ class BbsArticlesComponent extends Component {
 					$this->controller->throwBadRequest();
 					return false;
 				}
-				$parentBbsArticle = $this->controller->camelizeKeyRecursive($parentBbsArticle);
-				$this->controller->set(['parentBbsArticle' => $parentBbsArticle]);
-			} else {
-				$parentBbsArticle = $rootBbsArticle;
+			}
+			if (! isset($parentBbsArticle) && isset($this->controller->viewVars['rootBbsArticle'])) {
+				$parentBbsArticle = $this->controller->viewVars['rootBbsArticle'];
 			}
 			$parentBbsArticle = $this->controller->camelizeKeyRecursive($parentBbsArticle);
 			$this->controller->set(['parentBbsArticle' => $parentBbsArticle]);
 		}
-
-//		//コメント
-//		if (in_array('comments', $contains, true)) {
-//			$comments = $this->controller->Comment->getComments(
-//				array(
-//					'plugin_key' => 'bbsposts',
-//					'content_key' => $bbsArticle['bbsArticle']['key']
-//				)
-//			);
-//			$comments = $this->controller->camelizeKeyRecursive($comments);
-//			$this->controller->set(['comments' => $comments]);
-//		}
 	}
 
 /**
  * saveBbsArticle
  *
  * @param array $data received post data
- * @param string $containKey redirect key
+ * @param string $bbsArticleKey bbs_articles.key
  * @return bool true on success, false on error
  */
-	public function saveBbsArticle($data, $containKey) {
+	public function saveBbsArticle($data, $bbsArticleKey = null) {
 		$bbsArticle = $this->controller->BbsArticle->saveBbsArticle($data);
 		if ($this->controller->handleValidationError($this->controller->BbsArticle->validationErrors)) {
-			if (! $this->controller->request->is('ajax')) {
-				$this->controller->redirect(
-					'/bbses/bbs_articles/view/' .
-					$this->controller->viewVars['frameId'] . '/' .
-					$bbsArticle['BbsArticle'][$containKey]
-				);
+			if ($this->controller->request->is('ajax')) {
+				return true;
 			}
-			return true;
+			if (! isset($bbsArticleKey)) {
+				$bbsArticleKey = $bbsArticle['BbsArticle']['key'];
+			}
+
+			$this->controller->redirect(
+				'/bbses/bbs_articles/view/' .
+				$this->controller->viewVars['frameId'] . '/' . $bbsArticleKey
+			);
 		}
 		return false;
 	}

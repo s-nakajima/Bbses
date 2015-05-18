@@ -153,17 +153,15 @@ class BbsArticle extends BbsesAppModel {
  */
 	public function bindModelBbsArticlesUser($userId) {
 		$this->bindModel(array('belongsTo' => array(
-				'BbsArticlesUser' => array(
-					'className' => 'Bbses.BbsArticlesUser',
-					'foreignKey' => false,
-					'conditions' => array(
-						'BbsArticlesUser.bbs_article_key=BbsArticle.key',
-						'BbsArticlesUser.user_id' => $userId
-					)
-				),
-			)),
-			false
-		);
+			'BbsArticlesUser' => array(
+				'className' => 'Bbses.BbsArticlesUser',
+				'foreignKey' => false,
+				'conditions' => array(
+					'BbsArticlesUser.bbs_article_key=BbsArticle.key',
+					'BbsArticlesUser.user_id' => $userId
+				)
+			),
+		)), true);
 	}
 
 /**
@@ -229,7 +227,7 @@ class BbsArticle extends BbsesAppModel {
 	public function saveBbsArticle($data) {
 		$this->loadModels([
 			'BbsArticle' => 'Bbses.BbsArticle',
-			'BbsArticle' => 'Bbses.BbsArticleTree',
+			'BbsArticleTree' => 'Bbses.BbsArticleTree',
 			'Comment' => 'Comments.Comment',
 		]);
 
@@ -256,6 +254,7 @@ class BbsArticle extends BbsesAppModel {
 
 			//コメントの登録
 			if (isset($data['Comment']) && $this->Comment->data) {
+				$this->Comment->data[$this->Comment->name]['content_key'] = $bbsArticle[$this->alias]['key'];
 				if (! $this->Comment->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
@@ -304,6 +303,96 @@ class BbsArticle extends BbsesAppModel {
 			}
 		}
 
+		return true;
+	}
+
+/**
+ * Delete posts
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function deleteBbsArticle($data) {
+		$this->loadModels([
+			'BbsArticle' => 'Bbses.BbsArticle',
+			'BbsArticleTree' => 'Bbses.BbsArticleTree',
+			'Comment' => 'Comments.Comment',
+		]);
+
+		//トランザクションBegin
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			//BbsArticleの削除
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['BbsArticle']['key']), false, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//Treeデータの削除
+			$this->BbsArticleTree->unbindModelBbsArticleTree();
+			if (! $this->BbsArticleTree->deleteAll(array($this->BbsArticleTree->alias . '.bbs_article_key' => $data['BbsArticle']['key']), false, true)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//コメント数の更新
+			$this->BbsArticleTree->updateCommentCounts($data['BbsArticleTree']['root_id'], $data['BbsArticle']['status'], -1);
+
+			//トランザクションCommit
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			//エラー出力
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		return true;
+	}
+
+/**
+ * Save comment as publish
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function saveCommentAsPublish($data) {
+		$this->loadModels([
+			'BbsArticle' => 'Bbses.BbsArticle',
+			'BbsArticleTree' => 'Bbses.BbsArticleTree',
+		]);
+
+		//トランザクションBegin
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			//BbsArticle登録処理
+			$this->id = (int)$data['BbsArticle']['id'];
+			if (! $this->saveField('status', $data['BbsArticle']['status'], false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+			if (! $this->saveField('is_active', true, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//コメント数の更新
+			$this->BbsArticleTree->updateCommentCounts($data['BbsArticleTree']['root_id'], $data['BbsArticle']['status']);
+
+			//トランザクションCommit
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			//エラー出力
+			CakeLog::error($ex);
+			throw $ex;
+		}
 		return true;
 	}
 

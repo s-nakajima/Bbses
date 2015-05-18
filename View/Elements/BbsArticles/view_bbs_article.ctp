@@ -43,11 +43,13 @@
 							<?php endif; ?>
 						</a>
 
-						<?php if ($bbsArticle['bbsArticleTree']['rootId'] > 0) : ?>
-							<?php echo $this->element('BbsArticles/comment_status_label', array('status' => $bbsArticle['bbsArticle']['status'])); ?>
-						<?php else : ?>
-							<?php echo $this->element('NetCommons.status_label', array('status' => $bbsArticle['bbsArticle']['status'])); ?>
-						<?php endif; ?>
+						<small>
+							<?php if ($bbsArticle['bbsArticleTree']['rootId'] > 0) : ?>
+								<?php echo $this->element('BbsArticles/comment_status_label', array('status' => $bbsArticle['bbsArticle']['status'])); ?>
+							<?php else : ?>
+								<?php echo $this->element('NetCommons.status_label', array('status' => $bbsArticle['bbsArticle']['status'])); ?>
+							<?php endif; ?>
+						</small>
 
 						<div class="pull-right">
 							<small>
@@ -66,11 +68,11 @@
 
 <div class="panel-body">
 	<?php if (isset($parentBbsArticle)) : ?>
-		<div>
+		<h4>
 			<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $parentBbsArticle['bbsArticle']['key']); ?>">
 				<?php echo sprintf(__d('bbses', '&gt;&gt; %s'), $parentBbsArticle['bbsArticleTree']['articleNo']) ?>
 			</a>
-		</div>
+		</h4>
 	<?php endif; ?>
 	<?php echo $bbsArticle['bbsArticle']['content']; ?>
 </div>

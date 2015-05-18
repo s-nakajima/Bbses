@@ -245,8 +245,8 @@ class Bbs extends BbsesAppModel {
 		$this->loadModels([
 			'Bbs' => 'Bbses.Bbs',
 			'BbsSetting' => 'Bbses.BbsSetting',
-			'BbsPost' => 'Bbses.BbsPost',
-			'BbsPostI18n' => 'Bbses.BbsPostI18n',
+			'BbsArticle' => 'Bbses.BbsArticle',
+			'BbsArticleTree' => 'Bbses.BbsArticleTree',
 			'Block' => 'Blocks.Block',
 			'BlockRolePermission' => 'Blocks.BlockRolePermission',
 			'Comment' => 'Comments.Comment',
@@ -257,15 +257,19 @@ class Bbs extends BbsesAppModel {
 		$dataSource->begin();
 
 		try {
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['Bbs']['key']), false)) {
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['Bbs']['key']), false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->BbsSetting->deleteAll(array($this->BbsSetting->alias . '.bbs_key' => $data['Bbs']['key']), false)) {
+			if (! $this->BbsSetting->deleteAll(array($this->BbsSetting->alias . '.bbs_key' => $data['Bbs']['key']), false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->BbsPost->deleteAll(array($this->BbsPost->alias . '.bbs_key' => $data['Bbs']['key']), true)) {
+			if (! $this->BbsArticle->deleteAll(array($this->BbsArticle->alias . '.bbs_id' => $data['Bbs']['id']), false, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			if (! $this->BbsArticleTree->deleteAll(array($this->BbsArticleTree->alias . '.bbs_key' => $data['Bbs']['key']), false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

@@ -19,7 +19,7 @@
 		)); ?>
 
 		<?php echo $this->Form->hidden('BbsArticle.id', array(
-				'value' => isset($bbsArticle['bbsArticle']['id']) ? (int)$bbsArticle['bbsArticle']['key'] : null,
+				'value' => isset($bbsArticle['bbsArticle']['id']) ? (int)$bbsArticle['bbsArticle']['id'] : null,
 			)); ?>
 
 		<?php echo $this->Form->hidden('BbsArticleTree.id', array(

@@ -28,9 +28,10 @@
 
 						<?php echo $this->element('BbsArticles/edit_form'); ?>
 
-						<hr />
-
-						<?php echo $this->element('Comments.form'); ?>
+						<?php if ($this->request->params['action'] === 'add') : ?>
+							<hr />
+							<?php echo $this->element('Comments.form'); ?>
+						<?php endif; ?>
 
 					</div>
 					<div class="panel-footer text-center">

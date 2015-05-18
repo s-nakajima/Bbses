@@ -10,31 +10,30 @@
  */
 
 $url = Hash::merge(
-	array('controller' => 'bbs_posts', 'action' => 'index', $frameId),
+	array('controller' => 'bbs_articles', 'action' => 'index', $frameId),
 	$this->Paginator->params['named']
 );
 
-$curretSort = isset($this->Paginator->params['named']['sort']) ? $this->Paginator->params['named']['sort'] : 'BbsPost.created';
+$curretSort = isset($this->Paginator->params['named']['sort']) ? $this->Paginator->params['named']['sort'] : 'BbsArticle.created';
 $curretDirection = isset($this->Paginator->params['named']['direction']) ? $this->Paginator->params['named']['direction'] : 'desc';
 
 $options = array(
-	'BbsPost.created.desc' => array(
+	'BbsArticle.created.desc' => array(
 		'label' => __d('bbses', 'Latest post order'),
-		'sort' => 'BbsPost.created',
+		'sort' => 'BbsArticle.created',
 		'direction' => 'desc'
 	),
-	'BbsPost.created.asc' => array(
+	'BbsArticle.created.asc' => array(
 		'label' => __d('bbses', 'Older post order'),
-		'sort' => 'BbsPost.created',
+		'sort' => 'BbsArticle.created',
 		'direction' => 'asc'
 	),
-	'BbsPost.published_comment_counts.desc' => array(
+	'BbsArticleTree.published_comment_counts.desc' => array(
 		'label' => __d('bbses', 'Descending order of comments'),
-		'sort' => 'BbsPost.published_comment_counts',
+		'sort' => 'BbsArticleTree.published_comment_counts',
 		'direction' => 'desc'
 	),
 );
-
 ?>
 
 <span class="btn-group">

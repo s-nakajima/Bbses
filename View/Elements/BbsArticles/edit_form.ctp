@@ -30,6 +30,10 @@
 		'value' => $bbs['id'],
 	)); ?>
 
+<?php echo $this->Form->hidden('BbsArticleTree.id', array(
+		'value' => isset($bbsArticleTree['id']) ? (int)$bbsArticleTree['id'] : null,
+	)); ?>
+
 <?php echo $this->Form->hidden('BbsArticleTree.bbs_key', array(
 		'value' => $bbs['key'],
 	)); ?>
