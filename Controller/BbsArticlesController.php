@@ -267,7 +267,7 @@ class BbsArticlesController extends BbsesAppController {
  * @return string bbs_articles.title
  */
 	private function __replyTitle($title) {
-		$title = '';
+		$result = '';
 		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
 			$matches = array();
 			if (preg_match('/^Re(\d)?:/', $title, $matches)) {
@@ -276,13 +276,13 @@ class BbsArticlesController extends BbsesAppController {
 				} else {
 					$count = 1;
 				}
-				$title = preg_replace('/^Re(\d)?:/', 'Re' . ($count + 1) . ': ', $title);
+				$result = preg_replace('/^Re(\d)?:/', 'Re' . ($count + 1) . ': ', $title);
 			} else {
-				$title = 'Re: ' . $title;
+				$result = 'Re: ' . $title;
 			}
 		}
 
-		return $title;
+		return $result;
 	}
 
 /**
