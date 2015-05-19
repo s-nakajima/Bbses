@@ -10,7 +10,7 @@
  */
 
 $url = Hash::merge(
-	array('controller' => 'bbs_artciles', 'action' => 'index', $frameId),
+	array('controller' => 'bbs_articles', 'action' => 'index', $frameId),
 	$this->Paginator->params['named']
 );
 ?>
