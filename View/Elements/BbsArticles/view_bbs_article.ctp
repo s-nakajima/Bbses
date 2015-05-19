@@ -8,6 +8,15 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+if ($currentBbsArticle['bbsArticle']['key'] === $bbsArticle['bbsArticle']['key']) {
+	$headTag = 'h1';
+} elseif ((int)$bbsArticle['bbsArticleTree']['rootId'] === 0) {
+	$headTag = 'h2';
+} else {
+	$headTag = 'h3';
+}
+
 ?>
 
 <div class="panel-heading">
@@ -52,9 +61,7 @@
 						</small>
 
 						<div class="pull-right">
-							<small>
-								<?php echo $this->Date->dateFormat($bbsArticle['bbsArticle']['created']); ?>
-							</small>
+							<?php echo $this->Date->dateFormat($bbsArticle['bbsArticle']['created']); ?>
 						</div>
 
 					<?php if ($headTag === 'h1') : ?>

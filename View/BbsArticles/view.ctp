@@ -26,13 +26,11 @@
 						<?php echo $this->element('BbsArticles/view_bbs_article', array(
 							'bbsArticle' => $rootBbsArticle,
 							'parentBbsArticle' => null,
-							'headTag' => 'h1'
 						)); ?>
 					<?php else : ?>
 						<?php echo $this->element('BbsArticles/view_bbs_article', array(
 							'bbsArticle' => $currentBbsArticle,
 							'parentBbsArticle' => null,
-							'headTag' => 'h1'
 						)); ?>
 					<?php endif; ?>
 				</div>
@@ -45,7 +43,6 @@
 							<?php echo $this->element('BbsArticles/view_bbs_article', array(
 								'bbsArticle' => $currentBbsArticle,
 								'parentBbsArticle' => $parentBbsArticle,
-								'headTag' => 'h2'
 							)); ?>
 						</div>
 					</div>
@@ -62,14 +59,12 @@
 												<?php echo $this->element('BbsArticles/view_bbs_article', array(
 														'bbsArticle' => $childBbsArticle,
 														'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['bbsArticleTree']['parentId']],
-														'headTag' => 'h3'
 													)); ?>
 
 											<?php else : ?>
 												<?php echo $this->element('BbsArticles/view_bbs_article', array(
 														'bbsArticle' => $childBbsArticle,
 														'parentBbsArticle' => $currentBbsArticle,
-														'headTag' => 'h2'
 													)); ?>
 
 											<?php endif; ?>
