@@ -210,6 +210,7 @@ class BbsArticle extends BbsesAppModel {
  */
 	public function saveBbsArticle($data) {
 		$this->loadModels([
+			'Bbs' => 'Bbses.Bbs',
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
 			'Comment' => 'Comments.Comment',
@@ -243,6 +244,9 @@ class BbsArticle extends BbsesAppModel {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
 			}
+
+			//Bbsのarticle_count、article_modified
+			$this->Bbs->updateBbsArticle($data['Bbs']['id'], $data['Bbs']['key'], $data['BbsArticle']['language_id']);
 
 			//コメント数の更新
 			$this->BbsArticleTree->updateCommentCounts($data['BbsArticleTree']['root_id'], $data['BbsArticle']['status']);
@@ -299,6 +303,7 @@ class BbsArticle extends BbsesAppModel {
  */
 	public function deleteBbsArticle($data) {
 		$this->loadModels([
+			'Bbs' => 'Bbses.Bbs',
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
 			'Comment' => 'Comments.Comment',
@@ -320,6 +325,9 @@ class BbsArticle extends BbsesAppModel {
 			if (! $this->BbsArticleTree->deleteAll(array($this->BbsArticleTree->alias . '.bbs_article_key' => $data['BbsArticle']['key']), false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			//Bbsのarticle_count、article_modified
+			$this->Bbs->updateBbsArticle($data['Bbs']['id'], $data['Bbs']['key'], $data['BbsArticle']['language_id']);
 
 			//コメント数の更新
 			$this->BbsArticleTree->updateCommentCounts($data['BbsArticleTree']['root_id'], $data['BbsArticle']['status'], -1);

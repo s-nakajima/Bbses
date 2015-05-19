@@ -11,11 +11,20 @@
 ?>
 
 <?php echo $this->Form->create('BbsArticle', array('type' => 'delete', 'action' => 'delete/' . $frameId . '/' . $bbsArticle['key'])); ?>
+	<?php echo $this->Form->hidden('Bbs.id', array(
+			'value' => $bbs['id'],
+		)); ?>
+	<?php echo $this->Form->hidden('Bbs.key', array(
+			'value' => $bbs['key'],
+		)); ?>
 	<?php echo $this->Form->hidden('BbsArticle.id', array(
 			'value' => isset($bbsArticle['id']) ? $bbsArticle['id'] : null,
 		)); ?>
 	<?php echo $this->Form->hidden('BbsArticle.key', array(
 			'value' => isset($bbsArticle['key']) ? $bbsArticle['key'] : null,
+		)); ?>
+	<?php echo $this->Form->hidden('BbsArticle.language_id', array(
+			'value' => $languageId,
 		)); ?>
 	<?php echo $this->Form->hidden('BbsArticleTree.root_id', array(
 			'value' => isset($bbsArticleTree['rootId']) ? $bbsArticleTree['rootId'] : null,

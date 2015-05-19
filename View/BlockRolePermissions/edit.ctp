@@ -22,7 +22,7 @@
 				'controller' => 'BlockRolePermission',
 				'action' => 'edit' . '/' . $frameId . '/' . $blockId,
 				'callback' => 'Bbses.BlockRolePermissions/edit_form',
-				'cancel' => '/bbses/blocks/index/' . $frameId,
+				'cancelUrl' => '/bbses/blocks/index/' . $frameId,
 				'options' => array('ng-controller' => 'Bbses'),
 			)); ?>
 	</div>

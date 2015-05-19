@@ -211,10 +211,10 @@ class BbsArticleTree extends BbsesAppModel {
  */
 	public function updateCommentCounts($rootId, $status, $increment = 1) {
 		if ((int)$rootId > 0 && (int)$status === (int)NetCommonsBlockComponent::STATUS_PUBLISHED) {
-			if (! $this->updateAll(
-					array('BbsArticleTree.published_comment_count' => 'BbsArticleTree.published_comment_count + (' . (int)$increment . ')'),
-					array('BbsArticleTree.id' => (int)$rootId)
-			)) {
+			$update = array('BbsArticleTree.published_comment_count' => 'BbsArticleTree.published_comment_count + (' . (int)$increment . ')');
+			$conditions = array('BbsArticleTree.id' => (int)$rootId);
+
+			if (! $this->updateAll($update, $conditions)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 		}

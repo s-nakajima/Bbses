@@ -23,7 +23,7 @@
 				'controller' => 'Blocks',
 				'action' => 'edit' . '/' . $frameId,
 				'callback' => 'Bbses.BbsFrameSettings/edit_form',
-				'cancel' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
+				'cancelUrl' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
 			)); ?>
 	</div>
 </div>

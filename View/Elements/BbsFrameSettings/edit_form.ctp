@@ -25,7 +25,7 @@
 <div class="form-group">
 	<?php echo $this->Form->label(__d('bbses', 'Show articles per page')); ?>
 	<?php echo $this->Form->select('BbsFrameSetting.articles_per_page',
-			BbsFrameSetting::getDisplayNumberOptions(),
+			BbsFrameSetting::$displayNumberOptions,
 			array(
 				//'label' => false,
 				'type' => 'select',
@@ -40,7 +40,7 @@
 <div class="form-group">
 	<?php echo $this->Form->label(__d('bbses', 'Show comments per page')); ?>
 	<?php echo $this->Form->select('BbsFrameSetting.comments_per_page',
-			BbsFrameSetting::getDisplayNumberOptions(),
+			BbsFrameSetting::$displayNumberOptions,
 			array(
 				//'label' => false,
 				'type' => 'select',

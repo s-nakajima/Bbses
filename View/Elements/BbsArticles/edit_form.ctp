@@ -14,6 +14,14 @@
 		'value' => $frameId,
 	)); ?>
 
+<?php echo $this->Form->hidden('Bbs.id', array(
+		'value' => $bbs['id'],
+	)); ?>
+
+<?php echo $this->Form->hidden('Bbs.key', array(
+		'value' => $bbs['key'],
+	)); ?>
+
 <?php echo $this->Form->hidden('BbsArticle.id', array(
 		'value' => isset($bbsArticle['id']) ? (int)$bbsArticle['id'] : null,
 	)); ?>

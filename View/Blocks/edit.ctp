@@ -22,7 +22,7 @@
 				'controller' => 'Blocks',
 				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
 				'callback' => 'Bbses.Blocks/edit_form',
-				'cancel' => '/bbses/blocks/index/' . $frameId
+				'cancelUrl' => '/bbses/blocks/index/' . $frameId
 			)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>

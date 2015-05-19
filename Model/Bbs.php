@@ -68,8 +68,8 @@ class Bbs extends BbsesAppModel {
 		'BbsSettings' => array(
 			'className' => 'Bbses.BbsSettings',
 			'foreignKey' => 'bbs_key',
-			'dependent' => true
-		)
+			'dependent' => false
+		),
 	);
 
 /**
@@ -240,8 +240,6 @@ class Bbs extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function deleteBbs($data) {
-		$this->setDataSource('master');
-
 		$this->loadModels([
 			'Bbs' => 'Bbses.Bbs',
 			'BbsSetting' => 'Bbses.BbsSetting',
@@ -253,6 +251,7 @@ class Bbs extends BbsesAppModel {
 		]);
 
 		//トランザクションBegin
+		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
@@ -284,6 +283,58 @@ class Bbs extends BbsesAppModel {
 			$dataSource->rollback();
 			CakeLog::error($ex);
 			throw $ex;
+		}
+
+		return true;
+	}
+
+/**
+ * Update article_modified and article_count
+ *
+ * @param int $bbsId bbses.id
+ * @param string $bbsKey bbses.key
+ * @param int $languageId languages.id
+ * @return bool True on success
+ * @throws InternalErrorException
+ */
+	public function updateBbsArticle($bbsId, $bbsKey, $languageId) {
+		$this->loadModels([
+			'BbsArticle' => 'Bbses.BbsArticle',
+		]);
+		$db = $this->getDataSource();
+
+		$conditions = array(
+			'bbs_id' => $bbsId,
+			'language_id' => $languageId,
+			'is_latest' => true
+		);
+		$count = $this->BbsArticle->find('count', array(
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
+		if ($count === false) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
+
+		$article = $this->BbsArticle->find('first', array(
+			'recursive' => -1,
+			'fields' => 'modified',
+			'conditions' => $conditions,
+			'order' => 'modified desc'
+		));
+		if ($article === false) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
+
+		$update = array(
+			'article_count' => $count
+		);
+		if ($article) {
+			$update['article_modified'] = $db->value($article[$this->BbsArticle->alias]['modified'], 'string');
+		}
+
+		if (! $this->updateAll($update, array('Bbs.key' => $bbsKey))) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 
 		return true;
