@@ -66,6 +66,7 @@ class BbsArticlesController extends BbsesAppController {
  * index
  *
  * @return void
+ * @throws Exception
  */
 	public function index() {
 		if (! $this->viewVars['blockId']) {
@@ -81,9 +82,8 @@ class BbsArticlesController extends BbsesAppController {
 			$this->BbsArticle->bindModelBbsArticlesUser($this->viewVars['userId']);
 			$articles = $this->Paginator->paginate('BbsArticle');
 		} catch (Exception $ex) {
-			$this->params['named'] = array();
-			$this->BbsArticle->bindModelBbsArticlesUser($this->viewVars['userId']);
-			$articles = $this->Paginator->paginate('BbsArticle');
+			CakeLog::error($ex);
+			throw $ex;
 		}
 
 		$results = array(

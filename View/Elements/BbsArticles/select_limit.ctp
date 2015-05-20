@@ -9,9 +9,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+$named = $this->Paginator->params['named'];
+$named['page'] = '1';
+
 $url = Hash::merge(
 	array('controller' => 'bbs_articles', 'action' => 'index', $frameId),
-	$this->Paginator->params['named']
+	$named
 );
 ?>
 

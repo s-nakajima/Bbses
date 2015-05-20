@@ -49,6 +49,16 @@
 
 				<hr>
 			<?php endforeach; ?>
+
+			<footer class="text-center">
+				<?php echo $this->element('NetCommons.paginator', array(
+						'url' => Hash::merge(
+							array('controller' => 'bbs_articles', 'action' => 'index', $frameId),
+							$this->Paginator->params['named']
+						)
+					)); ?>
+			</footer>
+
 		<?php else : ?>
 			<?php echo __d('bbses', 'No article found.') ?>
 		<?php endif; ?>
