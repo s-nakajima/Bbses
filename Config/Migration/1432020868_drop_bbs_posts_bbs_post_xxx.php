@@ -33,38 +33,12 @@ class DropBbsPostsBbsPostXxx extends CakeMigration {
 		'up' => array(
 			'create_table' => array(
 			),
-			'create_field' => array(
-				'bbs_articles_users' => array(
-					'bbs_article_key' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Article Key | 記事Key | bbs_posts.key | ', 'charset' => 'utf8', 'after' => 'id'),
-				),
-			),
-			'drop_field' => array(
-				'bbs_articles_users' => array('bbs_article_id'),
-			),
-			'alter_field' => array(
-				'bbs_frame_settings' => array(
-					'articles_per_page' => array('type' => 'integer', 'null' => false, 'default' => '10', 'comment' => 'artcles visible row, 1, 5, 10, 20, 50, 100 | 表示記事数 1件、5件、10件、20件、50件、100件 | | '),
-				),
-			),
 			'drop_table' => array(
 				'bbs_post_i18ns', 'bbs_posts', 'bbs_posts_users'
 			),
 		),
 		'down' => array(
 			'drop_table' => array(
-			),
-			'drop_field' => array(
-				'bbs_articles_users' => array('bbs_article_key'),
-			),
-			'create_field' => array(
-				'bbs_articles_users' => array(
-					'bbs_article_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Article ID | 記事ID | bbs_posts.id | '),
-				),
-			),
-			'alter_field' => array(
-				'bbs_frame_settings' => array(
-					'articles_per_page' => array('type' => 'integer', 'null' => false, 'default' => '10', 'comment' => 'posts visible row, 1 post or 5, 10, 20, 50, 100 | 表示記事数 1件、5件、10件、20件、50件、100件 | | '),
-				),
 			),
 			'create_table' => array(
 				'bbs_post_i18ns' => array(
