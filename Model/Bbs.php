@@ -255,6 +255,16 @@ class Bbs extends BbsesAppModel {
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
+		$conditions = array(
+			$this->alias . '.key' => $data['Bbs']['key']
+		);
+		$bbses = $this->find('list', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			)
+		);
+		$bbsIds = array_keys($bbses);
+
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Bbs']['key']), false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
@@ -264,11 +274,16 @@ class Bbs extends BbsesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->BbsArticle->deleteAll(array($this->BbsArticle->alias . '.bbs_id' => $data['Bbs']['id']), false, false)) {
+			if (! $this->BbsArticle->deleteAll(array($this->BbsArticle->alias . '.bbs_id' => $bbsIds), false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			if (! $this->BbsArticleTree->deleteAll(array($this->BbsArticleTree->alias . '.bbs_key' => $data['Bbs']['key']), false, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//コメントの削除
+			if (! $this->Comment->deleteAll(array($this->Comment->alias . '.block_key' => $data['Block']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

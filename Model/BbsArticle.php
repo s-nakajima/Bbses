@@ -239,6 +239,7 @@ class BbsArticle extends BbsesAppModel {
 
 			//コメントの登録
 			if (isset($data['Comment']) && $this->Comment->data) {
+				$this->Comment->data[$this->Comment->name]['block_key'] = $data['Block']['key'];
 				$this->Comment->data[$this->Comment->name]['content_key'] = $bbsArticle[$this->alias]['key'];
 				if (! $this->Comment->save(null, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));

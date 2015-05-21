@@ -14,6 +14,14 @@
 		'value' => $frameId,
 	)); ?>
 
+<?php echo $this->Form->hidden('Block.id', array(
+		'value' => $blockId,
+	)); ?>
+
+<?php echo $this->Form->hidden('Block.key', array(
+		'value' => $blockKey,
+	)); ?>
+
 <?php echo $this->Form->hidden('Bbs.id', array(
 		'value' => $bbs['id'],
 	)); ?>
