@@ -28,7 +28,7 @@
 
 						<?php echo $this->element('BbsArticles/edit_form'); ?>
 
-						<?php if ($this->request->params['action'] === 'add') : ?>
+						<?php if ($this->request->params['action'] === 'add' || $this->request->params['action'] === 'edit' && ! $bbsArticleTree['rootId']) : ?>
 							<hr />
 							<?php echo $this->element('Comments.form'); ?>
 						<?php endif; ?>
