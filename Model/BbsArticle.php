@@ -327,6 +327,9 @@ class BbsArticle extends BbsesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			//コメントの削除
+			$this->Comment->deleteByContentKey($data['BbsArticle']['key']);
+
 			//Bbsのarticle_count、article_modified
 			$this->Bbs->updateBbsArticle($data['Bbs']['id'], $data['Bbs']['key'], $data['BbsArticle']['language_id']);
 
