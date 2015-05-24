@@ -24,7 +24,7 @@ class BbsFrameSettingsController extends BbsesAppController {
  *
  * @var array
  */
-	public $layout = 'NetCommons.setting';
+	public $layout = 'Frames.setting';
 
 /**
  * use models

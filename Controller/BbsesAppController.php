@@ -46,6 +46,7 @@ class BbsesAppController extends AppController {
  */
 	public $helpers = array(
 		'NetCommons.Date',
+		'Pages.Layout'
 	);
 
 /**
