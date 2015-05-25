@@ -111,8 +111,7 @@ class BbsArticle extends BbsesAppModel {
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('bbses', 'Title')),
-					'required'
-					=> true
+					'required' => true
 				),
 			),
 			'content' => array(
