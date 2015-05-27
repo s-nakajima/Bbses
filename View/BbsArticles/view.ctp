@@ -9,9 +9,28 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-<?php echo $this->Html->css('/bbses/css/style.css', false); ?>
-<?php echo $this->Html->script('/likes/js/likes.js', false); ?>
-<?php echo $this->Html->css('/likes/css/style.css', false); ?>
+
+<?php
+	$this->Html->css(
+		array(
+			'/bbses/css/style.css',
+			'/likes/css/style.css'
+		),
+		array(
+			'plugin' => false,
+			'once' => true,
+			'inline' => false
+		)
+	);
+	$this->Html->script(
+		'/likes/js/likes.js',
+		array(
+			'plugin' => false,
+			'once' => true,
+			'inline' => false
+		)
+	);
+?>
 
 <div class="frame">
 	<div class="nc-content-list">
