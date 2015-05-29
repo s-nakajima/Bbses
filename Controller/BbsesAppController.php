@@ -26,6 +26,7 @@ class BbsesAppController extends AppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsFrame',
+		'Pages.PageLayout',
 		'Security'
 	);
 
@@ -48,17 +49,6 @@ class BbsesAppController extends AppController {
 		'NetCommons.Date',
 		'Pages.Layout'
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set($results);
-	}
 
 /**
  * initBbs
