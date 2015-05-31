@@ -17,7 +17,7 @@ App::uses('BbsesAppController', 'Bbses.Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Controller
  */
-class BlockRolePermissionsController extends BbsesAppController {
+class BbsBlockRolePermissionsController extends BbsesAppController {
 
 /**
  * layout
@@ -73,9 +73,6 @@ class BlockRolePermissionsController extends BbsesAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		//タブの設定
 		$this->initTabs('block_index', 'role_permissions');
 	}
@@ -116,7 +113,7 @@ class BlockRolePermissionsController extends BbsesAppController {
 			$this->BbsSetting->saveBbsSetting($data);
 			if ($this->handleValidationError($this->BbsSetting->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}

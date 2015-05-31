@@ -15,7 +15,7 @@
 
 	<div class="tab-content">
 		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/bbses/blocks/add/' . $frameId);?>">
+			<a class="btn btn-success" href="<?php echo $this->Html->url('/bbses/bbs_blocks/add/' . $frameId);?>">
 				<span class="glyphicon glyphicon-plus"> </span>
 			</a>
 		</div>
@@ -62,7 +62,7 @@
 										)); ?>
 								</td>
 								<td>
-									<a href="<?php echo $this->Html->url('/bbses/blocks/edit/' . $frameId . '/' . (int)$bbs['block']['id']); ?>">
+									<a href="<?php echo $this->Html->url('/bbses/bbs_blocks/edit/' . $frameId . '/' . (int)$bbs['block']['id']); ?>">
 										<?php echo h($bbs['bbs']['name']); ?>
 									</a>
 								</td>
@@ -81,7 +81,7 @@
 			<div class="text-center">
 				<?php echo $this->element('NetCommons.paginator', array(
 						'url' => Hash::merge(
-							array('controller' => 'blocks', 'action' => 'index', $frameId),
+							array('controller' => 'bbs_blocks', 'action' => 'index', $frameId),
 							$this->Paginator->params['named']
 						)
 					)); ?>

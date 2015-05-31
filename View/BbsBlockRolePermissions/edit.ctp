@@ -19,10 +19,10 @@
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'BlockRolePermission',
+				'controller' => 'BbsBlockRolePermissions',
 				'action' => 'edit' . '/' . $frameId . '/' . $blockId,
-				'callback' => 'Bbses.BlockRolePermissions/edit_form',
-				'cancelUrl' => '/bbses/blocks/index/' . $frameId,
+				'callback' => 'Bbses.BbsBlockRolePermissions/edit_form',
+				'cancelUrl' => '/bbses/bbs_blocks/index/' . $frameId,
 				'options' => array('ng-controller' => 'Bbses'),
 			)); ?>
 	</div>

@@ -19,17 +19,17 @@
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'Blocks',
+				'controller' => 'BbsBlocks',
 				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
-				'callback' => 'Bbses.Blocks/edit_form',
-				'cancelUrl' => '/bbses/blocks/index/' . $frameId
+				'callback' => 'Bbses.BbsBlocks/edit_form',
+				'cancelUrl' => '/bbses/bbs_blocks/index/' . $frameId
 			)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'Blocks',
+					'controller' => 'BbsBlocks',
 					'action' => 'delete/' . $frameId . '/' . $blockId,
-					'callback' => 'Bbses.Blocks/delete_form'
+					'callback' => 'Bbses.BbsBlocks/delete_form'
 				)); ?>
 		<?php endif; ?>
 	</div>

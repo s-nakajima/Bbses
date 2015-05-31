@@ -24,7 +24,7 @@ class BbsFrameSettingsController extends BbsesAppController {
  *
  * @var array
  */
-	public $layout = 'NetCommons.setting';
+	public $layout = 'Frames.setting';
 
 /**
  * use models
@@ -56,9 +56,6 @@ class BbsFrameSettingsController extends BbsesAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
 
 		//タブの設定
 		$this->initTabs('frame_settings', '');

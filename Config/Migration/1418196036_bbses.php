@@ -130,6 +130,8 @@ class Bbses extends CakeMigration {
 				'namespace' => 'netcommons/bbses',
 				'name' => '掲示板',
 				'type' => 1,
+				'default_action' => 'bbs_articles/index',
+				'default_setting_action' => 'bbs_blocks/index',
 			),
 		),
 		'plugins_roles' => array(
