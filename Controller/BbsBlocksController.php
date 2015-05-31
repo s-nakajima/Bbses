@@ -17,14 +17,14 @@ App::uses('BbsesAppController', 'Bbses.Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Controller
  */
-class BlocksController extends BbsesAppController {
+class BbsBlocksController extends BbsesAppController {
 
 /**
  * layout
  *
  * @var array
  */
-	public $layout = 'Frames.setting';
+	public $layout = 'NetCommons.setting';
 
 /**
  * use models
@@ -96,7 +96,7 @@ class BlocksController extends BbsesAppController {
 			$bbses = $this->Paginator->paginate('Bbs');
 		} catch (Exception $ex) {
 			if (isset($this->request['paging']) && $this->params['named']) {
-				$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+				$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
 				return;
 			}
 			CakeLog::error($ex);
@@ -104,7 +104,7 @@ class BlocksController extends BbsesAppController {
 		}
 
 		if (! $bbses) {
-			$this->view = 'Blocks/not_found';
+			$this->view = 'not_found';
 			return;
 		}
 
@@ -121,7 +121,7 @@ class BlocksController extends BbsesAppController {
  * @return void
  */
 	public function add() {
-		$this->view = 'Blocks/edit';
+		$this->view = 'edit';
 
 		$this->set('blockId', null);
 		$bbs = $this->Bbs->create(
@@ -155,7 +155,7 @@ class BlocksController extends BbsesAppController {
 			$this->Bbs->saveBbs($data);
 			if ($this->handleValidationError($this->Bbs->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -189,7 +189,7 @@ class BlocksController extends BbsesAppController {
 			$this->Bbs->saveBbs($data);
 			if ($this->handleValidationError($this->Bbs->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -216,7 +216,7 @@ class BlocksController extends BbsesAppController {
 		if ($this->request->isDelete()) {
 			if ($this->Bbs->deleteBbs($this->data)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}

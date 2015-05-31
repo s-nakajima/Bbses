@@ -45,7 +45,7 @@ class BbsesAppTest extends YAControllerTestCase {
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
 		'plugin.m17n.language',
-		'plugin.m17n.languages_page',
+		'plugin.pages.languages_page',
 		'plugin.pages.page',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',

@@ -19,22 +19,4 @@ App::uses('BbsesAppController', 'Bbses.Controller');
  */
 class BbsesController extends BbsesAppController {
 
-/**
- * index
- *
- * @return void
- */
-	public function index() {
-		if (! $this->viewVars['blockId']) {
-			$this->autoRender = false;
-			return;
-		}
-		$html = $this->requestAction(
-			array('controller' => 'bbs_articles', 'action' => 'index', $this->viewVars['frameId']),
-			//array('controller' => 'bbs_posts', 'action' => 'index', $this->viewVars['frameId']),
-			array('return')
-		);
-
-		$this->set('html', $html);
-	}
 }

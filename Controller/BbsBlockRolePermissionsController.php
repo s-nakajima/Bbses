@@ -17,14 +17,14 @@ App::uses('BbsesAppController', 'Bbses.Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Controller
  */
-class BlockRolePermissionsController extends BbsesAppController {
+class BbsBlockRolePermissionsController extends BbsesAppController {
 
 /**
  * layout
  *
  * @var array
  */
-	public $layout = 'Frames.setting';
+	public $layout = 'NetCommons.setting';
 
 /**
  * use models
@@ -113,7 +113,7 @@ class BlockRolePermissionsController extends BbsesAppController {
 			$this->BbsSetting->saveBbsSetting($data);
 			if ($this->handleValidationError($this->BbsSetting->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}

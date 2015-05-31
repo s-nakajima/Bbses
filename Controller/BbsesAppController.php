@@ -47,7 +47,6 @@ class BbsesAppController extends AppController {
  */
 	public $helpers = array(
 		'NetCommons.Date',
-		'Pages.Layout'
 	);
 
 /**
@@ -106,7 +105,7 @@ class BbsesAppController extends AppController {
 				'block_index' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'bbs_blocks',
 						'action' => 'index',
 						$this->viewVars['frameId'],
 					)
@@ -129,7 +128,7 @@ class BbsesAppController extends AppController {
 				'block_settings' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'bbs_blocks',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
 						$blockId
@@ -138,7 +137,7 @@ class BbsesAppController extends AppController {
 				'role_permissions' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'block_role_permissions',
+						'controller' => 'bbs_block_role_permissions',
 						'action' => 'edit',
 						$this->viewVars['frameId'],
 						$blockId
