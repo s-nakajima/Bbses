@@ -78,7 +78,6 @@ class BbsBlocksController extends BbsesAppController {
  * index
  *
  * @return void
- * @throws Exception
  */
 	public function index() {
 		$this->Paginator->settings = array(
@@ -92,17 +91,7 @@ class BbsBlocksController extends BbsesAppController {
 			)
 		);
 
-		try {
-			$bbses = $this->Paginator->paginate('Bbs');
-		} catch (Exception $ex) {
-			if (isset($this->request['paging']) && $this->params['named']) {
-				$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
-				return;
-			}
-			CakeLog::error($ex);
-			throw $ex;
-		}
-
+		$bbses = $this->Paginator->paginate('Bbs');
 		if (! $bbses) {
 			$this->view = 'not_found';
 			return;
