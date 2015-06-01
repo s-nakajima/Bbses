@@ -25,12 +25,12 @@
 				<?php echo $this->element('BbsArticles/select_limit'); ?>
 
 				<span class="glyphicon glyphicon-duplicate"></span>
-				<?php echo __d('bbses', '%s Artcles', (int)$this->Paginator->param('count')); ?>
+				<?php echo __d('bbses', '%s articles', (int)$this->Paginator->param('count')); ?>
 			</div>
 
 			<div class="pull-right">
 				<?php if ($contentCreatable) : ?>
-					<span class="nc-tooltip " tooltip="<?php echo __d('bbses', 'Create post'); ?>">
+					<span class="nc-tooltip " tooltip="<?php echo __d('bbses', 'Create article'); ?>">
 						<a href="<?php echo $this->Html->url('/bbses/bbs_articles/add/' . $frameId); ?>" class="btn btn-success">
 							<span class="glyphicon glyphicon-plus"> </span>
 						</a>

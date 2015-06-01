@@ -118,7 +118,7 @@ class BbsBlocksController extends BbsesAppController {
 				'id' => null,
 				'key' => null,
 				'block_id' => null,
-				'name' => __d('bbses', 'New bbs %s ', date('YmdHis')),
+				'name' => __d('bbses', 'New bbs %s', date('YmdHis')),
 			)
 		);
 		$bbsSetting = $this->BbsSetting->create(

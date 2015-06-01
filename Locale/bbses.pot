@@ -5,7 +5,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-10 01:29+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,125 +13,113 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Bbses/Controller/BlocksController.php:126
+#: Bbses/Controller/BbsBlocksController.php:121
 msgid "New bbs %s"
 msgstr ""
 
-#: Bbses/Model/Bbs.php:103
-#: Bbses/View/Blocks/index.ctp:43
-#: Bbses/View/Elements/Blocks/edit_form.ctp:58
+#: Bbses/Model/Bbs.php:109
+#: Bbses/View/BbsBlocks/index.ctp:37
+#: Bbses/View/Elements/BbsBlocks/edit_form.ctp:36
 msgid "Bbs name"
 msgstr ""
 
-#: Bbses/Model/BbsFrameSetting.php:141
-msgid "%s article"
-msgstr ""
-
-#: Bbses/Model/BbsFrameSetting.php:142;143;144;145;146
-msgid "%s articles"
-msgstr ""
-
-#: Bbses/Model/BbsPostI18n.php:92
-#: Bbses/View/Elements/BbsPosts/edit_form.ctp:54
+#: Bbses/Model/BbsArticle.php:113
+#: Bbses/View/Elements/BbsArticles/edit_form.ctp:73
 msgid "Title"
 msgstr ""
 
-#: Bbses/Model/BbsPostI18n.php:100
-#: Bbses/View/Elements/BbsPosts/edit_form.ctp:75
+#: Bbses/Model/BbsArticle.php:120
+#: Bbses/View/Elements/BbsArticles/edit_form.ctp:90
 msgid "Content"
 msgstr ""
 
-#: Bbses/View/BbsPosts/edit.ctp:53
-msgid "article"
+#: Bbses/Model/BbsFrameSetting.php:67
+msgid "%s article"
 msgstr ""
 
-#: Bbses/View/BbsPosts/index.ctp:22
-#: Bbses/View/Elements/BbsPosts/breadcrumb.ctp:59
-msgid "Create post"
+#: Bbses/Model/BbsFrameSetting.php:68;69;70;71;72
+#: Bbses/View/BbsArticles/index.ctp:28
+msgid "%s articles"
 msgstr ""
 
-#: Bbses/View/BbsPosts/index.ctp:41
-msgid "Posts"
+#: Bbses/View/BbsArticles/index.ctp:33
+#: Bbses/View/Elements/BbsArticles/breadcrumb.ctp:59
+msgid "Create article"
 msgstr ""
 
-#: Bbses/View/BbsPosts/index.ctp:78
-msgid "Publishing comments"
-msgstr ""
-
-#: Bbses/View/BbsPosts/index.ctp:114
+#: Bbses/View/BbsArticles/index.ctp:63
 msgid "No article found."
 msgstr ""
 
-#: Bbses/View/BbsPosts/noBbs.ctp:14
-msgid "Not found published bbs."
+#: Bbses/View/BbsBlocks/index.ctp:40
+msgid "Article count"
 msgstr ""
 
-#: Bbses/View/Elements/edit_header.ctp:17
-msgid "Plugin name"
+#: Bbses/View/BbsBlocks/index.ctp:43
+msgid "Article modified"
 msgstr ""
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:27
-msgid "Show articles per page"
-msgstr ""
-
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:46
-msgid "Show comments per page"
-msgstr ""
-
-#: Bbses/View/Elements/BbsPosts/breadcrumb.ctp:63
-#: Bbses/View/Elements/BbsPosts/edit_link.ctp:26
-msgid "Edit"
-msgstr ""
-
-#: Bbses/View/Elements/BbsPosts/comment_approving_link.ctp:32
+#: Bbses/View/Elements/BbsArticles/comment_approving_link.ctp:32
 msgid "Approving"
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/comment_status_label.ctp:19
+#: Bbses/View/Elements/BbsArticles/comment_status_label.ctp:19
 msgid "Comment approving"
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/reply_link.ctp:31
+#: Bbses/View/Elements/BbsArticles/delete_form.ctp:35
+msgid "article"
+msgstr ""
+
+#: Bbses/View/Elements/BbsArticles/index_bbs_article.ctp:29
+msgid "Publishing comments"
+msgstr ""
+
+#: Bbses/View/Elements/BbsArticles/reply_link.ctp:31
 msgid "Quote this posts"
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/reply_link.ctp:36
+#: Bbses/View/Elements/BbsArticles/reply_link.ctp:36
 msgid "Write comment"
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/select_sort.ctp:22
+#: Bbses/View/Elements/BbsArticles/select_sort.ctp:22
 msgid "Latest post order"
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/select_sort.ctp:27
+#: Bbses/View/Elements/BbsArticles/select_sort.ctp:27
 msgid "Older post order"
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/select_sort.ctp:32
+#: Bbses/View/Elements/BbsArticles/select_sort.ctp:32
 msgid "Descending order of comments"
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/select_status.ctp:21
-msgid "Display all posts"
-msgstr ""
-
-#: Bbses/View/Elements/BbsPosts/select_status.ctp:29
-msgid "Published"
-msgstr ""
-
-#: Bbses/View/Elements/BbsPosts/view_bbs_post.ctp:17
+#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:26
 msgid "%s. "
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/view_bbs_post.ctp:58
+#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:80
 msgid "&gt;&gt; %s"
 msgstr ""
 
-#: Bbses/View/Elements/Blocks/delete_form.ctp:14;28
+#: Bbses/View/Elements/BbsBlockRolePermissions/edit_form.ctp:38
+msgid "articles"
+msgstr ""
+
+#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14;28
 msgid "BBS"
 msgstr ""
 
-#: Bbses/View/Elements/Blocks/edit_form.ctp:86
+#: Bbses/View/Elements/BbsBlocks/edit_form.ctp:64
 msgid "Use comment"
+msgstr ""
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:26
+msgid "Show articles per page"
+msgstr ""
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:41
+msgid "Show comments per page"
 msgstr ""
 

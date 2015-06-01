@@ -23,7 +23,7 @@
 
 	<div class="nc-bbs-edit-link">
 		<a href="<?php echo $this->Html->url('/bbses/bbs_articles/edit/' . $frameId . '/' . $bbsArticleKey); ?>"
-			class="btn btn-primary btn-xs" tooltip="<?php echo __d('bbses', 'Edit'); ?>">
+			class="btn btn-primary btn-xs" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
 
 			<span class="glyphicon glyphicon-edit"> </span>
 		</a>
