@@ -20,7 +20,7 @@
 			)); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'BbsBlocks',
+				'controller' => 'BbsFrameSettings',
 				'action' => 'edit' . '/' . $frameId,
 				'callback' => 'Bbses.BbsFrameSettings/edit_form',
 				'cancelUrl' => $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null)
