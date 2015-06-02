@@ -14,11 +14,6 @@
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
-		<?php echo $this->Form->create('BbsFrameSetting', array(
-				'name' => 'form',
-				'novalidate' => true,
-			)); ?>
-
 		<?php echo $this->element('Blocks.edit_form', array(
 				'controller' => 'BbsFrameSettings',
 				'action' => 'edit' . '/' . $frameId,
