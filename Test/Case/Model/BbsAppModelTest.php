@@ -29,15 +29,15 @@ class BbsAppModelTest extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.bbses.block',
-		'plugin.bbses.comment',
-		'plugin.frames.box',
+		'plugin.blocks.block',
+		'plugin.boxes.box',
+		'plugin.comments.comment',
+		'plugin.frames.frame',
 		'plugin.m17n.language',
+		'plugin.plugin_manager.plugin',
 		'plugin.rooms.room',
-		'plugin.bbses.user_attributes_user',
-		'plugin.bbses.user',
-		'plugin.bbses.frame',
-		'plugin.bbses.plugin',
+		'plugin.users.user',
+		'plugin.users.user_attributes_user',
 	);
 
 /**
