@@ -60,7 +60,7 @@ class BbsArticleTree extends BbsesAppModel {
 		'CreatedUser' => array(
 			'className' => 'Users.User',
 			'foreignKey' => false,
-			'conditions' =>'BbsArticle.created_user = CreatedUser.id',
+			'conditions' => 'BbsArticle.created_user = CreatedUser.id',
 			'fields' => 'CreatedUser.handlename',
 			'order' => ''
 		),
