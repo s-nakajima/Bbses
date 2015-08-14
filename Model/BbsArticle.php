@@ -85,13 +85,10 @@ class BbsArticle extends BbsesAppModel {
 			'order' => ''
 		),
 		'CreatedUser' => array(
-			'className' => 'Users.UserAttributesUser',
+			'className' => 'Users.User',
 			'foreignKey' => false,
-			'conditions' => array(
-				'BbsArticle.created_user = CreatedUser.user_id',
-				'CreatedUser.key' => 'nickname'
-			),
-			'fields' => array('CreatedUser.key', 'CreatedUser.value'),
+			'conditions' => 'BbsArticle.created_user = CreatedUser.id',
+			'fields' => 'CreatedUser.handlename',
 			'order' => ''
 		)
 	);

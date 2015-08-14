@@ -21,7 +21,7 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Test\Case\Model
  */
-class BbsAppModelTest extends YACakeTestCase {
+class BbsModelTestBase extends YACakeTestCase {
 
 /**
  * Fixtures
@@ -29,15 +29,11 @@ class BbsAppModelTest extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.blocks.block',
-		'plugin.boxes.box',
+		'plugin.bbses.bbs',
+		'plugin.bbses.bbs_frame_setting',
+		'plugin.bbses.bbs_articles_user',
+		'plugin.bbses.bbs_article',
 		'plugin.comments.comment',
-		'plugin.frames.frame',
-		'plugin.m17n.language',
-		'plugin.plugin_manager.plugin',
-		'plugin.rooms.room',
-		'plugin.users.user',
-		'plugin.users.user_attributes_user',
 	);
 
 /**
@@ -85,13 +81,5 @@ class BbsAppModelTest extends YACakeTestCase {
 		} elseif (isset($value)) {
 			$this->assertEquals($value, $target, 'key=' . print_r($key, true) . 'value=' . print_r($value, true) . 'result=' . print_r($result, true));
 		}
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
 	}
 }

@@ -29,7 +29,7 @@ if ($currentBbsArticle['bbsArticle']['key'] === $bbsArticle['bbsArticle']['key']
 				<?php echo $this->Html->image('/bbses/img/avatar.PNG', array('alt' => 'no image')); ?>
 			</span>
 			<a href="">
-				<?php echo h($bbsArticle['createdUser']['value']); ?>
+				<?php echo h($bbsArticle['createdUser']['handlename']); ?>
 			</a>
 		</div>
 

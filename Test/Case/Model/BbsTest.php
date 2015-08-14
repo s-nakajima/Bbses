@@ -12,7 +12,7 @@
  */
 
 App::uses('Bbs', 'Bbses.Model');
-App::uses('BbsAppModelTest', 'Bbses.Test/Case/Model');
+App::uses('BbsModelTestBase', 'Bbses.Test/Case/Model');
 
 /**
  * Bbs Model Test Case
@@ -20,16 +20,7 @@ App::uses('BbsAppModelTest', 'Bbses.Test/Case/Model');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Bbses\Test\Case\Model
  */
-class BbsTest extends BbsAppModelTest {
-
-/**
- * Fixtures
- *
- * @var array
- */
-	public $fixtures = array(
-		'plugin.bbses.bbs',
-	);
+class BbsTest extends BbsModelTestBase {
 
 /**
  * setUp method
