@@ -21,7 +21,7 @@ App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
  * @package NetCommons\Bbses\Test\Case\Controller
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class BbsesAppTest extends YAControllerTestCase {
+class BbsesControllerTestBase extends YAControllerTestCase {
 
 /**
  * Fixtures
@@ -29,30 +29,11 @@ class BbsesAppTest extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		//'plugin.net_commons.site_setting',
 		'plugin.bbses.bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_articles_user',
 		'plugin.bbses.bbs_article',
-		//'plugin.blocks.block',
-		//'plugin.blocks.block_role_permission',
-		//'plugin.boxes.box',
-		//'plugin.boxes.boxes_page',
 		'plugin.comments.comment',
-		//'plugin.containers.container',
-		//'plugin.containers.containers_page',
-		//'plugin.frames.frame',
-		//'plugin.m17n.language',
-		//'plugin.pages.page',
-		//'plugin.pages.languages_page',
-		//'plugin.plugin_manager.plugin',
-		//'plugin.roles.default_role_permission',
-		//'plugin.rooms.roles_rooms_user',
-		//'plugin.rooms.roles_room',
-		//'plugin.rooms.room',
-		//'plugin.rooms.room_role_permission',
-		//'plugin.users.user',
-		//'plugin.users.user_attributes_user',
 	);
 
 /**
@@ -62,7 +43,6 @@ class BbsesAppTest extends YAControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		Configure::write('Config.language', 'ja');
 	}
 
 /**
@@ -71,7 +51,6 @@ class BbsesAppTest extends YAControllerTestCase {
  * @return void
  */
 	public function tearDown() {
-		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();
 	}
@@ -230,14 +209,5 @@ class BbsesAppTest extends YAControllerTestCase {
 				method_exists($this->controller->$modelName, $methodName),
 				get_class($this->controller->$modelName) . '::' . $methodName
 			);
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
-		$this->assertTrue(true);
 	}
 }

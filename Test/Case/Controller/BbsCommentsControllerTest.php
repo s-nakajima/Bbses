@@ -10,24 +10,12 @@
  */
 
 App::uses('BbsCommentsController', 'Bbses.Controller');
+App::uses('BbsesControllerTestBase', 'Bbses.Test/Case/Controller');
 
 /**
  * BbsCommentsController Test Case
  */
-class BbsCommentsControllerTest extends ControllerTestCase {
-
-/**
- * Fixtures
- *
- * @var array
- */
-	public $fixtures = array(
-		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_frame_setting',
-		'plugin.bbses.bbs_article',
-		'plugin.bbses.bbs_articles_user',
-		//'plugin.net_commons.site_setting',
-	);
+class BbsCommentsControllerTest extends BbsesControllerTestBase {
 
 /**
  * test method
