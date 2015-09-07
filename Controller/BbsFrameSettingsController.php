@@ -84,7 +84,7 @@ class BbsFrameSettingsController extends BbsesAppController {
 			$this->BbsFrameSetting->saveBbsFrameSetting($data);
 
 			if ($this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
-				$this->redirectByFrameId();
+				$this->redirect(Current::backToPageUrl());
 				return;
 			}
 		}
