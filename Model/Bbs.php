@@ -259,7 +259,6 @@ class Bbs extends BbsesAppModel {
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
 			//トランザクションCommit
 			$this->commit();
 
