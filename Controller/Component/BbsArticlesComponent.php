@@ -15,7 +15,7 @@ App::uses('Component', 'Controller');
  * BbsArticles Component
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\Files\Controller\Component
+ * @package NetCommons\Bbses\Controller\Component
  */
 class BbsArticlesComponent extends Component {
 
