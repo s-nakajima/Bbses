@@ -47,12 +47,6 @@ class BbsFrameSettingsController extends BbsesAppController {
 				'edit' => 'page_editable',
 			),
 		),
-//		'NetCommons.NetCommonsRoomRole' => array(
-//			//コンテンツの権限設定
-//			'allowedActions' => array(
-//				'blockEditable' => array('edit'),
-//			),
-//		),
 	);
 
 /**
@@ -62,7 +56,6 @@ class BbsFrameSettingsController extends BbsesAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-
 		//タブの設定
 		$this->initTabs('frame_settings', '');
 	}
@@ -73,11 +66,6 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-//		if (! $this->NetCommonsFrame->validateFrameId()) {
-//			$this->throwBadRequest();
-//			return false;
-//		}
-
 		if ($this->request->isPut() || $this->request->isPost()) {
 			if ($this->BbsFrameSetting->saveBbsFrameSetting($this->data)) {
 				$this->redirect(Current::backToPageUrl());
@@ -89,24 +77,5 @@ class BbsFrameSettingsController extends BbsesAppController {
 			$this->request->data = $this->BbsFrameSetting->getBbsFrameSetting(true);
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
-
-
-//		$data = array();
-//		if ($this->request->isPost()) {
-//			$data = $this->data;
-//			$this->BbsFrameSetting->saveBbsFrameSetting($data);
-//
-//			if ($this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
-//				$this->redirect(Current::backToPageUrl());
-//				return;
-//			}
-//		}
-//
-//		$data = Hash::merge(
-//			$bbsFrameSetting, $data
-//		);
-//		$results = $this->camelizeKeyRecursive($data);
-//		$this->set($results);
 	}
-
 }
