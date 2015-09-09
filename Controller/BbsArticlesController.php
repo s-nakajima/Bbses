@@ -39,16 +39,24 @@ class BbsArticlesController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentCreatable' => array('add', 'edit', 'delete'),
-				'contentCommentCreatable' => array('reply'),
-				'contentCommentPublishable' => array('approve'),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'add,edit,delete' => 'content_creatable',
+				'reply' => 'content_comment_creatable',
+				'approve' => 'content_comment_publishable',
 			),
 		),
+//		'NetCommons.NetCommonsBlock',
+//		'NetCommons.NetCommonsWorkflow',
+//		'NetCommons.NetCommonsRoomRole' => array(
+//			//コンテンツの権限設定
+//			'allowedActions' => array(
+//				'contentCreatable' => array('add', 'edit', 'delete'),
+//				'contentCommentCreatable' => array('reply'),
+//				'contentCommentPublishable' => array('approve'),
+//			),
+//		),
 		'Paginator',
 		'Bbses.BbsArticles'
 	);
@@ -58,9 +66,9 @@ class BbsArticlesController extends BbsesAppController {
  *
  * @var array
  */
-	public $helpers = array(
-		'NetCommons.Token',
-	);
+//	public $helpers = array(
+//		'NetCommons.Token',
+//	);
 
 /**
  * index
@@ -69,7 +77,7 @@ class BbsArticlesController extends BbsesAppController {
  * @throws Exception
  */
 	public function index() {
-		if (! $this->viewVars['blockId']) {
+		if (! Current::read('Block.id')) {
 			$this->autoRender = false;
 			return;
 		}

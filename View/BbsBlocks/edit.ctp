@@ -8,29 +8,29 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+echo $this->NetCommonsHtml->script('/bbses/js/bbses.js');
 ?>
 
-<?php echo $this->Html->script('/bbses/js/bbses.js', false); ?>
-
-<div class="modal-body" ng-controller="Bbses">
+<article class="block-setting-body" ng-controller="Bbses">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'BbsBlocks',
-				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
+				'model' => 'Bbs',
+//				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
 				'callback' => 'Bbses.BbsBlocks/edit_form',
-				'cancelUrl' => '/bbses/bbs_blocks/index/' . $frameId
+				'cancelUrl' => Current::backToIndexUrl('default_setting_action'),
 			)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'BbsBlocks',
-					'action' => 'delete/' . $frameId . '/' . $blockId,
+					'controller' => 'BbsBlock',
+					'action' => 'delete/' . Current::read('Frame.id') . '/' . Current::read('Block.id'),
 					'callback' => 'Bbses.BbsBlocks/delete_form'
 				)); ?>
 		<?php endif; ?>
 	</div>
-</div>
+</article>

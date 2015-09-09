@@ -41,6 +41,13 @@ class Bbs extends BbsesAppModel {
  * @var array
  */
 	public $actsAs = array(
+		'Blocks.Block' => array(
+			'name' => 'Bbs.name',
+			'loadModels' => array(
+				'Like' => 'Likes.Like',
+				'Comment' => 'Comments.Comment',
+			)
+		),
 		'NetCommons.OriginalKey',
 	);
 
@@ -148,48 +155,51 @@ class Bbs extends BbsesAppModel {
 			'Bbs' => 'Bbses.Bbs',
 			'BbsSetting' => 'Bbses.BbsSetting',
 			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
-			'Block' => 'Blocks.Block',
-			'Frame' => 'Frames.Frame',
+//			'Block' => 'Blocks.Block',
+//			'Frame' => 'Frames.Frame',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		$this->set($data);
+		if (! $this->validates()) {
+			return false;
+		}
 
 		try {
-			//バリデーション
-			if (! $this->validateBbs($data, ['bbsSetting', 'block', 'bbsFrameSetting'])) {
-				return false;
-			}
+//			//バリデーション
+//			if (! $this->validateBbs($data, ['bbsSetting', 'block', 'bbsFrameSetting'])) {
+//				return false;
+//			}
 
-			//ブロックの登録
-			$block = $this->Block->saveByFrameId($data['Frame']['id']);
+//			//ブロックの登録
+//			$block = $this->Block->saveByFrameId($data['Frame']['id']);
 
 			//登録処理
-			$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
-			if (! $bbs = $this->save(null, false)) {
+//			$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
+			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$this->BbsSetting->data['BbsSetting']['bbs_key'] = $bbs['Bbs']['key'];
-			if (! $this->BbsSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			if (isset($data['BbsFrameSetting'])) {
-				if (! $this->BbsFrameSetting->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
+//			$this->BbsSetting->data['BbsSetting']['bbs_key'] = $bbs['Bbs']['key'];
+//			if (! $this->BbsSetting->save(null, false)) {
+//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//			}
+//			if (isset($data['BbsFrameSetting'])) {
+//				if (! $this->BbsFrameSetting->save(null, false)) {
+//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//				}
+//			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
+//			CakeLog::error($ex);
+//			throw $ex;
 		}
 
 		return true;

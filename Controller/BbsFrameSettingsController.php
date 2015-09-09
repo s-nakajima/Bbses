@@ -41,12 +41,18 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('edit'),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'page_editable',
 			),
 		),
+//		'NetCommons.NetCommonsRoomRole' => array(
+//			//コンテンツの権限設定
+//			'allowedActions' => array(
+//				'blockEditable' => array('edit'),
+//			),
+//		),
 	);
 
 /**
@@ -67,33 +73,40 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsFrame->validateFrameId()) {
-			$this->throwBadRequest();
-			return false;
-		}
+//		if (! $this->NetCommonsFrame->validateFrameId()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
 
-		if (! $bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting($this->viewVars['frameKey'])) {
-			$bbsFrameSetting = $this->BbsFrameSetting->create(array(
-				'frame_key' => $this->viewVars['frameKey']
-			));
-		}
-
-		$data = array();
-		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->BbsFrameSetting->saveBbsFrameSetting($data);
-
-			if ($this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
+		if ($this->request->isPut() || $this->request->isPost()) {
+			if ($this->BbsFrameSetting->saveBbsFrameSetting($this->data)) {
 				$this->redirect(Current::backToPageUrl());
 				return;
 			}
+			$this->handleValidationError($this->BbsFrameSetting->validationErrors);
+
+		} else {
+			$this->request->data = $this->BbsFrameSetting->getBbsFrameSetting(true);
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
 
-		$data = Hash::merge(
-			$bbsFrameSetting, $data
-		);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+
+//		$data = array();
+//		if ($this->request->isPost()) {
+//			$data = $this->data;
+//			$this->BbsFrameSetting->saveBbsFrameSetting($data);
+//
+//			if ($this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
+//				$this->redirect(Current::backToPageUrl());
+//				return;
+//			}
+//		}
+//
+//		$data = Hash::merge(
+//			$bbsFrameSetting, $data
+//		);
+//		$results = $this->camelizeKeyRecursive($data);
+//		$this->set($results);
 	}
 
 }

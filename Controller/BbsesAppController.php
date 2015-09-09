@@ -25,7 +25,7 @@ class BbsesAppController extends AppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
+//		'NetCommons.NetCommonsFrame',
 		'Pages.PageLayout',
 		'Security'
 	);
@@ -45,9 +45,9 @@ class BbsesAppController extends AppController {
  *
  * @var array
  */
-	public $helpers = array(
-		'NetCommons.Date',
-	);
+//	public $helpers = array(
+//		'NetCommons.Date',
+//	);
 
 /**
  * initBbs
@@ -93,11 +93,11 @@ class BbsesAppController extends AppController {
  * @return void
  */
 	public function initTabs($mainActiveTab, $blockActiveTab) {
-		if (isset($this->params['pass'][1])) {
-			$blockId = (int)$this->params['pass'][1];
-		} else {
-			$blockId = null;
-		}
+//		if (isset($this->params['pass'][1])) {
+//			$blockId = (int)$this->params['pass'][1];
+//		} else {
+//			$blockId = null;
+//		}
 
 		//タブの設定
 		$settingTabs = array(
@@ -107,7 +107,7 @@ class BbsesAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'bbs_blocks',
 						'action' => 'index',
-						$this->viewVars['frameId'],
+						Current::read('Frame.id'),
 					)
 				),
 				'frame_settings' => array(
@@ -115,7 +115,7 @@ class BbsesAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'bbs_frame_settings',
 						'action' => 'edit',
-						$this->viewVars['frameId'],
+						Current::read('Frame.id'),
 					)
 				),
 			),
@@ -130,8 +130,8 @@ class BbsesAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'bbs_blocks',
 						'action' => $this->params['action'],
-						$this->viewVars['frameId'],
-						$blockId
+						Current::read('Frame.id'),
+						Current::read('Block.id'),
 					)
 				),
 				'role_permissions' => array(
@@ -139,8 +139,8 @@ class BbsesAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'bbs_block_role_permissions',
 						'action' => 'edit',
-						$this->viewVars['frameId'],
-						$blockId
+						Current::read('Frame.id'),
+						Current::read('Block.id'),
 					)
 				),
 			),

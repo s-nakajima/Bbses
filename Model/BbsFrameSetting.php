@@ -26,7 +26,7 @@ class BbsFrameSetting extends BbsesAppModel {
  *
  * @var array
  */
-	static public $displayNumberOptions = array();
+//	static public $displayNumberOptions = array();
 
 /**
  * Validation rules
@@ -60,18 +60,18 @@ class BbsFrameSetting extends BbsesAppModel {
  * @see Model::__construct()
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function __construct($id = false, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-
-		self::$displayNumberOptions = array(
-			1 => __d('bbses', '%s article', 1),
-			5 => __d('bbses', '%s articles', 5),
-			10 => __d('bbses', '%s articles', 10),
-			20 => __d('bbses', '%s articles', 20),
-			50 => __d('bbses', '%s articles', 50),
-			100 => __d('bbses', '%s articles', 100),
-		);
-	}
+//	public function __construct($id = false, $table = null, $ds = null) {
+//		parent::__construct($id, $table, $ds);
+//
+//		self::$displayNumberOptions = array(
+//			1 => __d('bbses', '%s article', 1),
+//			5 => __d('bbses', '%s articles', 5),
+//			10 => __d('bbses', '%s articles', 10),
+//			20 => __d('bbses', '%s articles', 20),
+//			50 => __d('bbses', '%s articles', 50),
+//			100 => __d('bbses', '%s articles', 100),
+//		);
+//	}
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -112,12 +112,11 @@ class BbsFrameSetting extends BbsesAppModel {
 /**
  * Get bbs frame setting data
  *
- * @param string $frameKey frames.key
- * @return array
+ * @return array BbsFrameSetting data
  */
-	public function getBbsFrameSetting($frameKey) {
+	public function getBbsFrameSetting($created) {
 		$conditions = array(
-			'frame_key' => $frameKey
+			'frame_key' => Current::read('Frame.key')
 		);
 
 		$bbsFrameSetting = $this->find('first', array(
@@ -125,6 +124,12 @@ class BbsFrameSetting extends BbsesAppModel {
 				'conditions' => $conditions,
 			)
 		);
+
+		if ($created && ! $bbsFrameSetting) {
+			$bbsFrameSetting = $this->create(array(
+				'frame_key' => Current::read('Frame.key')
+			));
+		}
 
 		return $bbsFrameSetting;
 	}
