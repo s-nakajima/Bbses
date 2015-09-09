@@ -125,12 +125,7 @@ class BbsBlocksController extends BbsesAppController {
 
 		} else {
 			//表示処理(初期データセット)
-			$this->request->data = $this->Bbs->createAll(array(
-				$this->Bbs->alias => array(
-					'name' => __d('bbses', 'New bbs %s', date('YmdHis')),
-				)
-			));
-			$this->request->data = Hash::merge($this->request->data, $this->BbsSetting->create());
+			$this->request->data = $this->Bbs->createBbs();
 			$this->request->data = Hash::merge($this->request->data, $this->BbsFrameSetting->getBbsFrameSetting(true));
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
@@ -187,28 +182,46 @@ class BbsBlocksController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		$this->initBbs(['bbsFrameSetting']);
-
-		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-
-			$this->Bbs->saveBbs($data);
-			if ($this->handleValidationError($this->Bbs->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+		if ($this->request->isPut()) {
+			if ($this->Bbs->saveBbs($this->data)) {
+				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 			}
+			$this->handleValidationError($this->Bbs->validationErrors);
 
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			CurrentFrame::setBlock($this->request->params['pass'][1]);
+			if (! $bbs = $this->Bbs->getBbs()) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$this->request->data = Hash::merge($this->request->data, $bbs);
+			$this->request->data = Hash::merge($this->request->data, $this->BbsFrameSetting->getBbsFrameSetting(true));
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
+
+//		if (! $this->NetCommonsBlock->validateBlockId()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//		$this->set('blockId', (int)$this->params['pass'][1]);
+//
+//		$this->initBbs(['bbsFrameSetting']);
+//
+//		if ($this->request->isPost()) {
+//			$data = $this->__parseRequestData();
+//
+//			$this->Bbs->saveBbs($data);
+//			if ($this->handleValidationError($this->Bbs->validationErrors)) {
+//				if (! $this->request->is('ajax')) {
+//					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
+//				}
+//				return;
+//			}
+//
+//			$results = $this->camelizeKeyRecursive($data);
+//			$this->set($results);
+//		}
 	}
 
 /**
@@ -217,20 +230,17 @@ class BbsBlocksController extends BbsesAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		$this->initBbs(['bbsFrameSetting']);
+//		if (! $this->NetCommonsBlock->validateBlockId()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//		$this->set('blockId', (int)$this->params['pass'][1]);
+//
+//		$this->initBbs(['bbsFrameSetting']);
 
 		if ($this->request->isDelete()) {
 			if ($this->Bbs->deleteBbs($this->data)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 			}
 		}
 
@@ -242,16 +252,16 @@ class BbsBlocksController extends BbsesAppController {
  *
  * @return array
  */
-	private function __parseRequestData() {
-		$data = $this->data;
-		if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
-			//$data['Block']['from'] = implode('-', $data['Block']['from']);
-			//$data['Block']['to'] = implode('-', $data['Block']['to']);
-		} else {
-			unset($data['Block']['from'], $data['Block']['to']);
-		}
-
-		return $data;
-	}
+//	private function __parseRequestData() {
+//		$data = $this->data;
+//		if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
+//			//$data['Block']['from'] = implode('-', $data['Block']['from']);
+//			//$data['Block']['to'] = implode('-', $data['Block']['to']);
+//		} else {
+//			unset($data['Block']['from'], $data['Block']['to']);
+//		}
+//
+//		return $data;
+//	}
 
 }

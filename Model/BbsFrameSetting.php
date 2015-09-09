@@ -127,7 +127,7 @@ class BbsFrameSetting extends BbsesAppModel {
 
 		if ($created && ! $bbsFrameSetting) {
 			$bbsFrameSetting = $this->create(array(
-				'frame_key' => Current::read('Frame.key')
+				'frame_key' => Current::read('Frame.key'),
 			));
 		}
 

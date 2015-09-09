@@ -77,28 +77,29 @@ class BbsArticlesController extends BbsesAppController {
  * @throws Exception
  */
 	public function index() {
-		if (! Current::read('Block.id')) {
+		//if (! Current::read('Block.id')) {
 			$this->autoRender = false;
 			return;
-		}
-		$this->initBbs(['bbsFrameSetting']);
+		//}
 
-		//Paginatorの設定
-		$this->Paginator->settings = $this->BbsArticles->paginatorSettings();
-
-		try {
-			$this->BbsArticle->bindModelBbsArticlesUser($this->viewVars['userId']);
-			$articles = $this->Paginator->paginate('BbsArticle');
-		} catch (Exception $ex) {
-			CakeLog::error($ex);
-			throw $ex;
-		}
-
-		$results = array(
-			'bbsArticles' => $articles
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+//		$this->initBbs(['bbsFrameSetting']);
+//
+//		//Paginatorの設定
+//		$this->Paginator->settings = $this->BbsArticles->paginatorSettings();
+//
+//		try {
+//			$this->BbsArticle->bindModelBbsArticlesUser($this->viewVars['userId']);
+//			$articles = $this->Paginator->paginate('BbsArticle');
+//		} catch (Exception $ex) {
+//			CakeLog::error($ex);
+//			throw $ex;
+//		}
+//
+//		$results = array(
+//			'bbsArticles' => $articles
+//		);
+//		$results = $this->camelizeKeyRecursive($results);
+//		$this->set($results);
 	}
 
 /**

@@ -8,11 +8,9 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-
-echo $this->NetCommonsHtml->script('/bbses/js/bbses.js');
 ?>
 
-<article class="block-setting-body" ng-controller="Bbses">
+<article class="block-setting-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
@@ -27,7 +25,7 @@ echo $this->NetCommonsHtml->script('/bbses/js/bbses.js');
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'BbsBlock',
+					'model' => 'BbsBlock',
 					'action' => 'delete/' . Current::read('Frame.id') . '/' . Current::read('Block.id'),
 					'callback' => 'Bbses.BbsBlocks/delete_form'
 				)); ?>

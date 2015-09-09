@@ -17,6 +17,8 @@
 <?php echo $this->Form->hidden('BbsSetting.id'); ?>
 <?php echo $this->Form->hidden('BbsFrameSetting.id'); ?>
 <?php echo $this->Form->hidden('BbsFrameSetting.frame_key'); ?>
+<?php echo $this->Form->hidden('BbsFrameSetting.articles_per_page'); ?>
+<?php echo $this->Form->hidden('BbsFrameSetting.comments_per_page'); ?>
 
 <?php echo $this->NetCommonsForm->input('Bbs.name', array(
 		'type' => 'text',
