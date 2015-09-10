@@ -50,14 +50,14 @@ class BbsFrameSettingsController extends BbsesAppController {
 	);
 
 /**
- * beforeFilter
+ * beforeRender
  *
  * @return void
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
+	public function beforeRender() {
 		//タブの設定
 		$this->initTabs('frame_settings', '');
+		parent::beforeRender();
 	}
 
 /**

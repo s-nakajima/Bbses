@@ -10,20 +10,17 @@
  */
 ?>
 
-<?php echo $this->Html->script('/bbses/js/bbses.js', false); ?>
-
-<div class="modal-body">
+<div class="block-setting-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'BbsBlockRolePermissions',
-				'action' => 'edit' . '/' . $frameId . '/' . $blockId,
+				'model' => 'BbsBlockRolePermission',
+				'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
 				'callback' => 'Bbses.BbsBlockRolePermissions/edit_form',
-				'cancelUrl' => '/bbses/bbs_blocks/index/' . $frameId,
-				'options' => array('ng-controller' => 'Bbses'),
+				'cancelUrl' => Current::backToIndexUrl('default_setting_action'),
 			)); ?>
 	</div>
 </div>

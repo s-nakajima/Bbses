@@ -32,13 +32,7 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
  * @var array
  */
 	public $uses = array(
-		'Roles.Role',
-		'Roles.DefaultRolePermission',
 		'Bbses.Bbs',
-		'Bbses.BbsSetting',
-		'Blocks.Block',
-		'Blocks.BlockRolePermission',
-		'Rooms.RolesRoom',
 	);
 
 /**
@@ -47,11 +41,10 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockPermissionEditable' => array('edit')
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'block_permission_editable',
 			),
 		),
 	);
@@ -62,19 +55,18 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Token'
+		'Blocks.BlockRolePermissionForm'
 	);
 
 /**
- * beforeFilter
+ * beforeRender
  *
  * @return void
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
+	public function beforeRender() {
 		//タブの設定
 		$this->initTabs('block_index', 'role_permissions');
+		parent::beforeRender();
 	}
 
 /**
@@ -83,47 +75,30 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
+		CurrentFrame::setBlock($this->request->params['pass'][1]);
+
+		if (! $bbs = $this->Bbs->getBbs()) {
 			$this->throwBadRequest();
 			return false;
 		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
 
-		$this->initBbs();
-
-		if (! $block = $this->Block->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'Block.id' => $this->viewVars['blockId'],
-			),
-		))) {
-			$this->throwBadRequest();
-			return false;
-		};
-		$this->set('blockId', $block['Block']['id']);
-		$this->set('blockKey', $block['Block']['key']);
-
-		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
-			$this->viewVars['blockKey'],
-			['content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable']
+		$permissions = $this->Workflow->getBlockRolePermissions(
+			array('content_creatable', 'content_publishable', 'content_comment_creatable', 'content_comment_publishable')
 		);
+		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->BbsSetting->saveBbsSetting($data);
-			if ($this->handleValidationError($this->BbsSetting->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
-				}
+			if ($this->BbsSetting->saveBbsSetting($this->request->data)) {
+				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 				return;
 			}
-		}
+			$this->handleValidationError($this->BbsSetting->validationErrors);
 
-		$results = array(
-			'blockRolePermissions' => $permissions['BlockRolePermissions'],
-			'roles' => $permissions['Roles'],
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		} else {
+			$this->request->data['BbsSetting'] = $bbs['BbsSetting'];
+			$this->request->data['Block'] = $bbs['Block'];
+			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
 	}
 }

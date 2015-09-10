@@ -1,6 +1,6 @@
 <?php
 /**
- * Blocks Controller
+ * BbsBlocks Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,7 +12,7 @@
 App::uses('BbsesAppController', 'Bbses.Controller');
 
 /**
- * Blocks Controller
+ * BbsBlocks Controller
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Controller
@@ -42,6 +42,7 @@ class BbsBlocksController extends BbsesAppController {
  * @var array
  */
 	public $helpers = array(
+		'Blocks.BlockForm',
 		'Likes.Like',
 	);
 
@@ -65,10 +66,10 @@ class BbsBlocksController extends BbsesAppController {
  *
  * @return void
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
+	public function beforeRender() {
 		//タブの設定
 		$this->initTabs('block_index', 'block_settings');
+		parent::beforeRender();
 	}
 
 /**

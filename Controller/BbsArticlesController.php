@@ -10,7 +10,6 @@
  */
 
 App::uses('BbsesAppController', 'Bbses.Controller');
-App::uses('String', 'Utility');
 
 /**
  * BbsArticles Controller
