@@ -18,7 +18,6 @@
 
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'Bbs',
-//				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
 				'callback' => 'Bbses.BbsBlocks/edit_form',
 				'cancelUrl' => Current::backToIndexUrl('default_setting_action'),
 			)); ?>

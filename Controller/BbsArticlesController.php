@@ -27,9 +27,9 @@ class BbsArticlesController extends BbsesAppController {
 	public $uses = array(
 		'Bbses.BbsFrameSetting',
 		'Bbses.BbsArticle',
-		'Bbses.BbsArticleTree',
-		'Bbses.BbsArticlesUser',
-		'Comments.Comment',
+//		'Bbses.BbsArticleTree',
+//		'Bbses.BbsArticlesUser',
+//		'Comments.Comment',
 	);
 
 /**
@@ -57,7 +57,7 @@ class BbsArticlesController extends BbsesAppController {
 //			),
 //		),
 		'Paginator',
-		'Bbses.BbsArticles'
+//		'Bbses.BbsArticles'
 	);
 
 /**
@@ -65,9 +65,9 @@ class BbsArticlesController extends BbsesAppController {
  *
  * @var array
  */
-//	public $helpers = array(
-//		'NetCommons.Token',
-//	);
+	public $helpers = array(
+		'NetCommons.DisplayNumber',
+	);
 
 /**
  * index
@@ -76,10 +76,48 @@ class BbsArticlesController extends BbsesAppController {
  * @throws Exception
  */
 	public function index() {
-		//if (! Current::read('Block.id')) {
+		if (! Current::read('Block.id')) {
 			$this->autoRender = false;
 			return;
-		//}
+		}
+
+		if (! $bbs = $this->Bbs->getBbs()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting(true);
+
+		$query = array();
+		//条件
+		$query['conditions'] = $this->BbsArticle->getWorkflowConditions(array(
+			'BbsArticleTree.parent_id' => null,
+			'BbsArticle.bbs_id' => $bbs['Bbs']['id'],
+		));
+		//ソート
+		if (isset($this->params['named']['sort']) && isset($this->params['named']['direction'])) {
+			$query['order'] = array($this->params['named']['sort'] => $this->params['named']['direction']);
+		} else {
+			$query['order'] = array('BbsArticle.created' => 'desc');
+		}
+		//表示件数
+		if (isset($this->params['named']['limit'])) {
+			$query['limit'] = (int)$this->params['named']['limit'];
+		} else {
+			$query['limit'] = $bbsFrameSetting['BbsFrameSetting']['articles_per_page'];
+		}
+
+		$this->Paginator->settings = $query;
+		try {
+			$this->BbsArticle->bindModelBbsArticlesUser();
+			$bbsArticles = $this->Paginator->paginate('BbsArticle');
+		} catch (Exception $ex) {
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		$this->set('bbs', $bbs['Bbs']);
+		$this->set('bbsArticles', $bbsArticles);
+		$this->set('bbsFrameSetting', $bbsFrameSetting['BbsFrameSetting']);
 
 //		$this->initBbs(['bbsFrameSetting']);
 //

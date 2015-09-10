@@ -50,6 +50,15 @@ class BbsFrameSettingsController extends BbsesAppController {
 	);
 
 /**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'NetCommons.DisplayNumber',
+	);
+
+/**
  * beforeRender
  *
  * @return void

@@ -59,7 +59,7 @@ class AppSchema extends CakeSchema {
 		'lft' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'lft | treeビヘイビア必須カラム | | '),
 		'rght' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'rght | treeビヘイビア必須カラム | | '),
 		'article_no' => array('type' => 'integer', 'null' => false, 'default' => '1', 'unsigned' => false, 'comment' => 'comment index | 記事毎の採番 | | '),
-		'published_comment_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'Published comment counts | 公開されたコメント数 | | '),
+		'bbs_article_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'Published comment counts | 公開されたコメント数 | | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => 'modified user | 更新者 | users.id | '),

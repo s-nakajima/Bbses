@@ -50,7 +50,7 @@ class BbsArticle extends BbsesAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'NetCommons.Publishable',
+		'Workflow.Workflow',
 		'NetCommons.OriginalKey',
 		'Likes.Like'
 	);
@@ -131,14 +131,14 @@ class BbsArticle extends BbsesAppModel {
  * @param int $userId users.id
  * @return void
  */
-	public function bindModelBbsArticlesUser($userId) {
+	public function bindModelBbsArticlesUser() {
 		$this->bindModel(array('belongsTo' => array(
 			'BbsArticlesUser' => array(
 				'className' => 'Bbses.BbsArticlesUser',
 				'foreignKey' => false,
 				'conditions' => array(
-					'BbsArticlesUser.bbs_article_key=BbsArticle.key',
-					'BbsArticlesUser.user_id' => $userId
+					'BbsArticlesUser.bbs_article_key = BbsArticle.key',
+					'BbsArticlesUser.user_id' => Current::read('User.id'),
 				)
 			),
 		)), true);

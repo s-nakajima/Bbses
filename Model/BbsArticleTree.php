@@ -198,7 +198,7 @@ class BbsArticleTree extends BbsesAppModel {
 	}
 
 /**
- * Update published_comment_counts
+ * Update bbs_article_counts
  *
  * @param int $rootId RootId for bbs posts
  * @param int $status status
@@ -208,7 +208,7 @@ class BbsArticleTree extends BbsesAppModel {
  */
 	public function updateCommentCounts($rootId, $status, $increment = 1) {
 		if ((int)$rootId > 0 && (int)$status === (int)NetCommonsBlockComponent::STATUS_PUBLISHED) {
-			$update = array('BbsArticleTree.published_comment_count' => 'BbsArticleTree.published_comment_count + (' . (int)$increment . ')');
+			$update = array('BbsArticleTree.bbs_article_count' => 'BbsArticleTree.bbs_article_count + (' . (int)$increment . ')');
 			$conditions = array('BbsArticleTree.id' => (int)$rootId);
 
 			if (! $this->updateAll($update, $conditions)) {

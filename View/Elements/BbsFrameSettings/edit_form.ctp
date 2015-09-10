@@ -14,7 +14,7 @@
 <?php echo $this->Form->hidden('BbsFrameSetting.id'); ?>
 <?php echo $this->Form->hidden('BbsFrameSetting.frame_key'); ?>
 
-<?php echo $this->NetCommonsForm->selectDisplayNumber('BbsFrameSetting.articles_per_page', array(
+<?php echo $this->DisplayNumber->select('BbsFrameSetting.articles_per_page', array(
 		'label' => __d('bbses', 'Show articles per page'),
 		'unit' => array(
 			'single' => __d('bbses', '%s article'),
@@ -22,7 +22,7 @@
 		),
 	)); ?>
 
-<?php echo $this->NetCommonsForm->selectDisplayNumber('BbsFrameSetting.comments_per_page', array(
+<?php echo $this->DisplayNumber->select('BbsFrameSetting.comments_per_page', array(
 		'label' => __d('bbses', 'Show comments per page'),
 		'unit' => array(
 			'single' => __d('bbses', '%s article'),

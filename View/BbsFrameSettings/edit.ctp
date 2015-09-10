@@ -16,7 +16,6 @@
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'BbsFrameSetting',
-//				'action' => 'edit' . '/' . Current::read('Frame.id'),
 				'callback' => 'Bbses.BbsFrameSettings/edit_form',
 				'cancelUrl' => Current::backToPageUrl(),
 			)); ?>
