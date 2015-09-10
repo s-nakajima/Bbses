@@ -52,7 +52,7 @@ class BbsArticle extends BbsesAppModel {
 	public $actsAs = array(
 		'Workflow.Workflow',
 		'NetCommons.OriginalKey',
-		'Likes.Like'
+//		'Likes.Like'
 	);
 
 /**
