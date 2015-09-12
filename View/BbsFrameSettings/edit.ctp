@@ -17,7 +17,7 @@
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'BbsFrameSetting',
 				'callback' => 'Bbses.BbsFrameSettings/edit_form',
-				'cancelUrl' => Current::backToPageUrl(),
+				'cancelUrl' => NetCommonsUrl::backToPageUrl(),
 			)); ?>
 	</div>
 </article>

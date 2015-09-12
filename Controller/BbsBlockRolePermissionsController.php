@@ -78,7 +78,7 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
 		CurrentFrame::setBlock($this->request->params['pass'][1]);
 
 		if (! $bbs = $this->Bbs->getBbs()) {
-			$this->throwBadRequest();
+			$this->setAction('throwBadRequest');
 			return false;
 		}
 
@@ -89,10 +89,10 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
 
 		if ($this->request->isPost()) {
 			if ($this->BbsSetting->saveBbsSetting($this->request->data)) {
-				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$this->handleValidationError($this->BbsSetting->validationErrors);
+			$this->NetCommons->handleValidationError($this->BbsSetting->validationErrors);
 
 		} else {
 			$this->request->data['BbsSetting'] = $bbs['BbsSetting'];

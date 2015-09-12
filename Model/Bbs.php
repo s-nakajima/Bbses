@@ -329,7 +329,7 @@ class Bbs extends BbsesAppModel {
 	}
 
 /**
- * Update article_modified and article_count
+ * Update bbs_article_modified and bbs_article_count
  *
  * @param int $bbsId bbses.id
  * @param string $bbsKey bbses.key
@@ -337,46 +337,47 @@ class Bbs extends BbsesAppModel {
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function updateBbsArticle($bbsId, $bbsKey, $languageId) {
-		$this->loadModels([
-			'BbsArticle' => 'Bbses.BbsArticle',
-		]);
-		$db = $this->getDataSource();
+//	public function updateBbsArticle($bbsId, $bbsKey, $languageId) {
+//		$this->loadModels([
+//			'BbsArticle' => 'Bbses.BbsArticle',
+//		]);
+//		$db = $this->getDataSource();
+//
+//		$conditions = array(
+//			'bbs_id' => $bbsId,
+//			'language_id' => $languageId,
+//			'is_latest' => true
+//		);
+//		$count = $this->BbsArticle->find('count', array(
+//			'recursive' => -1,
+//			'conditions' => $conditions,
+//		));
+//		if ($count === false) {
+//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//		}
+//
+//		$article = $this->BbsArticle->find('first', array(
+//			'recursive' => -1,
+//			'fields' => 'modified',
+//			'conditions' => $conditions,
+//			'order' => 'modified desc'
+//		));
+//		if ($article === false) {
+//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//		}
+//
+//		$update = array(
+//			'bbs_article_count' => $count
+//		);
+//		if ($article) {
+//			$update['bbs_article_modified'] = $db->value($article[$this->BbsArticle->alias]['modified'], 'string');
+//		}
+//
+//		if (! $this->updateAll($update, array('Bbs.key' => $bbsKey))) {
+//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//		}
+//
+//		return true;
+//	}
 
-		$conditions = array(
-			'bbs_id' => $bbsId,
-			'language_id' => $languageId,
-			'is_latest' => true
-		);
-		$count = $this->BbsArticle->find('count', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-		if ($count === false) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		$article = $this->BbsArticle->find('first', array(
-			'recursive' => -1,
-			'fields' => 'modified',
-			'conditions' => $conditions,
-			'order' => 'modified desc'
-		));
-		if ($article === false) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		$update = array(
-			'article_count' => $count
-		);
-		if ($article) {
-			$update['article_modified'] = $db->value($article[$this->BbsArticle->alias]['modified'], 'string');
-		}
-
-		if (! $this->updateAll($update, array('Bbs.key' => $bbsKey))) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		return true;
-	}
 }

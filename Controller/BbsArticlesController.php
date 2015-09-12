@@ -10,6 +10,7 @@
  */
 
 App::uses('BbsesAppController', 'Bbses.Controller');
+App::uses('String', 'Utility');
 
 /**
  * BbsArticles Controller
@@ -27,9 +28,7 @@ class BbsArticlesController extends BbsesAppController {
 	public $uses = array(
 		'Bbses.BbsFrameSetting',
 		'Bbses.BbsArticle',
-//		'Bbses.BbsArticleTree',
-//		'Bbses.BbsArticlesUser',
-//		'Comments.Comment',
+		'Bbses.BbsArticleTree',
 	);
 
 /**
@@ -46,18 +45,7 @@ class BbsArticlesController extends BbsesAppController {
 				'approve' => 'content_comment_publishable',
 			),
 		),
-//		'NetCommons.NetCommonsBlock',
-//		'NetCommons.NetCommonsWorkflow',
-//		'NetCommons.NetCommonsRoomRole' => array(
-//			//コンテンツの権限設定
-//			'allowedActions' => array(
-//				'contentCreatable' => array('add', 'edit', 'delete'),
-//				'contentCommentCreatable' => array('reply'),
-//				'contentCommentPublishable' => array('approve'),
-//			),
-//		),
 		'Paginator',
-//		'Bbses.BbsArticles'
 	);
 
 /**
@@ -66,8 +54,33 @@ class BbsArticlesController extends BbsesAppController {
  * @var array
  */
 	public $helpers = array(
+		'Likes.Like',
 		'NetCommons.DisplayNumber',
+		'Workflow.Workflow',
 	);
+
+/**
+ * beforeRender
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		if (! Current::read('Block.id')) {
+			$this->setAction('emptyRender');
+			return false;
+		}
+		if (! $bbs = $this->Bbs->getBbs()) {
+			$this->setAction('throwBadRequest');
+			return false;
+		}
+		$this->set('bbs', $bbs['Bbs']);
+		$this->set('bbsSetting', $bbs['BbsSetting']);
+
+		$bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting(true);
+		$this->set('bbsFrameSetting', $bbsFrameSetting['BbsFrameSetting']);
+	}
 
 /**
  * index
@@ -76,22 +89,14 @@ class BbsArticlesController extends BbsesAppController {
  * @throws Exception
  */
 	public function index() {
-		if (! Current::read('Block.id')) {
-			$this->autoRender = false;
-			return;
-		}
-
-		if (! $bbs = $this->Bbs->getBbs()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting(true);
+		$this->BbsArticle->bindModelBbsArticle(false);
+		$this->BbsArticle->bindModelBbsArticlesUser(false);
 
 		$query = array();
 		//条件
 		$query['conditions'] = $this->BbsArticle->getWorkflowConditions(array(
 			'BbsArticleTree.parent_id' => null,
-			'BbsArticle.bbs_id' => $bbs['Bbs']['id'],
+			'BbsArticle.bbs_id' => $this->viewVars['bbs']['id'],
 		));
 		//ソート
 		if (isset($this->params['named']['sort']) && isset($this->params['named']['direction'])) {
@@ -103,80 +108,105 @@ class BbsArticlesController extends BbsesAppController {
 		if (isset($this->params['named']['limit'])) {
 			$query['limit'] = (int)$this->params['named']['limit'];
 		} else {
-			$query['limit'] = $bbsFrameSetting['BbsFrameSetting']['articles_per_page'];
+			$query['limit'] = $this->viewVars['bbsFrameSetting']['articles_per_page'];
 		}
 
 		$this->Paginator->settings = $query;
 		try {
-			$this->BbsArticle->bindModelBbsArticlesUser();
 			$bbsArticles = $this->Paginator->paginate('BbsArticle');
 		} catch (Exception $ex) {
 			CakeLog::error($ex);
 			throw $ex;
 		}
-
-		$this->set('bbs', $bbs['Bbs']);
 		$this->set('bbsArticles', $bbsArticles);
-		$this->set('bbsFrameSetting', $bbsFrameSetting['BbsFrameSetting']);
-
-//		$this->initBbs(['bbsFrameSetting']);
-//
-//		//Paginatorの設定
-//		$this->Paginator->settings = $this->BbsArticles->paginatorSettings();
-//
-//		try {
-//			$this->BbsArticle->bindModelBbsArticlesUser($this->viewVars['userId']);
-//			$articles = $this->Paginator->paginate('BbsArticle');
-//		} catch (Exception $ex) {
-//			CakeLog::error($ex);
-//			throw $ex;
-//		}
-//
-//		$results = array(
-//			'bbsArticles' => $articles
-//		);
-//		$results = $this->camelizeKeyRecursive($results);
-//		$this->set($results);
 	}
 
 /**
  * view
  *
- * @param int $frameId frames.id
- * @param string $bbsArticleKey bbs_articles.key
  * @return void
- * @throws BadRequestException throw new
+ * @throws BadRequestException throw
  */
-	public function view($frameId = null, $bbsArticleKey = null) {
-		$this->initBbs(['bbsFrameSetting']);
-		$this->BbsArticles->setBbsArticle($bbsArticleKey, ['rootBbsArticle', 'parentBbsArticle']);
-
-		//既読
-		if ($this->viewVars['userId'] && ! $this->viewVars['currentBbsArticle']['bbsArticlesUser']['id']) {
-			$data = $this->BbsArticlesUser->create(array(
-				'bbs_article_key' => $bbsArticleKey,
-				'user_id' => $this->viewVars['userId']
-			));
-			$result = $this->BbsArticlesUser->saveArticlesUser($data);
-			$result = $this->camelizeKeyRecursive($result);
-			$this->viewVars['currentBbsArticle']['bbsArticlesUser'] = $result;
+	public function view() {
+		//参照権限チェック
+		if (! $this->BbsArticle->canReadWorkflowContent()) {
+			$this->throwBadRequest();
+			return false;
 		}
 
-		$conditions = $this->BbsArticles->setConditions();
-		$this->BbsArticleTree->bindModelBbsArticlesUser($this->viewVars['userId']);
-		$this->BbsArticleTree->Behaviors->load('Tree', array(
-			'scope' => array(
-				'OR' => $conditions
+		$bbsArticleKey = null;
+		if (isset($this->params['pass'][1])) {
+			$bbsArticleKey = $this->params['pass'][1];
+		}
+
+		$this->BbsArticle->bindModelBbsArticle(false);
+		$this->BbsArticle->bindModelBbsArticlesUser(false);
+		$this->BbsArticleTree->bindModelBbsArticle(false);
+		$this->BbsArticleTree->bindModelBbsArticlesUser(false);
+
+		//カレント記事の取得
+		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
 		));
+		if (! $bbsArticle) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('currentBbsArticle', $bbsArticle);
 
+		$conditions = $this->BbsArticle->getWorkflowConditions();
+
+		//根記事の取得
+		if ($bbsArticle['BbsArticleTree']['root_id'] > 0) {
+			$rootBbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+				'recursive' => 0,
+				'conditions' => array(
+					$this->BbsArticleTree->alias . '.id' => $bbsArticle['BbsArticleTree']['root_id'],
+				)
+			));
+			if (! $rootBbsArticle) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$this->set('rootBbsArticle', $rootBbsArticle);
+		}
+
+		//親記事の取得
+		if ($bbsArticle['BbsArticleTree']['parent_id'] > 0) {
+			if ($bbsArticle['BbsArticleTree']['parent_id'] !== $bbsArticle['BbsArticleTree']['root_id']) {
+				$parentBbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+					'recursive' => 0,
+					'conditions' => array(
+						$this->BbsArticleTree->alias . '.id' => $bbsArticle['BbsArticleTree']['parent_id'],
+					)
+				));
+				if (! $parentBbsArticle) {
+					$this->throwBadRequest();
+					return false;
+				}
+				$this->set('parentBbsArticle', $parentBbsArticle);
+			} else {
+				$this->set('parentBbsArticle', $rootBbsArticle);
+			}
+		}
+
+		//子記事の取得
+		$this->BbsArticleTree->Behaviors->load('Tree', array(
+			'scope' => array('OR' => $conditions)
+		));
 		$children = $this->BbsArticleTree->children(
-			$this->viewVars['currentBbsArticle']['bbsArticleTree']['id'], false, null, 'BbsArticleTree.id DESC', null, 1, 1
+			$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.id DESC', null, 1, 1
 		);
-		$children = $this->camelizeKeyRecursive($children);
-		$children = Hash::combine($children, '{n}.bbsArticleTree.id', '{n}');
+		$children = Hash::combine($children, '{n}.BbsArticleTree.id', '{n}');
 
-		$this->set(['bbsArticleChildren' => $children]);
+		$this->set('bbsArticleChildren', $children);
+
+		//既読
+		$this->BbsArticle->readToArticle($bbsArticle['BbsArticle']['key']);
 	}
 
 /**
@@ -186,281 +216,263 @@ class BbsArticlesController extends BbsesAppController {
  */
 	public function add() {
 		$this->view = 'edit';
-		$this->initBbs(['bbsFrameSetting']);
 
-		$bbsArticle = $this->BbsArticle->create(array(
-			'id' => null,
-			'bbs_id' => $this->viewVars['bbs']['id'],
-			'language_id' => $this->viewVars['languageId'],
-			'key' => null,
-			'title' => null,
-			'content' => null,
-		));
-		$bbsArticleTree = $this->BbsArticleTree->create(array(
-			'id' => null,
-			'key' => null,
-			'bbs_key' => $this->viewVars['bbs']['key'],
-			'root_id' => null,
-			'parent_id' => null,
-		));
-
-		$data = array();
 		if ($this->request->isPost()) {
-			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
-				return;
-			}
-			$data = Hash::merge(
-				$this->data,
-				['BbsArticle' => ['status' => $status]]
-			);
-
-			$data['BbsArticleTree']['post_no'] = 1;
+			$data = $this->data;
+			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
+			$data['BbsArticleTree']['article_no'] = 1;
 			unset($data['BbsArticle']['id']);
 
-			if ($this->BbsArticles->saveBbsArticle($data)) {
+			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+				$url = NetCommonsUrl::actionUrl(array(
+					'controller' => $this->params['controller'],
+					'action' => 'view',
+					'frame_id' => $this->data['Frame']['id'],
+					'key' => $bbsArticle['BbsArticle']['key']
+				));
+				$this->redirect($url);
 				return;
 			}
-			$data['contentStatus'] = null;
-			$data['comments'] = null;
-		}
+			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
-		$data = Hash::merge(
-			$bbsArticle, $bbsArticleTree, $data,
-			['contentStatus' => null, 'comments' => []]
-		);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+		} else {
+			$this->request->data = Hash::merge($this->request->data,
+				$this->BbsArticle->create(array(
+					'bbs_id' => $this->viewVars['bbs']['id'],
+				)),
+				$this->BbsArticleTree->create(array(
+					'bbs_key' => $this->viewVars['bbs']['key'],
+					'post_no' => 1,
+				))
+			);
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
+		}
 	}
 
 /**
  * reply
  *
- * @param int $frameId frames.id
- * @param string $bbsArticleKey bbs_articles.key
  * @return void
  */
-	public function reply($frameId = null, $bbsArticleKey = null) {
+	public function reply() {
 		$this->view = 'edit';
-		$this->initBbs(['bbsFrameSetting']);
-		$this->BbsArticles->setBbsArticle($bbsArticleKey);
 
-		if ((int)$this->viewVars['currentBbsArticle']['bbsArticleTree']['rootId'] > 0) {
-			$rootArticleTreeId = (int)$this->viewVars['currentBbsArticle']['bbsArticleTree']['rootId'];
-		} else {
-			$rootArticleTreeId = (int)$this->viewVars['currentBbsArticle']['bbsArticleTree']['id'];
-		}
-
-		$bbsArticleTree = $this->BbsArticleTree->create(array(
-			'id' => null,
-			'bbs_article_key' => null,
-			'bbs_key' => $this->viewVars['bbs']['key'],
-			'root_id' => $rootArticleTreeId,
-			'parent_id' => (int)$this->viewVars['currentBbsArticle']['bbsArticleTree']['id'],
-		));
-		$bbsArticle = $this->BbsArticle->create(array(
-			'id' => null,
-			'key' => null,
-			'bbs_id' => $this->viewVars['bbs']['id'],
-			'title' => null,
-			'content' => '',
-		));
-
-		$bbsArticle['BbsArticle']['title'] = $this->__replyTitle($this->viewVars['currentBbsArticle']['bbsArticle']['title']);
-		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
-			$bbsArticle['BbsArticle']['content'] =
-							'<p></p><blockquote class="small">' .
-								$this->viewVars['currentBbsArticle']['bbsArticle']['content'] .
-							'</blockquote><p></p>';
-		}
-
-		$data = array();
 		if ($this->request->isPost()) {
-			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
-				return;
-			}
-			if ($status !== NetCommonsBlockComponent::STATUS_IN_DRAFT) {
-				$status = $this->viewVars['contentCommentPublishable'] ?
-								NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
-			}
-
-			$data = Hash::merge(
-				$this->data,
-				['BbsArticle' => ['status' => $status]]
-			);
-
-			$data['BbsArticleTree']['article_no'] = $this->BbsArticleTree->getMaxNo($rootArticleTreeId) + 1;
+			$data = $this->data;
+			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
+			$data['BbsArticleTree']['article_no'] = $this->BbsArticleTree->getMaxNo($data['BbsArticleTree']['root_id']) + 1;
 			unset($data['BbsArticle']['id']);
 
-			if ($this->BbsArticles->saveBbsArticle($data)) {
+			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+				$url = NetCommonsUrl::actionUrl(array(
+					'controller' => $this->params['controller'],
+					'action' => 'view',
+					'frame_id' => $this->data['Frame']['id'],
+					'key' => $bbsArticle['BbsArticle']['key']
+				));
+				$this->redirect($url);
 				return;
 			}
-			$data['contentStatus'] = null;
-			$data['comments'] = null;
-		}
+			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
-		$data = Hash::merge(
-			$bbsArticle, $bbsArticleTree, $data,
-			['contentStatus' => null, 'comments' => []]
-		);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
-	}
-
-/**
- * Title of reply
- *
- * @param string $title bbs_articles.title
- * @return string bbs_articles.title
- */
-	private function __replyTitle($title) {
-		$result = '';
-		if (isset($this->params->query['quote']) && $this->params->query['quote']) {
-			$matches = array();
-			if (preg_match('/^Re(\d)?:/', $title, $matches)) {
-				if (isset($matches[1])) {
-					$count = (int)$matches[1];
-				} else {
-					$count = 1;
-				}
-				$result = preg_replace('/^Re(\d)?:/', 'Re' . ($count + 1) . ': ', $title);
-			} else {
-				$result = 'Re: ' . $title;
+		} else {
+			$bbsArticleKey = $this->params['pass'][1];
+			$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+				'recursive' => 0,
+				'fields' => array(
+					$this->BbsArticle->alias . '.title',
+					$this->BbsArticle->alias . '.content',
+					$this->BbsArticleTree->alias . '.id',
+					$this->BbsArticleTree->alias . '.root_id',
+				),
+				'conditions' => array(
+					$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+					$this->BbsArticle->alias . '.key' => $bbsArticleKey
+				)
+			));
+			if (! $bbsArticle) {
+				$this->throwBadRequest();
+				return false;
 			}
-		}
 
-		return $result;
+			if ($bbsArticle['BbsArticleTree']['root_id'] > 0) {
+				$rootId = (int)$bbsArticle['BbsArticleTree']['root_id'];
+			} else {
+				$rootId = (int)$bbsArticle['BbsArticleTree']['id'];
+			}
+			if (isset($this->params->query['quote']) && $this->params->query['quote']) {
+				$title = $this->BbsArticle->getReplyTitle($bbsArticle['BbsArticle']['title']);
+				$content = $this->BbsArticle->getReplyContent($bbsArticle['BbsArticle']['content']);
+			} else {
+				$title = null;
+				$content = null;
+			}
+			$this->request->data = Hash::merge($this->request->data,
+				$this->BbsArticle->create(array(
+					'bbs_id' => $this->viewVars['bbs']['id'],
+					'title' => $title,
+					'content' => $content,
+				)),
+				$this->BbsArticleTree->create(array(
+					'bbs_key' => $this->viewVars['bbs']['key'],
+					'root_id' => $rootId,
+					'parent_id' => $bbsArticle['BbsArticleTree']['id'],
+				))
+			);
+
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
+		}
 	}
 
 /**
  * edit
  *
- * @param int $frameId frames.id
- * @param string $bbsArticleKey bbs_articles.key
  * @return void
  */
-	public function edit($frameId = null, $bbsArticleKey = null) {
+	public function edit() {
 		$this->view = 'edit';
-		$this->initBbs(['bbsFrameSetting']);
-		$this->BbsArticles->setBbsArticle($bbsArticleKey);
 
-		$data = array();
-		if ($this->request->isPost()) {
-			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
-				return;
-			}
-			if ($this->viewVars['currentBbsArticle']['bbsArticleTree']['rootId'] > 0 && $status !== NetCommonsBlockComponent::STATUS_IN_DRAFT) {
-				$status = $this->viewVars['contentCommentPublishable'] ?
-								NetCommonsBlockComponent::STATUS_PUBLISHED : NetCommonsBlockComponent::STATUS_APPROVED;
-			}
-			$data = Hash::merge(
-				$this->data,
-				['BbsArticle' => ['status' => $status]]
-			);
-
-			if (! $this->viewVars['currentBbsArticle']['bbsArticleTree']['rootId']) {
-				unset($data['BbsArticle']['id']);
-			}
-			if ($this->BbsArticles->saveBbsArticle($data)) {
-				return;
-			}
+		$bbsArticleKey = $this->params['pass'][1];
+		if ($this->request->isPut()) {
+			$bbsArticleKey = $this->data['BbsArticle']['key'];
 		}
 
-		$comments = $this->Comment->getComments(
-			array(
-				'plugin_key' => $this->params['plugin'],
-				'content_key' => $bbsArticleKey
+		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
-		);
-		$comments = $this->camelizeKeyRecursive($comments);
-		$this->set(['comments' => $comments]);
-
-		$data = $this->camelizeKeyRecursive(Hash::merge(
-			$data,
-			array('contentStatus' => $this->viewVars['currentBbsArticle']['bbsArticle']['status'])
 		));
-		$results = Hash::merge(
-			$this->viewVars['currentBbsArticle'], $data
-		);
-		$this->set($results);
+
+		//掲示板の場合は、削除権限と同じ条件とする
+		if (! $this->BbsArticle->canDeleteWorkflowContent($bbsArticle)) {
+			$this->throwBadRequest();
+			return false;
+		}
+
+		if ($this->request->isPut()) {
+			$data = $this->data;
+			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
+			unset($data['BbsArticle']['id']);
+
+			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+				$url = NetCommonsUrl::actionUrl(array(
+					'controller' => $this->params['controller'],
+					'action' => 'view',
+					'frame_id' => $this->data['Frame']['id'],
+					'key' => $bbsArticle['BbsArticle']['key']
+				));
+				$this->redirect($url);
+				return;
+			}
+			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
+
+		} else {
+			$this->request->data = $bbsArticle;
+			if (! $this->request->data) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
+
+		}
+
+		$comments = $this->BbsArticle->getCommentsByContentKey($this->request->data['BbsArticle']['key']);
+		$this->set('comments', $comments);
 	}
 
 /**
  * delete
  *
- * @param int $frameId frames.id
- * @param string $bbsArticleKey bbs_articles.key
  * @return void
  */
-	public function delete($frameId = null, $bbsArticleKey = null) {
-		$this->initBbs(['bbsFrameSetting']);
-		$this->BbsArticles->setBbsArticle($bbsArticleKey, ['rootBbsArticle', 'parentBbsArticle']);
-
+	public function delete() {
 		if (! $this->request->isDelete()) {
 			$this->throwBadRequest();
 			return;
 		}
 
-		$data = Hash::merge(
-			$this->data,
-			['BbsArticle' => ['status' => $this->viewVars['currentBbsArticle']['bbsArticle']['status']]]
-		);
-		if (! $this->BbsArticle->deleteBbsArticle($data)) {
+		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+				$this->BbsArticle->alias . '.key' => $this->data['BbsArticle']['key']
+			)
+		));
+
+		//削除権限チェック
+		if (! $this->BbsArticle->canDeleteWorkflowContent($bbsArticle)) {
+			$this->throwBadRequest();
+			return false;
+		}
+
+		//親記事の取得
+		if ($bbsArticle['BbsArticleTree']['parent_id'] > 0) {
+			$parentBbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+				'recursive' => 0,
+				'conditions' => array(
+					$this->BbsArticleTree->alias . '.id' => $bbsArticle['BbsArticleTree']['parent_id'],
+				)
+			));
+			if (! $parentBbsArticle) {
+				$this->throwBadRequest();
+				return false;
+			}
+		}
+
+		if (! $this->BbsArticle->deleteBbsArticle($this->data)) {
 			$this->throwBadRequest();
 			return;
 		}
-		if (! $this->request->is('ajax')) {
-			if ($this->viewVars['currentBbsArticle']['bbsArticleTree']['parentId']) {
-				$action = 'view';
-				$articleKey = $this->viewVars['parentBbsArticle']['bbsArticle']['key'];
-			} else {
-				$action = 'index';
-				$articleKey = '';
-			}
-			$this->redirect('/bbses/bbs_articles/' . $action . '/' . $this->viewVars['frameId'] . '/' . $articleKey);
+
+		if (isset($parentBbsArticle)) {
+			$url = NetCommonsUrl::actionUrl(array(
+				'controller' => $this->params['controller'],
+				'action' => 'view',
+				'frame_id' => $this->data['Frame']['id'],
+				'key' => $parentBbsArticle['BbsArticle']['key']
+			));
+		} else {
+			$url = NetCommonsUrl::backToPageUrl();
 		}
+		$this->redirect($url);
 	}
 
 /**
  * approve
  *
- * @param int $frameId frames.id
- * @param string $bbsArticleKey bbs_articles.key
  * @return void
  */
-	public function approve($frameId = null, $bbsArticleKey = null) {
-		$this->initBbs(['bbsFrameSetting']);
-		$this->BbsArticles->setBbsArticle($bbsArticleKey);
-
-		if (! $this->request->isPost()) {
-			$this->throwBadRequest();
-			return;
-		}
-		if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
-			$this->throwBadRequest();
-			return;
-		}
-		if (! $this->viewVars['currentBbsArticle']['bbsArticleTree']['rootId']) {
+	public function approve() {
+		if (! $this->request->isPut()) {
 			$this->throwBadRequest();
 			return;
 		}
 
-		$data = Hash::merge(
-			$this->data,
-			array('BbsArticle' => array(
-				'status' => $status
-			)),
-			array('BbsArticleTree' => array(
-				'root_id' => $this->viewVars['currentBbsArticle']['bbsArticleTree']['rootId']
-			))
-		);
-
-		$this->BbsArticle->saveCommentAsPublish($data);
-		if ($this->handleValidationError($this->BbsArticle->validationErrors)) {
-			if (! $this->request->is('ajax')) {
-				$this->redirect('/bbses/bbs_articles/view/' . $this->viewVars['frameId'] . '/' . $bbsArticleKey);
-			}
+		$data = $this->data;
+		$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
+		if (! $data['BbsArticle']['status']) {
+			$this->throwBadRequest();
 			return;
 		}
+
+		if ($this->BbsArticle->saveCommentAsPublish($data)) {
+			$this->NetCommons->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
+
+			$url = NetCommonsUrl::actionUrl(array(
+				'controller' => $this->params['controller'],
+				'action' => 'view',
+				'frame_id' => $this->data['Frame']['id'],
+				'key' => $this->data['BbsArticle']['key']
+			));
+			$this->redirect($url);
+			return;
+		}
+		$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
 		$this->throwBadRequest();
 	}

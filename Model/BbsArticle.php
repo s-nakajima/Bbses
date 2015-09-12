@@ -50,9 +50,12 @@ class BbsArticle extends BbsesAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'Workflow.Workflow',
+		'Bbses.BbsArticle',
+		'Bbses.BbsArticlesUser',
+		'Comments.Comment',
+		'Likes.Like',
 		'NetCommons.OriginalKey',
-//		'Likes.Like'
+		'Workflow.Workflow',
 	);
 
 /**
@@ -70,27 +73,28 @@ class BbsArticle extends BbsesAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Bbs' => array(
-			'className' => 'Bbses.Bbs',
-			'foreignKey' => 'bbs_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
+//		'Bbs' => array(
+//			'className' => 'Bbses.Bbs',
+//			'foreignKey' => 'bbs_id',
+//			'conditions' => '',
+//			'fields' => '',
+//			'order' => ''
+//		),
 		'BbsArticleTree' => array(
+			'type' => 'INNER',
 			'className' => 'Bbses.BbsArticleTree',
 			'foreignKey' => false,
 			'conditions' => 'BbsArticleTree.bbs_article_key=BbsArticle.key',
 			'fields' => '',
 			'order' => ''
 		),
-		'CreatedUser' => array(
-			'className' => 'Users.User',
-			'foreignKey' => false,
-			'conditions' => 'BbsArticle.created_user = CreatedUser.id',
-			'fields' => 'CreatedUser.handlename',
-			'order' => ''
-		)
+//		'CreatedUser' => array(
+//			'className' => 'Users.User',
+//			'foreignKey' => false,
+//			'conditions' => 'BbsArticle.created_user = CreatedUser.id',
+//			'fields' => 'CreatedUser.handlename',
+//			'order' => ''
+//		)
 	);
 
 /**
@@ -122,79 +126,53 @@ class BbsArticle extends BbsesAppModel {
 			//status to set in PublishableBehavior.
 
 		));
-		return parent::beforeValidate($options);
+
+		if (! parent::beforeValidate($options)) {
+			return false;
+		}
+
+		if (isset($this->data['BbsArticleTree'])) {
+			$this->BbsArticleTree->set($this->data['BbsArticleTree']);
+			if (! $this->BbsArticleTree->validates()) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsArticleTree->validationErrors);
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 /**
- * Set bindModel BbsArticlesUser
+ * Called after each successful save operation.
  *
- * @param int $userId users.id
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
  * @return void
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
+ * @see Model::save()
  */
-	public function bindModelBbsArticlesUser() {
-		$this->bindModel(array('belongsTo' => array(
-			'BbsArticlesUser' => array(
-				'className' => 'Bbses.BbsArticlesUser',
-				'foreignKey' => false,
-				'conditions' => array(
-					'BbsArticlesUser.bbs_article_key = BbsArticle.key',
-					'BbsArticlesUser.user_id' => Current::read('User.id'),
-				)
-			),
-		)), true);
-	}
+	public function afterSave($created, $options = array()) {
+		//BbsArticleTree登録
+		if (isset($this->BbsArticleTree->data['BbsArticleTree'])) {
+			if (! $this->BbsArticleTree->data['BbsArticleTree']['bbs_article_key']) {
+				$this->BbsArticleTree->data['BbsArticleTree']['bbs_article_key'] = $this->data[$this->alias]['key'];
+			}
+			if (! $this->BbsArticleTree->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
 
-/**
- * Get BbsArticles
- *
- * @param array $conditions findAll conditions
- * @return array BbsArticles
- */
-	public function getBbsArticles($conditions) {
-		$bbsArticles = $this->find('all', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
-		return $bbsArticles;
-	}
+		//Bbsのbbs_article_count、bbs_article_modified
+		if (isset($this->data['Bbs']['id']) && isset($this->data['Bbs']['key'])) {
+			$this->updateBbsByBbsArticle($this->data['Bbs']['id'], $this->data['Bbs']['key'], $this->data[$this->alias]['language_id']);
+		}
 
-/**
- * Get BbsArticle
- *
- * @param string $bbsArticleKey bbs_article.key
- * @param array $conditions find conditions
- * @return array BbsArticle
- */
-	public function getBbsArticle($bbsArticleKey, $conditions = []) {
-		$conditions[$this->alias . '.key'] = $bbsArticleKey;
+		//コメント数の更新
+		if (isset($this->data['BbsArticleTree']['root_id']) && $this->data['BbsArticleTree']['root_id']) {
+			$this->updateBbsArticleChildCount($this->data['BbsArticleTree']['root_id'], $this->data[$this->alias]['language_id']);
+		}
 
-		$bbsArticle = $this->find('first', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
-
-		return $bbsArticle;
-	}
-
-/**
- * Get BbsArticle by bbs_article_trees.id
- *
- * @param id $bbsArticleTreeId bbs_article_trees.id
- * @param array $conditions find conditions
- * @return array BbsArticle
- */
-	public function getBbsArticleByTreeId($bbsArticleTreeId, $conditions = []) {
-		$conditions['BbsArticleTree.id'] = $bbsArticleTreeId;
-
-		$bbsArticle = $this->find('first', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
-
-		return $bbsArticle;
+		parent::afterSave($created, $options);
 	}
 
 /**
@@ -209,86 +187,33 @@ class BbsArticle extends BbsesAppModel {
 			'Bbs' => 'Bbses.Bbs',
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates()) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			if (! $this->validateBbsArticle($data, ['bbsArticleTree', 'comment'])) {
-				return false;
-			}
-
-			//BbsArticle登録処理
+			//登録処理
 			if (! $bbsArticle = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//BbsArticleTree登録処理
-			$this->BbsArticleTree->data['BbsArticleTree']['bbs_article_key'] = $bbsArticle[$this->alias]['key'];
-			if (! $this->BbsArticleTree->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			//コメントの登録
-			if (isset($data['Comment']) && $this->Comment->data) {
-				$this->Comment->data[$this->Comment->name]['block_key'] = $data['Block']['key'];
-				$this->Comment->data[$this->Comment->name]['content_key'] = $bbsArticle[$this->alias]['key'];
-				if (! $this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
-
-			//Bbsのarticle_count、article_modified
-			$this->Bbs->updateBbsArticle($data['Bbs']['id'], $data['Bbs']['key'], $data['BbsArticle']['language_id']);
-
-			//コメント数の更新
-			$this->BbsArticleTree->updateCommentCounts($data['BbsArticleTree']['root_id'], $data['BbsArticle']['status']);
-
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
+
 		return $bbsArticle;
-	}
-
-/**
- * Validate BbsArticle
- *
- * @param array $data received post data
- * @param array $contains Optional validate sets
- * @return bool True on success, false on validation error
- */
-	public function validateBbsArticle($data, $contains = []) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-
-		if (in_array('bbsArticleTree', $contains, true)) {
-			if (! $this->BbsArticleTree->validateBbsArticleTree($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsArticleTree->validationErrors);
-				return false;
-			}
-		}
-
-		if (in_array('comment', $contains, true) && isset($data['Comment'])) {
-			if (! $this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 /**
@@ -303,43 +228,59 @@ class BbsArticle extends BbsesAppModel {
 			'Bbs' => 'Bbses.Bbs',
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+		$this->set($data);
+
+		$bbsArticleTree = $this->BbsArticleTree->find('first', array(
+			'recursive' => -1,
+			'fields' => array('lft', 'rght'),
+			'conditions' => array(
+				'bbs_article_key' => $this->data['BbsArticle']['key']
+			),
+		));
+		if (! $bbsArticleTree) {
+			$this->rollback();
+			return false;
+		}
+		$bbsArticleTrees = $this->BbsArticleTree->find('list', array(
+			'recursive' => -1,
+			'fields' => array('id', 'bbs_article_key'),
+			'conditions' => array(
+				'lft >=' => $bbsArticleTree['BbsArticleTree']['lft'],
+				'rght <=' => $bbsArticleTree['BbsArticleTree']['rght'],
+			),
+		));
 
 		try {
-			//BbsArticleの削除
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['BbsArticle']['key']), false, false)) {
+			//Treeデータの削除
+			$conditions = array($this->BbsArticleTree->alias . '.bbs_article_key' => $this->data['BbsArticle']['key']);
+			if (! $this->BbsArticleTree->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//Treeデータの削除
-			$this->BbsArticleTree->unbindModelBbsArticleTree();
-			if (! $this->BbsArticleTree->deleteAll(array($this->BbsArticleTree->alias . '.bbs_article_key' => $data['BbsArticle']['key']), false, true)) {
+			//BbsArticleの削除
+			if (! $this->deleteAll(array($this->alias . '.key' => $bbsArticleTrees), false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//コメントの削除
-			$this->Comment->deleteByContentKey($data['BbsArticle']['key']);
+			$this->deleteCommentsByContentKey($this->data['BbsArticle']['key']);
 
-			//Bbsのarticle_count、article_modified
-			$this->Bbs->updateBbsArticle($data['Bbs']['id'], $data['Bbs']['key'], $data['BbsArticle']['language_id']);
+			//Bbsのbbs_article_count、bbs_article_modified
+			$this->updateBbsByBbsArticle($this->data['Bbs']['id'], $data['Bbs']['key'], $this->data['BbsArticle']['language_id']);
 
 			//コメント数の更新
-			$this->BbsArticleTree->updateCommentCounts($data['BbsArticleTree']['root_id'], $data['BbsArticle']['status'], -1);
+			$this->updateBbsArticleChildCount($this->data['BbsArticleTree']['root_id'], $this->data['BbsArticle']['language_id']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
@@ -359,9 +300,8 @@ class BbsArticle extends BbsesAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+		$this->set($data);
 
 		try {
 			//BbsArticle登録処理
@@ -374,17 +314,16 @@ class BbsArticle extends BbsesAppModel {
 			}
 
 			//コメント数の更新
-			$this->BbsArticleTree->updateCommentCounts($data['BbsArticleTree']['root_id'], $data['BbsArticle']['status']);
+			$this->updateBbsArticleChildCount($data['BbsArticleTree']['root_id'], $data['BbsArticle']['language_id']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
+
 		return true;
 	}
 

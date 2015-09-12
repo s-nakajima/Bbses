@@ -10,26 +10,26 @@
  */
 ?>
 
-<?php if ($bbsArticle['bbsArticle']['status'] === NetCommonsBlockComponent::STATUS_APPROVED && $contentPublishable) : ?>
-	<?php echo $this->Form->create('', array(
+<?php if ($bbsArticle['BbsArticle']['status'] === WorkflowComponent::STATUS_APPROVED && Current::permission('content_publishable')) : ?>
+	<?php $this->request->data = $bbsArticle; ?>
+	<?php echo $this->Form->create('BbsArticle', array(
 			'div' => false,
 			'class' => 'nc-bbs-edit-link',
-			'type' => 'post',
-			'url' => '/bbses/bbs_articles/approve/' . $frameId . '/' . $bbsArticle['bbsArticle']['key']
+			'url' => $this->NetCommonsHtml->url(array('action' => 'approve', 'key' => $bbsArticle['BbsArticle']['key']))
 		)); ?>
 
-		<?php echo $this->Form->hidden('BbsArticle.id', array(
-				'value' => isset($bbsArticle['bbsArticle']['id']) ? (int)$bbsArticle['bbsArticle']['id'] : null,
-			)); ?>
+		<?php echo $this->Form->hidden('Frame.id', array('value' => Current::read('Frame.id'))); ?>
+		<?php echo $this->Form->hidden('Block.id', array('value' => Current::read('Block.id'))); ?>
+		<?php echo $this->Form->hidden('Block.key', array('value' => Current::read('Block.key'))); ?>
+		<?php echo $this->Form->hidden('BbsArticle.id'); ?>
+		<?php echo $this->Form->hidden('BbsArticle.key'); ?>
+		<?php echo $this->Form->hidden('BbsArticle.language_id'); ?>
+		<?php echo $this->Form->hidden('BbsArticleTree.id'); ?>
+		<?php echo $this->Form->hidden('BbsArticleTree.root_id'); ?>
 
-		<?php echo $this->Form->hidden('BbsArticleTree.id', array(
-				'value' => isset($bbsArticle['BbsArticleTree']['id']) ? (int)$bbsArticle['BbsArticleTree']['id'] : null,
-			)); ?>
-
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-ok"></span>', array(
-				'name' => 'save_' . NetCommonsBlockComponent::STATUS_PUBLISHED,
-				'class' => 'btn btn-warning btn-xs',
-				'tooltip' => __d('bbses', 'Approving')
+		<?php echo $this->Workflow->publishLinkButton('', array(
+				'tooltip' => true,
+				'iconSize' => 'xs'
 			)); ?>
 	<?php echo $this->Form->end(); ?>
 <?php endif;

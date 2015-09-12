@@ -37,16 +37,6 @@ class BbsBlocksController extends BbsesAppController {
 	);
 
 /**
- * use helpers
- *
- * @var array
- */
-	public $helpers = array(
-		'Blocks.BlockForm',
-		'Likes.Like',
-	);
-
-/**
  * use components
  *
  * @var array
@@ -59,6 +49,16 @@ class BbsBlocksController extends BbsesAppController {
 			),
 		),
 		'Paginator',
+	);
+
+/**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'Blocks.BlockForm',
+		'Likes.Like',
 	);
 
 /**
@@ -105,9 +105,9 @@ class BbsBlocksController extends BbsesAppController {
 		if ($this->request->isPost()) {
 			//登録処理
 			if ($this->Bbs->saveBbs($this->data)) {
-				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
-			$this->handleValidationError($this->Bbs->validationErrors);
+			$this->NetCommons->handleValidationError($this->Bbs->validationErrors);
 
 		} else {
 			//表示処理(初期データセット)
@@ -126,15 +126,15 @@ class BbsBlocksController extends BbsesAppController {
 		if ($this->request->isPut()) {
 			//登録処理
 			if ($this->Bbs->saveBbs($this->data)) {
-				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
-			$this->handleValidationError($this->Bbs->validationErrors);
+			$this->NetCommons->handleValidationError($this->Bbs->validationErrors);
 
 		} else {
 			//表示処理(初期データセット)
 			CurrentFrame::setBlock($this->request->params['pass'][1]);
 			if (! $bbs = $this->Bbs->getBbs()) {
-				$this->throwBadRequest();
+				$this->setAction('throwBadRequest');
 				return false;
 			}
 			$this->request->data = Hash::merge($this->request->data, $bbs);
@@ -151,10 +151,10 @@ class BbsBlocksController extends BbsesAppController {
 	public function delete() {
 		if ($this->request->isDelete()) {
 			if ($this->Bbs->deleteBbs($this->data)) {
-				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
 
-		$this->throwBadRequest();
+		$this->setAction('throwBadRequest');
 	}
 }

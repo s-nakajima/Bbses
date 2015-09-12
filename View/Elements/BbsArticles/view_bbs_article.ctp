@@ -9,27 +9,26 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-if ($currentBbsArticle['bbsArticle']['key'] === $bbsArticle['bbsArticle']['key']) {
+if ($currentBbsArticle['BbsArticle']['key'] === $bbsArticle['BbsArticle']['key']) {
 	$headTag = 'h1';
-} elseif ((int)$bbsArticle['bbsArticleTree']['rootId'] === 0) {
+} elseif ((int)$bbsArticle['BbsArticleTree']['root_id'] === 0) {
 	$headTag = 'h2';
 } else {
 	$headTag = 'h3';
 }
-
 ?>
 
 <div class="panel-heading">
 	<div class="row">
 		<div class="col-xs-3 col-sm-2">
 			<span>
-				<?php echo sprintf(__d('bbses', '%s. '), $bbsArticle['bbsArticleTree']['articleNo']); ?>
+				<?php echo sprintf(__d('bbses', '%s. '), $bbsArticle['BbsArticleTree']['article_no']); ?>
 			</span>
 			<span>
 				<?php echo $this->Html->image('/bbses/img/avatar.PNG', array('alt' => 'no image')); ?>
 			</span>
 			<a href="">
-				<?php echo h($bbsArticle['createdUser']['handlename']); ?>
+				<?php echo h($bbsArticle['CreatedUser']['handlename']); ?>
 			</a>
 		</div>
 
@@ -40,28 +39,34 @@ if ($currentBbsArticle['bbsArticle']['key'] === $bbsArticle['bbsArticle']['key']
 						<small>
 					<?php endif; ?>
 
-						<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $bbsArticle['bbsArticle']['key']); ?>">
-							<?php if (! $bbsArticle['bbsArticlesUser']) : ?>
-								<strong>
-							<?php endif; ?>
-
-							<?php echo h($bbsArticle['bbsArticle']['title']); ?>
-
-							<?php if (! $bbsArticle['bbsArticlesUser']) : ?>
-								</strong>
-							<?php endif; ?>
-						</a>
+						<?php
+							if (! isset($bbsArticle['BbsArticlesUser']['id']) || ! $bbsArticle['BbsArticlesUser']) {
+								$title = '<strong>' . h($bbsArticle['BbsArticle']['title']) . '</strong>';
+							} else {
+								$title = h($bbsArticle['BbsArticle']['title']);
+							}
+							echo $this->NetCommonsHtml->link($title, array('key' => $bbsArticle['BbsArticle']['key']), array('escape' => false));
+						?>
 
 						<small>
-							<?php if ($bbsArticle['bbsArticleTree']['rootId'] > 0) : ?>
-								<?php echo $this->element('BbsArticles/comment_status_label', array('status' => $bbsArticle['bbsArticle']['status'])); ?>
+							<?php if ($bbsArticle['BbsArticleTree']['root_id'] > 0) : ?>
+								<?php echo $this->Workflow->label($bbsArticle['BbsArticle']['status'], array(
+										WorkflowComponent::STATUS_IN_DRAFT => array(
+											'class' => 'label-info',
+											'message' => __d('net_commons', 'Temporary'),
+										),
+										WorkflowComponent::STATUS_APPROVED => array(
+											'class' => 'label-warning',
+											'message' => __d('bbses', 'Comment approving'),
+										),
+									)); ?>
 							<?php else : ?>
-								<?php echo $this->element('NetCommons.status_label', array('status' => $bbsArticle['bbsArticle']['status'])); ?>
+								<?php echo $this->Workflow->label($bbsArticle['BbsArticle']['status']); ?>
 							<?php endif; ?>
 						</small>
 
 						<div class="pull-right">
-							<?php echo $this->Date->dateFormat($bbsArticle['bbsArticle']['created']); ?>
+							<?php echo $this->Date->dateFormat($bbsArticle['BbsArticle']['created']); ?>
 						</div>
 
 					<?php if ($headTag === 'h1') : ?>
@@ -76,53 +81,41 @@ if ($currentBbsArticle['bbsArticle']['key'] === $bbsArticle['bbsArticle']['key']
 <div class="panel-body">
 	<?php if (isset($parentBbsArticle)) : ?>
 		<h4>
-			<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $parentBbsArticle['bbsArticle']['key']); ?>">
-				<?php echo sprintf(__d('bbses', '&gt;&gt; %s'), $parentBbsArticle['bbsArticleTree']['articleNo']) ?>
-			</a>
+			<?php echo $this->NetCommonsHtml->link(
+					sprintf(__d('bbses', '&gt;&gt; %s'), $parentBbsArticle['BbsArticleTree']['article_no']),
+					array('key' => $parentBbsArticle['BbsArticle']['key']),
+					array('title' => $parentBbsArticle['BbsArticle']['title'], 'escape' => false)
+				); ?>
 		</h4>
 	<?php endif; ?>
-	<?php echo $bbsArticle['bbsArticle']['content']; ?>
+	<?php echo $bbsArticle['BbsArticle']['content']; ?>
 </div>
 
 <div class="panel-footer">
 	<div class="clearfix">
-		<div class="pull-left" <?php echo $this->element('Likes.like_init_attributes', array(
-					'contentKey' => $bbsArticle['bbsArticle']['key'],
-					'disabled' => !(! isset($bbsArticle['like']) && $bbsArticle['bbsArticle']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED),
-					'likeCounts' => (int)$bbsArticle['bbsArticle']['likeCounts'],
-					'unlikeCounts' => (int)$bbsArticle['bbsArticle']['unlikeCounts'],
-				)); ?>>
-
-			<?php if ($bbsSetting['useLike']) : ?>
-				 <div class="inline-block">
-					<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_LIKE)); ?>
-				 </div>
-			<?php endif; ?>
-
-			<?php if ($bbsSetting['useUnlike']) : ?>
-				 <div class="inline-block">
-					<?php echo $this->element('Likes.like_button', array('isLiked' => Like::IS_UNLIKE)); ?>
-				 </div>
-			<?php endif; ?>
+		<div class="pull-left">
+			<?php echo $this->Like->buttons('BbsArticle', $bbsSetting, $bbsArticle, array('div' => true)); ?>
 		</div>
 
 		<div class="pull-right">
 			<?php echo $this->element('BbsArticles/reply_link', array(
-					'status' => $bbsArticle['bbsArticle']['status'],
-					'bbsArticleKey' => $bbsArticle['bbsArticle']['key'],
+					'status' => $bbsArticle['BbsArticle']['status'],
+					'bbsArticleKey' => $bbsArticle['BbsArticle']['key'],
 				)); ?>
 
-			<?php if ($bbsArticle['bbsArticleTree']['rootId'] > 0) : ?>
-				<?php echo $this->element('BbsArticles/comment_approving_link', array(
-						'bbsArticle' => $bbsArticle,
-					)); ?>
+			<?php if ($bbsArticle['BbsArticleTree']['root_id'] > 0) : ?>
+				<?php echo $this->element('BbsArticles/comment_approving_link', array('bbsArticle' => $bbsArticle)); ?>
 			<?php endif; ?>
 
-			<?php echo $this->element('BbsArticles/edit_link', array(
-					'status' => $bbsArticle['bbsArticle']['status'],
-					'bbsArticleKey' => $bbsArticle['bbsArticle']['key'],
-					'createdUser' => (int)$bbsArticle['trackableCreator']['id'],
-				)); ?>
+			<?php //掲示板の編集は、削除権限と同じ条件とする ?>
+			<?php if ($this->Workflow->canDelete('BbsArticle', $bbsArticle)) : ?>
+				<div class="nc-bbs-edit-link">
+					<?php echo $this->Button->editLink('', array('key' => $bbsArticle['BbsArticle']['key']), array(
+							'tooltip' => true,
+							'iconSize' => 'xs'
+						)); ?>
+				</div>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

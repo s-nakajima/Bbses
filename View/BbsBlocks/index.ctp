@@ -18,7 +18,9 @@
 			<?php echo $this->Button->addLink(); ?>
 		</div>
 
-		<?php echo $this->Form->create('', array('url' => '/frames/frames/edit/' . $this->data['Frame']['id'])); ?>
+		<?php echo $this->Form->create('', array(
+				'url' => NetCommonsUrl::actionUrl(array('plugin' => 'frames', 'controller' => 'frames', 'action' => 'edit'))
+			)); ?>
 
 			<?php echo $this->Form->hidden('Frame.id'); ?>
 
@@ -30,10 +32,10 @@
 							<?php echo $this->Paginator->sort('Bbs.name', __d('bbses', 'Bbs name')); ?>
 						</th>
 						<th class="text-right">
-							<?php echo $this->Paginator->sort('Bbs.article_count', __d('bbses', 'Article count')); ?>
+							<?php echo $this->Paginator->sort('Bbs.bbs_article_count', __d('bbses', 'Article count')); ?>
 						</th>
 						<th class="text-right">
-							<?php echo $this->Paginator->sort('Bbs.article_modified', __d('bbses', 'Article modified')); ?>
+							<?php echo $this->Paginator->sort('Bbs.bbs_article_modified', __d('bbses', 'Article modified')); ?>
 						</th>
 					</tr>
 				</thead>
@@ -44,13 +46,13 @@
 								<?php echo $this->BlockForm->displayFrame('Frame.block_id', $bbs['Block']['id']); ?>
 							</td>
 							<td>
-								<?php echo $this->NetCommonsForm->editLink($bbs['Block']['id'], $bbs['Bbs']['name']); ?>
+								<?php echo $this->NetCommonsHtml->editLink($bbs['Bbs']['name'], array('block_id' => $bbs['Block']['id'])); ?>
 							</td>
 							<td class="text-right">
-								<?php echo h($bbs['Bbs']['article_count']); ?>
+								<?php echo h($bbs['Bbs']['bbs_article_count']); ?>
 							</td>
 							<td class="text-right">
-								<?php echo $this->Date->dateFormat($bbs['Bbs']['article_modified']); ?>
+								<?php echo $this->Date->dateFormat($bbs['Bbs']['bbs_article_modified']); ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>

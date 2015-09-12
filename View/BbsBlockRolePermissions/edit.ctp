@@ -20,7 +20,7 @@
 				'model' => 'BbsBlockRolePermission',
 				'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
 				'callback' => 'Bbses.BbsBlockRolePermissions/edit_form',
-				'cancelUrl' => Current::backToIndexUrl('default_setting_action'),
+				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			)); ?>
 	</div>
 </div>

@@ -55,35 +55,35 @@ class BbsesAppController extends AppController {
  * @param array $contains Optional result sets
  * @return void
  */
-	public function initBbs($contains = []) {
-		if (! $bbs = $this->Bbs->getBbs($this->viewVars['blockId'], $this->viewVars['roomId'])) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$bbs = $this->camelizeKeyRecursive($bbs);
-		$this->set($bbs);
-
-		if (! $bbsSetting = $this->BbsSetting->getBbsSetting($bbs['bbs']['key'])) {
-			$bbsSetting = $this->BbsSetting->create(array(
-				'id' => null,
-				'bbs_key' => $bbs['bbs']['key']
-			));
-		}
-		$bbsSetting = $this->camelizeKeyRecursive($bbsSetting);
-		$this->set($bbsSetting);
-
-		if (in_array('bbsFrameSetting', $contains, true)) {
-			if (! $bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting($this->viewVars['frameKey'])) {
-				$bbsFrameSetting = $this->BbsFrameSetting->create(array(
-					'frame_key' => $this->viewVars['frameKey']
-				));
-			}
-			$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
-			$this->set($bbsFrameSetting);
-		}
-
-		$this->set('userId', (int)$this->Auth->user('id'));
-	}
+//	public function initBbs($contains = []) {
+//		if (! $bbs = $this->Bbs->getBbs($this->viewVars['blockId'], $this->viewVars['roomId'])) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//		$bbs = $this->camelizeKeyRecursive($bbs);
+//		$this->set($bbs);
+//
+//		if (! $bbsSetting = $this->BbsSetting->getBbsSetting($bbs['bbs']['key'])) {
+//			$bbsSetting = $this->BbsSetting->create(array(
+//				'id' => null,
+//				'bbs_key' => $bbs['bbs']['key']
+//			));
+//		}
+//		$bbsSetting = $this->camelizeKeyRecursive($bbsSetting);
+//		$this->set($bbsSetting);
+//
+//		if (in_array('bbsFrameSetting', $contains, true)) {
+//			if (! $bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting($this->viewVars['frameKey'])) {
+//				$bbsFrameSetting = $this->BbsFrameSetting->create(array(
+//					'frame_key' => $this->viewVars['frameKey']
+//				));
+//			}
+//			$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
+//			$this->set($bbsFrameSetting);
+//		}
+//
+//		$this->set('userId', (int)$this->Auth->user('id'));
+//	}
 
 /**
  * initTabs

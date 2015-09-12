@@ -10,29 +10,27 @@
  */
 ?>
 
-<?php if ($contentCommentCreatable && $bbsSetting['useComment']
-			&& $status === NetCommonsBlockComponent::STATUS_PUBLISHED) : ?>
+<?php if (Current::permission('content_comment_creatable') && $bbsSetting['use_comment']
+			&& $status === WorkflowComponent::STATUS_PUBLISHED) : ?>
 
 	<?php echo $this->Form->create('', array(
 			'div' => false,
 			'class' => 'nc-bbs-edit-link',
 			'type' => 'get',
-			'url' => '/bbses/bbs_articles/reply/' . $frameId . '/' . $bbsArticleKey
+			'url' => $this->NetCommonsHtml->url(array('action' => 'reply', 'key' => $bbsArticleKey))
 		)); ?>
 
-		<label>
-			<?php echo $this->Form->input('quote', array(
+		<?php echo $this->Form->input('quote', array(
 				'label' => false,
 				'div' => false,
 				'type' => 'checkbox',
 				'checked' => true,
-				'hiddenField' => false
-			));
-			echo __d('bbses', 'Quote this posts'); ?>
-		</label>
+				'hiddenField' => false,
+				'label' => __d('bbses', 'Quote this posts')
+			)); ?>
 
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-comment"></span>', array(
-				'class' => 'btn btn-success btn-xs',
+				'class' => 'btn btn-success btn-xs bbs-write-comment-link',
 				'tooltip' => __d('bbses', 'Write comment')
 			)); ?>
 

@@ -28,9 +28,9 @@ $options = array(
 		'sort' => 'BbsArticle.created',
 		'direction' => 'asc'
 	),
-	'BbsArticleTree.bbs_article_counts.desc' => array(
+	'BbsArticleTree.bbs_article_child_count.desc' => array(
 		'label' => __d('bbses', 'Descending order of comments'),
-		'sort' => 'BbsArticleTree.bbs_article_counts',
+		'sort' => 'BbsArticleTree.bbs_article_child_count',
 		'direction' => 'desc'
 	),
 );

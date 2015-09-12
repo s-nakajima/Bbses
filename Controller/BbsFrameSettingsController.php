@@ -77,10 +77,10 @@ class BbsFrameSettingsController extends BbsesAppController {
 	public function edit() {
 		if ($this->request->isPut() || $this->request->isPost()) {
 			if ($this->BbsFrameSetting->saveBbsFrameSetting($this->data)) {
-				$this->redirect(Current::backToPageUrl());
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
-			$this->handleValidationError($this->BbsFrameSetting->validationErrors);
+			$this->NetCommons->handleValidationError($this->BbsFrameSetting->validationErrors);
 
 		} else {
 			$this->request->data = $this->BbsFrameSetting->getBbsFrameSetting(true);
