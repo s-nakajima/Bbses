@@ -29,7 +29,7 @@
 
 		<?php echo $this->Workflow->publishLinkButton('', array(
 				'tooltip' => true,
-				'iconSize' => 'xs'
+				'iconSize' => 'btn-xs'
 			)); ?>
 	<?php echo $this->Form->end(); ?>
 <?php endif;

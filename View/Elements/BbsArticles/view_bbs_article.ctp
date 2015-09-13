@@ -112,7 +112,7 @@ if ($currentBbsArticle['BbsArticle']['key'] === $bbsArticle['BbsArticle']['key']
 				<div class="nc-bbs-edit-link">
 					<?php echo $this->Button->editLink('', array('key' => $bbsArticle['BbsArticle']['key']), array(
 							'tooltip' => true,
-							'iconSize' => 'xs'
+							'iconSize' => 'btn-xs'
 						)); ?>
 				</div>
 			<?php endif; ?>
