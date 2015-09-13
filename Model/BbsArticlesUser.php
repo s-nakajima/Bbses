@@ -6,7 +6,7 @@
  * @property User $User
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -17,7 +17,7 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 /**
  * BbsArticlesUser Model
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Model
  */
 class BbsArticlesUser extends BbsesAppModel {
@@ -58,74 +58,21 @@ class BbsArticlesUser extends BbsesAppModel {
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
 			'bbs_article_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 				)
 			),
 			'user_id' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 				)
 			),
 		));
 		return parent::beforeValidate($options);
-	}
-
-/**
- * Save BbsArticlesUser
- *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
- * @throws InternalErrorException
- */
-	public function saveArticlesUser($data) {
-		$this->loadModels([
-			'BbsArticlesUser' => 'Bbses.BbsArticlesUser',
-		]);
-
-		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
-
-		try {
-			if (! $this->validateBbsArticlesUser($data)) {
-				return false;
-			}
-
-			$bbsArticlesUser = $this->save(null, false);
-			if (! $bbsArticlesUser) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			//トランザクションCommit
-			$dataSource->commit();
-		} catch (Exception $ex) {
-			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::error($ex);
-			throw $ex;
-		}
-		return $bbsArticlesUser;
-	}
-
-/**
- * Validate BbsArticlesUser
- *
- * @param array $data received post data
- * @return bool True on success, false on error
- */
-	public function validateBbsArticlesUser($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		return true;
 	}
 
 }

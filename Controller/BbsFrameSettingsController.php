@@ -3,7 +3,7 @@
  * BbsFrameSettings Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -14,7 +14,7 @@ App::uses('BbsesAppController', 'Bbses.Controller');
 /**
  * BbsFrameSettings Controller
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Controller
  */
 class BbsFrameSettingsController extends BbsesAppController {
@@ -41,24 +41,32 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('edit'),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'page_editable',
 			),
 		),
 	);
 
 /**
- * beforeFilter
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'NetCommons.DisplayNumber',
+	);
+
+/**
+ * beforeRender
  *
  * @return void
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
+	public function beforeRender() {
 		//タブの設定
 		$this->initTabs('frame_settings', '');
+		parent::beforeRender();
 	}
 
 /**
@@ -67,33 +75,16 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsFrame->validateFrameId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-
-		if (! $bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting($this->viewVars['frameKey'])) {
-			$bbsFrameSetting = $this->BbsFrameSetting->create(array(
-				'frame_key' => $this->viewVars['frameKey']
-			));
-		}
-
-		$data = array();
-		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->BbsFrameSetting->saveBbsFrameSetting($data);
-
-			if ($this->handleValidationError($this->BbsFrameSetting->validationErrors)) {
-				$this->redirectByFrameId();
+		if ($this->request->isPut() || $this->request->isPost()) {
+			if ($this->BbsFrameSetting->saveBbsFrameSetting($this->data)) {
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
+			$this->NetCommons->handleValidationError($this->BbsFrameSetting->validationErrors);
+
+		} else {
+			$this->request->data = $this->BbsFrameSetting->getBbsFrameSetting(true);
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
-
-		$data = Hash::merge(
-			$bbsFrameSetting, $data
-		);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
 	}
-
 }

@@ -10,29 +10,24 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('Block.id', array(
-		'value' => $blockId,
+<?php echo $this->Form->hidden('Block.id'); ?>
+<?php echo $this->Form->hidden('Block.key'); ?>
+<?php echo $this->Form->hidden('BbsSetting.bbs_key'); ?>
+<?php echo $this->Form->hidden('BbsSetting.id'); ?>
+
+<?php echo $this->element('Blocks.block_creatable_setting', array(
+		'settingPermissions' => array(
+			'content_creatable' => __d('blocks', 'Content creatable roles'),
+			'content_comment_creatable' => __d('blocks', 'Content comment creatable roles'),
+		),
 	)); ?>
 
-<?php echo $this->Form->hidden('BbsSetting.bbs_key', array(
-		'value' => isset($bbsSetting['bbsKey']) ? $bbsSetting['bbsKey'] : null,
-	)); ?>
-
-<?php echo $this->Form->hidden('BbsSetting.id', array(
-		'value' => isset($bbsSetting['id']) ? (int)$bbsSetting['id'] : null,
-	)); ?>
-
-<?php echo $this->element('Blocks.block_role_setting', array(
-		'roles' => $roles,
+<?php echo $this->element('Blocks.block_approval_setting', array(
 		'model' => 'BbsSetting',
 		'useWorkflow' => 'use_workflow',
 		'useCommentApproval' => 'use_comment_approval',
-		'creatablePermissions' => array(
-			'contentCreatable' => __d('blocks', 'Content creatable roles'),
-			'contentCommentCreatable' => __d('blocks', 'Content comment creatable roles'),
-		),
-		'approvalPermissions' => array(
-			'contentCommentPublishable' => __d('blocks', 'Content comment publishable roles'),
+		'settingPermissions' => array(
+			'content_comment_publishable' => __d('blocks', 'Content comment publishable roles'),
 		),
 		'options' => array(
 			Block::NEED_APPROVAL => __d('blocks', 'Need approval in both %s and comments ', __d('bbses', 'articles')),

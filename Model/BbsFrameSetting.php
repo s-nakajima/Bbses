@@ -5,7 +5,7 @@
  * @property Block $Block
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -16,17 +16,10 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 /**
  * BbsFrameSetting Model
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Model
  */
 class BbsFrameSetting extends BbsesAppModel {
-
-/**
- * listStyle
- *
- * @var array
- */
-	static public $displayNumberOptions = array();
 
 /**
  * Validation rules
@@ -51,29 +44,6 @@ class BbsFrameSetting extends BbsesAppModel {
 	);
 
 /**
- * Constructor. Binds the model's database table to the object.
- *
- * @param bool|int|string|array $id Set this ID for this model on startup,
- * can also be an array of options, see above.
- * @param string $table Name of database table to use.
- * @param string $ds DataSource connection name.
- * @see Model::__construct()
- * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
- */
-	public function __construct($id = false, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-
-		self::$displayNumberOptions = array(
-			1 => __d('bbses', '%s article', 1),
-			5 => __d('bbses', '%s articles', 5),
-			10 => __d('bbses', '%s articles', 10),
-			20 => __d('bbses', '%s articles', 20),
-			50 => __d('bbses', '%s articles', 50),
-			100 => __d('bbses', '%s articles', 100),
-		);
-	}
-
-/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -85,22 +55,22 @@ class BbsFrameSetting extends BbsesAppModel {
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
 			'frame_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 				)
 			),
 			'articles_per_page' => array(
 				'number' => array(
-					'rule' => array('notEmpty'),
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 				)
 			),
 			'comments_per_page' => array(
 				'number' => array(
-					'rule' => array('notEmpty'),
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 				)
@@ -110,14 +80,14 @@ class BbsFrameSetting extends BbsesAppModel {
 	}
 
 /**
- * Get bbs frame setting data
+ * Get BbsFrameSetting data
  *
- * @param string $frameKey frames.key
- * @return array
+ * @param bool $created If True, the results of the Model::find() to create it if it was null
+ * @return array BbsFrameSetting data
  */
-	public function getBbsFrameSetting($frameKey) {
+	public function getBbsFrameSetting($created) {
 		$conditions = array(
-			'frame_key' => $frameKey
+			'frame_key' => Current::read('Frame.key')
 		);
 
 		$bbsFrameSetting = $this->find('first', array(
@@ -126,11 +96,17 @@ class BbsFrameSetting extends BbsesAppModel {
 			)
 		);
 
+		if ($created && ! $bbsFrameSetting) {
+			$bbsFrameSetting = $this->create(array(
+				'frame_key' => Current::read('Frame.key'),
+			));
+		}
+
 		return $bbsFrameSetting;
 	}
 
 /**
- * save bbs
+ * Save BbsFrameSetting
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
@@ -142,45 +118,28 @@ class BbsFrameSetting extends BbsesAppModel {
 		]);
 
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates()) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			//バリデーション
-			if (!$this->validateBbsFrameSetting($data)) {
-				return false;
-			}
-
 			//登録処理
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
-		return true;
-	}
-
-/**
- * validate bbs_frame_setting
- *
- * @param array $data received post data
- * @return bool True on success, false on error
- */
-	public function validateBbsFrameSetting($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
 		return true;
 	}
 }

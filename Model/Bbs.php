@@ -5,7 +5,7 @@
  * @property Block $Block
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -16,7 +16,7 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 /**
  * Bbs Model
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Model
  */
 class Bbs extends BbsesAppModel {
@@ -41,6 +41,13 @@ class Bbs extends BbsesAppModel {
  * @var array
  */
 	public $actsAs = array(
+		'Blocks.Block' => array(
+			'name' => 'Bbs.name',
+			'loadModels' => array(
+				'Like' => 'Likes.Like',
+				'Comment' => 'Comments.Comment',
+			)
+		),
 		'NetCommons.OriginalKey',
 	);
 
@@ -65,8 +72,8 @@ class Bbs extends BbsesAppModel {
  * @var array
  */
 	public $hasMany = array(
-		'BbsSettings' => array(
-			'className' => 'Bbses.BbsSettings',
+		'BbsSetting' => array(
+			'className' => 'Bbses.BbsSetting',
 			'foreignKey' => 'bbs_key',
 			'dependent' => false
 		),
@@ -92,8 +99,8 @@ class Bbs extends BbsesAppModel {
 			//	)
 			//),
 			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -104,36 +111,125 @@ class Bbs extends BbsesAppModel {
 			//status to set in PublishableBehavior.
 
 			'name' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('bbses', 'Bbs name')),
 					'required' => true
 				),
 			),
 		));
-		return parent::beforeValidate($options);
+
+		if (! parent::beforeValidate($options)) {
+			return false;
+		}
+
+		if (isset($this->data['BbsSetting'])) {
+			$this->BbsSetting->set($this->data['BbsSetting']);
+			if (! $this->BbsSetting->validates()) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsSetting->validationErrors);
+				return false;
+			}
+		}
+
+		if (isset($this->data['BbsFrameSetting']) && ! $this->data['BbsFrameSetting']['id']) {
+			$this->BbsFrameSetting->set($this->data['BbsFrameSetting']);
+			if (! $this->BbsFrameSetting->validates()) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsFrameSetting->validationErrors);
+				return false;
+			}
+		}
+	}
+
+/**
+ * Called after each successful save operation.
+ *
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
+ * @return void
+ * @throws InternalErrorException
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
+ * @see Model::save()
+ */
+	public function afterSave($created, $options = array()) {
+		//BbsSetting登録
+		if (isset($this->BbsSetting->data['BbsSetting'])) {
+			if (! $this->BbsSetting->data['BbsSetting']['bbs_key']) {
+				$this->BbsSetting->data['BbsSetting']['bbs_key'] = $this->data[$this->alias]['key'];
+			}
+			if (! $this->BbsSetting->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+
+		//BbsFrameSetting登録
+		if (isset($this->BbsFrameSetting->data['BbsFrameSetting']) && ! $this->BbsFrameSetting->data['BbsFrameSetting']['id']) {
+			if (! $this->BbsFrameSetting->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+
+		parent::afterSave($created, $options);
+	}
+
+/**
+ * Create bbs data
+ *
+ * @return array
+ */
+	public function createBbs() {
+		$this->BbsSetting = ClassRegistry::init('Bbses.BbsSetting');
+
+		$bbs = $this->createAll(array(
+			'Bbs' => array(
+				'name' => __d('bbses', 'New bbs %s', date('YmdHis')),
+			),
+			'Block' => array(
+				'room_id' => Current::read('Room.id'),
+				'language_id' => Current::read('Language.id'),
+			),
+		));
+		$bbs = Hash::merge($bbs, $this->BbsSetting->create());
+
+		return $bbs;
 	}
 
 /**
  * Get bbs data
  *
- * @param int $blockId blocks.id
- * @param int $roomId rooms.id
  * @return array
  */
-	public function getBbs($blockId, $roomId) {
-		$conditions = array(
-			'Block.id' => $blockId,
-			'Block.room_id' => $roomId,
-		);
-
-		$faq = $this->find('first', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
-
-		return $faq;
+	public function getBbs() {
+		$bbs = $this->find('all', array(
+			'recursive' => -1,
+			'fields' => array(
+				$this->alias . '.*',
+				$this->Block->alias . '.*',
+				$this->BbsSetting->alias . '.*',
+			),
+			'joins' => array(
+				array(
+					'table' => $this->Block->table,
+					'alias' => $this->Block->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$this->alias . '.block_id' . ' = ' . $this->Block->alias . ' .id',
+					),
+				),
+				array(
+					'table' => $this->BbsSetting->table,
+					'alias' => $this->BbsSetting->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$this->alias . '.key' . ' = ' . $this->BbsSetting->alias . ' .bbs_key',
+					),
+				),
+			),
+			'conditions' => $this->getBlockConditionById(),
+		));
+		if (! $bbs) {
+			return $bbs;
+		}
+		return $bbs[0];
 	}
 
 /**
@@ -148,87 +244,30 @@ class Bbs extends BbsesAppModel {
 			'Bbs' => 'Bbses.Bbs',
 			'BbsSetting' => 'Bbses.BbsSetting',
 			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
-			'Block' => 'Blocks.Block',
-			'Frame' => 'Frames.Frame',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
-		try {
-			//バリデーション
-			if (! $this->validateBbs($data, ['bbsSetting', 'block', 'bbsFrameSetting'])) {
-				return false;
-			}
-
-			//ブロックの登録
-			$block = $this->Block->saveByFrameId($data['Frame']['id']);
-
-			//登録処理
-			$this->data['Bbs']['block_id'] = (int)$block['Block']['id'];
-			if (! $bbs = $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			$this->BbsSetting->data['BbsSetting']['bbs_key'] = $bbs['Bbs']['key'];
-			if (! $this->BbsSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			if (isset($data['BbsFrameSetting'])) {
-				if (! $this->BbsFrameSetting->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
-
-			//トランザクションCommit
-			$dataSource->commit();
-
-		} catch (Exception $ex) {
-			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
-		}
-
-		return true;
-	}
-
-/**
- * validate bbs
- *
- * @param array $data received post data
- * @param array $contains Optional validate sets
- * @return bool True on success, false on validation errors
- */
-	public function validateBbs($data, $contains = []) {
+		//バリデーション
 		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
+		if (! $this->validates()) {
 			return false;
 		}
 
-		if (in_array('bbsSetting', $contains, true)) {
-			if (! $this->BbsSetting->validateBbsSetting($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsSetting->validationErrors);
-				return false;
+		try {
+			//登録処理
+			if (! $this->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
 
-		if (in_array('block', $contains, true)) {
-			if (! $this->Block->validateBlock($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-				return false;
-			}
-		}
-
-		if (in_array('bbsFrameSetting', $contains, true) && isset($data['BbsFrameSetting'])) {
-			if (! $this->BbsFrameSetting->validateBbsFrameSetting($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsFrameSetting->validationErrors);
-				return false;
-			}
-		}
 		return true;
 	}
 
@@ -245,24 +284,18 @@ class Bbs extends BbsesAppModel {
 			'BbsSetting' => 'Bbses.BbsSetting',
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-			'Block' => 'Blocks.Block',
-			'BlockRolePermission' => 'Blocks.BlockRolePermission',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		$conditions = array(
 			$this->alias . '.key' => $data['Bbs']['key']
 		);
 		$bbses = $this->find('list', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
 		$bbsIds = array_keys($bbses);
 
 		try {
@@ -282,74 +315,18 @@ class Bbs extends BbsesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//コメントの削除
-			$this->Comment->deleteByBlockKey($data['Block']['key']);
-
 			//Blockデータ削除
-			$this->Block->deleteBlock($data['Block']['key']);
+			$this->deleteBlock($data['Block']['key']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
 	}
 
-/**
- * Update article_modified and article_count
- *
- * @param int $bbsId bbses.id
- * @param string $bbsKey bbses.key
- * @param int $languageId languages.id
- * @return bool True on success
- * @throws InternalErrorException
- */
-	public function updateBbsArticle($bbsId, $bbsKey, $languageId) {
-		$this->loadModels([
-			'BbsArticle' => 'Bbses.BbsArticle',
-		]);
-		$db = $this->getDataSource();
-
-		$conditions = array(
-			'bbs_id' => $bbsId,
-			'language_id' => $languageId,
-			'is_latest' => true
-		);
-		$count = $this->BbsArticle->find('count', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-		if ($count === false) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		$article = $this->BbsArticle->find('first', array(
-			'recursive' => -1,
-			'fields' => 'modified',
-			'conditions' => $conditions,
-			'order' => 'modified desc'
-		));
-		if ($article === false) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		$update = array(
-			'article_count' => $count
-		);
-		if ($article) {
-			$update['article_modified'] = $db->value($article[$this->BbsArticle->alias]['modified'], 'string');
-		}
-
-		if (! $this->updateAll($update, array('Bbs.key' => $bbsKey))) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		return true;
-	}
 }

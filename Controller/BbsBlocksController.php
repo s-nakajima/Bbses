@@ -1,9 +1,9 @@
 <?php
 /**
- * Blocks Controller
+ * BbsBlocks Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -12,9 +12,9 @@
 App::uses('BbsesAppController', 'Bbses.Controller');
 
 /**
- * Blocks Controller
+ * BbsBlocks Controller
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Controller
  */
 class BbsBlocksController extends BbsesAppController {
@@ -37,28 +37,28 @@ class BbsBlocksController extends BbsesAppController {
 	);
 
 /**
- * use helpers
- *
- * @var array
- */
-	public $helpers = array(
-		'NetCommons.Date',
-	);
-
-/**
  * use components
  *
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('index', 'add', 'edit', 'delete')
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'index,add,edit,delete' => 'block_editable',
 			),
 		),
 		'Paginator',
+	);
+
+/**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'Blocks.BlockForm',
+		'Likes.Like',
 	);
 
 /**
@@ -66,12 +66,10 @@ class BbsBlocksController extends BbsesAppController {
  *
  * @return void
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->Auth->deny('index');
-
+	public function beforeRender() {
 		//タブの設定
 		$this->initTabs('block_index', 'block_settings');
+		parent::beforeRender();
 	}
 
 /**
@@ -83,25 +81,17 @@ class BbsBlocksController extends BbsesAppController {
 		$this->Paginator->settings = array(
 			'Bbs' => array(
 				'order' => array('Bbs.id' => 'desc'),
-				'conditions' => array(
-					'Block.id = Bbs.block_id',
-					'Block.language_id' => $this->viewVars['languageId'],
-					'Block.room_id' => $this->viewVars['roomId'],
-				),
+				'conditions' => $this->Bbs->getBlockConditions(),
 			)
 		);
 
 		$bbses = $this->Paginator->paginate('Bbs');
 		if (! $bbses) {
-			$this->view = 'not_found';
+			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
-
-		$results = array(
-			'bbses' => $bbses,
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		$this->set('bbses', $bbses);
+		$this->request->data['Frame'] = Current::read('Frame');
 	}
 
 /**
@@ -112,50 +102,19 @@ class BbsBlocksController extends BbsesAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		$this->set('blockId', null);
-		$bbs = $this->Bbs->create(
-			array(
-				'id' => null,
-				'key' => null,
-				'block_id' => null,
-				'name' => __d('bbses', 'New bbs %s', date('YmdHis')),
-			)
-		);
-		$bbsSetting = $this->BbsSetting->create(
-			array('id' => null)
-		);
-		$block = $this->Block->create(
-			array('id' => null, 'key' => null)
-		);
-
-		$data = array();
 		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-
-			if (! isset($this->viewVars['bbsFrameSetting']['id'])) {
-				$bbsFrameSetting = $this->BbsFrameSetting->create(
-					array(
-						'frame_key' => $this->viewVars['frameKey']
-					)
-				);
-				$data['BbsFrameSetting'] = $bbsFrameSetting['BbsFrameSetting'];
+			//登録処理
+			if ($this->Bbs->saveBbs($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
+			$this->NetCommons->handleValidationError($this->Bbs->validationErrors);
 
-			$this->Bbs->saveBbs($data);
-			if ($this->handleValidationError($this->Bbs->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
-			}
-			$data['Block']['id'] = null;
-			$data['Block']['key'] = null;
-			unset($data['Frame']);
+		} else {
+			//表示処理(初期データセット)
+			$this->request->data = $this->Bbs->createBbs();
+			$this->request->data = Hash::merge($this->request->data, $this->BbsFrameSetting->getBbsFrameSetting(true));
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
-
-		$data = Hash::merge($bbs, $bbsSetting, $block, $data);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
 	}
 
 /**
@@ -164,27 +123,23 @@ class BbsBlocksController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		$this->initBbs(['bbsFrameSetting']);
-
-		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-
-			$this->Bbs->saveBbs($data);
-			if ($this->handleValidationError($this->Bbs->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+		if ($this->request->isPut()) {
+			//登録処理
+			if ($this->Bbs->saveBbs($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
+			$this->NetCommons->handleValidationError($this->Bbs->validationErrors);
 
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			CurrentFrame::setBlock($this->request->params['pass'][1]);
+			if (! $bbs = $this->Bbs->getBbs()) {
+				$this->setAction('throwBadRequest');
+				return false;
+			}
+			$this->request->data = Hash::merge($this->request->data, $bbs);
+			$this->request->data = Hash::merge($this->request->data, $this->BbsFrameSetting->getBbsFrameSetting(true));
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
 
@@ -194,41 +149,12 @@ class BbsBlocksController extends BbsesAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		$this->initBbs(['bbsFrameSetting']);
-
 		if ($this->request->isDelete()) {
 			if ($this->Bbs->deleteBbs($this->data)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/bbses/bbs_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
 
-		$this->throwBadRequest();
+		$this->setAction('throwBadRequest');
 	}
-
-/**
- * Parse data from request
- *
- * @return array
- */
-	private function __parseRequestData() {
-		$data = $this->data;
-		if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
-			//$data['Block']['from'] = implode('-', $data['Block']['from']);
-			//$data['Block']['to'] = implode('-', $data['Block']['to']);
-		} else {
-			unset($data['Block']['from'], $data['Block']['to']);
-		}
-
-		return $data;
-	}
-
 }

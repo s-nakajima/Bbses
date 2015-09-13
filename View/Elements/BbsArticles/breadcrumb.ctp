@@ -12,44 +12,43 @@
 
 <ol class="breadcrumb">
 	<li>
-		<a href="<?php echo $this->Html->url(isset($current['page']) ? '/' . $current['page']['permalink'] : null) ?>"
-			title="<?php echo h($bbs['name']); ?>">
-
-			<?php echo String::truncate($bbs['name'], BbsArticle::BREADCRUMB_TITLE_LENGTH); ?>
-		</a>
+		<?php echo $this->NetCommonsHtml->link(
+				String::truncate($bbs['name'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
+				NetCommonsUrl::backToPageUrl(),
+				array('title' => $bbs['name'])
+			); ?>
 	</li>
 
 	<?php if (isset($rootBbsArticle)) : ?>
 		<li>
-			<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $rootBbsArticle['bbsArticle']['key']) ?>"
-				title="<?php echo h($rootBbsArticle['bbsArticle']['title']); ?>">
-
-				<?php echo String::truncate($rootBbsArticle['bbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH); ?>
-			</a>
+			<?php echo $this->NetCommonsHtml->link(
+					String::truncate($rootBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
+					array('key' => $rootBbsArticle['BbsArticle']['key']),
+					array('title' => $rootBbsArticle['BbsArticle']['title'])
+				); ?>
 		</li>
 	<?php endif; ?>
 
-	<?php if (isset($parentBbsArticle) && $parentBbsArticle['bbsArticleTree']['rootId']) : ?>
+	<?php if (isset($parentBbsArticle) && $parentBbsArticle['BbsArticleTree']['root_id']) : ?>
 		<li>
-			<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $parentBbsArticle['bbsArticle']['key']) ?>"
-				title="<?php echo h($parentBbsArticle['bbsArticle']['title']); ?>">
-
-				<?php echo String::truncate($parentBbsArticle['bbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH); ?>
-			</a>
+			<?php echo $this->NetCommonsHtml->link(
+					String::truncate($parentBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
+					array('key' => $parentBbsArticle['BbsArticle']['key']),
+					array('title' => $parentBbsArticle['BbsArticle']['title'])
+				); ?>
 		</li>
 	<?php endif; ?>
 
 	<?php if (isset($currentBbsArticle)) : ?>
 		<li class="active">
-			<?php if ($this->request->params['action'] === 'add' || $this->request->params['action'] === 'edit') : ?>
-				<a href="<?php echo $this->Html->url('/bbses/bbs_articles/view/' . $frameId . '/' . $currentBbsArticle['bbsArticle']['key']) ?>"
-					title="<?php echo h($currentBbsArticle['bbsArticle']['title']); ?>">
-			<?php endif; ?>
-
-				<?php echo String::truncate($currentBbsArticle['bbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH); ?>
-
-			<?php if ($this->request->params['action'] === 'add' || $this->request->params['action'] === 'edit') : ?>
-				</a>
+			<?php if (in_array($this->request->params['action'], array('add', 'edit'), true)) : ?>
+				<?php echo $this->NetCommonsHtml->link(
+						String::truncate($currentBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
+						array('key' => $currentBbsArticle['BbsArticle']['key']),
+						array('title' => $currentBbsArticle['BbsArticle']['title'])
+					); ?>
+			<?php else : ?>
+				<?php echo String::truncate($currentBbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH); ?>
 			<?php endif; ?>
 		</li>
 	<?php endif; ?>

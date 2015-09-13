@@ -1,6 +1,6 @@
 <?php
 /**
- * BbsArticles index
+ * BbsArticles index template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -8,6 +8,8 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 ?>
 
 <div class="nc-content-list">
@@ -22,19 +24,15 @@
 			<div class="pull-left">
 				<?php echo $this->element('BbsArticles/select_sort'); ?>
 
-				<?php echo $this->element('BbsArticles/select_limit'); ?>
+				<?php echo $this->DisplayNumber->dropDownToggle(); ?>
 
 				<span class="glyphicon glyphicon-duplicate"></span>
 				<?php echo __d('bbses', '%s articles', (int)$this->Paginator->param('count')); ?>
 			</div>
 
 			<div class="pull-right">
-				<?php if ($contentCreatable) : ?>
-					<span class="nc-tooltip " tooltip="<?php echo __d('bbses', 'Create article'); ?>">
-						<a href="<?php echo $this->Html->url('/bbses/bbs_articles/add/' . $frameId); ?>" class="btn btn-success">
-							<span class="glyphicon glyphicon-plus"> </span>
-						</a>
-					</span>
+				<?php if (Current::permission('content_creatable')) : ?>
+					<?php echo $this->Button->addLink('', null, array('tooltip' => __d('bbses', 'Create article'))); ?>
 				<?php endif; ?>
 			</div>
 		</div>
@@ -50,14 +48,7 @@
 				<hr>
 			<?php endforeach; ?>
 
-			<footer class="text-center">
-				<?php echo $this->element('NetCommons.paginator', array(
-						'url' => Hash::merge(
-							array('controller' => 'bbs_articles', 'action' => 'index', $frameId),
-							$this->Paginator->params['named']
-						)
-					)); ?>
-			</footer>
+			<?php echo $this->element('NetCommons.paginator'); ?>
 
 		<?php else : ?>
 			<?php echo __d('bbses', 'No article found.') ?>

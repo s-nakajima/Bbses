@@ -8,28 +8,14 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-?>
 
-<?php
-	$this->Html->css(
-		array(
-			'/bbses/css/style.css',
-			'/likes/css/style.css'
-		),
-		array(
-			'plugin' => false,
-			'once' => true,
-			'inline' => false
-		)
-	);
-	$this->Html->script(
-		'/likes/js/likes.js',
-		array(
-			'plugin' => false,
-			'once' => true,
-			'inline' => false
-		)
-	);
+echo $this->NetCommonsHtml->css(array(
+	'/bbses/css/style.css',
+	'/likes/css/style.css'
+));
+
+echo $this->NetCommonsHtml->script('/likes/js/likes.js');
+
 ?>
 
 <div class="frame">
@@ -74,10 +60,10 @@
 								<div class="col-xs-offset-1 col-xs-11">
 									<div class="panel-group">
 										<div class="panel panel-default">
-											<?php if (isset($bbsArticleChildren[$childBbsArticle['bbsArticleTree']['parentId']])) : ?>
+											<?php if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) : ?>
 												<?php echo $this->element('BbsArticles/view_bbs_article', array(
 														'bbsArticle' => $childBbsArticle,
-														'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['bbsArticleTree']['parentId']],
+														'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
 													)); ?>
 
 											<?php else : ?>

@@ -10,7 +10,7 @@
  */
 
 $url = Hash::merge(
-	array('controller' => 'bbs_articles', 'action' => 'index', $frameId),
+	array('controller' => 'bbs_articles', 'action' => 'index', Current::read('Frame.id')),
 	$this->Paginator->params['named']
 );
 
@@ -28,9 +28,9 @@ $options = array(
 		'sort' => 'BbsArticle.created',
 		'direction' => 'asc'
 	),
-	'BbsArticleTree.published_comment_counts.desc' => array(
+	'BbsArticleTree.bbs_article_child_count.desc' => array(
 		'label' => __d('bbses', 'Descending order of comments'),
-		'sort' => 'BbsArticleTree.published_comment_counts',
+		'sort' => 'BbsArticleTree.bbs_article_child_count',
 		'direction' => 'desc'
 	),
 );
