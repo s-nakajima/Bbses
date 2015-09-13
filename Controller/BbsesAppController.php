@@ -25,7 +25,6 @@ class BbsesAppController extends AppController {
  * @var array
  */
 	public $components = array(
-//		'NetCommons.NetCommonsFrame',
 		'Pages.PageLayout',
 		'Security'
 	);
@@ -41,51 +40,6 @@ class BbsesAppController extends AppController {
 	);
 
 /**
- * use helpers
- *
- * @var array
- */
-//	public $helpers = array(
-//		'NetCommons.Date',
-//	);
-
-/**
- * initBbs
- *
- * @param array $contains Optional result sets
- * @return void
- */
-//	public function initBbs($contains = []) {
-//		if (! $bbs = $this->Bbs->getBbs($this->viewVars['blockId'], $this->viewVars['roomId'])) {
-//			$this->throwBadRequest();
-//			return false;
-//		}
-//		$bbs = $this->camelizeKeyRecursive($bbs);
-//		$this->set($bbs);
-//
-//		if (! $bbsSetting = $this->BbsSetting->getBbsSetting($bbs['bbs']['key'])) {
-//			$bbsSetting = $this->BbsSetting->create(array(
-//				'id' => null,
-//				'bbs_key' => $bbs['bbs']['key']
-//			));
-//		}
-//		$bbsSetting = $this->camelizeKeyRecursive($bbsSetting);
-//		$this->set($bbsSetting);
-//
-//		if (in_array('bbsFrameSetting', $contains, true)) {
-//			if (! $bbsFrameSetting = $this->BbsFrameSetting->getBbsFrameSetting($this->viewVars['frameKey'])) {
-//				$bbsFrameSetting = $this->BbsFrameSetting->create(array(
-//					'frame_key' => $this->viewVars['frameKey']
-//				));
-//			}
-//			$bbsFrameSetting = $this->camelizeKeyRecursive($bbsFrameSetting);
-//			$this->set($bbsFrameSetting);
-//		}
-//
-//		$this->set('userId', (int)$this->Auth->user('id'));
-//	}
-
-/**
  * initTabs
  *
  * @param string $mainActiveTab Main active tab
@@ -93,12 +47,6 @@ class BbsesAppController extends AppController {
  * @return void
  */
 	public function initTabs($mainActiveTab, $blockActiveTab) {
-//		if (isset($this->params['pass'][1])) {
-//			$blockId = (int)$this->params['pass'][1];
-//		} else {
-//			$blockId = null;
-//		}
-
 		//タブの設定
 		$settingTabs = array(
 			'tabs' => array(
@@ -148,5 +96,4 @@ class BbsesAppController extends AppController {
 		);
 		$this->set('blockSettingTabs', $blockSettingTabs);
 	}
-
 }

@@ -73,13 +73,6 @@ class BbsArticle extends BbsesAppModel {
  * @var array
  */
 	public $belongsTo = array(
-//		'Bbs' => array(
-//			'className' => 'Bbses.Bbs',
-//			'foreignKey' => 'bbs_id',
-//			'conditions' => '',
-//			'fields' => '',
-//			'order' => ''
-//		),
 		'BbsArticleTree' => array(
 			'type' => 'INNER',
 			'className' => 'Bbses.BbsArticleTree',
@@ -88,13 +81,6 @@ class BbsArticle extends BbsesAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-//		'CreatedUser' => array(
-//			'className' => 'Users.User',
-//			'foreignKey' => false,
-//			'conditions' => 'BbsArticle.created_user = CreatedUser.id',
-//			'fields' => 'CreatedUser.handlename',
-//			'order' => ''
-//		)
 	);
 
 /**
@@ -148,6 +134,7 @@ class BbsArticle extends BbsesAppModel {
  * @param bool $created True if this save created a new record
  * @param array $options Options passed from Model::save().
  * @return void
+ * @throws InternalErrorException
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
  * @see Model::save()
  */
@@ -176,7 +163,7 @@ class BbsArticle extends BbsesAppModel {
 	}
 
 /**
- * Save article
+ * Save BbsArticle
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
@@ -217,7 +204,7 @@ class BbsArticle extends BbsesAppModel {
 	}
 
 /**
- * Delete posts
+ * Delete BbsArticle
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
@@ -287,7 +274,7 @@ class BbsArticle extends BbsesAppModel {
 	}
 
 /**
- * Save comment as publish
+ * Save Comment as publish
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure

@@ -22,6 +22,7 @@ class BbsArticleBehavior extends ModelBehavior {
 /**
  * Update bbs_article_modified and bbs_article_count
  *
+ * @param object $model instance of model
  * @param int $bbsId bbses.id
  * @param string $bbsKey bbses.key
  * @param int $languageId languages.id
@@ -71,9 +72,9 @@ class BbsArticleBehavior extends ModelBehavior {
 /**
  * Update bbs_article_child_count
  *
- * @param int $rootId RootId for bbs posts
- * @param int $status status
- * @param int $increment increment
+ * @param object $model instance of model
+ * @param int $rootId RootId for root BbsArticle
+ * @param int $languageId languages.id
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
@@ -103,6 +104,7 @@ class BbsArticleBehavior extends ModelBehavior {
 /**
  * Title of reply
  *
+ * @param object $model instance of model
  * @param string $title bbs_articles.title
  * @return string bbs_articles.title
  */
@@ -125,7 +127,8 @@ class BbsArticleBehavior extends ModelBehavior {
 /**
  * Content of reply
  *
- * @param string $title bbs_articles.content
+ * @param object $model instance of model
+ * @param string $content bbs_articles.content
  * @return string bbs_articles.content
  */
 	public function getReplyContent(Model $model, $content) {

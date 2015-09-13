@@ -80,8 +80,9 @@ class BbsFrameSetting extends BbsesAppModel {
 	}
 
 /**
- * Get bbs frame setting data
+ * Get BbsFrameSetting data
  *
+ * @param bool $created If True, the results of the Model::find() to create it if it was null
  * @return array BbsFrameSetting data
  */
 	public function getBbsFrameSetting($created) {
@@ -105,7 +106,7 @@ class BbsFrameSetting extends BbsesAppModel {
 	}
 
 /**
- * save bbs
+ * Save BbsFrameSetting
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
