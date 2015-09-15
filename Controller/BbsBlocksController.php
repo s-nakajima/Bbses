@@ -42,6 +42,16 @@ class BbsBlocksController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'bbs_blocks')),
+				'frame_settings' => array('url' => array('controller' => 'bbs_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'bbs_blocks')),
+				'role_permissions' => array('url' => array('controller' => 'bbs_block_role_permissions')),
+			),
+		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -60,17 +70,6 @@ class BbsBlocksController extends BbsesAppController {
 		'Blocks.BlockForm',
 		'Likes.Like',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeRender() {
-		//タブの設定
-		$this->initTabs('block_index', 'block_settings');
-		parent::beforeRender();
-	}
 
 /**
  * index

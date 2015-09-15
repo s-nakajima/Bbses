@@ -11,7 +11,7 @@
 ?>
 
 <article class="block-setting-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+	<?php echo $this->Block->mainTabs(BlockTabsComponent::MAIN_TAB_FRAME_SETTING); ?>
 
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.edit_form', array(
