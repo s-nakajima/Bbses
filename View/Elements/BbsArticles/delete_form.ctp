@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php echo $this->Form->create('BbsArticle', array(
+<?php echo $this->NetCommonsForm->create('BbsArticle', array(
 		'type' => 'delete',
 		'action' => 'delete/' . Current::read('Frame.id') . '/' . h($this->data['BbsArticle']['key'])
 	)); ?>

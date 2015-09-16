@@ -12,7 +12,7 @@
 
 <?php if ($bbsArticle['BbsArticle']['status'] === WorkflowComponent::STATUS_APPROVED && Current::permission('content_publishable')) : ?>
 	<?php $this->request->data = $bbsArticle; ?>
-	<?php echo $this->Form->create('BbsArticle', array(
+	<?php echo $this->NetCommonsForm->create('BbsArticle', array(
 			'div' => false,
 			'class' => 'nc-bbs-edit-link',
 			'url' => $this->NetCommonsHtml->url(array('action' => 'approve', 'key' => $bbsArticle['BbsArticle']['key']))

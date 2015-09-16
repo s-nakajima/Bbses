@@ -13,7 +13,7 @@
 <?php if (Current::permission('content_comment_creatable') && $bbsSetting['use_comment']
 			&& $status === WorkflowComponent::STATUS_PUBLISHED) : ?>
 
-	<?php echo $this->Form->create('', array(
+	<?php echo $this->NetCommonsForm->create('', array(
 			'div' => false,
 			'class' => 'nc-bbs-edit-link',
 			'type' => 'get',

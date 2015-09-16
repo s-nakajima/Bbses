@@ -27,7 +27,7 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 		</h1>
 
 		<div class="panel panel-default">
-			<?php echo $this->Form->create('BbsArticle', array('novalidate' => true)); ?>
+			<?php echo $this->NetCommonsForm->create('BbsArticle', array('novalidate' => true)); ?>
 				<div class="panel-body">
 
 					<?php echo $this->element('BbsArticles/edit_form'); ?>
