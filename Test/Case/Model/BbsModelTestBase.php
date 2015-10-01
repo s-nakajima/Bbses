@@ -33,7 +33,7 @@ class BbsModelTestBase extends YACakeTestCase {
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_articles_user',
 		'plugin.bbses.bbs_article',
-		'plugin.comments.comment',
+		'plugin.workflow.comment',
 	);
 
 /**
@@ -66,6 +66,7 @@ class BbsModelTestBase extends YACakeTestCase {
  * @param mixed $value array or string, number
  * @param array $result result data
  * @return void
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 	protected function _assertArray($key, $value, $result) {
 		if ($key !== null) {

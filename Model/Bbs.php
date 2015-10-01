@@ -45,7 +45,7 @@ class Bbs extends BbsesAppModel {
 			'name' => 'Bbs.name',
 			'loadModels' => array(
 				'Like' => 'Likes.Like',
-				'Comment' => 'Comments.Comment',
+				'Comment' => 'Workflow.Comment',
 			)
 		),
 		'NetCommons.OriginalKey',

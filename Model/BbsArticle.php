@@ -52,9 +52,9 @@ class BbsArticle extends BbsesAppModel {
 	public $actsAs = array(
 		'Bbses.BbsArticle',
 		'Bbses.BbsArticlesUser',
-		'Comments.Comment',
 		'Likes.Like',
 		'NetCommons.OriginalKey',
+		'Workflow.Comment',
 		'Workflow.Workflow',
 	);
 

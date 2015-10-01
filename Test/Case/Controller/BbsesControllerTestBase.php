@@ -33,7 +33,7 @@ class BbsesControllerTestBase extends YAControllerTestCase {
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_articles_user',
 		'plugin.bbses.bbs_article',
-		'plugin.comments.comment',
+		'plugin.workflow.comment',
 	);
 
 /**
