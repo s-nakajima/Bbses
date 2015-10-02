@@ -54,7 +54,7 @@ class BbsArticle extends BbsesAppModel {
 		'Bbses.BbsArticlesUser',
 		'Likes.Like',
 		'NetCommons.OriginalKey',
-		'Workflow.Comment',
+		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
 	);
 

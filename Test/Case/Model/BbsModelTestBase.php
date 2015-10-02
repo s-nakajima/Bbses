@@ -55,7 +55,7 @@ class BbsModelTestBase extends YACakeTestCase {
 		unset($this->BbsFrameSetting);
 		unset($this->BbsArticle);
 		unset($this->BbsArticlesUser);
-		unset($this->Comment);
+		unset($this->WorkflowComment);
 		parent::tearDown();
 	}
 
