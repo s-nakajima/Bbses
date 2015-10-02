@@ -108,8 +108,6 @@ class Bbs extends BbsesAppModel {
 				),
 			),
 
-			//status to set in PublishableBehavior.
-
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
