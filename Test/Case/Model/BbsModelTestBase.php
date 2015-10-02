@@ -33,7 +33,7 @@ class BbsModelTestBase extends YACakeTestCase {
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_articles_user',
 		'plugin.bbses.bbs_article',
-		'plugin.workflow.comment',
+		'plugin.workflow.workflow_comment',
 	);
 
 /**
