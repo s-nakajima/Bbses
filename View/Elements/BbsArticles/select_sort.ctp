@@ -9,10 +9,14 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-$url = Hash::merge(
-	array('controller' => 'bbs_articles', 'action' => 'index', Current::read('Frame.id')),
-	$this->Paginator->params['named']
-);
+
+$url = NetCommonsUrl::actionUrlAsArray(Hash::merge(array(
+	'plugin' => 'bbses',
+	'controller' => 'bbs_articles',
+	'action' => 'index',
+	'block_id' => Current::read('Block.id'),
+	'frame_id' => Current::read('Frame.id'),
+), $this->Paginator->params['named']));
 
 $curretSort = isset($this->Paginator->params['named']['sort']) ? $this->Paginator->params['named']['sort'] : 'BbsArticle.created';
 $curretDirection = isset($this->Paginator->params['named']['direction']) ? $this->Paginator->params['named']['direction'] : 'desc';

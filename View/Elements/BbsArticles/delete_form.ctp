@@ -15,18 +15,18 @@
 		'action' => 'delete/' . Current::read('Frame.id') . '/' . h($this->data['BbsArticle']['key'])
 	)); ?>
 
-	<?php echo $this->Form->hidden('Frame.id'); ?>
-	<?php echo $this->Form->hidden('Block.id'); ?>
-	<?php echo $this->Form->hidden('Block.key'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
-	<?php echo $this->Form->hidden('Bbs.id'); ?>
-	<?php echo $this->Form->hidden('Bbs.key'); ?>
-	<?php echo $this->Form->hidden('BbsArticle.id'); ?>
-	<?php echo $this->Form->hidden('BbsArticle.key'); ?>
-	<?php echo $this->Form->hidden('BbsArticle.language_id'); ?>
-	<?php echo $this->Form->hidden('BbsArticleTree.root_id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Bbs.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Bbs.key'); ?>
+	<?php echo $this->NetCommonsForm->hidden('BbsArticle.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('BbsArticle.key'); ?>
+	<?php echo $this->NetCommonsForm->hidden('BbsArticle.language_id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.root_id'); ?>
 
 	<?php echo $this->Button->delete('',
 			sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('bbses', 'article'))
 		); ?>
-<?php echo $this->Form->end();
+<?php echo $this->NetCommonsForm->end();

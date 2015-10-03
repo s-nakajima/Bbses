@@ -29,10 +29,15 @@
 				'label' => __d('bbses', 'Quote this posts')
 			)); ?>
 
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-comment"></span>', array(
+		<?php echo $this->NetCommonsForm->button('<span class="glyphicon glyphicon-comment"></span>', array(
 				'class' => 'btn btn-success btn-xs bbs-write-comment-link',
 				'tooltip' => __d('bbses', 'Write comment')
 			)); ?>
 
-	<?php echo $this->Form->end(); ?>
+
+		<?php echo $this->NetCommonsForm->hidden('frame_id', array(
+			'value' => Current::read('Frame.id')
+		)); ?>
+
+	<?php echo $this->NetCommonsForm->end(); ?>
 <?php endif;

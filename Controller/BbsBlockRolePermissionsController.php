@@ -74,8 +74,6 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		CurrentFrame::setBlock($this->request->params['pass'][1]);
-
 		if (! $bbs = $this->Bbs->getBbs()) {
 			$this->setAction('throwBadRequest');
 			return false;

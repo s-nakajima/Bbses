@@ -131,7 +131,6 @@ class BbsBlocksController extends BbsesAppController {
 
 		} else {
 			//表示処理(初期データセット)
-			CurrentFrame::setBlock($this->request->params['pass'][1]);
 			if (! $bbs = $this->Bbs->getBbs()) {
 				$this->setAction('throwBadRequest');
 				return false;

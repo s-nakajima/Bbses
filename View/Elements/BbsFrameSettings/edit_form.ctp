@@ -10,9 +10,9 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('Frame.id'); ?>
-<?php echo $this->Form->hidden('BbsFrameSetting.id'); ?>
-<?php echo $this->Form->hidden('BbsFrameSetting.frame_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.frame_key'); ?>
 
 <?php echo $this->DisplayNumber->select('BbsFrameSetting.articles_per_page', array(
 		'label' => __d('bbses', 'Show articles per page'),

@@ -18,7 +18,6 @@
 
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'BbsBlockRolePermission',
-				'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
 				'callback' => 'Bbses.BbsBlockRolePermissions/edit_form',
 				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			)); ?>

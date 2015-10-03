@@ -41,7 +41,7 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 				</div>
 
 				<?php echo $this->Workflow->buttons('BbsArticle.status'); ?>
-			<?php echo $this->Form->end(); ?>
+			<?php echo $this->NetCommonsForm->end(); ?>
 
 			<?php if ($this->request->params['action'] === 'edit' && $this->Workflow->canDelete('BbsArticle', $this->data)) : ?>
 				<div class="panel-footer text-right">

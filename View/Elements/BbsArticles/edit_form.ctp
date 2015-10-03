@@ -10,21 +10,21 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('Frame.id'); ?>
-<?php echo $this->Form->hidden('Frame.block_id'); ?>
-<?php echo $this->Form->hidden('Block.id'); ?>
-<?php echo $this->Form->hidden('Block.key'); ?>
-<?php echo $this->Form->hidden('Bbs.id'); ?>
-<?php echo $this->Form->hidden('Bbs.key'); ?>
-<?php echo $this->Form->hidden('BbsArticle.id'); ?>
-<?php echo $this->Form->hidden('BbsArticle.key'); ?>
-<?php echo $this->Form->hidden('BbsArticle.language_id'); ?>
-<?php echo $this->Form->hidden('BbsArticle.bbs_id'); ?>
-<?php echo $this->Form->hidden('BbsArticleTree.id'); ?>
-<?php echo $this->Form->hidden('BbsArticleTree.bbs_key'); ?>
-<?php echo $this->Form->hidden('BbsArticleTree.bbs_article_key'); ?>
-<?php echo $this->Form->hidden('BbsArticleTree.root_id'); ?>
-<?php echo $this->Form->hidden('BbsArticleTree.parent_id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Frame.block_id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Bbs.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Bbs.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticle.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticle.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticle.language_id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticle.bbs_id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.bbs_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.bbs_article_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.root_id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.parent_id'); ?>
 
 <?php echo $this->NetCommonsForm->input('BbsArticle.title', array(
 		'type' => 'text',
