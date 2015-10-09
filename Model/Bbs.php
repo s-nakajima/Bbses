@@ -45,7 +45,7 @@ class Bbs extends BbsesAppModel {
 			'name' => 'Bbs.name',
 			'loadModels' => array(
 				'Like' => 'Likes.Like',
-				'Comment' => 'Comments.Comment',
+				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
 		'NetCommons.OriginalKey',
@@ -107,8 +107,6 @@ class Bbs extends BbsesAppModel {
 					'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
-
-			//status to set in PublishableBehavior.
 
 			'name' => array(
 				'notBlank' => array(

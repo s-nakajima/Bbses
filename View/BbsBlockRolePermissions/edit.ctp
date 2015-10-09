@@ -11,14 +11,13 @@
 ?>
 
 <div class="block-setting-body">
-	<?php echo $this->Block->mainTabs(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
+	<?php echo $this->BlockTabs->main(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->Block->blockTabs(BlockTabsComponent::BLOCK_TAB_PERMISSION); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsComponent::BLOCK_TAB_PERMISSION); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'BbsBlockRolePermission',
-				'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
 				'callback' => 'Bbses.BbsBlockRolePermissions/edit_form',
 				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			)); ?>

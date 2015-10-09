@@ -12,13 +12,13 @@
 
 <?php echo $this->element('Blocks.form_hidden'); ?>
 
-<?php echo $this->Form->hidden('Bbs.id'); ?>
-<?php echo $this->Form->hidden('Bbs.key'); ?>
-<?php echo $this->Form->hidden('BbsSetting.id'); ?>
-<?php echo $this->Form->hidden('BbsFrameSetting.id'); ?>
-<?php echo $this->Form->hidden('BbsFrameSetting.frame_key'); ?>
-<?php echo $this->Form->hidden('BbsFrameSetting.articles_per_page'); ?>
-<?php echo $this->Form->hidden('BbsFrameSetting.comments_per_page'); ?>
+<?php echo $this->NetCommonsForm->hidden('Bbs.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Bbs.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.frame_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.articles_per_page'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.comments_per_page'); ?>
 
 <?php echo $this->NetCommonsForm->input('Bbs.name', array(
 		'type' => 'text',

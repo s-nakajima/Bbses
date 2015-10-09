@@ -227,6 +227,7 @@ class BbsArticlesController extends BbsesAppController {
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => $this->params['controller'],
 					'action' => 'view',
+					'block_id' => $this->data['Block']['id'],
 					'frame_id' => $this->data['Frame']['id'],
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
@@ -268,6 +269,7 @@ class BbsArticlesController extends BbsesAppController {
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => $this->params['controller'],
 					'action' => 'view',
+					'block_id' => $this->data['Block']['id'],
 					'frame_id' => $this->data['Frame']['id'],
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
@@ -362,6 +364,7 @@ class BbsArticlesController extends BbsesAppController {
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => $this->params['controller'],
 					'action' => 'view',
+					'block_id' => $this->data['Block']['id'],
 					'frame_id' => $this->data['Frame']['id'],
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
@@ -433,6 +436,7 @@ class BbsArticlesController extends BbsesAppController {
 			$url = NetCommonsUrl::actionUrl(array(
 				'controller' => $this->params['controller'],
 				'action' => 'view',
+				'block_id' => $this->data['Block']['id'],
 				'frame_id' => $this->data['Frame']['id'],
 				'key' => $parentBbsArticle['BbsArticle']['key']
 			));
@@ -466,6 +470,7 @@ class BbsArticlesController extends BbsesAppController {
 			$url = NetCommonsUrl::actionUrl(array(
 				'controller' => $this->params['controller'],
 				'action' => 'view',
+				'block_id' => $this->data['Block']['id'],
 				'frame_id' => $this->data['Frame']['id'],
 				'key' => $this->data['BbsArticle']['key']
 			));

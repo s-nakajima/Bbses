@@ -18,18 +18,18 @@
 			'url' => $this->NetCommonsHtml->url(array('action' => 'approve', 'key' => $bbsArticle['BbsArticle']['key']))
 		)); ?>
 
-		<?php echo $this->Form->hidden('Frame.id', array('value' => Current::read('Frame.id'))); ?>
-		<?php echo $this->Form->hidden('Block.id', array('value' => Current::read('Block.id'))); ?>
-		<?php echo $this->Form->hidden('Block.key', array('value' => Current::read('Block.key'))); ?>
-		<?php echo $this->Form->hidden('BbsArticle.id'); ?>
-		<?php echo $this->Form->hidden('BbsArticle.key'); ?>
-		<?php echo $this->Form->hidden('BbsArticle.language_id'); ?>
-		<?php echo $this->Form->hidden('BbsArticleTree.id'); ?>
-		<?php echo $this->Form->hidden('BbsArticleTree.root_id'); ?>
+		<?php echo $this->NetCommonsForm->hidden('Frame.id', array('value' => Current::read('Frame.id'))); ?>
+		<?php echo $this->NetCommonsForm->hidden('Block.id', array('value' => Current::read('Block.id'))); ?>
+		<?php echo $this->NetCommonsForm->hidden('Block.key', array('value' => Current::read('Block.key'))); ?>
+		<?php echo $this->NetCommonsForm->hidden('BbsArticle.id'); ?>
+		<?php echo $this->NetCommonsForm->hidden('BbsArticle.key'); ?>
+		<?php echo $this->NetCommonsForm->hidden('BbsArticle.language_id'); ?>
+		<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.id'); ?>
+		<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.root_id'); ?>
 
 		<?php echo $this->Workflow->publishLinkButton('', array(
 				'tooltip' => true,
 				'iconSize' => 'btn-xs'
 			)); ?>
-	<?php echo $this->Form->end(); ?>
+	<?php echo $this->NetCommonsForm->end(); ?>
 <?php endif;
