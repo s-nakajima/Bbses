@@ -90,6 +90,10 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
 				return;
 			}
 			$this->NetCommons->handleValidationError($this->BbsSetting->validationErrors);
+			$this->request->data['BlockRolePermission'] = Hash::merge(
+				$permissions['BlockRolePermissions'],
+				$this->request->data['BlockRolePermission']
+			);
 
 		} else {
 			$this->request->data['BbsSetting'] = $bbs['BbsSetting'];
