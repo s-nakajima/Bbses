@@ -94,7 +94,7 @@ if ($currentBbsArticle['BbsArticle']['key'] === $bbsArticle['BbsArticle']['key']
 <div class="panel-footer">
 	<div class="clearfix">
 		<div class="pull-left">
-			<?php echo $this->Like->buttons('BbsArticle', $bbsSetting, $bbsArticle, array('div' => true)); ?>
+			<?php echo $this->Like->buttons('BbsArticle', $bbsSetting, $bbsArticle); ?>
 		</div>
 
 		<div class="pull-right">
