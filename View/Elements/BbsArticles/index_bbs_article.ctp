@@ -34,7 +34,7 @@
 				</div>
 			<?php endif; ?>
 
-			<?php echo $this->Like->display($bbsSetting, $bbsArticle, array('div' => true)); ?>
+			<?php echo $this->Like->display($bbsSetting, $bbsArticle); ?>
 		</div>
 
 		<div class="pull-right">
