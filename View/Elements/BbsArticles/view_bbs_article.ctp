@@ -27,7 +27,7 @@ if ($currentBbsArticle['BbsArticle']['key'] === $bbsArticle['BbsArticle']['key']
 			<span>
 				<?php echo $this->Html->image('/bbses/img/avatar.PNG', array('alt' => 'no image')); ?>
 			</span>
-			<a href="">
+			<a href="" ng-click="showUser('<?php echo $bbsArticle['CreatedUser']['id']; ?>')">
 				<?php echo h($bbsArticle['CreatedUser']['handlename']); ?>
 			</a>
 		</div>
