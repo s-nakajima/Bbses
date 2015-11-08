@@ -57,6 +57,7 @@ class BbsArticlesController extends BbsesAppController {
 		'Likes.Like',
 		'NetCommons.DisplayNumber',
 		'Workflow.Workflow',
+		'Users.DisplayUser',
 	);
 
 /**
@@ -89,7 +90,7 @@ class BbsArticlesController extends BbsesAppController {
  * @throws Exception
  */
 	public function index() {
-		$this->BbsArticle->bindModelBbsArticle(false);
+		//$this->BbsArticle->bindModelBbsArticle(false);
 		$this->BbsArticle->bindModelBbsArticlesUser(false);
 
 		$query = array();
@@ -139,9 +140,9 @@ class BbsArticlesController extends BbsesAppController {
 			$bbsArticleKey = $this->params['pass'][1];
 		}
 
-		$this->BbsArticle->bindModelBbsArticle(false);
+		//$this->BbsArticle->bindModelBbsArticle(false);
 		$this->BbsArticle->bindModelBbsArticlesUser(false);
-		$this->BbsArticleTree->bindModelBbsArticle(false);
+		//$this->BbsArticleTree->bindModelBbsArticle(false);
 		$this->BbsArticleTree->bindModelBbsArticlesUser(false);
 
 		//カレント記事の取得
