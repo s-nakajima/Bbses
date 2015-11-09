@@ -50,8 +50,8 @@ class BbsArticleTreeFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'bbs_key' => 'Lorem ipsum dolor sit amet',
-			'bbs_article_key' => 'Lorem ipsum dolor sit amet',
+			'bbs_key' => 'bbs_1',
+			'bbs_article_key' => 'bbs_article_1',
 			'root_id' => 1,
 			'parent_id' => 1,
 			'lft' => 1,
