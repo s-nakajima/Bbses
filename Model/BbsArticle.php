@@ -113,10 +113,6 @@ class BbsArticle extends BbsesAppModel {
 
 		));
 
-		if (! parent::beforeValidate($options)) {
-			return false;
-		}
-
 		if (isset($this->data['BbsArticleTree'])) {
 			$this->BbsArticleTree->set($this->data['BbsArticleTree']);
 			if (! $this->BbsArticleTree->validates()) {
@@ -125,7 +121,7 @@ class BbsArticle extends BbsesAppModel {
 			}
 		}
 
-		return true;
+		return parent::beforeValidate($options);
 	}
 
 /**

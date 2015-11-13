@@ -117,10 +117,6 @@ class Bbs extends BbsesAppModel {
 			),
 		));
 
-		if (! parent::beforeValidate($options)) {
-			return false;
-		}
-
 		if (isset($this->data['BbsSetting'])) {
 			$this->BbsSetting->set($this->data['BbsSetting']);
 			if (! $this->BbsSetting->validates()) {
@@ -136,6 +132,8 @@ class Bbs extends BbsesAppModel {
 				return false;
 			}
 		}
+
+		return parent::beforeValidate($options);
 	}
 
 /**
