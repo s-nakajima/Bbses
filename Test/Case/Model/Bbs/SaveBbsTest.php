@@ -172,8 +172,6 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
 			array($this->__getData(), 'Bbses.Bbs'),
 			array($this->__getData(), 'Bbses.BbsSetting'),
 			array($this->__getData(null), 'Bbses.BbsFrameSetting'),
-		//	array($this->__getData(), 'Bbses.Bbs', 'beforeValidate'), // PENDING 「121行目 parent::beforeValidateを通す方法が分からないです。」
-
 		);
 	}
 
@@ -192,8 +190,6 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
 		return array(
 			array($this->__getData(), 'key', '',
 				__d('net_commons', 'Invalid request.')),
-		//	array($this->__getData(), 'block_id', '',
-		//		__d('net_commons', 'Invalid request.')),
 			array($this->__getData(), 'name', '',
 				sprintf(__d('net_commons', 'Please input %s.'), __d('bbses', 'Bbs name'))),
 		);
