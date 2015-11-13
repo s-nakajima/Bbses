@@ -49,12 +49,12 @@ class BbsArticleFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'bbs_id' => 1,
-			'language_id' => 1,
-			'status' => 1,
-			'is_active' => 1,
-			'is_latest' => 1,
+			'id' => '1',
+			'bbs_id' => '1',
+			'language_id' => '2',
+			'status' => '3',
+			'is_active' => '0',
+			'is_latest' => '1',
 			'key' => 'bbs_article_1',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
@@ -64,12 +64,12 @@ class BbsArticleFixture extends CakeTestFixture {
 			'modified' => '2015-05-14 07:09:55'
 		),
 		array(
-			'id' => 2,
-			'bbs_id' => 2,
-			'language_id' => 2,
-			'status' => 1,
-			'is_active' => 1,
-			'is_latest' => 1,
+			'id' => '2',
+			'bbs_id' => '2',
+			'language_id' => '2',
+			'status' => '1',
+			'is_active' => '1',
+			'is_latest' => '1',
 			'key' => 'bbs_article_1',
 			'title' => 'Lorem ipsum dolor sit amet',
 			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',

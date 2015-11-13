@@ -11,8 +11,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-//App::uses('Bbses', 'Bbses.Model');
-//App::uses('BbsFrameSetting', 'Bbses.Model');
 App::uses('NetCommonsDeleteTest', 'NetCommons.TestSuite');
 
 /**

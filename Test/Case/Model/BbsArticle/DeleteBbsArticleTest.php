@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsDeleteTest', 'NetCommons.TestSuite');
+App::uses('WorkflowDeleteTest', 'Workflow.TestSuite');
 
 /**
  * BbsArticle::deleteBbsArticle()のテスト
@@ -19,7 +19,7 @@ App::uses('NetCommonsDeleteTest', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Test\Case\Model\BbsArticle
  */
-class BbsArticleDeleteBbsArticleTest extends NetCommonsDeleteTest {
+class BbsArticleDeleteBbsArticleTest extends WorkflowDeleteTest {
 
 /**
  * Plugin name
@@ -98,9 +98,6 @@ class BbsArticleDeleteBbsArticleTest extends NetCommonsDeleteTest {
 			'BbsArticleTree' => array(
 				'bbs_article_key' => 'bbs_article_1',
 			),
-		//	'BbsArticleUser' => array( PENDING（質問）BbsArticleUserは消さないのでしょうか？
-		//		'bbs_article_key' => 'bbs_article_1',
-		//	),
 		);
 
 		return array(
