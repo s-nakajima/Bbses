@@ -5,8 +5,10 @@
             <directory suffix=".ctp">app/Plugin/Bbses</directory>
             <directory suffix=".php">app/Plugin/Bbses</directory>
 			<exclude>
-				<directory suffix=".php">app/Plugin/Bbses/Config</directory>
-				<directory suffix="Test.php">app/Plugin/Bbses</directory>
+				<directory suffix=".php">app/Plugin/Bbses/Config/Migration</directory>
+				<directory suffix=".php">app/Plugin/Bbses/Config/Schema</directory>
+				<directory suffix=".php">app/Plugin/Bbses/Test/Case</directory>
+				<directory suffix=".php">app/Plugin/Bbses/Test/Fixture</directory>
 			</exclude>
         </whitelist>
     </filter>
