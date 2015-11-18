@@ -78,6 +78,54 @@ class BbsArticleFixture extends CakeTestFixture {
 			'modified_user' => 1,
 			'modified' => '2015-05-14 07:09:55'
 		),
+		//(一般が書いた質問＆一度も公開していない)
+		array(
+			'id' => '3',
+			'bbs_id' => '2',
+			'language_id' => '2',
+			'status' => '3',
+			'is_active' => false,
+			'is_latest' => '1',
+			'key' => 'bbs_article_2',
+			'title' => 'Lorem ipsum dolor sit amet',
+			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'created_user' => 4,
+			'created' => '2015-05-14 07:09:55',
+			'modified_user' => 1,
+			'modified' => '2015-05-14 07:09:55'
+		),
+		//(chef_userが書いた質問＆一度も公開していない)
+		array(
+			'id' => '4',
+			'bbs_id' => '2',
+			'language_id' => '2',
+			'status' => '3',
+			'is_active' => false,
+			'is_latest' => '1',
+			'key' => 'bbs_article_3',
+			'title' => 'Lorem ipsum dolor sit amet',
+			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'created_user' => 3,
+			'created' => '2015-05-14 07:09:55',
+			'modified_user' => 1,
+			'modified' => '2015-05-14 07:09:55'
+		),
+		//(chef_userが書いた質問＆公開)
+		array(
+			'id' => '5',
+			'bbs_id' => '2',
+			'language_id' => '2',
+			'status' => '3',
+			'is_active' => false,
+			'is_latest' => '1',
+			'key' => 'bbs_article_4',
+			'title' => 'Lorem ipsum dolor sit amet',
+			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'created_user' => 3,
+			'created' => '2015-05-14 07:09:55',
+			'modified_user' => 1,
+			'modified' => '2015-05-14 07:09:55'
+		),
 	);
 
 }

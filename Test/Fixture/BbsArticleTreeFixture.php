@@ -73,11 +73,27 @@ class BbsArticleTreeFixture extends CakeTestFixture {
 			'rght' => 4,
 			'article_no' => 0,
 			'bbs_article_child_count' => 1,
-			'created_user' => 1,
+			'created_user' => 4,
 			'created' => '2015-05-14 07:09:02',
-			'modified_user' => 1,
+			'modified_user' => 4,
 			'modified' => '2015-05-14 07:09:02'
 		),
+		array(
+			'id' => 3,
+			'bbs_key' => 'bbs_1',
+			'bbs_article_key' => 'bbs_article_3',
+			'root_id' => null,
+			'parent_id' => null,
+			'lft' => 5,
+			'rght' => 6,
+			'article_no' => 0,
+			'bbs_article_child_count' => 1,
+			'created_user' => 3,
+			'created' => '2015-05-14 07:09:02',
+			'modified_user' => 3,
+			'modified' => '2015-05-14 07:09:02'
+		),
+
 	);
 
 }

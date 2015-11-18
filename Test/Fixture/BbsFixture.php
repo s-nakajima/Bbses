@@ -135,6 +135,30 @@ class BbsFixture extends CakeTestFixture {
 			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
+
+
+		//101-200まで、ページ遷移のためのテスト
+
+
 	);
+
+/**
+ * Initialize the fixture.
+ *
+ * @return void
+ */
+	public function init() {
+		for ($i = 101; $i <= 200; $i++) {
+			$this->records[$i] = array(
+				'id' => $i,
+				'key' => 'bbs_' . $i,
+				'block_id' => $i,
+				'name' => 'Test bbs_' . $i,
+				'bbs_article_count' => 1,
+				'bbs_article_modified' => 1,
+			);
+		}
+		parent::init();
+	}
 
 }

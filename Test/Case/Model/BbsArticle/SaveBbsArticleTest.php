@@ -230,8 +230,8 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 
 			$before['BbsArticleTree'] = $data['BbsArticleTree'];
 			$before['BbsArticleTree']['id'] = (string)$maxId;
-			$before['BbsArticleTree']['lft'] = '5';
-			$before['BbsArticleTree']['rght'] = '6';
+			$before['BbsArticleTree']['lft'] = '7';
+			$before['BbsArticleTree']['rght'] = '8';
 			$before['BbsArticleTree']['article_no'] = '1';
 			$before['BbsArticleTree']['bbs_article_child_count'] = '0';
 		}
