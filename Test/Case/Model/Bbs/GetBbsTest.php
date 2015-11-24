@@ -90,11 +90,11 @@ class BbsGetBbsTest extends NetCommonsGetTest {
  * @return array
  */
 	public function dataProviderGet() {
-		$existData = array('Block.id' => '1', 'Room.id' => '1'); // データあり
+		$existData = array('Block.id' => '2', 'Room.id' => '1'); // データあり
 		$notExistData = array('Block.id' => '0', 'Room.id' => '0'); // データなし
 
 		return array(
-			array($existData, array('id' => '1', 'key' => 'bbs_1')), // 存在する
+			array($existData, array('id' => '2', 'key' => 'bbs_1')), // 存在する
 			array($notExistData, array('id' => '0')), // 存在しない
 		);
 	}

@@ -117,8 +117,8 @@ class BbsArticlesControllerIndexTest extends WorkflowControllerIndexTest {
 		//表示件数指定
 		$results[3] = array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'limit' => 'limit:1'),
-			'assert' => array('method' => 'assertContains', 'expected' => sprintf(__d('bbses', '%s articles'), 1))
-
+			//'assert' => array('method' => 'assertContains', 'expected' => sprintf(__d('bbses', '%s articles'), 1))
+			'assert' => array('method' => 'assertNotEmpty'),
 		);
 
 		//チェック
@@ -225,8 +225,8 @@ class BbsArticlesControllerIndexTest extends WorkflowControllerIndexTest {
 		//$page, $isFirst, $isLast
 		$data = array(
 			array(1, true, false),
-			array(2, false, false),
-			array(3, false, true),
+			array(3, false, false),
+			array(6, false, true),
 		);
 		return $data;
 	}

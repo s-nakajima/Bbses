@@ -206,7 +206,13 @@ class BbsBlocksControllerEditTest extends BlocksControllerEditTest {
 		$this->_testGetAction($url, $assert, $exception, $return);
 
 		//チェック
-		//$this->asserts($asserts, $this->contents);
+		if ($return === 'json') {
+			$result = json_decode($this->contents, true);
+			$this->assertArrayHasKey('code', $result);
+			$this->assertEquals(400, $result['code']);
+		} else {
+			$this->asserts($assert, $this->contents);
+		}
 
 		//ログアウト
 		TestAuthGeneral::logout($this);
@@ -235,7 +241,7 @@ class BbsBlocksControllerEditTest extends BlocksControllerEditTest {
 			'exception' => 'BadRequestException',
 		);
 
-		$results[0] = array(
+		$results[1] = array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id']),
 			'assert' => array('method' => 'assertNotEmpty'),
 			'exception' => 'BadRequestException',

@@ -82,7 +82,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		$frameId = '6';
 		$blockId = '2';
 		$bbsKey = 'bbs_1';
-		$blockKey = 'block_1';
+		$blockKey = 'block_2';
 		$bbsId = '1';
 		if ($bbsArticleKey === 'bbs_article_1') {
 			$bbsArticleTreeId = '1';
@@ -96,7 +96,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		}
 
 		$data = array(
-			'save_1' => null,
+			//'save_1' => null,
 			'Frame' => array(
 				'id' => $frameId,
 				'block_id' => $blockId,
@@ -117,7 +117,8 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 				'title' => 'BBS ARTICLE TITLE',
 				'content' => '<p>CONTENT</p>',
 				'status' => WorkflowComponent::STATUS_PUBLISHED,
-				'is_active' => false,
+			//	'is_active' => false,
+			//	'is_latest' => false,
 			),
 			'BbsArticleTree' => array(
 				'id' => $bbsArticleTreeId,
@@ -230,8 +231,8 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 
 			$before['BbsArticleTree'] = $data['BbsArticleTree'];
 			$before['BbsArticleTree']['id'] = (string)$maxId;
-			$before['BbsArticleTree']['lft'] = '7';
-			$before['BbsArticleTree']['rght'] = '8';
+			$before['BbsArticleTree']['lft'] = '23';
+			$before['BbsArticleTree']['rght'] = '24';
 			$before['BbsArticleTree']['article_no'] = '1';
 			$before['BbsArticleTree']['bbs_article_child_count'] = '0';
 		}

@@ -51,6 +51,24 @@ class BbsArticlesUserFixture extends CakeTestFixture {
 			'modified_user' => 1,
 			'modified' => '2015-05-14 07:10:20'
 		),
+		array(
+			'id' => 2,
+			'bbs_article_key' => 'bbs_article_2',
+			'user_id' => 1,
+			'created_user' => 1,
+			'created' => '2015-05-14 07:10:20',
+			'modified_user' => 1,
+			'modified' => '2015-05-14 07:10:20'
+		),
+		array(
+			'id' => 3,
+			'bbs_article_key' => 'bbs_article_3',
+			'user_id' => 4,
+			'created_user' => 4,
+			'created' => '2015-05-14 07:10:20',
+			'modified_user' => 4,
+			'modified' => '2015-05-14 07:10:20'
+		),
 	);
 
 }

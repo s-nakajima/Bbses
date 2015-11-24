@@ -16,6 +16,7 @@
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Test\Fixture
+ * @codeCoverageIgnore
  */
 class BbsFixture extends CakeTestFixture {
 
@@ -57,7 +58,7 @@ class BbsFixture extends CakeTestFixture {
 		//掲示板1
 		array(
 			'id' => 1,
-			'key' => 'bbs_1',
+			'key' => 'bbs_1A',
 			'block_id' => '1',
 			'name' => 'Test bbs 1',
 			'bbs_article_count' => 1,

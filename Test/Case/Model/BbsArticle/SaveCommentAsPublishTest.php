@@ -82,13 +82,13 @@ class BbsArticleSaveCommentAsPublishTest extends NetCommonsModelTestCase {
 	private function __getData() {
 		$data = array(
 			'BbsArticle' => array(
-				'id' => '1',
+				'id' => '4',
 				'language_id' => '2',
-				'bbs_id' => '1',
+				'bbs_id' => '2',
 				'status' => WorkflowComponent::STATUS_PUBLISHED,
 			),
 			'BbsArticleTree' => array(
-				'id' => '1',
+				'id' => '4',
 				'root_id' => '0',
 			),
 			'WorkflowComment' => array(
