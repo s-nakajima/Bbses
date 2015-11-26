@@ -376,10 +376,6 @@ class BbsArticlesController extends BbsesAppController {
 
 		} else {
 			$this->request->data = $bbsArticle;
-			if (! $this->request->data) {
-				$this->throwBadRequest();
-				return false;
-			}
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 
