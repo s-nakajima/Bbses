@@ -272,7 +272,7 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
 			TestAuthGeneral::login($this, $role);
 		}
 
-		if ($exception === 'BadRequestException') {
+		if ($exception === 'BadRequestException' && array_key_exists('save_3', $data)) {
 			$this->_mockForReturnFalse('Bbses.BbsArticle', 'saveCommentAsPublish');
 		}
 
@@ -305,6 +305,10 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
  */
 	public function dataProviderApprovePut() {
 		$data = $this->__getData();
+
+		//statusエラーデータ
+		$dataError = $data;
+		unset($dataError['save_3']);
 
 		return array(
 			//ログインなし
@@ -346,66 +350,15 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
 				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
 				'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
 			),
-		);
-	}
-
-/**
- * ApproveアクションのPUTテスト(statusエラー)
- *
- * @param array $data PUTデータ
- * @param string $role ロール
- * @param array $urlOptions URLオプション
- * @param string|null $exception Exception
- * @param string $return testActionの実行後の結果
- * @dataProvider dataProviderApprovePutStatusError
- * @return void
- */
-	public function testApprovePutStatusError($data, $role, $urlOptions, $exception = null, $return = 'view') {
-		//ログイン
-		if (isset($role)) {
-			TestAuthGeneral::login($this, $role);
-		}
-
-		//テスト実施
-		$this->_testPostAction('put', $data, Hash::merge(array('action' => 'approve'), $urlOptions), $exception, $return);
-
-		//正常の場合、リダイレクト
-		if (! $exception) {
-			$header = $this->controller->response->header();
-			$this->assertNotEmpty($header['Location']);
-		}
-
-		//ログアウト
-		if (isset($role)) {
-			TestAuthGeneral::logout($this);
-		}
-	}
-
-/**
- * Approveアクション（statusエラー）のPOSTテスト用DataProvider
- *
- * ### 戻り値
- *  - data: 登録データ
- *  - role: ロール
- *  - urlOptions: URLオプション
- *  - exception: Exception
- *  - return: testActionの実行後の結果
- *
- * @return array
- */
-	public function dataProviderApprovePutStatusError() {
-		$data = $this->__getData();
-		unset($data['save_3']);
-
-		return array(
+			//statusエラー
 			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
-				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
+				'data' => $dataError, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
+				'urlOptions' => array('frame_id' => $dataError['Frame']['id'], 'block_id' => $dataError['Block']['id'], 'key' => $dataError['BbsArticle']['key']),
 				'exception' => 'BadRequestException'
 			),
 			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
-				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
+				'data' => $dataError, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
+				'urlOptions' => array('frame_id' => $dataError['Frame']['id'], 'block_id' => $dataError['Block']['id'], 'key' => $dataError['BbsArticle']['key']),
 				'exception' => 'BadRequestException', 'return' => 'json'
 			),
 		);

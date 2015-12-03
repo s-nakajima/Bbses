@@ -293,6 +293,17 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
 			'exception' => null, 'return' => 'viewFile'
 		);
+		//--BBSなし
+		$results[count($results)] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '5', 'key' => 'bbs_article_3'),
+			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
+			'exception' => 'BadRequestException',
+		);
+		$results[count($results)] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '5', 'key' => 'bbs_article_3'),
+			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
+			'exception' => 'BadRequestException', 'return' => 'json',
+		);
 
 		return $results;
 	}
@@ -349,7 +360,7 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 		$results[3] = array(
 			'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id'], 'key' => 'bbs_article_99'),
 			'assert' => null,
-			'exception' => 'BadRequestException', 'json',
+			'exception' => 'BadRequestException', 'return' => 'json',
 		);
 
 		return $results;
@@ -374,28 +385,6 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 			);
 		$this->assertTextEquals('edit', $this->controller->view);
 		$this->assertTextContains('Re:', $view);
-		//ログアウト
-		TestAuthGeneral::logout($this);
-	}
-
-/**
- * replyアクション BBS取得エラーテスト
- *
- * @return void
- */
-	public function testReplyGetBbsError() {
-		//ログイン
-		TestAuthGeneral::login($this, Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR);
-
-		$this->testAction(
-				'/bbses/bbs_articles/reply/5/bbs_article_3?frame_id=6',
-				array(
-					'method' => 'GET',
-					'return' => 'view',
-					'type' => 'json',
-				)
-			);
-		$this->assertTextEquals('throwBadRequest', $this->controller->view);
 		//ログアウト
 		TestAuthGeneral::logout($this);
 	}
