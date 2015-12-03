@@ -118,7 +118,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_3'),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
-		$results[1] = Hash::merge($results[0], array( //（承認済み記事は編集不可）（PENDING FAQは承認済みでも編集できるがよいか？）
+		$results[1] = Hash::merge($results[0], array( //（承認済み記事は編集不可）
 			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
 		));
 		//作成権限のみ(一般が書いた質問＆公開前)

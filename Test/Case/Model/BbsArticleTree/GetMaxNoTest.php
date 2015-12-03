@@ -86,6 +86,7 @@ class BbsArticleTreeGetMaxNoTest extends NetCommonsGetTest {
 			array('1', 1),
 			array('2', 0), //article_noが未設定の場合
 			array('0', 0), //存在しない場合
+			array('999', 0), //存在しない場合
 		);
 	}
 
