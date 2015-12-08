@@ -146,40 +146,47 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_8'),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
-		$results[8] = Hash::merge($results[6], array(
+		$results[8] = Hash::merge($results[7], array(
+			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
+		));
+		//--（子記事に'parent_id'あり）
+		$results[9] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_7'),
+			'assert' => array('method' => 'assertNotEmpty'),
+		);
+		$results[10] = Hash::merge($results[9], array(
 			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
 		));
 		//作成権限のみ(他人が書いた質問＆公開前)
-		$results[9] = array(
+		$results[11] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_5'),
 			'assert' => null,
 			'exception' => 'BadRequestException',
 		);
 		//--コンテンツなし
-		$results[10] = array(
+		$results[12] = array(
 			'urlOptions' => array('frame_id' => '14', 'block_id' => null, 'key' => null),
 			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
 			'exception' => null, 'return' => 'viewFile'
 		);
 		//--パラメータ不正(keyに該当する質問が存在しない)
-		$results[11] = array(
+		$results[13] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_99'),
 			'assert' => null,
 			'exception' => 'BadRequestException',
 		);
 		//--BBSなし
-		$results[12] = array(
+		$results[14] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_xx'),
 			'assert' => 'null',
 			'exception' => 'BadRequestException',
 		);
-		$results[13] = array(
+		$results[15] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_xx'),
 			'assert' => 'null',
 			'exception' => 'BadRequestException',
 			'return' => 'json'
 		);
-
 		return $results;
 	}
 
@@ -338,7 +345,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
  * @param array $assert テストの期待値
  * @param string|null $exception Exception
  * @param string $return testActionの実行後の結果
- * @dataProvider dataProviderEditGetByPublishable
+ * @dataProvider dataProviderViewGetByPublishable
  * @return void
  */
 	public function testEditGetByPublishable($urlOptions, $assert, $exception = null, $return = 'view') {
@@ -362,7 +369,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
  *
  * @return array
  */
-	public function dataProviderEditGetByPublishable() {
+	public function dataProviderViewGetByPublishable() {
 		//公開中の記事
 		$results[0] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_3'),
