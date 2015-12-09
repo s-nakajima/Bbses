@@ -231,8 +231,8 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 
 			$before['BbsArticleTree'] = $data['BbsArticleTree'];
 			$before['BbsArticleTree']['id'] = (string)$maxId;
-			$before['BbsArticleTree']['lft'] = '23';
-			$before['BbsArticleTree']['rght'] = '24';
+			$before['BbsArticleTree']['lft'] = '27';
+			$before['BbsArticleTree']['rght'] = '28';
 			$before['BbsArticleTree']['article_no'] = '1';
 			$before['BbsArticleTree']['bbs_article_child_count'] = '0';
 		}
@@ -261,7 +261,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		$after['BbsArticleTree'] = Hash::remove($after['BbsArticleTree'], 'modified');
 		$after['BbsArticleTree'] = Hash::remove($after['BbsArticleTree'], 'modified_user');
 
-		$this->assertEquals($after['BbsArticleTree'], $before['BbsArticleTree']);
+		$this->assertEquals($before['BbsArticleTree'], $after['BbsArticleTree']);
 	}
 
 }

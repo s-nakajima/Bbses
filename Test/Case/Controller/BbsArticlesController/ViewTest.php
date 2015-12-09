@@ -399,6 +399,11 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 		$results[5] = Hash::merge($results[3], array( //なし
 			'assert' => array('method' => 'assertActionLink', 'action' => 'reply', 'linkExist' => false, 'url' => array()),
 		));
+		//--未承認のコメント（承認ボタン）
+		$results[6] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_13'),
+			'assert' => array('method' => 'assertInput', 'type' => 'button', 'name' => 'save_' . WorkflowComponent::STATUS_PUBLISHED, 'value' => null),
+		);
 
 		return $results;
 	}

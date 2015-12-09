@@ -221,6 +221,38 @@ class BbsArticleFixture extends CakeTestFixture {
 			'modified_user' => 1,
 			'modified' => '2015-05-14 07:09:55'
 		),
+		//記事（子記事が承認待ち）
+		array(
+			'id' => '12',
+			'bbs_id' => '2',
+			'language_id' => '2',
+			'status' => '1',
+			'is_active' => true,
+			'is_latest' => '1',
+			'key' => 'bbs_article_12',
+			'title' => 'Lorem ipsum dolor sit amet',
+			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'created_user' => 1,
+			'created' => '2015-05-14 07:09:55',
+			'modified_user' => 1,
+			'modified' => '2015-05-14 07:09:55'
+		),
+		//一般が書いた記事(承認待ち)
+		array(
+			'id' => '13',
+			'bbs_id' => '2',
+			'language_id' => '2',
+			'status' => '2',
+			'is_active' => false,
+			'is_latest' => '1',
+			'key' => 'bbs_article_13',
+			'title' => 'Lorem ipsum dolor sit amet',
+			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'created_user' => 4,
+			'created' => '2015-05-14 07:09:55',
+			'modified_user' => 4,
+			'modified' => '2015-05-14 07:09:55'
+		),
 	);
 
 }

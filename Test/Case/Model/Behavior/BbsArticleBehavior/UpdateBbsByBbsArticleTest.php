@@ -91,14 +91,14 @@ class BbsArticleBehaviorUpdateBbsByBbsArticleTest extends NetCommonsModelTestCas
  * UpdateBbsByBbsArticleのDataProvider
  *
  * #### 戻り値
- *  - array 取得するキー情報
  *  - int 期待値
+ *  - array 取得するキー情報
  *
  * @return array
  */
 	public function dataProviderUpdateBbsByBbsArticle() {
 		return array(
-			array(11, array('bbs_id' => '2', 'bbs_key' => 'bbs_1', 'language_id' => 2)),
+			array(13, array('bbs_id' => '2', 'bbs_key' => 'bbs_1', 'language_id' => 2)),
 		);
 	}
 
