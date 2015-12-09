@@ -70,12 +70,10 @@ class BbsArticleDeleteBbsArticleTest extends WorkflowDeleteTest {
 				'key' => 'block_1',
 			),
 			'Bbs' => array(
-				'id' => '1',
+				'id' => '2',
 				'key' => 'bbs_1',
 			),
 			'BbsArticle' => array(
-			//	'id' => '2',
-			//	'block_key' => 'block_1',
 				'key' => 'bbs_article_1',
 				'language_id' => '2',
 			),

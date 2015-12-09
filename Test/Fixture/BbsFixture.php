@@ -69,7 +69,7 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_1',
 			'block_id' => '2',
 			'name' => 'Test bbs 1',
-			'bbs_article_count' => 1,
+			'bbs_article_count' => 13,
 			'bbs_article_modified' => 1,
 		),
 		//掲示板2

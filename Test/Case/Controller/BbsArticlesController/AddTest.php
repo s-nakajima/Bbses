@@ -75,8 +75,8 @@ class BbsArticlesControllerAddTest extends WorkflowControllerAddTest {
 				'key' => $blockKey,
 			),
 			'Bbs' => array(
-				'id' => null,
-				'key' => null,
+				'id' => $bbsId,
+				'key' => $bbsKey,
 			),
 			'BbsArticle' => array(
 				'id' => $bbsArticleId,
