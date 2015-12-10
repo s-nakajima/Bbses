@@ -220,6 +220,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
+
 			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
 			$data['BbsArticleTree']['article_no'] = 1;
 			unset($data['BbsArticle']['id']);
@@ -247,6 +248,7 @@ class BbsArticlesController extends BbsesAppController {
 					'post_no' => 1,
 				))
 			);
+			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 		}
@@ -323,7 +325,7 @@ class BbsArticlesController extends BbsesAppController {
 					'parent_id' => $bbsArticle['BbsArticleTree']['id'],
 				))
 			);
-
+			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 		}
@@ -376,6 +378,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		} else {
 			$this->request->data = $bbsArticle;
+			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 
