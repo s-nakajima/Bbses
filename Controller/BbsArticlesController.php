@@ -197,7 +197,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		//子記事の取得
 		$this->BbsArticleTree->Behaviors->load('Tree', array(
-			'scope' => array('OR' => $conditions)
+			'scope' => $conditions
 		));
 		$children = $this->BbsArticleTree->children(
 			$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.id DESC', null, 1, 1
