@@ -16,6 +16,7 @@
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Test\Fixture
+ * @codeCoverageIgnore
  */
 class BbsFixture extends CakeTestFixture {
 
@@ -57,7 +58,7 @@ class BbsFixture extends CakeTestFixture {
 		//掲示板1
 		array(
 			'id' => 1,
-			'key' => 'bbs_1',
+			'key' => 'bbs_1A',
 			'block_id' => '1',
 			'name' => 'Test bbs 1',
 			'bbs_article_count' => 1,
@@ -68,7 +69,7 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_1',
 			'block_id' => '2',
 			'name' => 'Test bbs 1',
-			'bbs_article_count' => 1,
+			'bbs_article_count' => 13,
 			'bbs_article_modified' => 1,
 		),
 		//掲示板2
@@ -135,6 +136,30 @@ class BbsFixture extends CakeTestFixture {
 			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
+
+
+		//101-200まで、ページ遷移のためのテスト
+
+
 	);
+
+/**
+ * Initialize the fixture.
+ *
+ * @return void
+ */
+	public function init() {
+		for ($i = 101; $i <= 200; $i++) {
+			$this->records[$i] = array(
+				'id' => $i,
+				'key' => 'bbs_' . $i,
+				'block_id' => $i,
+				'name' => 'Test bbs_' . $i,
+				'bbs_article_count' => 1,
+				'bbs_article_modified' => 1,
+			);
+		}
+		parent::init();
+	}
 
 }

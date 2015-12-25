@@ -53,8 +53,8 @@ class BbsSettingFixture extends CakeTestFixture {
 			'use_workflow' => '1',
 			'use_comment' => '1',
 			'use_comment_approval' => '1',
-			'use_like' => '1',
-			'use_unlike' => '1',
+			'use_like' => '0',
+			'use_unlike' => '0',
 		),
 		//掲示板2
 		array(
@@ -63,8 +63,8 @@ class BbsSettingFixture extends CakeTestFixture {
 			'use_workflow' => '1',
 			'use_comment' => '1',
 			'use_comment_approval' => '1',
-			'use_like' => '1',
-			'use_unlike' => '1',
+			'use_like' => '0',
+			'use_unlike' => '0',
 		),
 		//掲示板3
 		array(

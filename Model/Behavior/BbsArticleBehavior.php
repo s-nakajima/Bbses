@@ -143,22 +143,22 @@ class BbsArticleBehavior extends ModelBehavior {
  * @param bool $reset Set to false to make the binding permanent
  * @return void
  */
-	public function bindModelBbsArticle(Model $model, $reset) {
-		if ($model->hasField('bbs_article_key')) {
-			$field = 'bbs_article_key';
-		} else {
-			$field = 'key';
-		}
-		$model->bindModel(array('belongsTo' => array(
-			'CreatedUser' => array(
-				'className' => 'Users.User',
-				'fields' => 'CreatedUser.handlename',
-				'foreignKey' => false,
-				'conditions' => array(
-					'BbsArticle.created_user = CreatedUser.id',
-				)
-			),
-		)), $reset);
-	}
+	//public function bindModelBbsArticle(Model $model, $reset) {
+	//	if ($model->hasField('bbs_article_key')) {
+	//		$field = 'bbs_article_key';
+	//	} else {
+	//		$field = 'key';
+	//	}
+	//	$model->bindModel(array('belongsTo' => array(
+	//		'CreatedUser' => array(
+	//			'className' => 'Users.User',
+	//			'fields' => 'CreatedUser.handlename',
+	//			'foreignKey' => false,
+	//			'conditions' => array(
+	//				'BbsArticle.created_user = CreatedUser.id',
+	//			)
+	//		),
+	//	)), $reset);
+	//}
 
 }

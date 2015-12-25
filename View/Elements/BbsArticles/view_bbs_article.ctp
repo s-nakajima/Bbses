@@ -24,12 +24,7 @@ if ($currentBbsArticle['BbsArticle']['key'] === $bbsArticle['BbsArticle']['key']
 			<span>
 				<?php echo sprintf(__d('bbses', '%s. '), $bbsArticle['BbsArticleTree']['article_no']); ?>
 			</span>
-			<span>
-				<?php echo $this->Html->image('/bbses/img/avatar.PNG', array('alt' => 'no image')); ?>
-			</span>
-			<a href="">
-				<?php echo h($bbsArticle['CreatedUser']['handlename']); ?>
-			</a>
+			<?php echo $this->DisplayUser->handleLink($bbsArticle, array('avatar' => true)); ?>
 		</div>
 
 		<div class="col-xs-9 col-sm-10">

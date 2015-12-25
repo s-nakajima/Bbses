@@ -24,7 +24,7 @@ class BbsArticlesUserFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
-		'bbs_article_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Article ID | 記事ID | bbs_articles.id | '),
+		'bbs_article_key' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Article Key | 記事Key | bbs_posts.key | ', 'charset' => 'utf8'),
 		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'User ID | ユーザID | users.id | '),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
@@ -44,11 +44,29 @@ class BbsArticlesUserFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'bbs_article_id' => 1,
+			'bbs_article_key' => 'bbs_article_1',
 			'user_id' => 1,
 			'created_user' => 1,
 			'created' => '2015-05-14 07:10:20',
 			'modified_user' => 1,
+			'modified' => '2015-05-14 07:10:20'
+		),
+		array(
+			'id' => 2,
+			'bbs_article_key' => 'bbs_article_2',
+			'user_id' => 1,
+			'created_user' => 1,
+			'created' => '2015-05-14 07:10:20',
+			'modified_user' => 1,
+			'modified' => '2015-05-14 07:10:20'
+		),
+		array(
+			'id' => 3,
+			'bbs_article_key' => 'bbs_article_3',
+			'user_id' => 4,
+			'created_user' => 4,
+			'created' => '2015-05-14 07:10:20',
+			'modified_user' => 4,
 			'modified' => '2015-05-14 07:10:20'
 		),
 	);

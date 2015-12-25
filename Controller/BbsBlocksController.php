@@ -150,6 +150,7 @@ class BbsBlocksController extends BbsesAppController {
 		if ($this->request->isDelete()) {
 			if ($this->Bbs->deleteBbs($this->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return;
 			}
 		}
 

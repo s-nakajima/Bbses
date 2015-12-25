@@ -17,7 +17,7 @@ App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
  * @package NetCommons\Bbses\Test\Case
  * @codeCoverageIgnore
  */
-class AllBbsesTest extends CakeTestSuite {
+class AllBbsesTest extends NetCommonsTestSuite {
 
 /**
  * All test suite

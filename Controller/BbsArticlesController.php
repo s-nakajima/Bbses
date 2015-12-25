@@ -57,6 +57,7 @@ class BbsArticlesController extends BbsesAppController {
 		'Likes.Like',
 		'NetCommons.DisplayNumber',
 		'Workflow.Workflow',
+		'Users.DisplayUser',
 	);
 
 /**
@@ -89,7 +90,7 @@ class BbsArticlesController extends BbsesAppController {
  * @throws Exception
  */
 	public function index() {
-		$this->BbsArticle->bindModelBbsArticle(false);
+		//$this->BbsArticle->bindModelBbsArticle(false);
 		$this->BbsArticle->bindModelBbsArticlesUser(false);
 
 		$query = array();
@@ -139,9 +140,9 @@ class BbsArticlesController extends BbsesAppController {
 			$bbsArticleKey = $this->params['pass'][1];
 		}
 
-		$this->BbsArticle->bindModelBbsArticle(false);
+		//$this->BbsArticle->bindModelBbsArticle(false);
 		$this->BbsArticle->bindModelBbsArticlesUser(false);
-		$this->BbsArticleTree->bindModelBbsArticle(false);
+		//$this->BbsArticleTree->bindModelBbsArticle(false);
 		$this->BbsArticleTree->bindModelBbsArticlesUser(false);
 
 		//カレント記事の取得
@@ -196,7 +197,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		//子記事の取得
 		$this->BbsArticleTree->Behaviors->load('Tree', array(
-			'scope' => array('OR' => $conditions)
+			'scope' => $conditions
 		));
 		$children = $this->BbsArticleTree->children(
 			$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.id DESC', null, 1, 1
@@ -219,6 +220,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
+
 			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
 			$data['BbsArticleTree']['article_no'] = 1;
 			unset($data['BbsArticle']['id']);
@@ -246,6 +248,7 @@ class BbsArticlesController extends BbsesAppController {
 					'post_no' => 1,
 				))
 			);
+			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 		}
@@ -322,7 +325,7 @@ class BbsArticlesController extends BbsesAppController {
 					'parent_id' => $bbsArticle['BbsArticleTree']['id'],
 				))
 			);
-
+			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 		}
@@ -375,10 +378,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		} else {
 			$this->request->data = $bbsArticle;
-			if (! $this->request->data) {
-				$this->throwBadRequest();
-				return false;
-			}
+			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
 
