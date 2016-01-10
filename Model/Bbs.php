@@ -80,6 +80,27 @@ class Bbs extends BbsesAppModel {
 	);
 
 /**
+ * Constructor. Binds the model's database table to the object.
+ *
+ * @param bool|int|string|array $id Set this ID for this model on startup,
+ * can also be an array of options, see above.
+ * @param string $table Name of database table to use.
+ * @param string $ds DataSource connection name.
+ * @see Model::__construct()
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->loadModels([
+			'Bbs' => 'Bbses.Bbs',
+			'BbsArticle' => 'Bbses.BbsArticle',
+			'BbsArticleTree' => 'Bbses.BbsArticleTree',
+			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
+		]);
+	}
+
+/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -173,8 +194,6 @@ class Bbs extends BbsesAppModel {
  * @return array
  */
 	public function createBbs() {
-		$this->BbsSetting = ClassRegistry::init('Bbses.BbsSetting');
-
 		$bbs = $this->createAll(array(
 			'Bbs' => array(
 				'name' => __d('bbses', 'New bbs %s', date('YmdHis')),
@@ -236,12 +255,6 @@ class Bbs extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function saveBbs($data) {
-		$this->loadModels([
-			'Bbs' => 'Bbses.Bbs',
-			'BbsSetting' => 'Bbses.BbsSetting',
-			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -275,13 +288,6 @@ class Bbs extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function deleteBbs($data) {
-		$this->loadModels([
-			'Bbs' => 'Bbses.Bbs',
-			'BbsSetting' => 'Bbses.BbsSetting',
-			'BbsArticle' => 'Bbses.BbsArticle',
-			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 

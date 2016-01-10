@@ -84,6 +84,25 @@ class BbsArticle extends BbsesAppModel {
 	);
 
 /**
+ * Constructor. Binds the model's database table to the object.
+ *
+ * @param bool|int|string|array $id Set this ID for this model on startup,
+ * can also be an array of options, see above.
+ * @param string $table Name of database table to use.
+ * @param string $ds DataSource connection name.
+ * @see Model::__construct()
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->loadModels([
+			'Bbs' => 'Bbses.Bbs',
+			'BbsArticleTree' => 'Bbses.BbsArticleTree',
+		]);
+	}
+
+/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -166,12 +185,6 @@ class BbsArticle extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function saveBbsArticle($data) {
-		$this->loadModels([
-			'Bbs' => 'Bbses.Bbs',
-			'BbsArticle' => 'Bbses.BbsArticle',
-			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -207,12 +220,6 @@ class BbsArticle extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function deleteBbsArticle($data) {
-		$this->loadModels([
-			'Bbs' => 'Bbses.Bbs',
-			'BbsArticle' => 'Bbses.BbsArticle',
-			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 		$this->set($data);
@@ -277,11 +284,6 @@ class BbsArticle extends BbsesAppModel {
  * @throws InternalErrorException
  */
 	public function saveCommentAsPublish($data) {
-		$this->loadModels([
-			'BbsArticle' => 'Bbses.BbsArticle',
-			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 		$this->set($data);
