@@ -218,7 +218,7 @@ class BbsArticlesController extends BbsesAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			$data = $this->data;
 
 			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
@@ -262,7 +262,7 @@ class BbsArticlesController extends BbsesAppController {
 	public function reply() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			$data = $this->data;
 			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
 			$data['BbsArticleTree']['article_no'] = $this->BbsArticleTree->getMaxNo($data['BbsArticleTree']['root_id']) + 1;
@@ -340,7 +340,7 @@ class BbsArticlesController extends BbsesAppController {
 		$this->view = 'edit';
 
 		$bbsArticleKey = $this->params['pass'][1];
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			$bbsArticleKey = $this->data['BbsArticle']['key'];
 		}
 
@@ -358,7 +358,7 @@ class BbsArticlesController extends BbsesAppController {
 			return false;
 		}
 
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			$data = $this->data;
 			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
 			unset($data['BbsArticle']['id']);
@@ -394,7 +394,7 @@ class BbsArticlesController extends BbsesAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->request->isDelete()) {
+		if (! $this->request->is('delete')) {
 			$this->throwBadRequest();
 			return;
 		}
@@ -452,7 +452,7 @@ class BbsArticlesController extends BbsesAppController {
  * @return void
  */
 	public function approve() {
-		if (! $this->request->isPut()) {
+		if (! $this->request->is('put')) {
 			$this->throwBadRequest();
 			return;
 		}

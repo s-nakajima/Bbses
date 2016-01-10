@@ -84,7 +84,7 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
 		);
 		$this->set('roles', $permissions['Roles']);
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			if ($this->BbsSetting->saveBbsSetting($this->request->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
