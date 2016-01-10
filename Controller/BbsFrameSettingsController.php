@@ -74,7 +74,7 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		if ($this->request->isPut() || $this->request->isPost()) {
+		if ($this->request->is('put') || $this->request->is('post')) {
 			if ($this->BbsFrameSetting->saveBbsFrameSetting($this->data)) {
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;

@@ -29,19 +29,6 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 	public $plugin = 'bbses';
 
 /**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		$this->BbsArticle = ClassRegistry::init('Bbses.BbsArticle');
-		$this->BbsArticle->Behaviors->unload('Like');
-		$this->BbsArticleTree = ClassRegistry::init('Bbses.BbsArticleTree');
-		$this->BbsArticleTree->Behaviors->unload('Like');
-	}
-
-/**
  * Fixtures
  *
  * @var array
@@ -133,6 +120,19 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 	}
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		$model = $this->_modelName;
+		$this->$model->Behaviors->unload('Like');
+		$this->$model->BbsArticleTree = ClassRegistry::init('Bbses.BbsArticleTree');
+		$this->$model->BbsArticleTree->Behaviors->unload('Like');
+	}
+
+/**
  * SaveのDataProvider
  *
  * ### 戻り値
@@ -212,14 +212,14 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 
 		//BbsArticleTreeのテスト前のデータ取得
 		if (isset($data['BbsArticleTree']['id'])) {
-			$before = $this->BbsArticleTree->find('first', array(
+			$before = $this->$model->BbsArticleTree->find('first', array(
 				'recursive' => -1,
 				'conditions' => array('id' => $data['BbsArticleTree']['id']),
 			));
 			$before['BbsArticleTree'] = Hash::remove($before['BbsArticleTree'], 'modified');
 			$before['BbsArticleTree'] = Hash::remove($before['BbsArticleTree'], 'modified_user');
 		} else {
-			$max = $this->BbsArticleTree->find('first', array(
+			$max = $this->$model->BbsArticleTree->find('first', array(
 				'recursive' => -1,
 				'fields' => 'id',
 				'order' => array('id' => 'desc')
@@ -238,7 +238,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		$conditions = array(
 			'key' => $data['Bbs']['key'],
 		);
-		$bbs = $this->Bbs->find('first', array(
+		$bbs = $this->$model->Bbs->find('first', array(
 			'recursive' => -1,
 			'conditions' => $conditions,
 		));
@@ -249,7 +249,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 
 		//登録処理後のBbsArticleTreeのチェック
 		if (isset($data['BbsArticleTree']['id'])) {
-			$after = $this->BbsArticleTree->find('first', array(
+			$after = $this->$model->BbsArticleTree->find('first', array(
 				'recursive' => -1,
 				'conditions' => array('id' => $data['BbsArticleTree']['id']),
 			));
@@ -257,7 +257,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		} else {
 			$before['BbsArticleTree']['bbs_article_key'] = $latest[$this->$model->alias]['key'];
 
-			$after = $this->BbsArticleTree->find('first', array(
+			$after = $this->$model->BbsArticleTree->find('first', array(
 				'recursive' => -1,
 				'order' => array('id' => 'desc')
 			));
@@ -271,7 +271,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		$this->assertEquals($before['BbsArticleTree'], $after['BbsArticleTree']);
 
 		//BBSチェック
-		$bbs = $this->Bbs->find('first', array(
+		$bbs = $this->$model->Bbs->find('first', array(
 			'recursive' => -1,
 			'conditions' => $conditions,
 		));

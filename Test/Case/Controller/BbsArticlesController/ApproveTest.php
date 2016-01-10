@@ -9,7 +9,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BbsArticlesController', 'Bbses.Controller');
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 
@@ -103,17 +102,6 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
 		);
 
 		return $data;
-	}
-
-/**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		$this->generateNc(Inflector::camelize($this->_controller));
-		//YACakeTestCase::loadTestPlugin($this, 'NetCommons' ,'TestPlugin');
 	}
 
 /**

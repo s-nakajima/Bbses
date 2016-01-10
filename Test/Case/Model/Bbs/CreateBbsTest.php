@@ -11,7 +11,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('Bbses', 'Bbses.Model');
 App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 
 /**
@@ -79,7 +78,7 @@ class BbsCreateBbsTest extends NetCommonsModelTestCase {
 			$this->$model->createAll(array(
 					'Block' => array('plugin_key' => 'blocks'),
 			)),
-			$this->BbsSetting->create()
+			$this->$model->BbsSetting->create()
 		);
 
 		//テスト実行

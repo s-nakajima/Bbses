@@ -9,7 +9,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BbsArticlesController', 'BbsArticles.Controller');
 App::uses('WorkflowControllerViewTest', 'Workflow.TestSuite');
 
 /**

@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
+App::uses('NetCommonsValidateTest', 'NetCommons.TestSuite');
 
 /**
  * Bbs::beforeValidate()のテスト
@@ -19,7 +19,7 @@ App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Test\Case\Model\BbsArticlesUser
  */
-class BbsArticlesUserBeforeValidateTest extends NetCommonsModelTestCase {
+class BbsArticlesUserValidateTest extends NetCommonsValidateTest {
 
 /**
  * Plugin name
@@ -27,15 +27,6 @@ class BbsArticlesUserBeforeValidateTest extends NetCommonsModelTestCase {
  * @var array
  */
 	public $plugin = 'bbses';
-
-/**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-	}
 
 /**
  * Fixtures
@@ -97,34 +88,5 @@ class BbsArticlesUserBeforeValidateTest extends NetCommonsModelTestCase {
 			array($this->__data, 'user_id', '',
 				__d('net_commons', 'Invalid request.')),
 		);
-	}
-
-/**
- * Validatesのテスト
- *
- * @param array $data 登録データ
- * @param string $field フィールド名
- * @param string $value セットする値
- * @param string $message エラーメッセージ
- * @param array $overwrite 上書きするデータ
- * @dataProvider dataProviderValidationError
- * @return void
- */
-	public function testValidationError($data, $field, $value, $message, $overwrite = array()) {
-		$model = $this->_modelName;
-
-		if (is_null($value)) {
-			unset($data[$model][$field]);
-		} else {
-			$data[$model][$field] = $value;
-		}
-		$data = Hash::merge($data, $overwrite);
-
-		//validate処理実行
-		$this->$model->set($data);
-		$result = $this->$model->validates();
-		$this->assertFalse($result);
-
-		$this->assertEquals($this->$model->validationErrors[$field][0], $message);
 	}
 }
