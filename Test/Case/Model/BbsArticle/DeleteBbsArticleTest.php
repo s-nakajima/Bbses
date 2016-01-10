@@ -146,7 +146,7 @@ class BbsArticleDeleteBbsArticleTest extends WorkflowDeleteTest {
 
 		if ($associationModels) {
 			foreach ($associationModels as $assocModel => $conditions) {
-				$count = $this->$assocModel->find('count', array(
+				$count = $this->$model->$assocModel->find('count', array(
 					'recursive' => -1,
 					'conditions' => $conditions,
 				));
@@ -167,7 +167,7 @@ class BbsArticleDeleteBbsArticleTest extends WorkflowDeleteTest {
 
 		if ($associationModels) {
 			foreach ($associationModels as $assocModel => $conditions) {
-				$count = $this->$assocModel->find('count', array(
+				$count = $this->$model->$assocModel->find('count', array(
 					'recursive' => -1,
 					'conditions' => $conditions,
 				));

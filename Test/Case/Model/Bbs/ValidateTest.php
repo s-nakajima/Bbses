@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
+App::uses('NetCommonsValidateTest', 'NetCommons.TestSuite');
 
 /**
  * Bbs::saveBbs()のテスト
@@ -19,7 +19,7 @@ App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Test\Case\Model\Bbs
  */
-class BbsSaveBbsTest extends NetCommonsSaveTest {
+class BbsValidateTest extends NetCommonsValidateTest {
 
 /**
  * Plugin name
@@ -117,52 +117,22 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
 	}
 
 /**
- * SaveのDataProvider
+ * ValidationErrorのDataProvider
  *
  * ### 戻り値
- *  - data 登録データ
+ *  - field フィールド名
+ *  - value セットする値
+ *  - message エラーメッセージ
+ *  - overwrite 上書きするデータ
  *
  * @return void
  */
-	public function dataProviderSave() {
+	public function dataProviderValidationError() {
 		return array(
-			array($this->__getData()), //修正
-			array($this->__getData(null)), //新規
-		);
-	}
-
-/**
- * SaveのExceptionErrorのDataProvider
- *
- * ### 戻り値
- *  - data 登録データ
- *  - mockModel Mockのモデル
- *  - mockMethod Mockのメソッド
- *
- * @return void
- */
-	public function dataProviderSaveOnExceptionError() {
-		return array(
-			array($this->__getData(), 'Bbses.Bbs', 'save'),
-			array($this->__getData(null), 'Bbses.BbsSetting', 'save'),
-			array($this->__getData(null), 'Bbses.BbsFrameSetting', 'save'),
-		);
-	}
-
-/**
- * SaveのValidationErrorのDataProvider
- *
- * ### 戻り値
- *  - data 登録データ
- *  - mockModel Mockのモデル
- *
- * @return void
- */
-	public function dataProviderSaveOnValidationError() {
-		return array(
-			array($this->__getData(), 'Bbses.Bbs'),
-			array($this->__getData(), 'Bbses.BbsSetting'),
-			array($this->__getData(null), 'Bbses.BbsFrameSetting'),
+			array($this->__getData(), 'key', '',
+				__d('net_commons', 'Invalid request.')),
+			array($this->__getData(), 'name', '',
+				sprintf(__d('net_commons', 'Please input %s.'), __d('bbses', 'Bbs name'))),
 		);
 	}
 

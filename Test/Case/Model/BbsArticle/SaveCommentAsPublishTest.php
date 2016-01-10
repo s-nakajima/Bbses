@@ -30,19 +30,6 @@ class BbsArticleSaveCommentAsPublishTest extends NetCommonsModelTestCase {
 	public $plugin = 'bbses';
 
 /**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		$this->BbsArticle = ClassRegistry::init('Bbses.BbsArticle');
-		$this->BbsArticle->Behaviors->unload('Like');
-		$this->BbsArticleTree = ClassRegistry::init('Bbses.BbsArticleTree');
-		$this->BbsArticleTree->Behaviors->unload('Like');
-	}
-
-/**
  * Fixtures
  *
  * @var array
@@ -97,6 +84,19 @@ class BbsArticleSaveCommentAsPublishTest extends NetCommonsModelTestCase {
 		);
 
 		return $data;
+	}
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		$model = $this->_modelName;
+		$this->$model->Behaviors->unload('Like');
+		$this->$model->BbsArticleTree = ClassRegistry::init('Bbses.BbsArticleTree');
+		$this->$model->BbsArticleTree->Behaviors->unload('Like');
 	}
 
 /**

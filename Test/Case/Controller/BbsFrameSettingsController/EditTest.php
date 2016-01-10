@@ -9,7 +9,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BbsFrameSettingsController', 'Bbses.Controller');
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
@@ -19,16 +18,6 @@ App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
  * @package NetCommons\Bbses\Test\Case\Controller
  */
 class BbsFrameSettingsControllerEditTest extends NetCommonsControllerTestCase {
-
-/**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		$this->generateNc(Inflector::camelize($this->_controller));
-	}
 
 /**
  * Fixtures

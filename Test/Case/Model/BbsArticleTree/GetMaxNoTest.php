@@ -22,6 +22,13 @@ App::uses('NetCommonsGetTest', 'NetCommons.TestSuite');
 class BbsArticleTreeGetMaxNoTest extends NetCommonsGetTest {
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'bbses';
+
+/**
  * Fixtures
  *
  * @var array
@@ -55,7 +62,7 @@ class BbsArticleTreeGetMaxNoTest extends NetCommonsGetTest {
 /**
  * getMaxNoのテスト
  *
- * @param int $rootArticleTreeId
+ * @param int $rootArticleId
  * @param array $expected 期待値
  * @dataProvider dataProviderGetMaxNo
  *
