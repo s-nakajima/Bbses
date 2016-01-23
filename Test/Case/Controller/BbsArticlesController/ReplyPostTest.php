@@ -73,8 +73,8 @@ class BbsArticlesControllerReplyPostTest extends NetCommonsControllerTestCase {
 				$bbsArticleKey = 'bbs_article_3';
 			}
 		} else {
-			$bbsArticleId = '1';
-			$bbsArticleKey = 'bbs_article_1';
+			$bbsArticleId = '2';
+			$bbsArticleKey = 'bbs_article_2';
 		}
 
 		$data = array(
@@ -175,14 +175,14 @@ class BbsArticlesControllerReplyPostTest extends NetCommonsControllerTestCase {
 			//--他人の記事
 			array(
 				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
-				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
-				'exception' => 'ForbiddenException'
+				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => 'bbs_article_1'),
+				'exception' => 'BadRequestException'
 			),
 			//--自分の記事(一度も公開していない)
 			array(
 				'data' => $this->__getData(Role::ROOM_ROLE_KEY_GENERAL_USER, 'bbs_article_4'), 'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
 				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => 'bbs_article_4'),
-				'exception' => 'ForbiddenException'
+				'exception' => 'BadRequestException'
 			),
 			//編集権限あり
 			//--コンテンツあり
