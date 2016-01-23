@@ -11,6 +11,7 @@
 
 App::uses('BbsesAppController', 'Bbses.Controller');
 App::uses('String', 'Utility');
+App::uses('Workflow', 'Workflow.Controller/Component');
 
 /**
  * BbsArticles Controller
@@ -262,6 +263,27 @@ class BbsArticlesController extends BbsesAppController {
 	public function reply() {
 		$this->view = 'edit';
 
+		$bbsArticleKey = $this->params['pass'][1];
+		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'fields' => array(
+				$this->BbsArticle->alias . '.title',
+				$this->BbsArticle->alias . '.content',
+				$this->BbsArticle->alias . '.status',
+				$this->BbsArticleTree->alias . '.id',
+				$this->BbsArticleTree->alias . '.root_id',
+			),
+			'conditions' => array(
+				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+				$this->BbsArticle->alias . '.key' => $bbsArticleKey
+			)
+		));
+
+		if (Hash::get($bbsArticle, 'BbsArticle.status') !== WorkflowComponent::STATUS_PUBLISHED) {
+			$this->throwBadRequest();
+			return;
+		}
+
 		if ($this->request->is('post')) {
 			$data = $this->data;
 			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
@@ -282,25 +304,6 @@ class BbsArticlesController extends BbsesAppController {
 			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
 		} else {
-			$bbsArticleKey = $this->params['pass'][1];
-			$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
-				'recursive' => 0,
-				'fields' => array(
-					$this->BbsArticle->alias . '.title',
-					$this->BbsArticle->alias . '.content',
-					$this->BbsArticleTree->alias . '.id',
-					$this->BbsArticleTree->alias . '.root_id',
-				),
-				'conditions' => array(
-					$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
-					$this->BbsArticle->alias . '.key' => $bbsArticleKey
-				)
-			));
-			if (! $bbsArticle) {
-				$this->throwBadRequest();
-				return false;
-			}
-
 			if ($bbsArticle['BbsArticleTree']['root_id'] > 0) {
 				$rootId = (int)$bbsArticle['BbsArticleTree']['root_id'];
 			} else {

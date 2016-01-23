@@ -73,8 +73,8 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 				$bbsArticleKey = 'bbs_article_3';
 			}
 		} else {
-			$bbsArticleId = '1';
-			$bbsArticleKey = 'bbs_article_1';
+			$bbsArticleId = '2';
+			$bbsArticleKey = 'bbs_article_2';
 		}
 
 		$data = array(
@@ -199,15 +199,15 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 		//作成権限のみ(コメント投稿不可)
 		//--他人の記事
 		$results[0] = array(
-			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
+			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => 'bbs_article_1'),
 			'assert' => null,
-			'exception' => 'ForbiddenException'
+			'exception' => 'BadRequestException'
 		);
 		//--自分の記事(一度も公開していない)
 		$results[1] = array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => 'bbs_article_4'),
 			'assert' => null,
-			'exception' => 'ForbiddenException'
+			'exception' => 'BadRequestException'
 		);
 
 		return $results;

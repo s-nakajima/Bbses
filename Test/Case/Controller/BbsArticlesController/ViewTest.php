@@ -137,7 +137,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
 		));
 		$results[6] = Hash::merge($results[4], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'reply', 'linkExist' => false, 'url' => array()),
+			'assert' => array('method' => 'assertActionLink', 'action' => 'reply', 'linkExist' => true, 'url' => array()),
 		));
 
 		//作成権限のみ(他人が書いた質問＆公開中)（root_idとparent_idが同一）
