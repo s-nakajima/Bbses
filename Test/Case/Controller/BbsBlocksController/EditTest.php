@@ -193,6 +193,7 @@ class BbsBlocksControllerEditTest extends BlocksControllerEditTest {
 		TestAuthGeneral::login($this);
 
 		if ($exception) {
+			$this->controller->Bbs = $this->getMockForModel('Bbses.Bbs', array('getBbs'));
 			$this->_mockForReturnFalse('Bbses.Bbs', 'getBbs');
 		}
 
