@@ -30,6 +30,10 @@ class BbsArticleBehavior extends ModelBehavior {
  * @throws InternalErrorException
  */
 	public function updateBbsByBbsArticle(Model $model, $bbsId, $bbsKey, $languageId) {
+		$model->loadModels([
+			'Bbs' => 'Bbses.Bbs',
+		]);
+
 		$db = $model->getDataSource();
 
 		$conditions = array(
