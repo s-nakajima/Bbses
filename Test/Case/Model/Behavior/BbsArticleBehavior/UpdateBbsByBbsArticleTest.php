@@ -162,7 +162,7 @@ class BbsArticleBehaviorUpdateBbsByBbsArticleTest extends NetCommonsModelTestCas
 		return array(
 			array($key, 'TestBbsArticle', 'TestBbsArticle.TestBbsArticle', 'find', '1'),
 			array($key, 'TestBbsArticle', 'TestBbsArticle.TestBbsArticle', 'find', '2'),
-			array($key, 'Bbs', 'Bbses.Bbs', 'updateAll', '1'),
+			array($key, 'TestBbsArticle', 'Bbses.Bbs', 'updateAll', '1'),
 		);
 	}
 
