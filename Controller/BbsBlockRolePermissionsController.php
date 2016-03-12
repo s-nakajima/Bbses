@@ -41,18 +41,7 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array(
-				'block_index' => array('url' => array('controller' => 'bbs_blocks')),
-				'frame_settings' => array('url' => array('controller' => 'bbs_frame_settings')),
-			),
-			'blockTabs' => array(
-				'block_settings' => array('url' => array('controller' => 'bbs_blocks')),
-				'role_permissions' => array('url' => array('controller' => 'bbs_block_role_permissions')),
-			),
-		),
 		'NetCommons.Permission' => array(
-			//アクセスの権限
 			'allow' => array(
 				'edit' => 'block_permission_editable',
 			),
@@ -65,7 +54,17 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
  * @var array
  */
 	public $helpers = array(
-		'Blocks.BlockRolePermissionForm'
+		'Blocks.BlockRolePermissionForm',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array(
+				'block_index' => array('url' => array('controller' => 'bbs_blocks')),
+				'frame_settings' => array('url' => array('controller' => 'bbs_frame_settings')),
+			),
+			'blockTabs' => array(
+				'block_settings' => array('url' => array('controller' => 'bbs_blocks')),
+				'role_permissions' => array('url' => array('controller' => 'bbs_block_role_permissions')),
+			),
+		),
 	);
 
 /**
