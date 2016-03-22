@@ -56,6 +56,15 @@ class BbsArticle extends BbsesAppModel {
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
+		'Mails.MailQueue' => array(
+			'requestDataKeys' => array(
+				'embedTags' => array(
+					'X-SUBJECT' => 'BbsArticle.title',
+					'X-BODY' => 'BbsArticle.content',
+					'X-BBS_NAME' => 'Bbs.name',
+				),
+			),
+		),
 	);
 
 /**

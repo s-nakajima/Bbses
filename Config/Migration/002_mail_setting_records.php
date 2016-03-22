@@ -49,7 +49,7 @@ class LinkMailSettingRecords extends NetCommonsMigration {
 				'block_key' => null,
 				'type_key' => 'contents',
 				'is_mail_send' => false,
-				'mail_fixed_phrase_subject' => '', //デフォルト(__d('mails', 'MailSetting.mail_fixed_phrase_subject'))
+				'mail_fixed_phrase_subject' => '[{X-SITE_NAME}-{X-PLUGIN_NAME}]{X-SUBJECT}({X-ROOM} {X-BBS_NAME})',
 				'mail_fixed_phrase_body' => 'You are receiving this email because a message was posted to BBS.
 Room\'s name:{X-ROOM}
 BBS title:{X-BBS_NAME}
@@ -70,7 +70,7 @@ Click on the link below to reply to this article.
 				'block_key' => null,
 				'type_key' => 'contents',
 				'is_mail_send' => false,
-				'mail_fixed_phrase_subject' => '',
+				'mail_fixed_phrase_subject' => '[{X-SITE_NAME}-{X-PLUGIN_NAME}]{X-SUBJECT}({X-ROOM} {X-BBS_NAME})',
 				'mail_fixed_phrase_body' => '{X-PLUGIN_NAME}に投稿されたのでお知らせします。
 ルーム名:{X-ROOM}
 掲示板タイトル:{X-BBS_NAME}
