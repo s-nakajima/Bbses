@@ -123,3 +123,7 @@ msgstr "１ページに表示する記事数"
 #: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:41
 msgid "Show comments per page"
 msgstr "１ページに表示するコメント数"
+
+# メール関連
+msgid "MailSetting.mail_fixed_phrase_body.popover"
+msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : ブロック名<br>{X-BBS_NAME} : 掲示板名<br>{X-SUBJECT} : 記事タイトル<br>{X-USER} : 投稿者<br>{X-TO_DATE} : 投稿日時<br>{X-BODY} : 記事本文<br>{X-URL} : 投稿内容のURL"
