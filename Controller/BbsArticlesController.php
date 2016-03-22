@@ -12,6 +12,7 @@
 App::uses('BbsesAppController', 'Bbses.Controller');
 App::uses('String', 'Utility');
 App::uses('Workflow', 'Workflow.Controller/Component');
+App::uses('MailSend', 'Mails.Utility');
 
 /**
  * BbsArticles Controller
@@ -227,6 +228,9 @@ class BbsArticlesController extends BbsesAppController {
 			unset($data['BbsArticle']['id']);
 
 			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+				// キューからメール送信
+				MailSend::send();
+
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => $this->params['controller'],
 					'action' => 'view',
@@ -291,6 +295,9 @@ class BbsArticlesController extends BbsesAppController {
 			unset($data['BbsArticle']['id']);
 
 			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+				// キューからメール送信
+				MailSend::send();
+
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => $this->params['controller'],
 					'action' => 'view',
@@ -367,6 +374,9 @@ class BbsArticlesController extends BbsesAppController {
 			unset($data['BbsArticle']['id']);
 
 			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+				// キューからメール送信
+				MailSend::send();
+
 				$url = NetCommonsUrl::actionUrl(array(
 					'controller' => $this->params['controller'],
 					'action' => 'view',

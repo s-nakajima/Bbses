@@ -16,6 +16,7 @@
 <?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 <?php echo $this->NetCommonsForm->hidden('Bbs.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Bbs.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Bbs.name'); ?>
 <?php echo $this->NetCommonsForm->hidden('BbsArticle.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('BbsArticle.key'); ?>
 <?php echo $this->NetCommonsForm->hidden('BbsArticle.language_id'); ?>

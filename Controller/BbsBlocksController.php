@@ -64,6 +64,7 @@ class BbsBlocksController extends BbsesAppController {
 			),
 			'blockTabs' => array(
 				'block_settings' => array('url' => array('controller' => 'bbs_blocks')),
+				'mail_settings' => array('url' => array('controller' => 'bbs_mail_settings')),
 				'role_permissions' => array('url' => array('controller' => 'bbs_block_role_permissions')),
 			),
 		),
