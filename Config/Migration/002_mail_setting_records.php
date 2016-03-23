@@ -15,7 +15,7 @@ App::uses('NetCommonsMigration', 'NetCommons.Config/Migration');
  *
  * @package NetCommons\Mails\Config\Migration
  */
-class LinkMailSettingRecords extends NetCommonsMigration {
+class BbsMailSettingRecords extends NetCommonsMigration {
 
 /**
  * Migration description
