@@ -60,8 +60,7 @@ date:{X-TO_DATE}
 {X-BODY}
 
 Click on the link below to reply to this article.
-{X-URL}'
-				,
+{X-URL}',
 			),
 			// * 日本語
 			array(
@@ -81,8 +80,7 @@ Click on the link below to reply to this article.
 {X-BODY}
 
 この記事に返信するには、下記アドレスへ
-{X-URL}'
-				,
+{X-URL}',
 			),
 		),
 	);

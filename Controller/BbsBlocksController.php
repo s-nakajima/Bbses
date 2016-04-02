@@ -104,7 +104,7 @@ class BbsBlocksController extends BbsesAppController {
 		if ($this->request->is('post')) {
 			//登録処理
 			if ($this->Bbs->saveBbs($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->Bbs->validationErrors);
 
@@ -125,15 +125,14 @@ class BbsBlocksController extends BbsesAppController {
 		if ($this->request->is('put')) {
 			//登録処理
 			if ($this->Bbs->saveBbs($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->Bbs->validationErrors);
 
 		} else {
 			//表示処理(初期データセット)
 			if (! $bbs = $this->Bbs->getBbs()) {
-				$this->setAction('throwBadRequest');
-				return false;
+				return $this->throwBadRequest();
 			}
 			$this->request->data = Hash::merge($this->request->data, $bbs);
 			$this->request->data = Hash::merge($this->request->data, $this->BbsFrameSetting->getBbsFrameSetting(true));
@@ -149,11 +148,10 @@ class BbsBlocksController extends BbsesAppController {
 	public function delete() {
 		if ($this->request->is('delete')) {
 			if ($this->Bbs->deleteBbs($this->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
-				return;
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
 
-		$this->setAction('throwBadRequest');
+		return $this->throwBadRequest();
 	}
 }
