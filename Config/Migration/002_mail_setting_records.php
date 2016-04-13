@@ -18,6 +18,13 @@ App::uses('NetCommonsMigration', 'NetCommons.Config/Migration');
 class BbsMailSettingRecords extends NetCommonsMigration {
 
 /**
+ * プラグインキー
+ *
+ * @var string
+ */
+	const PLUGIN_KEY = 'bbses';
+
+/**
  * Migration description
  *
  * @var string
@@ -41,14 +48,21 @@ class BbsMailSettingRecords extends NetCommonsMigration {
  */
 	public $records = array(
 		'MailSetting' => array(
-			//コンテンツ通知
+			//コンテンツ通知 - 設定
+			array(
+				'plugin_key' => self::PLUGIN_KEY,
+				'block_key' => null,
+				'is_mail_send' => false,
+			),
+		),
+		'MailSettingFixedPhrase' => array(
+			//コンテンツ通知 - 定型文
 			// * 英語
 			array(
 				'language_id' => '1',
-				'plugin_key' => 'bbses',
+				'plugin_key' => self::PLUGIN_KEY,
 				'block_key' => null,
 				'type_key' => 'contents',
-				'is_mail_send' => false,
 				'mail_fixed_phrase_subject' => '[{X-SITE_NAME}-{X-PLUGIN_NAME}]{X-SUBJECT}({X-ROOM} {X-BBS_NAME})',
 				'mail_fixed_phrase_body' => 'You are receiving this email because a message was posted to BBS.
 Room\'s name:{X-ROOM}
@@ -65,10 +79,9 @@ Click on the link below to reply to this article.
 			// * 日本語
 			array(
 				'language_id' => '2',
-				'plugin_key' => 'bbses',
+				'plugin_key' => self::PLUGIN_KEY,
 				'block_key' => null,
 				'type_key' => 'contents',
-				'is_mail_send' => false,
 				'mail_fixed_phrase_subject' => '[{X-SITE_NAME}-{X-PLUGIN_NAME}]{X-SUBJECT}({X-ROOM} {X-BBS_NAME})',
 				'mail_fixed_phrase_body' => '{X-PLUGIN_NAME}に投稿されたのでお知らせします。
 ルーム名:{X-ROOM}
@@ -102,9 +115,37 @@ Click on the link below to reply to this article.
  * @return bool Should process continue
  */
 	public function after($direction) {
+		$this->loadModels(array(
+			'MailSetting' => 'Mails.MailSetting',
+			'MailSettingFixedPhrase' => 'Mails.MailSettingFixedPhrase',
+		));
 		foreach ($this->records as $model => $records) {
-			if (!$this->updateRecords($model, $records)) {
-				return false;
+			if ($direction == 'up') {
+				if ($model == 'MailSettingFixedPhrase') {
+					// mail_setting_id セット
+					$data = $this->MailSetting->find('first', array(
+						'recursive' => -1,
+						'conditions' => array('plugin_key' => self::PLUGIN_KEY),
+						'callbacks' => false,
+					));
+					foreach ($records as &$record) {
+						$record['mail_setting_id'] = $data['MailSetting']['id'];
+					}
+				}
+				if (!$this->updateRecords($model, $records)) {
+					return false;
+				}
+			} elseif ($direction == 'down') {
+				$conditions = array(
+					'plugin_key' => self::PLUGIN_KEY,
+					'block_key' => null,
+				);
+				if (!$this->MailSettingFixedPhrase->deleteAll($conditions, false, false)) {
+					return false;
+				}
+				if (!$this->MailSetting->deleteAll($conditions, false, false)) {
+					return false;
+				}
 			}
 		}
 		return true;
