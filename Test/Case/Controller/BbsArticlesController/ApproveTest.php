@@ -263,6 +263,7 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
 		if ($exception === 'BadRequestException' && array_key_exists('save_3', $data)) {
 			$this->_mockForReturnFalse('Bbses.BbsArticle', 'saveCommentAsPublish');
 		}
+		$this->controller->BbsArticle->Behaviors->unload('Mails.MailQueue');
 
 		//テスト実施
 		$this->_testPostAction('put', $data, Hash::merge(array('action' => 'approve'), $urlOptions), $exception, $return);

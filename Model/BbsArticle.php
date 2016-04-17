@@ -142,7 +142,9 @@ class BbsArticle extends BbsesAppModel {
 		if (isset($this->data['BbsArticleTree'])) {
 			$this->BbsArticleTree->set($this->data['BbsArticleTree']);
 			if (! $this->BbsArticleTree->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsArticleTree->validationErrors);
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors, $this->BbsArticleTree->validationErrors
+				);
 				return false;
 			}
 		}
@@ -164,7 +166,8 @@ class BbsArticle extends BbsesAppModel {
 		//BbsArticleTree登録
 		if (isset($this->BbsArticleTree->data['BbsArticleTree'])) {
 			if (! $this->BbsArticleTree->data['BbsArticleTree']['bbs_article_key']) {
-				$this->BbsArticleTree->data['BbsArticleTree']['bbs_article_key'] = $this->data[$this->alias]['key'];
+				$key = $this->data[$this->alias]['key'];
+				$this->BbsArticleTree->data['BbsArticleTree']['bbs_article_key'] = $key;
 			}
 			if (! $this->BbsArticleTree->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
@@ -173,12 +176,18 @@ class BbsArticle extends BbsesAppModel {
 
 		//Bbsのbbs_article_count、bbs_article_modified
 		if (isset($this->data['Bbs']['id']) && isset($this->data['Bbs']['key'])) {
-			$this->updateBbsByBbsArticle($this->data['Bbs']['id'], $this->data['Bbs']['key'], $this->data[$this->alias]['language_id']);
+			$this->updateBbsByBbsArticle(
+				$this->data['Bbs']['id'],
+				$this->data['Bbs']['key'], $this->data[$this->alias]['language_id']
+			);
 		}
 
 		//コメント数の更新
 		if (isset($this->data['BbsArticleTree']['root_id']) && $this->data['BbsArticleTree']['root_id']) {
-			$this->updateBbsArticleChildCount($this->data['BbsArticleTree']['root_id'], $this->data[$this->alias]['language_id']);
+			$this->updateBbsArticleChildCount(
+				$this->data['BbsArticleTree']['root_id'],
+				$this->data[$this->alias]['language_id']
+			);
 		}
 
 		parent::afterSave($created, $options);
@@ -253,7 +262,9 @@ class BbsArticle extends BbsesAppModel {
 
 		try {
 			//Treeデータの削除
-			$conditions = array($this->BbsArticleTree->alias . '.bbs_article_key' => $this->data['BbsArticle']['key']);
+			$conditions = array(
+				$this->BbsArticleTree->alias . '.bbs_article_key' => $this->data['BbsArticle']['key']
+			);
 			if (! $this->BbsArticleTree->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -267,10 +278,16 @@ class BbsArticle extends BbsesAppModel {
 			$this->deleteCommentsByContentKey($this->data['BbsArticle']['key']);
 
 			//Bbsのbbs_article_count、bbs_article_modified
-			$this->updateBbsByBbsArticle($this->data['Bbs']['id'], $data['Bbs']['key'], $this->data['BbsArticle']['language_id']);
+			$this->updateBbsByBbsArticle(
+				$this->data['Bbs']['id'], $data['Bbs']['key'],
+				$this->data['BbsArticle']['language_id']
+			);
 
 			//コメント数の更新
-			$this->updateBbsArticleChildCount($this->data['BbsArticleTree']['root_id'], $this->data['BbsArticle']['language_id']);
+			$this->updateBbsArticleChildCount(
+				$this->data['BbsArticleTree']['root_id'],
+				$this->data['BbsArticle']['language_id']
+			);
 
 			//トランザクションCommit
 			$this->commit();
@@ -306,7 +323,10 @@ class BbsArticle extends BbsesAppModel {
 			}
 
 			//コメント数の更新
-			$this->updateBbsArticleChildCount($data['BbsArticleTree']['root_id'], $data['BbsArticle']['language_id']);
+			$this->updateBbsArticleChildCount(
+				$data['BbsArticleTree']['root_id'],
+				$data['BbsArticle']['language_id']
+			);
 
 			//トランザクションCommit
 			$this->commit();
