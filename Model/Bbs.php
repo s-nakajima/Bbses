@@ -141,7 +141,9 @@ class Bbs extends BbsesAppModel {
 		if (isset($this->data['BbsSetting'])) {
 			$this->BbsSetting->set($this->data['BbsSetting']);
 			if (! $this->BbsSetting->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsSetting->validationErrors);
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors, $this->BbsSetting->validationErrors
+				);
 				return false;
 			}
 		}
@@ -149,7 +151,9 @@ class Bbs extends BbsesAppModel {
 		if (isset($this->data['BbsFrameSetting']) && ! $this->data['BbsFrameSetting']['id']) {
 			$this->BbsFrameSetting->set($this->data['BbsFrameSetting']);
 			if (! $this->BbsFrameSetting->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->BbsFrameSetting->validationErrors);
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors, $this->BbsFrameSetting->validationErrors
+				);
 				return false;
 			}
 		}
@@ -179,7 +183,9 @@ class Bbs extends BbsesAppModel {
 		}
 
 		//BbsFrameSetting登録
-		if (isset($this->BbsFrameSetting->data['BbsFrameSetting']) && ! $this->BbsFrameSetting->data['BbsFrameSetting']['id']) {
+		if (isset($this->BbsFrameSetting->data['BbsFrameSetting']) &&
+				! $this->BbsFrameSetting->data['BbsFrameSetting']['id']) {
+
 			if (! $this->BbsFrameSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -305,15 +311,18 @@ class Bbs extends BbsesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->BbsSetting->deleteAll(array($this->BbsSetting->alias . '.bbs_key' => $data['Bbs']['key']), false, false)) {
+			$conditions = array($this->BbsSetting->alias . '.bbs_key' => $data['Bbs']['key']);
+			if (! $this->BbsSetting->deleteAll($conditions, false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->BbsArticle->deleteAll(array($this->BbsArticle->alias . '.bbs_id' => $bbsIds), false, false)) {
+			$conditions = array($this->BbsArticle->alias . '.bbs_id' => $bbsIds);
+			if (! $this->BbsArticle->deleteAll($conditions, false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->BbsArticleTree->deleteAll(array($this->BbsArticleTree->alias . '.bbs_key' => $data['Bbs']['key']), false, false)) {
+			$conditions = array($this->BbsArticleTree->alias . '.bbs_key' => $data['Bbs']['key']);
+			if (! $this->BbsArticleTree->deleteAll($conditions, false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

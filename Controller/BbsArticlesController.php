@@ -291,10 +291,13 @@ class BbsArticlesController extends BbsesAppController {
 		if ($this->request->is('post')) {
 			$data = $this->data;
 			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
-			$data['BbsArticleTree']['article_no'] = $this->BbsArticleTree->getMaxNo($data['BbsArticleTree']['root_id']) + 1;
+
+			$articleNo = $this->BbsArticleTree->getMaxNo($data['BbsArticleTree']['root_id']) + 1;
+			$data['BbsArticleTree']['article_no'] = $articleNo;
 			unset($data['BbsArticle']['id']);
 
-			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+			$bbsArticle = $this->BbsArticle->saveBbsArticle($data);
+			if ($bbsArticle) {
 				// キューからメール送信
 				MailSend::send();
 
@@ -478,7 +481,9 @@ class BbsArticlesController extends BbsesAppController {
 		}
 
 		if ($this->BbsArticle->saveCommentAsPublish($data)) {
-			$this->NetCommons->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
+			$this->NetCommons->setFlashNotification(
+				__d('net_commons', 'Successfully saved.'), array('class' => 'success')
+			);
 
 			$url = NetCommonsUrl::actionUrl(array(
 				'controller' => $this->params['controller'],
