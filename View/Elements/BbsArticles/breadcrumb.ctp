@@ -13,7 +13,7 @@
 <ol class="breadcrumb">
 	<li>
 		<?php echo $this->NetCommonsHtml->link(
-				String::truncate($bbs['name'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
+				CakeText::truncate($bbs['name'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
 				NetCommonsUrl::backToPageUrl(),
 				array('title' => $bbs['name'])
 			); ?>
@@ -22,7 +22,7 @@
 	<?php if (isset($rootBbsArticle)) : ?>
 		<li>
 			<?php echo $this->NetCommonsHtml->link(
-					String::truncate($rootBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
+					CakeText::truncate($rootBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
 					array('key' => $rootBbsArticle['BbsArticle']['key']),
 					array('title' => $rootBbsArticle['BbsArticle']['title'])
 				); ?>
@@ -32,7 +32,7 @@
 	<?php if (isset($parentBbsArticle) && $parentBbsArticle['BbsArticleTree']['root_id']) : ?>
 		<li>
 			<?php echo $this->NetCommonsHtml->link(
-					String::truncate($parentBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
+					CakeText::truncate($parentBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
 					array('key' => $parentBbsArticle['BbsArticle']['key']),
 					array('title' => $parentBbsArticle['BbsArticle']['title'])
 				); ?>
@@ -43,12 +43,12 @@
 		<li class="active">
 			<?php if (in_array($this->request->params['action'], array('add', 'edit'), true)) : ?>
 				<?php echo $this->NetCommonsHtml->link(
-						String::truncate($currentBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
+						CakeText::truncate($currentBbsArticle['BbsArticle']['title'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
 						array('key' => $currentBbsArticle['BbsArticle']['key']),
 						array('title' => $currentBbsArticle['BbsArticle']['title'])
 					); ?>
 			<?php else : ?>
-				<?php echo String::truncate($currentBbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH); ?>
+				<?php echo CakeText::truncate($currentBbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH); ?>
 			<?php endif; ?>
 		</li>
 	<?php endif; ?>
