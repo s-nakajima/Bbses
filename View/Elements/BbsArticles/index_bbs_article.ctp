@@ -13,7 +13,7 @@
 <article>
 	<h2 class="clearfix">
 		<?php echo $this->NetCommonsHtml->link(
-				String::truncate($bbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH),
+				CakeText::truncate($bbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH),
 				array('action' => 'view', 'key' => $bbsArticle['BbsArticle']['key'])
 			); ?>
 		<small>
@@ -22,7 +22,7 @@
 	</h2>
 
 	<p>
-		<?php echo String::truncate(strip_tags($bbsArticle['BbsArticle']['content']), BbsArticle::LIST_CONTENT_LENGTH); ?>
+		<?php echo CakeText::truncate(strip_tags($bbsArticle['BbsArticle']['content']), BbsArticle::LIST_CONTENT_LENGTH); ?>
 	</p>
 
 	<footer class="clearfix">

@@ -10,7 +10,7 @@
  */
 
 App::uses('BbsesAppController', 'Bbses.Controller');
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 App::uses('Workflow', 'Workflow.Controller/Component');
 App::uses('MailSend', 'Mails.Utility');
 
