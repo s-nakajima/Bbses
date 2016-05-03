@@ -31,7 +31,6 @@ class BbsArticleTree extends BbsesAppModel {
 	public $actsAs = array(
 		'Tree',
 		'Bbses.BbsArticle',
-		'Bbses.BbsArticlesUser',
 		'Likes.Like' => array(
 			'field' => 'bbs_article_key'
 		),

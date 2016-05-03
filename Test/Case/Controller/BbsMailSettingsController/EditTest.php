@@ -27,7 +27,6 @@ class BbsMailSettingsControllerEditTest extends NetCommonsControllerTestCase {
 	public $fixtures = array(
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
-		'plugin.bbses.bbs_articles_user',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_setting',
 		'plugin.bbses.bbs',

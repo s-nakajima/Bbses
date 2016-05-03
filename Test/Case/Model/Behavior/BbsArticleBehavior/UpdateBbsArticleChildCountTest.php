@@ -39,7 +39,6 @@ class BbsArticleBehaviorUpdateBbsArticleChildCountTest extends NetCommonsModelTe
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
-		'plugin.bbses.bbs_articles_user',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',

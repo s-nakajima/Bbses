@@ -42,7 +42,6 @@ class BbsArticleSaveCommentAsPublishTest extends NetCommonsModelTestCase {
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
-		'plugin.bbses.bbs_articles_user',
 		'plugin.workflow.workflow_comment',
 	);
 
@@ -95,6 +94,7 @@ class BbsArticleSaveCommentAsPublishTest extends NetCommonsModelTestCase {
 		parent::setUp();
 		$model = $this->_modelName;
 		$this->$model->Behaviors->unload('Like');
+		$this->$model->Behaviors->unload('Topics');
 		$this->$model->BbsArticleTree = ClassRegistry::init('Bbses.BbsArticleTree');
 		$this->$model->BbsArticleTree->Behaviors->unload('Like');
 	}

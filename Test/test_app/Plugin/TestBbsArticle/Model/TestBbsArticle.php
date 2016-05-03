@@ -52,7 +52,6 @@ class TestBbsArticle extends BbsArticle {
  */
 	public $actsAs = array(
 		'Bbses.BbsArticle',
-		'Bbses.BbsArticlesUser',
 	);
 
 /**
@@ -79,7 +78,7 @@ class TestBbsArticle extends BbsArticle {
  * @param int $languageId languages.id
  */
 	public function testUpdateBbsByBbsArticle($bbsId, $bbsKey, $languageId) {
-			$this->loadModels([
+		$this->loadModels([
 			'Bbs' => 'Bbses.Bbs',
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
@@ -95,44 +94,13 @@ class TestBbsArticle extends BbsArticle {
  * @param int $languageId languages.id
  */
 	public function testUpdateBbsArticleChildCount($rootId, $languageId) {
-			$this->loadModels([
+		$this->loadModels([
 			'Bbs' => 'Bbses.Bbs',
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
 		]);
 
 		$this->updateBbsArticleChildCount($rootId, $languageId);
-	}
-
-/**
- *  Set bindModel BbsArticlesUser
- *
- * @param bool $reset Set to false to make the binding permanent
- */
-	public function testBindModelBbsArticlesUser() {
-			$this->loadModels([
-			'Bbs' => 'Bbses.Bbs',
-			'BbsArticle' => 'Bbses.BbsArticle',
-			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-		]);
-
-		$this->bindModelBbsArticlesUser(false);
-	}
-
-/**
- *  Save BbsArticlesUser
- *
- * @param array $bbsArticleKey received bbs_article_key
- */
-	public function testReadToArticle($bbsArticleKey) {
-			$this->loadModels([
-			'Bbs' => 'Bbses.Bbs',
-			'BbsArticle' => 'Bbses.BbsArticle',
-			'BbsArticleTree' => 'Bbses.BbsArticleTree',
-		]);
-
-		$result = $this->readToArticle($bbsArticleKey);
-		return ($result);
 	}
 
 }

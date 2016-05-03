@@ -92,9 +92,6 @@ class BbsArticlesController extends BbsesAppController {
  * @throws Exception
  */
 	public function index() {
-		//$this->BbsArticle->bindModelBbsArticle(false);
-		$this->BbsArticle->bindModelBbsArticlesUser(false);
-
 		$query = array();
 		//条件
 		$query['conditions'] = $this->BbsArticle->getWorkflowConditions(array(
@@ -141,11 +138,6 @@ class BbsArticlesController extends BbsesAppController {
 		if (isset($this->params['pass'][1])) {
 			$bbsArticleKey = $this->params['pass'][1];
 		}
-
-		//$this->BbsArticle->bindModelBbsArticle(false);
-		$this->BbsArticle->bindModelBbsArticlesUser(false);
-		//$this->BbsArticleTree->bindModelBbsArticle(false);
-		$this->BbsArticleTree->bindModelBbsArticlesUser(false);
 
 		//カレント記事の取得
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
@@ -210,7 +202,6 @@ class BbsArticlesController extends BbsesAppController {
 
 		//新着データを既読にする
 		$this->BbsArticle->saveTopicUserStatus($bbsArticle);
-		//$this->BbsArticle->readToArticle($bbsArticle['BbsArticle']['key']);
 	}
 
 /**

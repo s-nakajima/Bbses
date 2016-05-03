@@ -41,7 +41,6 @@ class BbsArticleTreeGetMaxNoTest extends NetCommonsGetTest {
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
-		'plugin.bbses.bbs_articles_user',
 		'plugin.workflow.workflow_comment',
 	);
 
