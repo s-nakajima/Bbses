@@ -10,60 +10,69 @@
  */
 ?>
 
+
 <article class="block-setting-body">
 	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
 
+	<?php echo $this->BlockIndex->description(); ?>
+
 	<div class="tab-content">
-		<div class="text-right">
-			<?php echo $this->Button->addLink(); ?>
-		</div>
+		<?php echo $this->BlockIndex->create(); ?>
+			<?php echo $this->BlockIndex->addLink(); ?>
 
-		<?php echo $this->NetCommonsForm->create('', array(
-				'url' => NetCommonsUrl::actionUrl(array('plugin' => 'frames', 'controller' => 'frames', 'action' => 'edit'))
-			)); ?>
-
-			<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
-
-			<table class="table table-hover">
+			<?php echo $this->BlockIndex->startTable(); ?>
 				<thead>
 					<tr>
-						<th></th>
-						<th>
-							<?php echo $this->Paginator->sort('Bbs.name', __d('bbses', 'Bbs name')); ?>
-						</th>
-						<th class="text-right">
-							<?php echo $this->Paginator->sort('Bbs.bbs_article_count', __d('bbses', 'Article count')); ?>
-						</th>
-						<th class="text-right">
-							<?php echo $this->Paginator->sort('Bbs.bbs_article_modified', __d('bbses', 'Article modified')); ?>
-						</th>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Frame.block_id'
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Block.name', __d('bbses', 'Bbs name'),
+								array('sort' => true)
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
+								array('sort' => true, 'type' => 'handle')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Bbs.bbs_article_count', __d('bbses', 'Article count'),
+								array('sort' => true, 'type' => 'numeric')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Bbs.bbs_article_modified', __d('bbses', 'Article modified'),
+								array('sort' => true, 'type' => 'datetime')
+							); ?>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($bbses as $bbs) : ?>
-						<tr<?php echo ($this->data['Frame']['block_id'] === $bbs['Block']['id'] ? ' class="active"' : ''); ?>>
-							<td>
-								<?php echo $this->BlockForm->displayFrame('Frame.block_id', $bbs['Block']['id']); ?>
-							</td>
-							<td>
-								<?php echo $this->NetCommonsHtml->editLink($bbs['Bbs']['name'], array('block_id' => $bbs['Block']['id'])); ?>
-							</td>
-							<td class="text-right">
-								<?php echo h($bbs['Bbs']['bbs_article_count']); ?>
-							</td>
-							<td class="text-right">
-								<?php echo $this->Date->dateFormat($bbs['Bbs']['bbs_article_modified']); ?>
-							</td>
-						</tr>
+						<?php echo $this->BlockIndex->startTableRow($bbs['Block']['id']); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Frame.block_id', $bbs['Block']['id']
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Block.name', $bbs['Block']['name'],
+									array('editUrl' => array('block_id' => $bbs['Block']['id']))
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'TrackableCreator', $bbs,
+									array('type' => 'handle')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Bbs.bbs_article_count', $bbs['Bbs']['bbs_article_count'],
+									array('type' => 'numeric')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Bbs.bbs_article_count', $bbs['Bbs']['bbs_article_modified'],
+									array('type' => 'datetime')
+								); ?>
+						<?php echo $this->BlockIndex->endTableRow(); ?>
 					<?php endforeach; ?>
 				</tbody>
-			</table>
-		<?php echo $this->NetCommonsForm->end(); ?>
+			<?php echo $this->BlockIndex->endTable(); ?>
+
+		<?php echo $this->BlockIndex->end(); ?>
 
 		<?php echo $this->element('NetCommons.paginator'); ?>
 	</div>
 </article>
-
-
-
-

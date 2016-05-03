@@ -58,7 +58,7 @@ msgstr "記事数"
 
 #: Bbses/View/BbsBlocks/index.ctp:43
 msgid "Article modified"
-msgstr "記事の最終更新日時"
+msgstr "記事の更新日時"
 
 #: Bbses/View/Elements/BbsArticles/comment_approving_link.ctp:32
 msgid "Approving"

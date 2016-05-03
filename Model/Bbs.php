@@ -220,17 +220,12 @@ class Bbs extends BbsesAppModel {
  * @return array
  */
 	public function getBbs() {
-		$bbs = $this->find('all', array(
-			'recursive' => -1,
-			'fields' => array(
-				$this->alias . '.*',
-				$this->Block->alias . '.*',
-				$this->BbsSetting->alias . '.*',
-			),
+		$bbs = $this->Block->find('all', array(
+			'recursive' => 0,
 			'joins' => array(
 				array(
-					'table' => $this->Block->table,
-					'alias' => $this->Block->alias,
+					'table' => $this->table,
+					'alias' => $this->alias,
 					'type' => 'INNER',
 					'conditions' => array(
 						$this->alias . '.block_id' . ' = ' . $this->Block->alias . ' .id',
