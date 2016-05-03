@@ -208,8 +208,9 @@ class BbsArticlesController extends BbsesAppController {
 
 		$this->set('bbsArticleChildren', $children);
 
-		//既読
-		$this->BbsArticle->readToArticle($bbsArticle['BbsArticle']['key']);
+		//新着データを既読にする
+		$this->BbsArticle->saveTopicUserStatus($bbsArticle);
+		//$this->BbsArticle->readToArticle($bbsArticle['BbsArticle']['key']);
 	}
 
 /**

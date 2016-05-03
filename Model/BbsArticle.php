@@ -63,6 +63,12 @@ class BbsArticle extends BbsesAppModel {
 				'X-BBS_NAME' => 'Bbs.name',
 			),
 		),
+		'Topics.Topics' => array(
+			'fields' => array(
+				'title' => 'BbsArticle.title',
+				'contents' => 'BbsArticle.content',
+			),
+		),
 	);
 
 /**
