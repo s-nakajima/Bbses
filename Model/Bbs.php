@@ -220,17 +220,9 @@ class Bbs extends BbsesAppModel {
  * @return array
  */
 	public function getBbs() {
-		$bbs = $this->Block->find('all', array(
+		$bbs = $this->find('first', array(
 			'recursive' => 0,
 			'joins' => array(
-				array(
-					'table' => $this->table,
-					'alias' => $this->alias,
-					'type' => 'INNER',
-					'conditions' => array(
-						$this->alias . '.block_id' . ' = ' . $this->Block->alias . ' .id',
-					),
-				),
 				array(
 					'table' => $this->BbsSetting->table,
 					'alias' => $this->BbsSetting->alias,
@@ -242,10 +234,19 @@ class Bbs extends BbsesAppModel {
 			),
 			'conditions' => $this->getBlockConditionById(),
 		));
+
 		if (! $bbs) {
 			return $bbs;
 		}
-		return $bbs[0];
+
+		$bbsSetting = $this->BbsSetting->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				$this->BbsSetting->alias . ' .bbs_key' => $bbs[$this->alias]['key']
+			),
+		));
+
+		return Hash::merge($bbs, $bbsSetting);
 	}
 
 /**

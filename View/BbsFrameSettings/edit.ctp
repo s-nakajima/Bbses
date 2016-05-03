@@ -14,7 +14,7 @@
 	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_FRAME_SETTING); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.edit_form', array(
+		<?php echo $this->BlockForm->displayEditForm(array(
 				'model' => 'BbsFrameSetting',
 				'callback' => 'Bbses.BbsFrameSettings/edit_form',
 				'cancelUrl' => NetCommonsUrl::backToPageUrl(),

@@ -54,6 +54,7 @@ class BbsFrameSettingsController extends BbsesAppController {
  * @var array
  */
 	public $helpers = array(
+		'Blocks.BlockForm',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array(
 				'block_index' => array('url' => array('controller' => 'bbs_blocks')),
