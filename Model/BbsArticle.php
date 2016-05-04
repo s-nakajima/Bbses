@@ -65,7 +65,7 @@ class BbsArticle extends BbsesAppModel {
 		'Topics.Topics' => array(
 			'fields' => array(
 				'title' => 'BbsArticle.title',
-				'contents' => 'BbsArticle.content',
+				'summary' => 'BbsArticle.content',
 				'path' => '/:plugin_key/bbs_articles/view/:block_id/:content_key',
 			),
 		),
