@@ -37,7 +37,6 @@ class BbsMailSettingsController extends MailSettingsController {
 				'role_permissions' => array('url' => array('controller' => 'bbs_block_role_permissions')),
 			),
 		),
-		'Mails.MailsHtml',
 		'Mails.MailForm',
 	);
 
