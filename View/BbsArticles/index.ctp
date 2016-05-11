@@ -13,46 +13,41 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 ?>
 
 <div class="nc-content-list">
-	<article>
-		<h1>
-			<small>
-				<?php echo h($bbs['name']); ?>
-			</small>
-		</h1>
+	<h1>
+		<?php echo h($bbs['name']); ?>
+	</h1>
 
-		<div class="clearfix">
-			<div class="pull-left">
-				<?php echo $this->element('BbsArticles/select_sort'); ?>
+	<div class="clearfix">
+		<div class="pull-left">
+			<?php echo $this->element('BbsArticles/select_sort'); ?>
 
-				<?php echo $this->DisplayNumber->dropDownToggle(); ?>
+			<?php echo $this->DisplayNumber->dropDownToggle(); ?>
 
-				<span class="glyphicon glyphicon-duplicate"></span>
-				<?php echo __d('bbses', '%s articles', (int)$this->Paginator->param('count')); ?>
-			</div>
-
-			<div class="pull-right">
-				<?php if (Current::permission('content_creatable')) : ?>
-					<?php echo $this->Button->addLink('', null, array('tooltip' => __d('bbses', 'Create article'))); ?>
-				<?php endif; ?>
-			</div>
+			<span class="glyphicon glyphicon-duplicate"></span>
+			<?php echo __d('bbses', '%s articles', (int)$this->Paginator->param('count')); ?>
 		</div>
 
-		<hr>
+		<div class="pull-right">
+			<?php if (Current::permission('content_creatable')) : ?>
+				<?php echo $this->Button->addLink('', null, array('tooltip' => __d('bbses', 'Create article'))); ?>
+			<?php endif; ?>
+		</div>
+	</div>
 
-		<?php if ($bbsArticles) : ?>
-			<?php foreach ($bbsArticles as $bbsArticle) : ?>
-				<?php echo $this->element('BbsArticles/index_bbs_article', array(
-						'bbsArticle' => $bbsArticle
-					)); ?>
+	<hr>
 
-				<hr>
-			<?php endforeach; ?>
+	<?php if ($bbsArticles) : ?>
+		<?php foreach ($bbsArticles as $bbsArticle) : ?>
+			<?php echo $this->element('BbsArticles/index_bbs_article', array(
+					'bbsArticle' => $bbsArticle
+				)); ?>
 
-			<?php echo $this->element('NetCommons.paginator'); ?>
+			<hr>
+		<?php endforeach; ?>
 
-		<?php else : ?>
-			<?php echo __d('bbses', 'No article found.') ?>
-		<?php endif; ?>
+		<?php echo $this->element('NetCommons.paginator'); ?>
 
-	</article>
+	<?php else : ?>
+		<?php echo __d('bbses', 'No article found.') ?>
+	<?php endif; ?>
 </div>
