@@ -17,13 +17,11 @@ $bbsArticle = array();
 $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 ?>
 
-<div class="nc-content-list" ng-controller="BbsArticlesEdit"
+<div ng-controller="BbsArticlesEdit"
 	ng-init="initialize(<?php echo h(json_encode(array('bbsArticle' => $bbsArticle))); ?>)">
 
 	<article>
-		<h1>
-			<?php echo h($bbs['name']); ?>
-		</h1>
+		<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
 
 		<div class="panel panel-default">
 			<?php echo $this->NetCommonsForm->create('BbsArticle'); ?>
