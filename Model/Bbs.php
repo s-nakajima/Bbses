@@ -312,8 +312,9 @@ class Bbs extends BbsesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			$this->BbsArticle->blockKey = $data['Block']['key'];
 			$conditions = array($this->BbsArticle->alias . '.bbs_id' => $bbsIds);
-			if (! $this->BbsArticle->deleteAll($conditions, false, false)) {
+			if (! $this->BbsArticle->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
