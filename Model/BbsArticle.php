@@ -213,7 +213,6 @@ class BbsArticle extends BbsesAppModel {
 		//バリデーション
 		$this->set($data);
 		if (! $this->validates()) {
-			$this->rollback();
 			return false;
 		}
 
@@ -254,7 +253,6 @@ class BbsArticle extends BbsesAppModel {
 			),
 		));
 		if (! $bbsArticleTree) {
-			$this->rollback();
 			return false;
 		}
 		$bbsArticleTrees = $this->BbsArticleTree->find('list', array(
@@ -267,21 +265,19 @@ class BbsArticle extends BbsesAppModel {
 		));
 
 		try {
+			//BbsArticleの削除
+			$this->contentKey = $bbsArticleTrees;
+			if (! $this->deleteAll(array($this->alias . '.key' => $bbsArticleTrees), false, true)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
 			//Treeデータの削除
 			$conditions = array(
-				$this->BbsArticleTree->alias . '.bbs_article_key' => $this->data['BbsArticle']['key']
+				$this->BbsArticleTree->alias . '.bbs_article_key' => $data['BbsArticle']['key']
 			);
 			if (! $this->BbsArticleTree->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			//BbsArticleの削除
-			if (! $this->deleteAll(array($this->alias . '.key' => $bbsArticleTrees), false, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			//コメントの削除
-			$this->deleteCommentsByContentKey($this->data['BbsArticle']['key']);
 
 			//Bbsのbbs_article_count、bbs_article_modified
 			$this->updateBbsByBbsArticle(
