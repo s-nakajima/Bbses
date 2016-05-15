@@ -13,9 +13,7 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 ?>
 
 <div class="nc-content-list">
-	<h1>
-		<?php echo h($bbs['name']); ?>
-	</h1>
+	<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
 
 	<div class="clearfix">
 		<div class="pull-left">
