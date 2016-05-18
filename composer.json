@@ -28,9 +28,6 @@
             "homepage": "https://github.com/NetCommons3/Bbses/graphs/contributors"
         }
     ],
-    "keywords":    ["cakephp", "bbses"],
-    "config": {
-        "vendor-dir": "vendors"
-    }
+    "keywords":    ["cakephp", "bbses"]
 }
 
