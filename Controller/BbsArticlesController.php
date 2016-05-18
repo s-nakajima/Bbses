@@ -59,7 +59,6 @@ class BbsArticlesController extends BbsesAppController {
 		'Likes.Like',
 		'NetCommons.DisplayNumber',
 		'Workflow.Workflow',
-		'Users.DisplayUser',
 	);
 
 /**
