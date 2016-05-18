@@ -29,21 +29,6 @@ class BbsFrameSetting extends BbsesAppModel {
 	public $validate = array();
 
 /**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Frame' => array(
-			'className' => 'Frames.Frame',
-			'foreignKey' => 'frame_key',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-	);
-
-/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *

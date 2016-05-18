@@ -24,7 +24,7 @@ if ($currentBbsArticle['BbsArticle']['key'] === $bbsArticle['BbsArticle']['key']
 			<span>
 				<?php echo sprintf(__d('bbses', '%s. '), $bbsArticle['BbsArticleTree']['article_no']); ?>
 			</span>
-			<?php echo $this->DisplayUser->handleLink($bbsArticle, array('avatar' => true)); ?>
+			<?php echo $this->NetCommonsHtml->handleLink($bbsArticle, array('avatar' => true)); ?>
 		</div>
 
 		<div class="col-xs-9 col-sm-10">
