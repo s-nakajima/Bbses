@@ -35,7 +35,8 @@ if ($currentBbsArticle['BbsArticle']['key'] === $bbsArticle['BbsArticle']['key']
 					<?php endif; ?>
 
 						<?php
-							$title = h($bbsArticle['BbsArticle']['title']);
+							$title = $this->NetCommonsHtml->titleIcon($bbsArticle['BbsArticle']['title_icon']) . ' ' . h($bbsArticle['BbsArticle']['title']);
+
 							echo $this->NetCommonsHtml->link($title, array('key' => $bbsArticle['BbsArticle']['key']), array('escape' => false));
 						?>
 

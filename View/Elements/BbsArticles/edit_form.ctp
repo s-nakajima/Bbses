@@ -27,8 +27,7 @@
 <?php echo $this->NetCommonsForm->hidden('BbsArticleTree.root_id'); ?>
 <?php echo $this->NetCommonsForm->hidden('BbsArticleTree.parent_id'); ?>
 
-<?php echo $this->NetCommonsForm->input('BbsArticle.title', array(
-		'type' => 'text',
+<?php echo $this->NetCommonsForm->inputWithTitleIcon('BbsArticle.title', 'BbsArticle.title_icon', array(
 		'label' => __d('bbses', 'Title'),
 		'required' => true,
 	)); ?>

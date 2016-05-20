@@ -12,9 +12,14 @@
 
 <article>
 	<h2 class="clearfix">
-		<?php echo $this->NetCommonsHtml->link(
-				CakeText::truncate($bbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH),
-				array('action' => 'view', 'key' => $bbsArticle['BbsArticle']['key'])
+		<?php
+			$title = $this->NetCommonsHtml->titleIcon($bbsArticle['BbsArticle']['title_icon']) . ' ' .
+					h(CakeText::truncate($bbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH));
+
+			echo $this->NetCommonsHtml->link(
+				$title,
+				array('action' => 'view', 'key' => $bbsArticle['BbsArticle']['key']),
+				array('escape' => false)
 			); ?>
 		<small>
 			<?php echo $this->Workflow->label($bbsArticle['BbsArticle']['status']); ?>
