@@ -28,28 +28,6 @@ class BbsFixture extends CakeTestFixture {
 	public $table = 'bbses';
 
 /**
- * Fields
- *
- * @var array
- */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary', 'comment' => 'ID | | | '),
-		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs key | 掲示板キー | Hash値 | ', 'charset' => 'utf8'),
-		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
-		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'bbs name | 掲示板名称 | | ', 'charset' => 'utf8'),
-		'bbs_article_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'Article count | 記事数 | | '),
-		'bbs_article_modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'Article modified datetime | 記事の最終更新日時 | | '),
-		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => 'created user | 作成者 | users.id | '),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
-		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => 'modified user | 更新者 | users.id | '),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 | | '),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
-
-/**
  * Records
  *
  * @var array
@@ -137,4 +115,16 @@ class BbsFixture extends CakeTestFixture {
 			'bbs_article_modified' => 1,
 		),
 	);
+
+/**
+ * Initialize the fixture.
+ *
+ * @return void
+ */
+	public function init() {
+		require_once App::pluginPath('Bbses') . 'Config' . DS . 'Schema' . DS . 'schema.php';
+		$this->fields = (new BbsesSchema())->tables['bbses'];
+		parent::init();
+	}
+
 }

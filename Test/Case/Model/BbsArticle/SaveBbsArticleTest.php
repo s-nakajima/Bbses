@@ -100,6 +100,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 				'language_id' => '2',
 				'bbs_id' => $bbsId,
 				'title' => 'BBS ARTICLE TITLE',
+				'title_icon' => null,
 				'content' => '<p>CONTENT</p>',
 				'status' => WorkflowComponent::STATUS_PUBLISHED,
 			),
