@@ -352,7 +352,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		//掲示板の場合は、削除権限と同じ条件とする
 		if (! $this->BbsArticle->canDeleteWorkflowContent($bbsArticle)) {
-			return $this->throwBadRequest();;
+			return $this->throwBadRequest();
 		}
 
 		if ($this->request->is('put')) {
