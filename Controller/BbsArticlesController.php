@@ -11,7 +11,7 @@
 
 App::uses('BbsesAppController', 'Bbses.Controller');
 App::uses('CakeText', 'Utility');
-App::uses('Workflow', 'Workflow.Controller/Component');
+App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 App::uses('MailSend', 'Mails.Utility');
 
 /**
