@@ -11,7 +11,7 @@
 
 App::uses('BbsesAppController', 'Bbses.Controller');
 App::uses('CakeText', 'Utility');
-App::uses('Workflow', 'Workflow.Controller/Component');
+App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 App::uses('MailSend', 'Mails.Utility');
 
 /**
@@ -129,8 +129,7 @@ class BbsArticlesController extends BbsesAppController {
 	public function view() {
 		//参照権限チェック
 		if (! $this->BbsArticle->canReadWorkflowContent()) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		$bbsArticleKey = null;
@@ -147,8 +146,7 @@ class BbsArticlesController extends BbsesAppController {
 			)
 		));
 		if (! $bbsArticle) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 		$this->set('currentBbsArticle', $bbsArticle);
 
@@ -163,8 +161,7 @@ class BbsArticlesController extends BbsesAppController {
 				)
 			));
 			if (! $rootBbsArticle) {
-				$this->throwBadRequest();
-				return false;
+				return $this->throwBadRequest();
 			}
 			$this->set('rootBbsArticle', $rootBbsArticle);
 		}
@@ -179,8 +176,7 @@ class BbsArticlesController extends BbsesAppController {
 					)
 				));
 				if (! $parentBbsArticle) {
-					$this->throwBadRequest();
-					return false;
+					return $this->throwBadRequest();
 				}
 				$this->set('parentBbsArticle', $parentBbsArticle);
 			} else {
@@ -275,8 +271,7 @@ class BbsArticlesController extends BbsesAppController {
 		));
 
 		if (Hash::get($bbsArticle, 'BbsArticle.status') !== WorkflowComponent::STATUS_PUBLISHED) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		if ($this->request->is('post')) {
@@ -299,8 +294,7 @@ class BbsArticlesController extends BbsesAppController {
 					'frame_id' => $this->data['Frame']['id'],
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
-				$this->redirect($url);
-				return;
+				return $this->redirect($url);
 			}
 			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
@@ -358,8 +352,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		//掲示板の場合は、削除権限と同じ条件とする
 		if (! $this->BbsArticle->canDeleteWorkflowContent($bbsArticle)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		if ($this->request->is('put')) {
@@ -378,8 +371,7 @@ class BbsArticlesController extends BbsesAppController {
 					'frame_id' => $this->data['Frame']['id'],
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
-				$this->redirect($url);
-				return;
+				return $this->redirect($url);
 			}
 			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
@@ -402,8 +394,7 @@ class BbsArticlesController extends BbsesAppController {
  */
 	public function delete() {
 		if (! $this->request->is('delete')) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
@@ -416,8 +407,7 @@ class BbsArticlesController extends BbsesAppController {
 
 		//削除権限チェック
 		if (! $this->BbsArticle->canDeleteWorkflowContent($bbsArticle)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		//親記事の取得
@@ -429,14 +419,12 @@ class BbsArticlesController extends BbsesAppController {
 				)
 			));
 			if (! $parentBbsArticle) {
-				$this->throwBadRequest();
-				return false;
+				return $this->throwBadRequest();
 			}
 		}
 
 		if (! $this->BbsArticle->deleteBbsArticle($this->data)) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		if (isset($parentBbsArticle)) {
@@ -450,7 +438,7 @@ class BbsArticlesController extends BbsesAppController {
 		} else {
 			$url = NetCommonsUrl::backToPageUrl();
 		}
-		$this->redirect($url);
+		return $this->redirect($url);
 	}
 
 /**
@@ -460,15 +448,13 @@ class BbsArticlesController extends BbsesAppController {
  */
 	public function approve() {
 		if (! $this->request->is('put')) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		$data = $this->data;
 		$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
 		if (! $data['BbsArticle']['status']) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		if ($this->BbsArticle->saveCommentAsPublish($data)) {
@@ -483,11 +469,10 @@ class BbsArticlesController extends BbsesAppController {
 				'frame_id' => $this->data['Frame']['id'],
 				'key' => $this->data['BbsArticle']['key']
 			));
-			$this->redirect($url);
-			return;
+			return $this->redirect($url);
 		}
 		$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
-		$this->throwBadRequest();
+		return $this->throwBadRequest();
 	}
 }
