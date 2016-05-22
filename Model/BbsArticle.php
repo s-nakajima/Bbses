@@ -60,6 +60,7 @@ class BbsArticle extends BbsesAppModel {
 				'X-SUBJECT' => 'BbsArticle.title',
 				'X-BODY' => 'BbsArticle.content',
 				'X-BBS_NAME' => 'Bbs.name',
+				'X-URL' => array('controller' => 'bbs_articles'),
 			),
 		),
 		'Topics.Topics' => array(
