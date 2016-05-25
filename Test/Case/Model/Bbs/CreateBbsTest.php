@@ -59,7 +59,7 @@ class BbsCreateBbsTest extends NetCommonsModelTestCase {
 /**
  * createBbsのテスト
  *
- * @param array $keydata 生成するキー情報
+ * @param array $keyData 生成するキー情報
  * @dataProvider dataProviderCreate
  * @return void
  */

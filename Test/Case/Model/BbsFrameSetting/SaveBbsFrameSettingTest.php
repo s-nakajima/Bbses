@@ -61,7 +61,7 @@ class BbsFrameSettingSaveBbsFrameSettingTest extends NetCommonsSaveTest {
 /**
  * テストDataの取得
  *
- * @param string $bbsArticleKey bbsArticleKey
+ * @param string $frameKey フレームKey
  * @return array
  */
 	private function __getData($frameKey = 'frame_1') {
