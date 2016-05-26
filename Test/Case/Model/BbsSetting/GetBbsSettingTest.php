@@ -61,7 +61,7 @@ class BbsSettingGetBbsSettingTest extends NetCommonsGetTest {
 /**
  * Getのテスト
  *
- * @param array $exist 取得するキー情報
+ * @param array $getKey 取得するキー情報
  * @param array $expected 期待値（取得したキー情報）
  * @dataProvider dataProviderGet
  *

@@ -61,7 +61,7 @@ class BbsSettingValidateTest extends NetCommonsSaveTest {
 /**
  * テストDataの取得
  *
- * @param string $bbsArticleKey bbsArticleKey
+ * @param string $bbsKey BBSキー
  * @return array
  */
 	private function __getData($bbsKey = 'bbs_1') {
