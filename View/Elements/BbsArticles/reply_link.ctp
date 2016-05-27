@@ -20,13 +20,12 @@
 			'url' => $this->NetCommonsHtml->url(array('action' => 'reply', 'key' => $bbsArticleKey))
 		)); ?>
 
-		<?php echo $this->Form->input('quote', array(
-				'label' => false,
-				'div' => false,
+		<?php echo $this->NetCommonsForm->checkbox('quote', array(
 				'type' => 'checkbox',
 				'checked' => true,
 				'hiddenField' => false,
-				'label' => __d('bbses', 'Quote this posts')
+				'label' => __d('bbses', 'Quote this posts'),
+				'inline' => true
 			)); ?>
 
 		<?php echo $this->NetCommonsForm->button('<span class="glyphicon glyphicon-comment"></span>', array(
