@@ -37,7 +37,17 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 					<?php endif; ?>
 				</div>
 
-				<?php echo $this->Workflow->buttons('BbsArticle.status'); ?>
+				<?php
+					if ($this->params['action'] === 'edit') {
+						$cancelUrl = $this->NetCommonsHtml->url(
+							array('action' => 'view', 'key' => Hash::get($this->request->data, 'BbsArticle.key'))
+						);
+					} else {
+						$cancelUrl = null;
+					}
+
+					echo $this->Workflow->buttons('BbsArticle.status', $cancelUrl);
+				?>
 			<?php echo $this->NetCommonsForm->end(); ?>
 
 			<?php if ($this->request->params['action'] === 'edit' && $this->Workflow->canDelete('BbsArticle', $this->data)) : ?>
