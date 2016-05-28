@@ -50,7 +50,7 @@ msgstr "記事の投稿"
 
 #: Bbses/View/BbsArticles/index.ctp:63
 msgid "No article found."
-msgstr "一つも記事がありません。"
+msgstr "一件も該当する記事がありません。"
 
 #: Bbses/View/BbsBlocks/index.ctp:40
 msgid "Article count"
