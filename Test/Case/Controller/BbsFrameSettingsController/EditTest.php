@@ -76,7 +76,6 @@ class BbsFrameSettingsControllerEditTest extends NetCommonsControllerTestCase {
 				'id' => 2,
 				'frame_key' => 'frame_2',
 				'articles_per_page' => '50',
-				'comments_per_page' => '10'
 			),
 		);
 

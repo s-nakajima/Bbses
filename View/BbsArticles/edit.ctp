@@ -31,7 +31,7 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 					echo $this->element('BbsArticles/view_bbs_article', array(
 						'bbsArticle' => $rootBbsArticle,
 						'parentBbsArticle' => null,
-						'bodyHide' => true,
+						'bodyHide' => 'false',
 						'footerHide' => true,
 						'panelClass' => 'panel-info',
 					));
@@ -40,7 +40,7 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 						echo $this->element('BbsArticles/view_bbs_article', array(
 							'bbsArticle' => $parentBbsArticle,
 							'parentBbsArticle' => $parentParentBbsArticle,
-							'bodyHide' => true,
+							'bodyHide' => 'false',
 							'footerHide' => true,
 							'panelClass' => 'panel-warning',
 						));
@@ -50,7 +50,7 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 						echo $this->element('BbsArticles/view_bbs_article', array(
 							'bbsArticle' => $currentBbsArticle,
 							'parentBbsArticle' => $parentBbsArticle,
-							'bodyHide' => true,
+							'bodyHide' => 'true',
 							'footerHide' => true,
 							'panelClass' => 'panel-success',
 						));
@@ -58,7 +58,7 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 						echo $this->element('BbsArticles/view_bbs_article', array(
 							'bbsArticle' => $currentBbsArticle,
 							'parentBbsArticle' => null,
-							'bodyHide' => true,
+							'bodyHide' => 'true',
 							'footerHide' => true,
 							'panelClass' => 'panel-success',
 						));
@@ -68,7 +68,7 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 						'bbsArticle' => $currentBbsArticle,
 						'parentBbsArticle' => null,
 						'panelClass' => 'panel-info',
-						'bodyHide' => true,
+						'bodyHide' => 'false',
 						'footerHide' => true,
 					));
 				}

@@ -27,7 +27,6 @@ class BbsFrameSettingFixture extends CakeTestFixture {
 			'id' => 1,
 			'frame_key' => 'frame_1',
 			'articles_per_page' => 10,
-			'comments_per_page' => 10,
 			'created_user' => 1,
 			'created' => '2014-06-18 02:06:22',
 			'modified_user' => 1,

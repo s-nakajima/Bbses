@@ -13,8 +13,8 @@
 <?php
 	$options = array('escape' => false);
 	$articleBody = 'articleBodyShow' . $bbsArticle['BbsArticleTree']['article_no'];
-	if (isset($bodyHide) && $bodyHide) {
-		$articleBodyShow = 'false';
+	if (isset($bodyHide)) {
+		$articleBodyShow = $bodyHide;
 		$options['onclick'] = 'return false;';
 		$options['ng-click'] = $articleBody . ' = !' . $articleBody;
 		$ngInit = ' ng-init="' . $articleBody . '=' . $articleBodyShow . '"';

@@ -20,12 +20,4 @@
 			'single' => __d('bbses', '%s article'),
 			'multiple' => __d('bbses', '%s articles')
 		),
-	)); ?>
-
-<?php echo $this->DisplayNumber->select('BbsFrameSetting.comments_per_page', array(
-		'label' => __d('bbses', 'Show comments per page'),
-		'unit' => array(
-			'single' => __d('bbses', '%s article'),
-			'multiple' => __d('bbses', '%s articles')
-		),
 	));

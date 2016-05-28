@@ -108,7 +108,6 @@ class BbsValidateTest extends NetCommonsValidateTest {
 				'id' => $bbsId,
 				'frame_key' => $frameKey,
 				'articles_per_page' => 10,
-				'comments_per_page' => 10,
 			),
 		);
 

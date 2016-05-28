@@ -53,13 +53,6 @@ class BbsFrameSetting extends BbsesAppModel {
 					'required' => true,
 				)
 			),
-			'comments_per_page' => array(
-				'number' => array(
-					'rule' => array('notBlank'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				)
-			),
 		));
 		return parent::beforeValidate($options);
 	}
