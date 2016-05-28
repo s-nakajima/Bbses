@@ -468,30 +468,30 @@ class BbsArticlesController extends BbsesAppController {
 			}
 		}
 
-		//親記事の取得
-		if ($bbsArticle['BbsArticleTree']['parent_id'] > 0) {
-			if ($bbsArticle['BbsArticleTree']['parent_id'] !== $bbsArticle['BbsArticleTree']['root_id']) {
-				$result = $this->__setBbsArticleByTreeId(
-					'parentBbsArticle', $bbsArticle['BbsArticleTree']['parent_id']
-				);
-				if (! $result) {
-					return false;
-				}
-			} else {
-				$this->set('parentBbsArticle', $this->viewVars['rootBbsArticle']);
-			}
-
-			//親の親記事の取得
-			if ($this->viewVars['parentBbsArticle']['BbsArticleTree']['parent_id'] > 0) {
-				$result = $this->__setBbsArticleByTreeId(
-					'parentParentBbsArticle', $this->viewVars['parentBbsArticle']['BbsArticleTree']['parent_id']
-				);
-				if (! $result) {
-					return false;
-				}
-			}
+		if (! $bbsArticle['BbsArticleTree']['parent_id']) {
+			return true;
 		}
-		return true;
+
+		//親記事の取得
+		if ($bbsArticle['BbsArticleTree']['parent_id'] !== $bbsArticle['BbsArticleTree']['root_id']) {
+			$result = $this->__setBbsArticleByTreeId(
+				'parentBbsArticle', $bbsArticle['BbsArticleTree']['parent_id']
+			);
+			if (! $result) {
+				return false;
+			}
+		} else {
+			$this->set('parentBbsArticle', $this->viewVars['rootBbsArticle']);
+			$result = true;
+		}
+
+		//親の親記事の取得
+		if ($this->viewVars['parentBbsArticle']['BbsArticleTree']['parent_id'] > 0) {
+			$result = $this->__setBbsArticleByTreeId(
+				'parentParentBbsArticle', $this->viewVars['parentBbsArticle']['BbsArticleTree']['parent_id']
+			);
+		}
+		return $result;
 	}
 
 /**
