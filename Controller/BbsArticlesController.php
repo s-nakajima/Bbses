@@ -154,7 +154,10 @@ class BbsArticlesController extends BbsesAppController {
 		$conditions = $this->BbsArticle->getWorkflowConditions();
 
 		//事前準備
-		$this->__prepare($bbsArticle);
+		$result = $this->__prepare($bbsArticle);
+		if (! $result) {
+			return $this->throwBadRequest();
+		}
 
 		//子記事の取得
 		$this->BbsArticleTree->Behaviors->load('Tree', array(
@@ -241,7 +244,10 @@ class BbsArticlesController extends BbsesAppController {
 
 		//事前準備
 		$this->set('currentBbsArticle', $bbsArticle);
-		$this->__prepare($bbsArticle);
+		$result = $this->__prepare($bbsArticle);
+		if (! $result) {
+			return $this->throwBadRequest();
+		}
 
 		if ($this->request->is('post')) {
 			$data = $this->data;
@@ -449,33 +455,43 @@ class BbsArticlesController extends BbsesAppController {
  * 事前準備
  *
  * @param array $bbsArticle 記事データ
- * @return void
+ * @return bool
  */
 	private function __prepare($bbsArticle) {
 		//根記事の取得
 		if ($bbsArticle['BbsArticleTree']['root_id'] > 0) {
-			$this->__setBbsArticleByTreeId(
+			$result = $this->__setBbsArticleByTreeId(
 				'rootBbsArticle', $bbsArticle['BbsArticleTree']['root_id']
 			);
+			if (! $result) {
+				return false;
+			}
 		}
 
 		//親記事の取得
 		if ($bbsArticle['BbsArticleTree']['parent_id'] > 0) {
 			if ($bbsArticle['BbsArticleTree']['parent_id'] !== $bbsArticle['BbsArticleTree']['root_id']) {
-				$this->__setBbsArticleByTreeId(
+				$result = $this->__setBbsArticleByTreeId(
 					'parentBbsArticle', $bbsArticle['BbsArticleTree']['parent_id']
 				);
+				if (! $result) {
+					return false;
+				}
 			} else {
 				$this->set('parentBbsArticle', $this->viewVars['rootBbsArticle']);
 			}
 
 			//親の親記事の取得
 			if ($this->viewVars['parentBbsArticle']['BbsArticleTree']['parent_id'] > 0) {
-				$this->__setBbsArticleByTreeId(
+				$result = $this->__setBbsArticleByTreeId(
 					'parentParentBbsArticle', $this->viewVars['parentBbsArticle']['BbsArticleTree']['parent_id']
 				);
+				if (! $result) {
+					return false;
+				}
 			}
 		}
+		return true;
 	}
 
 /**
@@ -483,7 +499,7 @@ class BbsArticlesController extends BbsesAppController {
  *
  * @param string $viewVarsKey viewVarsのキー
  * @param int $bbsArticleTreeId BbsArticleTreeId
- * @return void
+ * @return bool
  */
 	private function __setBbsArticleByTreeId($viewVarsKey, $bbsArticleTreeId) {
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
@@ -493,9 +509,11 @@ class BbsArticlesController extends BbsesAppController {
 			)
 		));
 		if (! $bbsArticle) {
-			return $this->throwBadRequest();
+			return false;
 		}
 		$this->set($viewVarsKey, $bbsArticle);
+
+		return true;
 	}
 
 }
