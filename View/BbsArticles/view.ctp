@@ -25,57 +25,58 @@ echo $this->NetCommonsHtml->script('/likes/js/likes.js');
 		</nav>
 
 		<article>
-			<div class="panel-group">
-				<div class="panel panel-info">
-					<?php if (isset($rootBbsArticle)) : ?>
-						<?php echo $this->element('BbsArticles/view_bbs_article', array(
-							'bbsArticle' => $rootBbsArticle,
-							'parentBbsArticle' => null,
-						)); ?>
-					<?php else : ?>
-						<?php echo $this->element('BbsArticles/view_bbs_article', array(
-							'bbsArticle' => $currentBbsArticle,
-							'parentBbsArticle' => null,
-						)); ?>
-					<?php endif; ?>
-				</div>
-			</div>
+			<?php if (isset($rootBbsArticle)) : ?>
+				<?php echo $this->element('BbsArticles/view_bbs_article', array(
+					'bbsArticle' => $rootBbsArticle,
+					'parentBbsArticle' => null,
+					'bodyHide' => true,
+					'panelClass' => 'panel-info',
+				)); ?>
+			<?php else : ?>
+				<?php echo $this->element('BbsArticles/view_bbs_article', array(
+					'bbsArticle' => $currentBbsArticle,
+					'parentBbsArticle' => null,
+					'panelClass' => 'panel-info',
+				)); ?>
+			<?php endif; ?>
 
 			<article>
+				<?php if (isset($parentParentBbsArticle)) : ?>
+					<?php echo $this->element('BbsArticles/view_bbs_article', array(
+						'bbsArticle' => $parentBbsArticle,
+						'parentBbsArticle' => $parentParentBbsArticle,
+						'panelClass' => 'panel-warning',
+						'bodyHide' => true,
+					)); ?>
+				<?php endif; ?>
+
 				<?php if (isset($parentBbsArticle)) : ?>
-					<div class="panel-group">
-						<div class="panel panel-success">
-							<?php echo $this->element('BbsArticles/view_bbs_article', array(
-								'bbsArticle' => $currentBbsArticle,
-								'parentBbsArticle' => $parentBbsArticle,
-							)); ?>
-						</div>
-					</div>
+					<?php echo $this->element('BbsArticles/view_bbs_article', array(
+						'bbsArticle' => $currentBbsArticle,
+						'parentBbsArticle' => $parentBbsArticle,
+						'panelClass' => 'panel-success',
+					)); ?>
 				<?php endif; ?>
 
 				<?php if ($bbsArticleChildren) : ?>
 					<?php foreach ($bbsArticleChildren as $childBbsArticle) : ?>
-						<article>
-							<div class="row">
-								<div class="col-xs-offset-1 col-xs-11">
-									<div class="panel-group">
-										<div class="panel panel-default">
-											<?php if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) : ?>
-												<?php echo $this->element('BbsArticles/view_bbs_article', array(
-														'bbsArticle' => $childBbsArticle,
-														'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
-													)); ?>
+						<article class="row">
+							<div class="col-xs-offset-1 col-xs-11">
+								<?php if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) : ?>
+									<?php echo $this->element('BbsArticles/view_bbs_article', array(
+											'bbsArticle' => $childBbsArticle,
+											'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
+											'panelClass' => 'panel-default',
+										)); ?>
 
-											<?php else : ?>
-												<?php echo $this->element('BbsArticles/view_bbs_article', array(
-														'bbsArticle' => $childBbsArticle,
-														'parentBbsArticle' => $currentBbsArticle,
-													)); ?>
+								<?php else : ?>
+									<?php echo $this->element('BbsArticles/view_bbs_article', array(
+											'bbsArticle' => $childBbsArticle,
+											'parentBbsArticle' => $currentBbsArticle,
+											'panelClass' => 'panel-default',
+										)); ?>
 
-											<?php endif; ?>
-										</div>
-									</div>
-								</div>
+								<?php endif; ?>
 							</div>
 						</article>
 					<?php endforeach; ?>

@@ -56,6 +56,7 @@ class BbsArticlesController extends BbsesAppController {
  * @var array
  */
 	public $helpers = array(
+		'Bbses.BbsesForm',
 		'Likes.Like',
 		'NetCommons.DisplayNumber',
 		'Workflow.Workflow',
@@ -152,37 +153,8 @@ class BbsArticlesController extends BbsesAppController {
 
 		$conditions = $this->BbsArticle->getWorkflowConditions();
 
-		//根記事の取得
-		if ($bbsArticle['BbsArticleTree']['root_id'] > 0) {
-			$rootBbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
-				'recursive' => 0,
-				'conditions' => array(
-					$this->BbsArticleTree->alias . '.id' => $bbsArticle['BbsArticleTree']['root_id'],
-				)
-			));
-			if (! $rootBbsArticle) {
-				return $this->throwBadRequest();
-			}
-			$this->set('rootBbsArticle', $rootBbsArticle);
-		}
-
-		//親記事の取得
-		if ($bbsArticle['BbsArticleTree']['parent_id'] > 0) {
-			if ($bbsArticle['BbsArticleTree']['parent_id'] !== $bbsArticle['BbsArticleTree']['root_id']) {
-				$parentBbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
-					'recursive' => 0,
-					'conditions' => array(
-						$this->BbsArticleTree->alias . '.id' => $bbsArticle['BbsArticleTree']['parent_id'],
-					)
-				));
-				if (! $parentBbsArticle) {
-					return $this->throwBadRequest();
-				}
-				$this->set('parentBbsArticle', $parentBbsArticle);
-			} else {
-				$this->set('parentBbsArticle', $rootBbsArticle);
-			}
-		}
+		//事前準備
+		$this->__prepare($bbsArticle);
 
 		//子記事の取得
 		$this->BbsArticleTree->Behaviors->load('Tree', array(
@@ -257,13 +229,6 @@ class BbsArticlesController extends BbsesAppController {
 		$bbsArticleKey = $this->params['pass'][1];
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
-			'fields' => array(
-				$this->BbsArticle->alias . '.title',
-				$this->BbsArticle->alias . '.content',
-				$this->BbsArticle->alias . '.status',
-				$this->BbsArticleTree->alias . '.id',
-				$this->BbsArticleTree->alias . '.root_id',
-			),
 			'conditions' => array(
 				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
 				$this->BbsArticle->alias . '.key' => $bbsArticleKey
@@ -273,6 +238,10 @@ class BbsArticlesController extends BbsesAppController {
 		if (Hash::get($bbsArticle, 'BbsArticle.status') !== WorkflowComponent::STATUS_PUBLISHED) {
 			return $this->throwBadRequest();
 		}
+
+		//事前準備
+		$this->set('currentBbsArticle', $bbsArticle);
+		$this->__prepare($bbsArticle);
 
 		if ($this->request->is('post')) {
 			$data = $this->data;
@@ -475,4 +444,58 @@ class BbsArticlesController extends BbsesAppController {
 
 		return $this->throwBadRequest();
 	}
+
+/**
+ * 事前準備
+ *
+ * @param array $bbsArticle 記事データ
+ * @return void
+ */
+	private function __prepare($bbsArticle) {
+		//根記事の取得
+		if ($bbsArticle['BbsArticleTree']['root_id'] > 0) {
+			$this->__setBbsArticleByTreeId(
+				'rootBbsArticle', $bbsArticle['BbsArticleTree']['root_id']
+			);
+		}
+
+		//親記事の取得
+		if ($bbsArticle['BbsArticleTree']['parent_id'] > 0) {
+			if ($bbsArticle['BbsArticleTree']['parent_id'] !== $bbsArticle['BbsArticleTree']['root_id']) {
+				$this->__setBbsArticleByTreeId(
+					'parentBbsArticle', $bbsArticle['BbsArticleTree']['parent_id']
+				);
+			} else {
+				$this->set('parentBbsArticle', $this->viewVars['rootBbsArticle']);
+			}
+
+			//親の親記事の取得
+			if ($this->viewVars['parentBbsArticle']['BbsArticleTree']['parent_id'] > 0) {
+				$this->__setBbsArticleByTreeId(
+					'parentParentBbsArticle', $this->viewVars['parentBbsArticle']['BbsArticleTree']['parent_id']
+				);
+			}
+		}
+	}
+
+/**
+ * 記事データをviewにセットする
+ *
+ * @param string $viewVarsKey viewVarsのキー
+ * @param int $bbsArticleTreeId BbsArticleTreeId
+ * @return void
+ */
+	private function __setBbsArticleByTreeId($viewVarsKey, $bbsArticleTreeId) {
+		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				$this->BbsArticleTree->alias . '.id' => $bbsArticleTreeId,
+			)
+		));
+		if (! $bbsArticle) {
+			return $this->throwBadRequest();
+		}
+		$this->set($viewVarsKey, $bbsArticle);
+	}
+
 }
