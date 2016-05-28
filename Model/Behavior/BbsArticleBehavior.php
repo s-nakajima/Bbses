@@ -137,7 +137,7 @@ class BbsArticleBehavior extends ModelBehavior {
  * @return string bbs_articles.content
  */
 	public function getReplyContent(Model $model, $content) {
-		$result = '<br><blockquote>' . $content . '</blockquote><p></p>';
+		$result = '<br><blockquote>' . $content . '</blockquote>';
 		return $result;
 	}
 
