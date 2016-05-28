@@ -80,7 +80,7 @@ class BbsBlocksController extends BbsesAppController {
 	public function index() {
 		$this->Paginator->settings = array(
 			'Bbs' => array(
-				'order' => array('Bbs.id' => 'desc'),
+				'order' => array('Bbs.bbs_article_modified' => 'desc', 'Bbs.id' => 'desc'),
 				'conditions' => $this->Bbs->getBlockConditions(),
 			)
 		);

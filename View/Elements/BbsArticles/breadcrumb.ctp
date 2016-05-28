@@ -14,7 +14,7 @@
 	<li>
 		<?php echo $this->NetCommonsHtml->link(
 				CakeText::truncate($bbs['name'], BbsArticle::BREADCRUMB_TITLE_LENGTH),
-				NetCommonsUrl::backToPageUrl(),
+				NetCommonsUrl::backToIndexUrl(),
 				array('title' => $bbs['name'])
 			); ?>
 	</li>

@@ -18,69 +18,70 @@ echo $this->NetCommonsHtml->script('/likes/js/likes.js');
 
 ?>
 
-<div class="frame">
-	<div class="nc-content-list">
-		<nav>
-			<?php echo $this->element('BbsArticles/breadcrumb'); ?>
-		</nav>
+<div class="nc-content-list">
+	<header>
+		<?php echo $this->BackTo->listLinkButton(); ?>
+	</header>
+
+	<article>
+		<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
+
+		<?php if (isset($rootBbsArticle)) : ?>
+			<?php echo $this->element('BbsArticles/view_bbs_article', array(
+				'bbsArticle' => $rootBbsArticle,
+				'parentBbsArticle' => null,
+				'bodyHide' => true,
+				'panelClass' => 'panel-info',
+			)); ?>
+		<?php else : ?>
+			<?php echo $this->element('BbsArticles/view_bbs_article', array(
+				'bbsArticle' => $currentBbsArticle,
+				'parentBbsArticle' => null,
+				'panelClass' => 'panel-info',
+			)); ?>
+		<?php endif; ?>
 
 		<article>
-			<div class="panel-group">
-				<div class="panel panel-info">
-					<?php if (isset($rootBbsArticle)) : ?>
-						<?php echo $this->element('BbsArticles/view_bbs_article', array(
-							'bbsArticle' => $rootBbsArticle,
-							'parentBbsArticle' => null,
-						)); ?>
-					<?php else : ?>
-						<?php echo $this->element('BbsArticles/view_bbs_article', array(
-							'bbsArticle' => $currentBbsArticle,
-							'parentBbsArticle' => null,
-						)); ?>
-					<?php endif; ?>
-				</div>
-			</div>
+			<?php if (isset($parentParentBbsArticle)) : ?>
+				<?php echo $this->element('BbsArticles/view_bbs_article', array(
+					'bbsArticle' => $parentBbsArticle,
+					'parentBbsArticle' => $parentParentBbsArticle,
+					'panelClass' => 'panel-warning',
+					'bodyHide' => true,
+				)); ?>
+			<?php endif; ?>
 
-			<article>
-				<?php if (isset($parentBbsArticle)) : ?>
-					<div class="panel-group">
-						<div class="panel panel-success">
-							<?php echo $this->element('BbsArticles/view_bbs_article', array(
-								'bbsArticle' => $currentBbsArticle,
-								'parentBbsArticle' => $parentBbsArticle,
-							)); ?>
+			<?php if (isset($parentBbsArticle)) : ?>
+				<?php echo $this->element('BbsArticles/view_bbs_article', array(
+					'bbsArticle' => $currentBbsArticle,
+					'parentBbsArticle' => $parentBbsArticle,
+					'panelClass' => 'panel-success',
+				)); ?>
+			<?php endif; ?>
+
+			<?php if ($bbsArticleChildren) : ?>
+				<?php foreach ($bbsArticleChildren as $childBbsArticle) : ?>
+					<article class="row">
+						<div class="col-xs-offset-1 col-xs-11">
+							<?php if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) : ?>
+								<?php echo $this->element('BbsArticles/view_bbs_article', array(
+										'bbsArticle' => $childBbsArticle,
+										'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
+										'panelClass' => 'panel-default',
+									)); ?>
+
+							<?php else : ?>
+								<?php echo $this->element('BbsArticles/view_bbs_article', array(
+										'bbsArticle' => $childBbsArticle,
+										'parentBbsArticle' => $currentBbsArticle,
+										'panelClass' => 'panel-default',
+									)); ?>
+
+							<?php endif; ?>
 						</div>
-					</div>
-				<?php endif; ?>
-
-				<?php if ($bbsArticleChildren) : ?>
-					<?php foreach ($bbsArticleChildren as $childBbsArticle) : ?>
-						<article>
-							<div class="row">
-								<div class="col-xs-offset-1 col-xs-11">
-									<div class="panel-group">
-										<div class="panel panel-default">
-											<?php if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) : ?>
-												<?php echo $this->element('BbsArticles/view_bbs_article', array(
-														'bbsArticle' => $childBbsArticle,
-														'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
-													)); ?>
-
-											<?php else : ?>
-												<?php echo $this->element('BbsArticles/view_bbs_article', array(
-														'bbsArticle' => $childBbsArticle,
-														'parentBbsArticle' => $currentBbsArticle,
-													)); ?>
-
-											<?php endif; ?>
-										</div>
-									</div>
-								</div>
-							</div>
-						</article>
-					<?php endforeach; ?>
-				<?php endif; ?>
-			</article>
+					</article>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		</article>
-	</div>
+	</article>
 </div>
