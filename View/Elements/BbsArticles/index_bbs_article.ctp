@@ -20,10 +20,9 @@
 				$title,
 				array('action' => 'view', 'key' => $bbsArticle['BbsArticle']['key']),
 				array('escape' => false)
-			); ?>
-		<small>
-			<?php echo $this->Workflow->label($bbsArticle['BbsArticle']['status']); ?>
-		</small>
+			);
+		?>
+		<?php echo $this->Workflow->label($bbsArticle['BbsArticle']['status']); ?>
 	</h2>
 
 	<p>

@@ -272,11 +272,10 @@ class BbsArticlesController extends BbsesAppController {
 			} else {
 				$rootId = (int)$bbsArticle['BbsArticleTree']['id'];
 			}
+			$title = $this->BbsArticle->getReplyTitle($bbsArticle['BbsArticle']['title']);
 			if (isset($this->params->query['quote']) && $this->params->query['quote']) {
-				$title = $this->BbsArticle->getReplyTitle($bbsArticle['BbsArticle']['title']);
 				$content = $this->BbsArticle->getReplyContent($bbsArticle['BbsArticle']['content']);
 			} else {
-				$title = null;
 				$content = null;
 			}
 			$this->request->data = Hash::merge($this->request->data,

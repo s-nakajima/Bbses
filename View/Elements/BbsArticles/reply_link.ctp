@@ -22,10 +22,11 @@
 
 		<?php echo $this->NetCommonsForm->checkbox('quote', array(
 				'type' => 'checkbox',
-				'checked' => true,
+				'checked' => false,
 				'hiddenField' => false,
 				'label' => __d('bbses', 'Quote this posts'),
-				'inline' => true
+				'inline' => true,
+				'id' => 'quote' . $bbsArticleKey
 			)); ?>
 
 		<?php echo $this->NetCommonsForm->button('<span class="glyphicon glyphicon-comment"></span>', array(

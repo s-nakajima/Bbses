@@ -120,7 +120,8 @@ class BbsArticleBehavior extends ModelBehavior {
 			} else {
 				$count = 1;
 			}
-			$result = preg_replace('/^Re(\d)?:/', 'Re' . ($count + 1) . ': ', $title);
+			$title = trim($title);
+			$result = preg_replace('/^Re(\d)?:[ ]*/', 'Re' . ($count + 1) . ': ', $title);
 		} else {
 			$result = 'Re: ' . $title;
 		}
@@ -136,7 +137,7 @@ class BbsArticleBehavior extends ModelBehavior {
  * @return string bbs_articles.content
  */
 	public function getReplyContent(Model $model, $content) {
-		$result = '<p></p><blockquote class="small">' . $content . '</blockquote><p></p>';
+		$result = '<br><blockquote>' . $content . '</blockquote>';
 		return $result;
 	}
 

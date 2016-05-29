@@ -79,7 +79,6 @@ class BbsFrameSettingValidateTest extends NetCommonsValidateTest {
 				'id' => $id,
 				'frame_key' => 'frame_1',
 				'articles_per_page' => '20',
-				'comments_per_page' => '20',
 			),
 		);
 
@@ -102,8 +101,6 @@ class BbsFrameSettingValidateTest extends NetCommonsValidateTest {
 			array($this->__getData(), 'frame_key', '',
 				__d('net_commons', 'Invalid request.')),
 			array($this->__getData(), 'articles_per_page', '',
-				__d('net_commons', 'Invalid request.')),
-			array($this->__getData(), 'comments_per_page', '',
 				__d('net_commons', 'Invalid request.')),
 		);
 	}

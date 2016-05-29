@@ -93,9 +93,9 @@ class BbsArticleBehaviorGetReplyTitleTest extends NetCommonsModelTestCase {
 	public function dataProviderGetReplyTitle() {
 		return array(
 			array('aaa', 'Re: aaa'),
-			array('Re: aaa', 'Re2:  aaa'),
-			array('Re2:  aaa', 'Re3:   aaa'),
-			array('Re3:   aaa', 'Re4:    aaa'),
+			array('Re: aaa', 'Re2: aaa'),
+			array('Re2: aaa', 'Re3: aaa'),
+			array('Re3: aaa', 'Re4: aaa'),
 		);
 	}
 

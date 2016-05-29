@@ -71,7 +71,7 @@ class BbsArticleBehaviorGetReplyContentTest extends NetCommonsModelTestCase {
  */
 	public function testGetReplyContent() {
 		$content = $this->TestBbsArticle->getReplyContent('aaa');
-		$this->assertEquals('<p></p><blockquote class="small">aaa</blockquote><p></p>', $content);
+		$this->assertEquals('<br><blockquote>aaa</blockquote>', $content);
 	}
 
 }

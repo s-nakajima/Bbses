@@ -30,7 +30,7 @@ echo $this->NetCommonsHtml->script('/likes/js/likes.js');
 			<?php echo $this->element('BbsArticles/view_bbs_article', array(
 				'bbsArticle' => $rootBbsArticle,
 				'parentBbsArticle' => null,
-				'bodyHide' => true,
+				'bodyHide' => 'false',
 				'panelClass' => 'panel-info',
 			)); ?>
 		<?php else : ?>
@@ -47,7 +47,7 @@ echo $this->NetCommonsHtml->script('/likes/js/likes.js');
 					'bbsArticle' => $parentBbsArticle,
 					'parentBbsArticle' => $parentParentBbsArticle,
 					'panelClass' => 'panel-warning',
-					'bodyHide' => true,
+					'bodyHide' => 'false',
 				)); ?>
 			<?php endif; ?>
 
