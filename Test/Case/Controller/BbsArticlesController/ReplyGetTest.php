@@ -287,11 +287,6 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
 			'exception' => 'BadRequestException',
 		);
-		$results[count($results)] = array(
-			'urlOptions' => array('frame_id' => '6', 'block_id' => '5', 'key' => 'bbs_article_3'),
-			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
-			'exception' => 'BadRequestException', 'return' => 'json',
-		);
 
 		return $results;
 	}
