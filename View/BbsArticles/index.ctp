@@ -29,20 +29,18 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 		</div>
 	</div>
 
-	<hr>
-
 	<?php if ($bbsArticles) : ?>
 		<?php foreach ($bbsArticles as $bbsArticle) : ?>
 			<?php echo $this->element('BbsArticles/index_bbs_article', array(
 					'bbsArticle' => $bbsArticle
 				)); ?>
-
-			<hr>
 		<?php endforeach; ?>
 
 		<?php echo $this->element('NetCommons.paginator'); ?>
 
 	<?php else : ?>
-		<?php echo __d('bbses', 'No article found.') ?>
+		<article>
+			<?php echo __d('bbses', 'No article found.') ?>
+		</article>
 	<?php endif; ?>
 </div>
