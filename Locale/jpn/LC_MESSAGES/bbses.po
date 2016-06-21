@@ -118,7 +118,7 @@ msgstr "コメントを付けられる"
 
 #: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:26
 msgid "Show articles per page"
-msgstr "１ページに表示する記事数"
+msgstr "1ページ毎の表示件数"
 
 #: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:41
 msgid "Show comments per page"
