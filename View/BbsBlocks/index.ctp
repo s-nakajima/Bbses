@@ -31,15 +31,23 @@
 								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
-								array('sort' => true, 'type' => 'handle')
-							); ?>
-						<?php echo $this->BlockIndex->tableHeader(
 								'Bbs.bbs_article_count', __d('bbses', 'Article count'),
 								array('sort' => true, 'type' => 'numeric')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 								'Bbs.bbs_article_modified', __d('bbses', 'Article modified'),
+								array('sort' => true, 'type' => 'datetime')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Block.public_type', __d('blocks', 'Publishing setting'),
+								array('sort' => true)
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'TrackableUpdater.handlename', __d('net_commons', 'Modified user'),
+								array('sort' => true, 'type' => 'handle')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Block.modified', __d('net_commons', 'Modified datetime'),
 								array('sort' => true, 'type' => 'datetime')
 							); ?>
 					</tr>
@@ -55,15 +63,22 @@
 									array('editUrl' => array('block_id' => $bbs['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'TrackableCreator', $bbs,
-									array('type' => 'handle')
-								); ?>
-							<?php echo $this->BlockIndex->tableData(
 									'Bbs.bbs_article_count', $bbs['Bbs']['bbs_article_count'],
 									array('type' => 'numeric')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'Bbs.bbs_article_count', $bbs['Bbs']['bbs_article_modified'],
+									'Bbs.bbs_article_modified', $bbs['Bbs']['bbs_article_modified'],
+									array('type' => 'datetime')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Block.public_type', $bbs
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'TrackableUpdater', $bbs,
+									array('type' => 'handle')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Block.modified', $bbs['Block']['modified'],
 									array('type' => 'datetime')
 								); ?>
 						<?php echo $this->BlockIndex->endTableRow(); ?>

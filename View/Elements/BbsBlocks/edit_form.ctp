@@ -22,6 +22,7 @@
 <?php echo $this->NetCommonsForm->input('Bbs.name', array(
 		'type' => 'text',
 		'label' => __d('bbses', 'Bbs name'),
+		'required' => true
 	)); ?>
 
 <?php echo $this->element('Blocks.public_type'); ?>
