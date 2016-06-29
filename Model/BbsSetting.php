@@ -38,6 +38,48 @@ class BbsSetting extends BbsesAppModel {
 	);
 
 /**
+ * beforeValidate
+ *
+ * @param array $options Options passed from Model::save().
+ * @return bool True if validate operation should continue, false to abort
+ * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#beforevalidate
+ * @see Model::save()
+ */
+	public function beforeValidate($options = array()) {
+		$this->validate = Hash::merge($this->validate, array(
+			'bbs_key' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'allowEmpty' => false,
+					'required' => true,
+					'on' => 'update', // Limit validation to 'create' or 'update' operations
+				),
+			),
+			'use_workflow' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'use_like' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'use_unlike' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+		));
+
+		return parent::beforeValidate($options);
+	}
+
+/**
  * Get bbs setting data
  *
  * @param string $bbsKey bbses.key
@@ -75,7 +117,6 @@ class BbsSetting extends BbsesAppModel {
 		//バリデーション
 		$this->set($data);
 		if (! $this->validates()) {
-			$this->rollback();
 			return false;
 		}
 
