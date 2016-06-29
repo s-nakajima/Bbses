@@ -101,7 +101,6 @@ class BbsFrameSetting extends BbsesAppModel {
 		//バリデーション
 		$this->set($data);
 		if (! $this->validates()) {
-			$this->rollback();
 			return false;
 		}
 

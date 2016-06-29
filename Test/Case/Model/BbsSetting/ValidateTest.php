@@ -148,38 +148,13 @@ class BbsSettingValidateTest extends NetCommonsSaveTest {
  */
 	public function dataProviderValidationError() {
 		return array(
-			array($this->__getData(), 'use_workflow', 'a', //PENDING バリデーションなし？
+			array($this->__getData(), 'use_workflow', 'a',
+				__d('net_commons', 'Invalid request.')),
+			array($this->__getData(), 'use_like', 'a',
+				__d('net_commons', 'Invalid request.')),
+			array($this->__getData(), 'use_unlike', 'a',
 				__d('net_commons', 'Invalid request.')),
 		);
-	}
-
-/**
- * Validatesのテスト
- *
- * @param array $data 登録データ
- * @param string $field フィールド名
- * @param string $value セットする値
- * @param string $message エラーメッセージ
- * @param array $overwrite 上書きするデータ
- * @dataProvider dataProviderValidationError
- * @return void
- */
-	public function testValidationError($data, $field, $value, $message, $overwrite = array()) {
-		$model = $this->_modelName;
-
-		if (is_null($value)) {
-			unset($data[$model][$field]);
-		} else {
-			$data[$model][$field] = $value;
-		}
-		$data = Hash::merge($data, $overwrite);
-
-		//validate処理実行
-		$this->$model->set($data);
-		$result = $this->$model->validates();
-		$this->assertTrue($result); //PENDING
-		//$this->assertFalse($result); PENDING バリデーションなしの場合？
-		//$this->assertEquals($this->$model->validationErrors[$field][0], $message);
 	}
 
 }
