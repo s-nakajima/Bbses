@@ -132,10 +132,7 @@ class BbsArticlesController extends BbsesAppController {
 			return $this->throwBadRequest();
 		}
 
-		$bbsArticleKey = null;
-		if (isset($this->params['pass'][1])) {
-			$bbsArticleKey = $this->params['pass'][1];
-		}
+		$bbsArticleKey = Hash::get($this->request->params, 'key', null);
 
 		//カレント記事の取得
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
@@ -225,7 +222,7 @@ class BbsArticlesController extends BbsesAppController {
 	public function reply() {
 		$this->view = 'edit';
 
-		$bbsArticleKey = $this->params['pass'][1];
+		$bbsArticleKey = Hash::get($this->request->params, 'key', null);
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
@@ -304,7 +301,7 @@ class BbsArticlesController extends BbsesAppController {
 	public function edit() {
 		$this->view = 'edit';
 
-		$bbsArticleKey = $this->params['pass'][1];
+		$bbsArticleKey = Hash::get($this->request->params, 'key', null);
 		if ($this->request->is('put')) {
 			$bbsArticleKey = $this->data['BbsArticle']['key'];
 		}
