@@ -15,6 +15,7 @@
 <?php echo $this->NetCommonsForm->hidden('Bbs.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Bbs.key'); ?>
 <?php echo $this->NetCommonsForm->hidden('BbsSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('BbsSetting.bbs_key'); ?>
 <?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.frame_key'); ?>
 <?php echo $this->NetCommonsForm->hidden('BbsFrameSetting.articles_per_page'); ?>
