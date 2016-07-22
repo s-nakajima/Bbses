@@ -205,7 +205,7 @@ class Bbs extends BbsesAppModel {
 				'language_id' => Current::read('Language.id'),
 			),
 		));
-		$bbs = Hash::merge($bbs, $this->BbsSetting->getBbsSetting());
+		$bbs = Hash::merge($bbs, $this->BbsSetting->createBlockSetting());
 
 		return $bbs;
 	}
