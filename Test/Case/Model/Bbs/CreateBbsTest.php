@@ -72,12 +72,11 @@ class BbsCreateBbsTest extends NetCommonsModelTestCase {
 		Current::$current = Hash::merge(Current::$current, $testCurrentData);
 
 		//期待値
-		$expected = array();
 		$expected = Hash::merge(
 			$this->$model->createAll(array(
 					'Block' => array('plugin_key' => 'blocks'),
 			)),
-			$this->$model->BbsSetting->create()
+			$this->$model->BbsSetting->getBbsSetting()
 		);
 
 		//テスト実行

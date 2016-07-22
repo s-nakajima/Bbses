@@ -59,25 +59,25 @@ class BbsSettingSaveBbsSettingTest extends NetCommonsSaveTest {
 	protected $_methodName = 'saveBbsSetting';
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', 'block_1');
+	}
+
+/**
  * テストDataの取得
  *
- * @param string $bbsKey BBS Key
  * @return array
  */
-	private function __getData($bbsKey = 'bbs_1') {
-		if ($bbsKey === 'bbs_1') {
-			$id = '1';
-		} else {
-			$id = null;
-		}
-
+	private function __getData() {
 		$data = array(
-			'Frame' => array(
-				'id' => '6'
-			),
 			'BbsSetting' => array(
-				'id' => $id,
-				'bbs_key' => 'bbs_1',
 				'use_workflow' => '1',
 				'use_comment' => '1',
 				'use_comment_approval' => '1',
@@ -95,13 +95,34 @@ class BbsSettingSaveBbsSettingTest extends NetCommonsSaveTest {
  * #### 戻り値
  *  - data 登録データ
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSave() {
 		return array(
-			array($this->__getData()), //修正
-			array($this->__getData(null)), //新規
+			array($this->__getData()),
 		);
+	}
+
+/**
+ * Saveのテスト
+ *
+ * @param array $data 登録データ
+ * @dataProvider dataProviderSave
+ * @return void
+ */
+	public function testSave($data) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
+		//テスト実行
+		$result = $this->$model->$method($data);
+		$this->assertNotEmpty($result);
+
+		//登録データ取得
+		$actual = $this->$model->getBbsSetting();
+		$expected = $data;
+
+		$this->assertEquals($expected, $actual);
 	}
 
 /**
@@ -115,8 +136,9 @@ class BbsSettingSaveBbsSettingTest extends NetCommonsSaveTest {
  * @return array
  */
 	public function dataProviderSaveOnExceptionError() {
+		$data = $this->__getData();
 		return array(
-			array($this->__getData(), 'Bbses.BbsSetting', 'save'),
+			array($data[$this->_modelName], 'Blocks.BlockSetting', 'saveMany'),
 		);
 	}
 
