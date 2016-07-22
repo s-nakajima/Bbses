@@ -84,6 +84,7 @@ class Bbs extends BbsesAppModel {
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
 			'BbsFrameSetting' => 'Bbses.BbsFrameSetting',
+			'BbsSetting' => 'Bbses.BbsSetting',
 		]);
 	}
 
