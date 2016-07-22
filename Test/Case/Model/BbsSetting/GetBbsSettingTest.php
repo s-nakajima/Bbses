@@ -37,7 +37,7 @@ class BbsSettingGetBbsSettingTest extends NetCommonsGetTest {
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_setting',
+		'plugin.bbses.block_setting_for_bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
@@ -59,43 +59,39 @@ class BbsSettingGetBbsSettingTest extends NetCommonsGetTest {
 	protected $_methodName = 'getBbsSetting';
 
 /**
- * Getのテスト
- *
- * @param array $getKey 取得するキー情報
- * @param array $expected 期待値（取得したキー情報）
- * @dataProvider dataProviderGet
+ * Getのテスト - データあり
  *
  * @return void
  */
-	public function testGet($getKey, $expected) {
+	public function testGet() {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
+		Current::write('Block.key', 'block_1');
+		Current::write('Language.id', '2');
 
 		//テスト実行
-		$result = $this->$model->$method($getKey);
-		if (empty($result)) {//取得なし
-			$this->assertEquals($expected['id'], '0');
-		} else {
-			foreach ($expected as $key => $val) {
-				$this->assertEquals($result[$model][$key], $val);
-			}
-		}
+		$result = $this->$model->$method();
+
+		//debug($result);
+		$this->assertCount(1, $result);
 	}
 
 /**
- * getのDataProvider
+ * Getのテスト - データなしの場合、新規登録データ取得
  *
- * #### 戻り値
- *  - array 取得するキー情報
- *  - array 期待値 （取得したキー情報）
- *
- * @return array
+ * @return void
  */
-	public function dataProviderGet() {
-		return array(
-			array('bbs_1', array('id' => '1' )),
-			array('bbs_xx', array('id' => '0' )),
-		);
+	public function testGetEmpty() {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+		Current::write('Block.key', 'block_xxx');
+		Current::write('Language.id', '2');
+
+		//テスト実行
+		$result = $this->$model->$method();
+
+		//debug($result);
+		$this->assertCount(1, $result);
 	}
 
 }

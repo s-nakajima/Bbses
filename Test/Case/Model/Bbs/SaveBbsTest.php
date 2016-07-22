@@ -36,7 +36,7 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
 	public $fixtures = array(
 		'plugin.likes.like',
 		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_setting',
+		'plugin.bbses.block_setting_for_bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
@@ -58,6 +58,25 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
 	protected $_methodName = 'saveBbs';
 
 /**
+ * block key
+ *
+ * @var string
+ */
+	public $blockKey = 'block_1';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', $this->blockKey);
+	}
+
+/**
  * テストDataの取得
  *
  * @param string $bbsKey bbsKey
@@ -67,14 +86,11 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
 		$frameId = '6';
 		$frameKey = 'frame_3';
 		$blockId = '2';
-		$blockKey = 'block_1';
-		$bbsId = '2';
+		$blockKey = $this->blockKey;
 		if ($bbsKey === 'bbs_1') {
 			$bbsId = '2';
-			$bbsSettingId = '1';
 		} else {
 			$bbsId = null;
-			$bbsSettingId = null;
 		}
 
 		$data = array(
@@ -98,8 +114,6 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
 				'bbs_article_modified' => null,
 			),
 			'BbsSetting' => array(
-				'id' => $bbsSettingId,
-				'bbs_key' => $bbsKey,
 				'use_comment' => '1',
 				'use_like' => '1',
 				'use_unlike' => '1',
@@ -120,7 +134,7 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
  * ### 戻り値
  *  - data 登録データ
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSave() {
 		return array(
@@ -137,12 +151,12 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
  *  - mockModel Mockのモデル
  *  - mockMethod Mockのメソッド
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSaveOnExceptionError() {
 		return array(
 			array($this->__getData(), 'Bbses.Bbs', 'save'),
-			array($this->__getData(null), 'Bbses.BbsSetting', 'save'),
+			array($this->__getData(null), 'Blocks.BlockSetting', 'saveMany'),
 			array($this->__getData(null), 'Bbses.BbsFrameSetting', 'save'),
 		);
 	}
@@ -154,7 +168,7 @@ class BbsSaveBbsTest extends NetCommonsSaveTest {
  *  - data 登録データ
  *  - mockModel Mockのモデル
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSaveOnValidationError() {
 		return array(

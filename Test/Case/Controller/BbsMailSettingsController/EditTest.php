@@ -28,7 +28,7 @@ class BbsMailSettingsControllerEditTest extends NetCommonsControllerTestCase {
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
 		'plugin.bbses.bbs_frame_setting',
-		'plugin.bbses.bbs_setting',
+		'plugin.bbses.block_setting_for_bbs',
 		'plugin.bbses.bbs',
 		'plugin.mails.mail_setting_fixed_phrase',
 	);

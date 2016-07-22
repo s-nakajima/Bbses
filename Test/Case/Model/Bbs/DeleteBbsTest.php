@@ -37,7 +37,7 @@ class BbsDeleteBbsTest extends NetCommonsDeleteTest {
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_setting',
+		'plugin.bbses.block_setting_for_bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
@@ -86,9 +86,6 @@ class BbsDeleteBbsTest extends NetCommonsDeleteTest {
  */
 	public function dataProviderDelete() {
 			$association = array(
-				'BbsSetting' => array(
-					'bbs_key' => 'bbs_1',
-				),
 				'BbsArticle' => array(
 					'bbs_id' => '2',
 				),
@@ -110,12 +107,11 @@ class BbsDeleteBbsTest extends NetCommonsDeleteTest {
  *  - mockModel Mockのモデル
  *  - mockMethod Mockのメソッド
  *
- * @return void
+ * @return array
  */
 	public function dataProviderDeleteOnExceptionError() {
 		return array(
 			array($this->__data, 'Bbses.Bbs', 'deleteAll'),
-			array($this->__data, 'Bbses.BbsSetting', 'deleteAll'),
 			array($this->__data, 'Bbses.BbsArticle', 'deleteAll'),
 			array($this->__data, 'Bbses.BbsArticleTree', 'deleteAll'),
 		);

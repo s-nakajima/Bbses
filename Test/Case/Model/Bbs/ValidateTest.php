@@ -36,7 +36,7 @@ class BbsValidateTest extends NetCommonsValidateTest {
 	public $fixtures = array(
 		'plugin.likes.like',
 		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_setting',
+		'plugin.bbses.block_setting_for_bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
@@ -58,6 +58,25 @@ class BbsValidateTest extends NetCommonsValidateTest {
 	protected $_methodName = 'saveBbs';
 
 /**
+ * block key
+ *
+ * @var string
+ */
+	public $blockKey = 'block_1';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', $this->blockKey);
+	}
+
+/**
  * テストDataの取得
  *
  * @param string $bbsKey bbsKey
@@ -67,14 +86,11 @@ class BbsValidateTest extends NetCommonsValidateTest {
 		$frameId = '6';
 		$frameKey = 'frame_3';
 		$blockId = '2';
-		$blockKey = 'block_1';
-		$bbsId = '2';
+		$blockKey = $this->blockKey;
 		if ($bbsKey === 'bbs_1') {
 			$bbsId = '2';
-			$bbsSettingId = '1';
 		} else {
 			$bbsId = null;
-			$bbsSettingId = null;
 		}
 
 		$data = array(
@@ -98,8 +114,6 @@ class BbsValidateTest extends NetCommonsValidateTest {
 				'bbs_article_modified' => null,
 			),
 			'BbsSetting' => array(
-				'id' => $bbsSettingId,
-				'bbs_key' => $bbsKey,
 				'use_comment' => '1',
 				'use_like' => '1',
 				'use_unlike' => '1',
@@ -123,7 +137,7 @@ class BbsValidateTest extends NetCommonsValidateTest {
  *  - message エラーメッセージ
  *  - overwrite 上書きするデータ
  *
- * @return void
+ * @return array
  */
 	public function dataProviderValidationError() {
 		return array(
