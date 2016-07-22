@@ -45,6 +45,7 @@ class Bbs extends BbsesAppModel {
 			'name' => 'Bbs.name',
 			'loadModels' => array(
 				'Like' => 'Likes.Like',
+				'BlockSetting' => 'Blocks.BlockSetting',
 			)
 		),
 		'NetCommons.OriginalKey',
@@ -173,12 +174,8 @@ class Bbs extends BbsesAppModel {
 	public function afterSave($created, $options = array()) {
 		//BbsSetting登録
 		if (isset($this->BbsSetting->data['BbsSetting'])) {
-			if (! $this->BbsSetting->data['BbsSetting']['bbs_key']) {
-				$this->BbsSetting->data['BbsSetting']['bbs_key'] = $this->data[$this->alias]['key'];
-			}
-			if (! $this->BbsSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->BbsSetting->set($this->BbsSetting->data['BbsSetting']);
+			$this->BbsSetting->save(null, false);
 		}
 
 		//BbsFrameSetting登録
@@ -208,7 +205,7 @@ class Bbs extends BbsesAppModel {
 				'language_id' => Current::read('Language.id'),
 			),
 		));
-		$bbs = Hash::merge($bbs, $this->BbsSetting->create());
+		$bbs = Hash::merge($bbs, $this->BbsSetting->getBbsSetting());
 
 		return $bbs;
 	}
@@ -221,16 +218,6 @@ class Bbs extends BbsesAppModel {
 	public function getBbs() {
 		$bbs = $this->find('first', array(
 			'recursive' => 0,
-			'joins' => array(
-				array(
-					'table' => $this->BbsSetting->table,
-					'alias' => $this->BbsSetting->alias,
-					'type' => 'INNER',
-					'conditions' => array(
-						$this->alias . '.key' . ' = ' . $this->BbsSetting->alias . ' .bbs_key',
-					),
-				),
-			),
 			'conditions' => $this->getBlockConditionById(),
 		));
 
@@ -238,14 +225,7 @@ class Bbs extends BbsesAppModel {
 			return $bbs;
 		}
 
-		$bbsSetting = $this->BbsSetting->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				$this->BbsSetting->alias . ' .bbs_key' => $bbs[$this->alias]['key']
-			),
-		));
-
-		return Hash::merge($bbs, $bbsSetting);
+		return Hash::merge($bbs, $this->BbsSetting->getBbsSetting());
 	}
 
 /**
@@ -303,11 +283,6 @@ class Bbs extends BbsesAppModel {
 
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Bbs']['key']), false, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			$conditions = array($this->BbsSetting->alias . '.bbs_key' => $data['Bbs']['key']);
-			if (! $this->BbsSetting->deleteAll($conditions, false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
