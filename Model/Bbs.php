@@ -67,19 +67,6 @@ class Bbs extends BbsesAppModel {
 	);
 
 /**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'BbsSetting' => array(
-			'className' => 'Bbses.BbsSetting',
-			'foreignKey' => 'bbs_key',
-			'dependent' => false
-		),
-	);
-
-/**
  * Constructor. Binds the model's database table to the object.
  *
  * @param bool|int|string|array $id Set this ID for this model on startup,
