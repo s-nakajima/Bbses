@@ -35,7 +35,7 @@ class BbsCreateBbsTest extends NetCommonsModelTestCase {
  */
 	public $fixtures = array(
 		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_setting',
+		'plugin.bbses.block_setting_for_bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
@@ -72,12 +72,11 @@ class BbsCreateBbsTest extends NetCommonsModelTestCase {
 		Current::$current = Hash::merge(Current::$current, $testCurrentData);
 
 		//期待値
-		$expected = array();
 		$expected = Hash::merge(
 			$this->$model->createAll(array(
 					'Block' => array('plugin_key' => 'blocks'),
 			)),
-			$this->$model->BbsSetting->create()
+			$this->$model->BbsSetting->getBbsSetting()
 		);
 
 		//テスト実行

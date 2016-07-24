@@ -11,7 +11,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('BbsesAppModel', 'Bbses.Model');
+App::uses('BlockBaseModel', 'Blocks.Model');
+App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
  * BbsSetting Model
@@ -19,7 +20,14 @@ App::uses('BbsesAppModel', 'Bbses.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Model
  */
-class BbsSetting extends BbsesAppModel {
+class BbsSetting extends BlockBaseModel {
+
+/**
+ * Custom database table name
+ *
+ * @var string
+ */
+	public $useTable = false;
 
 /**
  * Validation rules
@@ -35,68 +43,23 @@ class BbsSetting extends BbsesAppModel {
  */
 	public $actsAs = array(
 		'Blocks.BlockRolePermission',
+		'Blocks.BlockSetting' => array(
+			BlockSettingBehavior::FIELD_USE_LIKE,
+			BlockSettingBehavior::FIELD_USE_UNLIKE,
+			BlockSettingBehavior::FIELD_USE_COMMENT,
+			BlockSettingBehavior::FIELD_USE_WORKFLOW,
+			BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
+		),
 	);
-
-/**
- * beforeValidate
- *
- * @param array $options Options passed from Model::save().
- * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#beforevalidate
- * @see Model::save()
- */
-	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
-			'bbs_key' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'allowEmpty' => false,
-					'required' => true,
-					'on' => 'update', // Limit validation to 'create' or 'update' operations
-				),
-			),
-			'use_workflow' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'use_like' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'use_unlike' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-		));
-
-		return parent::beforeValidate($options);
-	}
 
 /**
  * Get bbs setting data
  *
- * @param string $bbsKey bbses.key
  * @return array
+ * @see BlockSettingBehavior::getBlockSetting() 取得
  */
-	public function getBbsSetting($bbsKey) {
-		$conditions = array(
-			'bbs_key' => $bbsKey
-		);
-
-		$bbsSetting = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
-
-		return $bbsSetting;
+	public function getBbsSetting() {
+		return $this->getBlockSetting();
 	}
 
 /**
@@ -121,9 +84,7 @@ class BbsSetting extends BbsesAppModel {
 		}
 
 		try {
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->save(null, false);
 
 			//トランザクションCommit
 			$this->commit();

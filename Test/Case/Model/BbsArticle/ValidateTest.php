@@ -38,7 +38,7 @@ class BbsArticleValidateTest extends NetCommonsValidateTest {
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_setting',
+		'plugin.bbses.block_setting_for_bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',

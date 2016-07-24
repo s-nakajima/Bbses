@@ -35,7 +35,7 @@ class BbsArticleBehaviorUpdateBbsByBbsArticleTest extends NetCommonsModelTestCas
  */
 	public $fixtures = array(
 		'plugin.bbses.bbs',
-		'plugin.bbses.bbs_setting',
+		'plugin.bbses.block_setting_for_bbs',
 		'plugin.bbses.bbs_frame_setting',
 		'plugin.bbses.bbs_article',
 		'plugin.bbses.bbs_article_tree',
@@ -150,7 +150,7 @@ class BbsArticleBehaviorUpdateBbsByBbsArticleTest extends NetCommonsModelTestCas
  *  - mockMethod Mockのメソッド
  *  - times エラー発生回
  *
- * @return void
+ * @return array
  */
 	public function dataProviderUpdateBbsByBbsArticleExceptionError() {
 		$key = array(
