@@ -70,6 +70,9 @@ class BbsArticle extends BbsesAppModel {
 				'path' => '/:plugin_key/bbs_articles/view/:block_id/:content_key',
 			),
 		),
+		'Wysiwyg.Wysiwyg' => array(
+			'fields' => array('content'),
+		),
 	);
 
 /**
