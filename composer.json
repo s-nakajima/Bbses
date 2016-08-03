@@ -25,7 +25,7 @@
     "authors": [
         {
             "name": "NetCommons Community",
-            "homepage": "https://github.com/NetCommons3/Bbses/graphs/contributors"
+            "homepage": "http://www.netcommons.org"
         }
     ],
     "keywords":    ["cakephp", "bbses"],
