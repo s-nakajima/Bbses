@@ -186,11 +186,8 @@ class BbsArticlesController extends BbsesAppController {
 			unset($data['BbsArticle']['id']);
 
 			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
-				$url = NetCommonsUrl::actionUrl(array(
-					'controller' => $this->params['controller'],
+				$url = NetCommonsUrl::blockUrl(array(
 					'action' => 'view',
-					'block_id' => $this->data['Block']['id'],
-					'frame_id' => $this->data['Frame']['id'],
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
 				$this->redirect($url);
@@ -252,11 +249,8 @@ class BbsArticlesController extends BbsesAppController {
 
 			$bbsArticle = $this->BbsArticle->saveBbsArticle($data);
 			if ($bbsArticle) {
-				$url = NetCommonsUrl::actionUrl(array(
-					'controller' => $this->params['controller'],
+				$url = NetCommonsUrl::blockUrl(array(
 					'action' => 'view',
-					'block_id' => $this->data['Block']['id'],
-					'frame_id' => $this->data['Frame']['id'],
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
 				return $this->redirect($url);
@@ -325,11 +319,8 @@ class BbsArticlesController extends BbsesAppController {
 			unset($data['BbsArticle']['id']);
 
 			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
-				$url = NetCommonsUrl::actionUrl(array(
-					'controller' => $this->params['controller'],
+				$url = NetCommonsUrl::blockUrl(array(
 					'action' => 'view',
-					'block_id' => $this->data['Block']['id'],
-					'frame_id' => $this->data['Frame']['id'],
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
 				return $this->redirect($url);
@@ -389,11 +380,8 @@ class BbsArticlesController extends BbsesAppController {
 		}
 
 		if (isset($parentBbsArticle)) {
-			$url = NetCommonsUrl::actionUrl(array(
-				'controller' => $this->params['controller'],
+			$url = NetCommonsUrl::blockUrl(array(
 				'action' => 'view',
-				'block_id' => $this->data['Block']['id'],
-				'frame_id' => $this->data['Frame']['id'],
 				'key' => $parentBbsArticle['BbsArticle']['key']
 			));
 		} else {
@@ -423,11 +411,8 @@ class BbsArticlesController extends BbsesAppController {
 				__d('net_commons', 'Successfully saved.'), array('class' => 'success')
 			);
 
-			$url = NetCommonsUrl::actionUrl(array(
-				'controller' => $this->params['controller'],
+			$url = NetCommonsUrl::blockUrl(array(
 				'action' => 'view',
-				'block_id' => $this->data['Block']['id'],
-				'frame_id' => $this->data['Frame']['id'],
 				'key' => $this->data['BbsArticle']['key']
 			));
 			return $this->redirect($url);
