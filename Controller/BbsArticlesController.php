@@ -420,6 +420,7 @@ class BbsArticlesController extends BbsesAppController {
 		$data['BbsArticle'] = $bbsArticle['BbsArticle'];
 		unset($data['BbsArticle']['created'], $data['BbsArticle']['created_user']);
 		unset($data['BbsArticle']['modified'], $data['BbsArticle']['modified_user']);
+		unset($data['BbsArticle']['id']);
 
 		$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
 		if (! $data['BbsArticle']['status']) {
