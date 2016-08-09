@@ -15,7 +15,7 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 <div class="nc-content-list">
 	<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
 
-	<div class="clearfix">
+	<header class="clearfix">
 		<div class="pull-left">
 			<?php echo $this->element('BbsArticles/select_sort'); ?>
 
@@ -27,7 +27,7 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 				<?php echo $this->Button->addLink('', null, array('tooltip' => __d('bbses', 'Create article'))); ?>
 			<?php endif; ?>
 		</div>
-	</div>
+	</header>
 
 	<?php if ($bbsArticles) : ?>
 		<?php foreach ($bbsArticles as $bbsArticle) : ?>
