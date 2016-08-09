@@ -11,15 +11,49 @@
     padding-left: 24px;
 }
 
-.frame .nc-content-list article h3.bbses-view-title,
+/*.frame .nc-content-list article h3.bbses-view-title,
 .frame.nc-content article h3.bbses-view-title {
 	margin-top: 0px;
-}
+}*/
 
 .bbses-comment-count {
 	margin-right: 20px;
 }
 
-.bbses-view-handle {
-	margin-right: 20px;
+/**
+ * 記事詳細
+ */
+.bbs-article h2 {
+	font-weight: bold;
+}
+.bbs-article-createdby {
+	/*margin-bottom: 16px;*/
+}
+.bbs-article-created {
+	margin-right: 24px;
+}
+.bbs-article-handle {
+	margin-right: 24px;
+}
+
+.bbs-article-body {
+	padding-top: 16px;
+}
+
+.bbs-article footer.bbs-article-footer:not(:last-child) {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 16px;
+	margin-bottom: 16px;
+}
+
+.bbs-parent-article {
+	font-size: 16px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+.bbs-article article.row:not(:last-child) footer.bbs-article-footer {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 16px;
+	margin-bottom: 12px;
 }

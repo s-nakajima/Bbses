@@ -22,6 +22,13 @@ App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 class BbsArticlesController extends BbsesAppController {
 
 /**
+ * サイト内リンクのID
+ *
+ * @var int
+ */
+	const LINK_ID_FORMAT = 'bbs-article-%s';
+
+/**
  * use models
  *
  * @var array
@@ -145,19 +152,30 @@ class BbsArticlesController extends BbsesAppController {
 		if (! $bbsArticle) {
 			return $this->throwBadRequest();
 		}
-		$this->set('currentBbsArticle', $bbsArticle);
-
-		$conditions = $this->BbsArticle->getWorkflowConditions();
 
 		//事前準備
 		$result = $this->__prepare($bbsArticle);
 		if (! $result) {
 			return $this->throwBadRequest();
 		}
+		$this->set('currentBbsArticle', $bbsArticle);
+
+		//新着データを既読にする
+		$this->BbsArticle->saveTopicUserStatus($bbsArticle);
+
+		//根記事を指していない場合、根記事＋ページ内リンクに遷移する
+		if ($bbsArticle['BbsArticleTree']['article_no'] !== '1') {
+			$url = NetCommonsUrl::blockUrl(array(
+				'action' => 'view',
+				'key' => $this->viewVars['rootBbsArticle']['BbsArticle']['key'],
+				'#' => '/' . sprintf(self::LINK_ID_FORMAT, $bbsArticle['BbsArticleTree']['id'])
+			));
+			return $this->redirect($url);
+		}
 
 		//子記事の取得
 		$this->BbsArticleTree->Behaviors->load('Tree', array(
-			'scope' => $conditions
+			'scope' => $this->BbsArticle->getWorkflowConditions()
 		));
 		$children = $this->BbsArticleTree->children(
 			$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.id DESC', null, 1, 1
@@ -165,9 +183,6 @@ class BbsArticlesController extends BbsesAppController {
 		$children = Hash::combine($children, '{n}.BbsArticleTree.id', '{n}');
 
 		$this->set('bbsArticleChildren', $children);
-
-		//新着データを既読にする
-		$this->BbsArticle->saveTopicUserStatus($bbsArticle);
 	}
 
 /**
@@ -190,8 +205,7 @@ class BbsArticlesController extends BbsesAppController {
 					'action' => 'view',
 					'key' => $bbsArticle['BbsArticle']['key']
 				));
-				$this->redirect($url);
-				return;
+				return $this->redirect($url);
 			}
 			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
@@ -217,9 +231,8 @@ class BbsArticlesController extends BbsesAppController {
  * @return void
  */
 	public function reply() {
-		$this->view = 'edit';
-
 		$bbsArticleKey = Hash::get($this->request->params, 'key', null);
+
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
@@ -234,10 +247,6 @@ class BbsArticlesController extends BbsesAppController {
 
 		//事前準備
 		$this->set('currentBbsArticle', $bbsArticle);
-		$result = $this->__prepare($bbsArticle);
-		if (! $result) {
-			return $this->throwBadRequest();
-		}
 
 		if ($this->request->is('post')) {
 			$data = $this->data;
@@ -251,7 +260,7 @@ class BbsArticlesController extends BbsesAppController {
 			if ($bbsArticle) {
 				$url = NetCommonsUrl::blockUrl(array(
 					'action' => 'view',
-					'key' => $bbsArticle['BbsArticle']['key']
+					'key' => $bbsArticle['BbsArticle']['key'],
 				));
 				return $this->redirect($url);
 			}
@@ -318,7 +327,8 @@ class BbsArticlesController extends BbsesAppController {
 			$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
 			unset($data['BbsArticle']['id']);
 
-			if ($bbsArticle = $this->BbsArticle->saveBbsArticle($data)) {
+			$bbsArticle = $this->BbsArticle->saveBbsArticle($data);
+			if ($bbsArticle) {
 				$url = NetCommonsUrl::blockUrl(array(
 					'action' => 'view',
 					'key' => $bbsArticle['BbsArticle']['key']
@@ -332,7 +342,6 @@ class BbsArticlesController extends BbsesAppController {
 			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
-
 		}
 
 		$comments = $this->BbsArticle->getCommentsByContentKey($this->request->data['BbsArticle']['key']);
@@ -400,13 +409,25 @@ class BbsArticlesController extends BbsesAppController {
 			return $this->throwBadRequest();
 		}
 
-		$data = $this->data;
+		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				$this->BbsArticle->alias . '.bbs_id' => $this->data['BbsArticle']['bbs_id'],
+				$this->BbsArticle->alias . '.key' => $this->data['BbsArticle']['key']
+			)
+		));
+
+		$data['BbsArticle'] = $bbsArticle['BbsArticle'];
+		unset($data['BbsArticle']['created'], $data['BbsArticle']['created_user']);
+		unset($data['BbsArticle']['modified'], $data['BbsArticle']['modified_user']);
+
 		$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
 		if (! $data['BbsArticle']['status']) {
 			return $this->throwBadRequest();
 		}
 
-		if ($this->BbsArticle->saveCommentAsPublish($data)) {
+		$result = $this->BbsArticle->saveBbsArticle($data);
+		if ($result) {
 			$this->NetCommons->setFlashNotification(
 				__d('net_commons', 'Successfully saved.'), array('class' => 'success')
 			);
@@ -437,6 +458,8 @@ class BbsArticlesController extends BbsesAppController {
 			if (! $result) {
 				return false;
 			}
+		} else {
+			$this->set('rootBbsArticle', $bbsArticle);
 		}
 
 		if (! $bbsArticle['BbsArticleTree']['parent_id']) {

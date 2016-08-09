@@ -15,20 +15,20 @@
 	<?php echo $this->NetCommonsForm->create('BbsArticle', array(
 			'div' => false,
 			'class' => 'nc-bbs-edit-link',
-			'url' => $this->NetCommonsHtml->url(array('action' => 'approve', 'key' => $bbsArticle['BbsArticle']['key']))
+			'url' => NetCommonsUrl::blockUrl(array('action' => 'approve', 'key' => $bbsArticle['BbsArticle']['key']))
 		)); ?>
 
 		<?php echo $this->NetCommonsForm->hidden('Frame.id', array('value' => Current::read('Frame.id'))); ?>
 		<?php echo $this->NetCommonsForm->hidden('Block.id', array('value' => Current::read('Block.id'))); ?>
 		<?php echo $this->NetCommonsForm->hidden('Block.key', array('value' => Current::read('Block.key'))); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticle.id'); ?>
+		<?php echo $this->NetCommonsForm->hidden('BbsArticle.bbs_id'); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticle.key'); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticle.language_id'); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.id'); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.root_id'); ?>
 
-		<?php echo $this->Workflow->publishLinkButton('', array(
-				'tooltip' => true,
+		<?php echo $this->Workflow->publishLinkButton(__d('net_commons', 'Accept'), array(
 				'iconSize' => 'btn-xs'
 			)); ?>
 	<?php echo $this->NetCommonsForm->end(); ?>

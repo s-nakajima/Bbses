@@ -25,9 +25,9 @@
 		<?php echo $this->Workflow->label($bbsArticle['BbsArticle']['status']); ?>
 	</h2>
 
-	<p>
+	<article>
 		<?php echo CakeText::truncate(strip_tags($bbsArticle['BbsArticle']['content']), BbsArticle::LIST_CONTENT_LENGTH); ?>
-	</p>
+	</article>
 
 	<footer class="clearfix">
 		<div class="pull-left">

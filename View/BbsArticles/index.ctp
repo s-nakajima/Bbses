@@ -12,7 +12,7 @@
 echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 ?>
 
-<div class="nc-content-list">
+<article>
 	<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
 
 	<header class="clearfix">
@@ -30,17 +30,19 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 	</header>
 
 	<?php if ($bbsArticles) : ?>
-		<?php foreach ($bbsArticles as $bbsArticle) : ?>
-			<?php echo $this->element('BbsArticles/index_bbs_article', array(
-					'bbsArticle' => $bbsArticle
-				)); ?>
-		<?php endforeach; ?>
+		<div class="nc-content-list">
+			<?php foreach ($bbsArticles as $bbsArticle) : ?>
+				<?php echo $this->element('BbsArticles/index_bbs_article', array(
+						'bbsArticle' => $bbsArticle
+					)); ?>
+			<?php endforeach; ?>
 
-		<?php echo $this->element('NetCommons.paginator'); ?>
+			<?php echo $this->element('NetCommons.paginator'); ?>
+		</div>
 
 	<?php else : ?>
-		<article>
+		<article class="nc-not-found">
 			<?php echo __d('bbses', 'No article found.') ?>
 		</article>
 	<?php endif; ?>
-</div>
+</article>
