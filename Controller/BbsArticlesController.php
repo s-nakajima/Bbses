@@ -402,7 +402,7 @@ class BbsArticlesController extends BbsesAppController {
 /**
  * approve
  *
- * @return void
+ * @return mixed
  */
 	public function approve() {
 		if (! $this->request->is('put')) {
@@ -416,14 +416,22 @@ class BbsArticlesController extends BbsesAppController {
 				$this->BbsArticle->alias . '.key' => $this->data['BbsArticle']['key']
 			)
 		));
+		if (! $bbsArticle) {
+			return $this->throwBadRequest();
+		}
+		//ステータスチェック
+		if ($bbsArticle['BbsArticle']['status'] !== WorkflowComponent::STATUS_APPROVED) {
+			return $this->throwBadRequest();
+		}
 
 		$data['BbsArticle'] = $bbsArticle['BbsArticle'];
 		unset($data['BbsArticle']['created'], $data['BbsArticle']['created_user']);
 		unset($data['BbsArticle']['modified'], $data['BbsArticle']['modified_user']);
 		unset($data['BbsArticle']['id']);
-
 		$data['BbsArticle']['status'] = $this->Workflow->parseStatus();
-		if (! $data['BbsArticle']['status']) {
+
+		//リクエストのステータスチェック
+		if ($data['BbsArticle']['status'] !== WorkflowComponent::STATUS_PUBLISHED) {
 			return $this->throwBadRequest();
 		}
 

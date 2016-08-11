@@ -98,7 +98,7 @@ class BbsArticleDeleteBbsArticleTest extends WorkflowDeleteTest {
 		);
 
 		return array(
-			array($this->__data, $association ),
+			array($this->__data, $association),
 		);
 	}
 

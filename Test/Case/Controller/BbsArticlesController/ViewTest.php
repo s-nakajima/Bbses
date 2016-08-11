@@ -119,7 +119,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 		$results[1] = Hash::merge($results[0], array( //（承認済み記事は編集不可）
 			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
 		));
-		//作成権限のみ(一般が書いた質問＆公開前)
+		//作成権限のみ(一般が書いた記事＆公開前)
 		$results[2] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_4'),
 			'assert' => array('method' => 'assertNotEmpty'),
@@ -127,26 +127,17 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 		$results[3] = Hash::merge($results[2], array(
 			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => true, 'url' => array()),
 		));
-		//作成権限のみ(他人が書いた質問＆公開中)（root_idとparent_idが異なる）
+		//作成権限のみ(他人が書いた記事＆公開中、子記事)（root_idとparent_idが異なる）
 		$results[4] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_9'),
-			'assert' => array('method' => 'assertNotEmpty'),
+			'assert' => array('method' => 'assertRedirect', 'value' => '/bbses/bbs_articles/view/2/bbs_article_7?frame_id=6#/bbs-article-9'),
 		);
-		$results[5] = Hash::merge($results[4], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
-		));
-		$results[6] = Hash::merge($results[4], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'reply', 'linkExist' => true, 'url' => array()),
-		));
 
-		//作成権限のみ(他人が書いた質問＆公開中)（root_idとparent_idが同一）
+		//作成権限のみ(他人が書いた記事＆公開中、子記事)（root_idとparent_idが同一）
 		$results[7] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_8'),
-			'assert' => array('method' => 'assertNotEmpty'),
+			'assert' => array('method' => 'assertRedirect', 'value' => '/bbses/bbs_articles/view/2/bbs_article_7?frame_id=6#/bbs-article-8'),
 		);
-		$results[8] = Hash::merge($results[7], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
-		));
 		//--（子記事に'parent_id'あり）
 		$results[9] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_7'),
@@ -155,7 +146,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 		$results[10] = Hash::merge($results[9], array(
 			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
 		));
-		//作成権限のみ(他人が書いた質問＆公開前)
+		//作成権限のみ(他人が書いた記事＆公開前)
 		$results[11] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_5'),
 			'assert' => null,
@@ -167,7 +158,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
 			'exception' => null, 'return' => 'viewFile'
 		);
-		//--パラメータ不正(keyに該当する質問が存在しない)
+		//--パラメータ不正(keyに該当する記事が存在しない)
 		$results[13] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_99'),
 			'assert' => null,
@@ -399,8 +390,18 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 		));
 		//--未承認のコメント（承認ボタン）
 		$results[6] = array(
-			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_13'),
-			'assert' => array('method' => 'assertInput', 'type' => 'button', 'name' => 'save_' . WorkflowComponent::STATUS_PUBLISHED, 'value' => null),
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_12', '#' => '/bbs_article_13'),
+			'assert' => array(
+				'method' => 'assertInput', 'type' => 'button',
+				'name' => 'save_' . WorkflowComponent::STATUS_PUBLISHED, 'value' => null
+			),
+		);
+		$results[7] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_12', '#' => '/bbs_article_13'),
+			'assert' => array(
+				'method' => 'assertInput', 'type' => 'form',
+				'name' => null, 'value' => '/bbses/bbs_articles/approve/2/bbs_article_13?frame_id=6'
+			),
 		);
 
 		return $results;
