@@ -111,11 +111,9 @@ class BbsArticlesController extends BbsesAppController {
 			$query['order'] = array('BbsArticle.created' => 'desc');
 		}
 		//表示件数
-		if (isset($this->params['named']['limit'])) {
-			$query['limit'] = (int)$this->params['named']['limit'];
-		} else {
-			$query['limit'] = $this->viewVars['bbsFrameSetting']['articles_per_page'];
-		}
+		$query['limit'] = (int)Hash::get(
+			$this->params['named'], 'limit', $this->viewVars['bbsFrameSetting']['articles_per_page']
+		);
 
 		$this->Paginator->settings = $query;
 		try {
