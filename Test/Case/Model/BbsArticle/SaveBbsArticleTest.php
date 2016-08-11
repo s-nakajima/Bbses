@@ -125,6 +125,8 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
  * @return void
  */
 	public function setUp() {
+		Current::write('Language.id', '2');
+
 		parent::setUp();
 		$model = $this->_modelName;
 		$this->$model->Behaviors->unload('Like');

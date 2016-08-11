@@ -82,6 +82,16 @@ class BbsArticleDeleteBbsArticleTest extends WorkflowDeleteTest {
 	);
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		Current::write('Language.id', '2');
+		parent::setUp();
+	}
+
+/**
  * DeleteのDataProvider
  *
  * #### 戻り値
