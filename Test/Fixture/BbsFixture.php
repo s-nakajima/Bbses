@@ -39,7 +39,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_1A',
 			'block_id' => '1',
 			'name' => 'Test bbs 1',
-			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
 		array(
@@ -47,7 +46,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_1',
 			'block_id' => '2',
 			'name' => 'Test bbs 1',
-			'bbs_article_count' => 13,
 			'bbs_article_modified' => 1,
 		),
 		//掲示板2
@@ -56,7 +54,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_2',
 			'block_id' => '4',
 			'name' => 'Test bbs 2',
-			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
 		//掲示板3
@@ -65,7 +62,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_3',
 			'block_id' => '6',
 			'name' => 'Test bbs 3',
-			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
 
@@ -75,7 +71,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_4',
 			'block_id' => '11',
 			'name' => 'Test bbs 4',
-			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
 		//掲示板5(コメントなし)
@@ -84,7 +79,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_5',
 			'block_id' => '12',
 			'name' => 'Test bbs 5',
-			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
 		//掲示板6(コメントの承認なし)
@@ -93,7 +87,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_6',
 			'block_id' => '13',
 			'name' => 'Test bbs 6',
-			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
 		//掲示板7(いいねなし)
@@ -102,7 +95,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_7',
 			'block_id' => '14',
 			'name' => 'Test bbs 7',
-			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
 		//掲示板8(わるいねなし)
@@ -111,7 +103,6 @@ class BbsFixture extends CakeTestFixture {
 			'key' => 'bbs_8',
 			'block_id' => '15',
 			'name' => 'Test bbs 8',
-			'bbs_article_count' => 1,
 			'bbs_article_modified' => 1,
 		),
 	);

@@ -100,7 +100,6 @@ class BbsBlocksControllerEditTest extends BlocksControllerEditTest {
 				'key' => $bbsKey,
 				'block_id' => $blockId,
 				'name' => 'Bbs name',
-				'bbs_article_count' => '0',
 				'bbs_article_modified' => null,
 			),
 			'BbsSetting' => array(

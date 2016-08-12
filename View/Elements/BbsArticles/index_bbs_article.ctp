@@ -33,7 +33,7 @@
 		<div class="pull-left">
 			<?php if ($bbsSetting['use_comment']) : ?>
 				<div class="inline-block bbses-comment-count">
-					<span class="glyphicon glyphicon-comment text-muted" tooltip="<?php echo __d('bbses', 'Publishing comments'); ?>"></span>
+					<span class="glyphicon glyphicon-comment text-muted" tooltip="<?php echo __d('bbses', 'Comment of numbers'); ?>"></span>
 					<?php echo (int)$bbsArticle['BbsArticleTree']['bbs_article_child_count']; ?>
 				</div>
 			<?php endif; ?>

@@ -99,6 +99,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 				'key' => $bbsArticleKey,
 				'language_id' => '2',
 				'bbs_id' => $bbsId,
+				'block_id' => $blockId,
 				'title' => 'BBS ARTICLE TITLE',
 				'title_icon' => null,
 				'content' => '<p>CONTENT</p>',
@@ -236,15 +237,6 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 			$before['BbsArticleTree']['article_no'] = '1';
 			$before['BbsArticleTree']['bbs_article_child_count'] = '0';
 		}
-
-		//BBS（登録前）
-		$conditions = array(
-			'key' => $data['Bbs']['key'],
-		);
-		$bbs = $this->$model->Bbs->find('first', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
 
 		//テスト実施
 		$latest = parent::testSave($data);

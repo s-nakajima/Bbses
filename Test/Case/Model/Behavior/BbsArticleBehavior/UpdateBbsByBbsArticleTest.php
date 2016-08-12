@@ -85,7 +85,7 @@ class BbsArticleBehaviorUpdateBbsByBbsArticleTest extends NetCommonsModelTestCas
 			'recursive' => -1,
 			'conditions' => $conditions,
 		));
-		$this->assertEquals($expected, $bbs['Bbs']['bbs_article_count']);
+		$this->assertEquals($expected, $bbs['Bbs']['bbs_article_modified']);
 	}
 
 /**
@@ -99,7 +99,7 @@ class BbsArticleBehaviorUpdateBbsByBbsArticleTest extends NetCommonsModelTestCas
  */
 	public function dataProviderUpdateBbsByBbsArticle() {
 		return array(
-			array(13, array('bbs_id' => '2', 'bbs_key' => 'bbs_1', 'language_id' => 2)),
+			array('2016-08-12 00:00:00', array('bbs_id' => '2', 'bbs_key' => 'bbs_1', 'language_id' => 2)),
 		);
 	}
 

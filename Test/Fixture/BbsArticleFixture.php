@@ -160,9 +160,9 @@ class BbsArticleFixture extends CakeTestFixture {
 			'title' => 'Re2:記事１',
 			'content' => '返信2です。',
 			'created_user' => 1,
-			'created' => '2015-05-14 07:09:55',
+			'created' => '2016-08-12 00:00:00',
 			'modified_user' => 1,
-			'modified' => '2015-05-14 07:09:55'
+			'modified' => '2016-08-12 00:00:00'
 		),
 		//(根記事が不正)
 		array(

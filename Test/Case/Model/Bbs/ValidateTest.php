@@ -110,7 +110,6 @@ class BbsValidateTest extends NetCommonsValidateTest {
 				'key' => $bbsKey,
 				'name' => 'bbsName',
 				'block_id' => $blockId,
-				'bbs_article_count' => '0',
 				'bbs_article_modified' => null,
 			),
 			'BbsSetting' => array(

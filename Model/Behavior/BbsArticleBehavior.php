@@ -20,7 +20,7 @@ App::uses('ModelBehavior', 'Model');
 class BbsArticleBehavior extends ModelBehavior {
 
 /**
- * Update bbs_article_modified and bbs_article_count
+ * Update bbs_article_modified
  *
  * @param object $model instance of model
  * @param int $bbsId bbses.id
