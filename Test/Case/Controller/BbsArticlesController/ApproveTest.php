@@ -57,27 +57,17 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
  * @param string $bbsArticleKey キー
  * @return array
  */
-	private function __getData($role = null, $bbsArticleKey = null) {
+	private function __getData() {
 		$frameId = '6';
 		$blockId = '2';
 		$blockKey = 'block_1';
 		$bbsId = '2';
 		$bbsKey = 'bbs_1';
-		if ($role === Role::ROOM_ROLE_KEY_GENERAL_USER) {
-			if ($bbsArticleKey === 'bbs_article_4') {
-				$bbsArticleId = '4';
-				$bbsArticleKey = 'bbs_article_4';
-			} else {
-				$bbsArticleId = '3';
-				$bbsArticleKey = 'bbs_article_3';
-			}
-		} else {
-			$bbsArticleId = '1';
-			$bbsArticleKey = 'bbs_article_1';
-		}
+		$bbsArticleId = '13';
+		$bbsArticleKey = 'bbs_article_13';
 
 		$data = array(
-			'save_' . WorkflowComponent::STATUS_IN_DRAFT => null,
+			'save_' . WorkflowComponent::STATUS_PUBLISHED => null,
 			'Frame' => array(
 				'id' => $frameId
 			),
@@ -92,6 +82,7 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
 			'BbsArticle' => array(
 				'id' => $bbsArticleId,
 				'key' => $bbsArticleKey,
+				'bbs_id' => $bbsId,
 				'language_id' => '2',
 			),
 			'BbsArticleTree' => array(
@@ -296,7 +287,7 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
 
 		//statusエラーデータ
 		$dataError = $data;
-		unset($dataError['save_3']);
+		unset($dataError['save_1']);
 
 		return array(
 			//ログインなし
@@ -322,32 +313,31 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
 				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
 				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
 			),
-			//(saveCommentAsPublishエラー)
+			//status違い
 			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
-				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
+				'data' => Hash::merge($data, array('BbsArticle' => array('key' => '1', 'key' => 'bbs_article_1'))),
+				'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
+				'urlOptions' => array(
+					'frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']
+				),
 				'exception' => 'BadRequestException'
 			),
+			//該当なし
 			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
-				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
-				'exception' => 'BadRequestException', 'return' => 'json'
-			),
-			//フレームID指定なしテスト
-			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-				'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']),
+				'data' => Hash::merge($data, array('BbsArticle' => array('key' => '999', 'key' => 'bbs_article_xxx'))),
+				'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
+				'urlOptions' => array(
+					'frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['BbsArticle']['key']
+				),
+				'exception' => 'BadRequestException'
 			),
 			//statusエラー
 			array(
 				'data' => $dataError, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
-				'urlOptions' => array('frame_id' => $dataError['Frame']['id'], 'block_id' => $dataError['Block']['id'], 'key' => $dataError['BbsArticle']['key']),
+				'urlOptions' => array(
+					'frame_id' => $dataError['Frame']['id'], 'block_id' => $dataError['Block']['id'], 'key' => $dataError['BbsArticle']['key']
+				),
 				'exception' => 'BadRequestException'
-			),
-			array(
-				'data' => $dataError, 'role' => Role::ROOM_ROLE_KEY_CHIEF_EDITOR,
-				'urlOptions' => array('frame_id' => $dataError['Frame']['id'], 'block_id' => $dataError['Block']['id'], 'key' => $dataError['BbsArticle']['key']),
-				'exception' => 'BadRequestException', 'return' => 'json'
 			),
 		);
 	}

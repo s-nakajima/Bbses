@@ -366,7 +366,7 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 					'return' => 'view',
 				)
 			);
-		$this->assertTextEquals('edit', $this->controller->view);
+		$this->assertTextEquals('reply', $this->controller->view);
 		$this->assertTextContains('Re:', $view);
 		//ログアウト
 		TestAuthGeneral::logout($this);

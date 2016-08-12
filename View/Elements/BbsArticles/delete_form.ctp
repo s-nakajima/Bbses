@@ -12,7 +12,7 @@
 
 <?php echo $this->NetCommonsForm->create('BbsArticle', array(
 		'type' => 'delete',
-		'url' => $this->NetCommonsHtml->url(array('action' => 'delete', 'key' => $this->data['BbsArticle']['key']))
+		'url' => NetCommonsUrl::blockUrl(array('action' => 'delete', 'key' => $this->data['BbsArticle']['key']))
 	)); ?>
 
 	<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>

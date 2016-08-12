@@ -85,22 +85,6 @@ class BbsArticle extends BbsesAppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'BbsArticleTree' => array(
-			'type' => 'INNER',
-			'className' => 'Bbses.BbsArticleTree',
-			'foreignKey' => false,
-			'conditions' => 'BbsArticleTree.bbs_article_key=BbsArticle.key',
-			'fields' => '',
-			'order' => ''
-		),
-	);
-
-/**
  * Constructor. Binds the model's database table to the object.
  *
  * @param bool|int|string|array $id Set this ID for this model on startup,
@@ -117,6 +101,22 @@ class BbsArticle extends BbsesAppModel {
 			'Bbs' => 'Bbses.Bbs',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
 		]);
+
+		$this->bindModel(array(
+			'belongsTo' => array(
+				'BbsArticleTree' => array(
+					'type' => 'INNER',
+					'className' => 'Bbses.BbsArticleTree',
+					'foreignKey' => false,
+					'conditions' => array(
+						'BbsArticle.key = BbsArticleTree.bbs_article_key',
+						'BbsArticle.language_id' => Current::read('Language.id', '0'),
+					),
+					'fields' => '',
+					'order' => ''
+				)
+			)
+		), false);
 	}
 
 /**
@@ -259,6 +259,7 @@ class BbsArticle extends BbsesAppModel {
 		if (! $bbsArticleTree) {
 			return false;
 		}
+
 		$bbsArticleTrees = $this->BbsArticleTree->find('list', array(
 			'recursive' => -1,
 			'fields' => array('id', 'bbs_article_key'),
@@ -271,13 +272,16 @@ class BbsArticle extends BbsesAppModel {
 		try {
 			//BbsArticleの削除
 			$this->contentKey = $bbsArticleTrees;
-			if (! $this->deleteAll(array($this->alias . '.key' => $bbsArticleTrees), false, true)) {
+			$conditions = array(
+				$this->alias . '.key' => array_values($bbsArticleTrees)
+			);
+			if (! $this->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//Treeデータの削除
 			$conditions = array(
-				$this->BbsArticleTree->alias . '.bbs_article_key' => $data['BbsArticle']['key']
+				$this->BbsArticleTree->alias . '.bbs_article_key' => $this->data['BbsArticle']['key']
 			);
 			if (! $this->BbsArticleTree->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
@@ -285,53 +289,7 @@ class BbsArticle extends BbsesAppModel {
 
 			//Bbsのbbs_article_count、bbs_article_modified
 			$this->updateBbsByBbsArticle(
-				$this->data['Bbs']['id'], $data['Bbs']['key'],
-				$this->data['BbsArticle']['language_id']
-			);
-
-			//コメント数の更新
-			$this->updateBbsArticleChildCount(
-				$this->data['BbsArticleTree']['root_id'],
-				$this->data['BbsArticle']['language_id']
-			);
-
-			//トランザクションCommit
-			$this->commit();
-
-		} catch (Exception $ex) {
-			//トランザクションRollback
-			$this->rollback($ex);
-		}
-
-		return true;
-	}
-
-/**
- * Save Comment as publish
- *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
- * @throws InternalErrorException
- */
-	public function saveCommentAsPublish($data) {
-		//トランザクションBegin
-		$this->begin();
-		$this->set($data);
-
-		try {
-			//BbsArticle登録処理
-			$this->id = (int)$data['BbsArticle']['id'];
-			if (! $this->saveField('status', $data['BbsArticle']['status'], false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			if (! $this->saveField('is_active', true, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			//コメント数の更新
-			$this->updateBbsArticleChildCount(
-				$data['BbsArticleTree']['root_id'],
-				$data['BbsArticle']['language_id']
+				$data['Bbs']['id'], $data['Bbs']['key'], $data['BbsArticle']['language_id']
 			);
 
 			//トランザクションCommit

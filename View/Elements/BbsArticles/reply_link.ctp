@@ -1,6 +1,6 @@
 <?php
 /**
- * Bbs post view template
+ * 返信ボタン
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -17,27 +17,34 @@
 			'div' => false,
 			'class' => 'nc-bbs-edit-link',
 			'type' => 'get',
-			'url' => $this->NetCommonsHtml->url(array('action' => 'reply', 'key' => $bbsArticleKey))
+			'url' => NetCommonsUrl::blockUrl(array('action' => 'reply', 'key' => $bbsArticleKey))
 		)); ?>
 
-		<?php echo $this->NetCommonsForm->checkbox('quote', array(
+		<?php
+			echo $this->NetCommonsForm->checkbox('quote', array(
 				'type' => 'checkbox',
-				'checked' => false,
+				'checked' => true,
 				'hiddenField' => false,
 				'label' => __d('bbses', 'Quote this posts'),
 				'inline' => true,
 				'id' => 'quote' . $bbsArticleKey
-			)); ?>
+			));
+		?>
 
-		<?php echo $this->NetCommonsForm->button('<span class="glyphicon glyphicon-comment"></span>', array(
-				'class' => 'btn btn-success btn-xs bbs-write-comment-link',
-				'tooltip' => __d('bbses', 'Write comment')
-			)); ?>
+		<?php
+			echo $this->NetCommonsForm->button(
+				__d('bbses', 'Write comment'),
+				array(
+					'class' => 'btn btn-success btn-xs bbs-write-comment-link',
+					'icon' => 'glyphicon-comment'
+				)
+			);
+		?>
 
 
 		<?php echo $this->NetCommonsForm->hidden('frame_id', array(
 			'value' => Current::read('Frame.id')
 		)); ?>
 
-	<?php echo $this->NetCommonsForm->end(); ?>
+	<?php echo $this->Form->end(); ?>
 <?php endif;

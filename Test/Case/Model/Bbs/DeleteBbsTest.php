@@ -76,6 +76,16 @@ class BbsDeleteBbsTest extends NetCommonsDeleteTest {
 	);
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		Current::write('Language.id', '2');
+		parent::setUp();
+	}
+
+/**
  * DeleteのDataProvider
  *
  * #### 戻り値

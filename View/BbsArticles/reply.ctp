@@ -1,6 +1,6 @@
 <?php
 /**
- * 記事編集・根記事追加
+ * コメントを書く
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -23,6 +23,21 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 	ng-init="initialize(<?php echo h(json_encode(array('bbsArticle' => $bbsArticle))); ?>)">
 
 	<article class="bbs-article">
-		<?php echo $this->element('BbsArticles/edit_form'); ?>
+		<?php
+			//親記事
+			if ($this->params['action'] === 'reply') {
+				echo $this->element('BbsArticles/view_bbs_article', array(
+					'bbsArticle' => $currentBbsArticle,
+					'displayFooter' => false,
+					'isRootArticle' => true
+				));
+			}
+		?>
+
+		<article class="row">
+			<div class="col-xs-offset-1 col-xs-11">
+				<?php echo $this->element('BbsArticles/edit_form'); ?>
+			</div>
+		</article>
 	</article>
 </div>

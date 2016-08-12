@@ -13,75 +13,43 @@ echo $this->NetCommonsHtml->css(array(
 	'/bbses/css/style.css',
 	'/likes/css/style.css'
 ));
-
 echo $this->NetCommonsHtml->script('/likes/js/likes.js');
-
 ?>
 
-<div class="nc-content-list">
-	<header>
-		<?php echo $this->BackTo->listLinkButton(); ?>
-	</header>
+<article class="bbs-article">
+	<?php
+		//根記事
+		echo $this->element('BbsArticles/view_bbs_article', array(
+			'bbsArticle' => $rootBbsArticle,
+			'parentBbsArticle' => null,
+			'displayFooter' => true,
+			'isRootArticle' => true
+		));
+	?>
 
-	<article>
-		<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
-
-		<?php if (isset($rootBbsArticle)) : ?>
-			<?php echo $this->element('BbsArticles/view_bbs_article', array(
-				'bbsArticle' => $rootBbsArticle,
-				'parentBbsArticle' => null,
-				'bodyHide' => 'false',
-				'panelClass' => 'panel-info',
-			)); ?>
-		<?php else : ?>
-			<?php echo $this->element('BbsArticles/view_bbs_article', array(
-				'bbsArticle' => $currentBbsArticle,
-				'parentBbsArticle' => null,
-				'panelClass' => 'panel-info',
-			)); ?>
-		<?php endif; ?>
-
-		<article>
-			<?php if (isset($parentParentBbsArticle)) : ?>
-				<?php echo $this->element('BbsArticles/view_bbs_article', array(
-					'bbsArticle' => $parentBbsArticle,
-					'parentBbsArticle' => $parentParentBbsArticle,
-					'panelClass' => 'panel-warning',
-					'bodyHide' => 'false',
-				)); ?>
-			<?php endif; ?>
-
-			<?php if (isset($parentBbsArticle)) : ?>
-				<?php echo $this->element('BbsArticles/view_bbs_article', array(
-					'bbsArticle' => $currentBbsArticle,
-					'parentBbsArticle' => $parentBbsArticle,
-					'panelClass' => 'panel-success',
-				)); ?>
-			<?php endif; ?>
-
-			<?php if ($bbsArticleChildren) : ?>
-				<?php foreach ($bbsArticleChildren as $childBbsArticle) : ?>
-					<article class="row">
-						<div class="col-xs-offset-1 col-xs-11">
-							<?php if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) : ?>
-								<?php echo $this->element('BbsArticles/view_bbs_article', array(
-										'bbsArticle' => $childBbsArticle,
-										'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
-										'panelClass' => 'panel-default',
-									)); ?>
-
-							<?php else : ?>
-								<?php echo $this->element('BbsArticles/view_bbs_article', array(
-										'bbsArticle' => $childBbsArticle,
-										'parentBbsArticle' => $currentBbsArticle,
-										'panelClass' => 'panel-default',
-									)); ?>
-
-							<?php endif; ?>
-						</div>
-					</article>
-				<?php endforeach; ?>
-			<?php endif; ?>
-		</article>
-	</article>
-</div>
+	<?php if ($bbsArticleChildren) : ?>
+		<?php foreach ($bbsArticleChildren as $childBbsArticle) : ?>
+			<article class="row">
+				<div class="col-xs-offset-1 col-xs-11">
+					<?php
+						if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) {
+							echo $this->element('BbsArticles/view_bbs_article', array(
+								'bbsArticle' => $childBbsArticle,
+								'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
+								'displayFooter' => true,
+								'isRootArticle' => false
+							));
+						} else {
+							echo $this->element('BbsArticles/view_bbs_article', array(
+								'bbsArticle' => $childBbsArticle,
+								'parentBbsArticle' => $rootBbsArticle,
+								'displayFooter' => true,
+								'isRootArticle' => false
+							));
+						}
+					?>
+				</div>
+			</article>
+		<?php endforeach; ?>
+	<?php endif; ?>
+</article>
