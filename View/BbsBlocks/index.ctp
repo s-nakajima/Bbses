@@ -31,7 +31,7 @@
 								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'Bbs.bbs_article_count', __d('bbses', 'Article count'),
+								'Block.content_count', __d('bbses', 'Article count'),
 								array('sort' => true, 'type' => 'numeric')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
@@ -63,7 +63,7 @@
 									array('editUrl' => array('block_id' => $bbs['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'Bbs.bbs_article_count', $bbs['Bbs']['bbs_article_count'],
+									'Block.content_count', $bbs['Block']['content_count'],
 									array('type' => 'numeric')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(

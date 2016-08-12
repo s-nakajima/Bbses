@@ -99,6 +99,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 				'key' => $bbsArticleKey,
 				'language_id' => '2',
 				'bbs_id' => $bbsId,
+				'block_id' => $blockId,
 				'title' => 'BBS ARTICLE TITLE',
 				'title_icon' => null,
 				'content' => '<p>CONTENT</p>',
@@ -237,16 +238,6 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 			$before['BbsArticleTree']['bbs_article_child_count'] = '0';
 		}
 
-		//BBS（登録前）
-		$conditions = array(
-			'key' => $data['Bbs']['key'],
-		);
-		$bbs = $this->$model->Bbs->find('first', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-		$beforeCount = $bbs['Bbs']['bbs_article_count'];
-
 		//テスト実施
 		$latest = parent::testSave($data);
 
@@ -272,19 +263,6 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		$after['BbsArticleTree'] = Hash::remove($after['BbsArticleTree'], 'modified_user');
 
 		$this->assertEquals($before['BbsArticleTree'], $after['BbsArticleTree']);
-
-		//BBSチェック
-		$bbs = $this->$model->Bbs->find('first', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-		if (isset($data['BbsArticleTree']['id'])) {
-			//更新
-			$this->assertEquals(($beforeCount), $bbs['Bbs']['bbs_article_count']);
-		} else {
-			//新規
-			$this->assertEquals(($beforeCount + 1), $bbs['Bbs']['bbs_article_count']);
-		}
 	}
 
 }

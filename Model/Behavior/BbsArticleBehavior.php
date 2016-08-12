@@ -20,7 +20,7 @@ App::uses('ModelBehavior', 'Model');
 class BbsArticleBehavior extends ModelBehavior {
 
 /**
- * Update bbs_article_modified and bbs_article_count
+ * Update bbs_article_modified
  *
  * @param object $model instance of model
  * @param int $bbsId bbses.id
@@ -59,15 +59,11 @@ class BbsArticleBehavior extends ModelBehavior {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 
-		$update = array(
-			'bbs_article_count' => $count
-		);
 		if ($article) {
 			$update['bbs_article_modified'] = $db->value($article[$model->alias]['modified'], 'string');
-		}
-
-		if (! $model->Bbs->updateAll($update, array('Bbs.key' => $bbsKey))) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			if (! $model->Bbs->updateAll($update, array('Bbs.key' => $bbsKey))) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
 		}
 
 		return true;
@@ -139,6 +135,66 @@ class BbsArticleBehavior extends ModelBehavior {
 	public function getReplyContent(Model $model, $content) {
 		$result = '<br><blockquote>' . $content . '</blockquote>';
 		return $result;
+	}
+
+/**
+ * Content of reply
+ *
+ * @param object $model instance of model
+ * @return string bbs_articles.content
+ */
+	public function getIndexOptions(Model $model) {
+		$options = array(
+			'BbsArticle.created.desc' => array(
+				'label' => __d('bbses', 'Latest post order'),
+				'sort' => 'BbsArticle.created',
+				'direction' => 'desc'
+			),
+			'BbsArticle.created.asc' => array(
+				'label' => __d('bbses', 'Older post order'),
+				'sort' => 'BbsArticle.created',
+				'direction' => 'asc'
+			),
+			'BbsArticleTree.bbs_article_child_count.desc' => array(
+				'label' => __d('bbses', 'Descending order of comments'),
+				'sort' => 'BbsArticleTree.bbs_article_child_count',
+				'direction' => 'desc'
+			),
+		);
+		return $options;
+	}
+
+/**
+ * 子記事数の取得
+ *
+ * @param object $model 呼び出し元のモデル
+ * @param array $bbsId 掲示板ID
+ * @param array $bbsArticles 根記事データ
+ * @return string bbs_articles.content
+ */
+	public function getChildrenArticleCounts(Model $model, $bbsId, $bbsArticles) {
+		$articleTreeIds = Hash::extract($bbsArticles, '{n}.BbsArticleTree.id');
+
+		$query = array(
+			'recursive' => 0,
+			'fields' => ['BbsArticleTree.root_id', 'COUNT(*) AS bbs_article_child_count'],
+			'conditions' => $model->getWorkflowConditions(array(
+				'BbsArticleTree.root_id' => $articleTreeIds,
+				'BbsArticle.bbs_id' => $bbsId,
+			)),
+			'group' => array('BbsArticleTree.root_id'),
+		);
+		$counts = $model->find('all', $query);
+		$counts = Hash::combine($counts, '{n}.BbsArticleTree.root_id', '{n}.0.bbs_article_child_count');
+
+		foreach ($bbsArticles as $i => $article) {
+			if (isset($counts[$article['BbsArticleTree']['id']])) {
+				$count = $counts[$article['BbsArticleTree']['id']];
+				$bbsArticles[$i]['BbsArticleTree']['bbs_article_child_count'] = $count;
+			}
+		}
+
+		return $bbsArticles;
 	}
 
 }

@@ -71,7 +71,7 @@ class TestBbsArticle extends BbsArticle {
 	);
 
 /**
- * Update bbs_article_modified and bbs_article_count
+ * Update bbs_article_modified
  *
  * @param int $bbsId bbses.id
  * @param string $bbsKey bbses.key

@@ -76,6 +76,10 @@ msgstr "記事"
 msgid "Publishing comments"
 msgstr "コメントを承認する"
 
+#: Bbses/View/BbsBlocks/index.ctp:43
+msgid "Comment of numbers"
+msgstr "コメント数"
+
 #: Bbses/View/Elements/BbsArticles/reply_link.ctp:31
 msgid "Quote this posts"
 msgstr "引用する"
