@@ -245,7 +245,6 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 			'recursive' => -1,
 			'conditions' => $conditions,
 		));
-		$beforeCount = $bbs['Bbs']['bbs_article_count'];
 
 		//テスト実施
 		$latest = parent::testSave($data);
@@ -272,19 +271,6 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 		$after['BbsArticleTree'] = Hash::remove($after['BbsArticleTree'], 'modified_user');
 
 		$this->assertEquals($before['BbsArticleTree'], $after['BbsArticleTree']);
-
-		//BBSチェック
-		$bbs = $this->$model->Bbs->find('first', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-		if (isset($data['BbsArticleTree']['id'])) {
-			//更新
-			$this->assertEquals(($beforeCount), $bbs['Bbs']['bbs_article_count']);
-		} else {
-			//新規
-			$this->assertEquals(($beforeCount + 1), $bbs['Bbs']['bbs_article_count']);
-		}
 	}
 
 }

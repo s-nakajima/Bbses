@@ -184,7 +184,7 @@ class BbsArticle extends BbsesAppModel {
 			}
 		}
 
-		//Bbsのbbs_article_count、bbs_article_modified
+		//Bbsのbbbs_article_modified
 		if (isset($this->data['Bbs']['id']) && isset($this->data['Bbs']['key'])) {
 			$this->updateBbsByBbsArticle(
 				$this->data['Bbs']['id'],
@@ -287,7 +287,7 @@ class BbsArticle extends BbsesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//Bbsのbbs_article_count、bbs_article_modified
+			//Bbsのbbs_article_modified
 			$this->updateBbsByBbsArticle(
 				$data['Bbs']['id'], $data['Bbs']['key'], $data['BbsArticle']['language_id']
 			);

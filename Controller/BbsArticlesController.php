@@ -104,12 +104,22 @@ class BbsArticlesController extends BbsesAppController {
 			'BbsArticleTree.parent_id' => null,
 			'BbsArticle.bbs_id' => $this->viewVars['bbs']['id'],
 		));
+
 		//ソート
-		if (isset($this->params['named']['sort']) && isset($this->params['named']['direction'])) {
-			$query['order'] = array($this->params['named']['sort'] => $this->params['named']['direction']);
-		} else {
-			$query['order'] = array('BbsArticle.created' => 'desc');
+		$options = $this->BbsArticle->getIndexOptions();
+		$this->set('options', $options);
+
+		$curretSort = Hash::get($this->params['named'], 'sort', 'BbsArticle.created');
+		$curretDirection = Hash::get($this->params['named'], 'direction', 'desc');
+		if (! isset($options[$curretSort . '.' . $curretDirection])) {
+			$curretSort = 'BbsArticle.created';
+			$curretDirection = 'desc';
 		}
+		$this->set('curretSort', $curretSort);
+		$this->set('curretDirection', $curretDirection);
+
+		$query['order'] = array($curretSort => $curretDirection);
+
 		//表示件数
 		$query['limit'] = (int)Hash::get(
 			$this->params['named'], 'limit', $this->viewVars['bbsFrameSetting']['articles_per_page']
@@ -118,6 +128,10 @@ class BbsArticlesController extends BbsesAppController {
 		$this->Paginator->settings = $query;
 		try {
 			$bbsArticles = $this->Paginator->paginate('BbsArticle');
+			$bbsArticles = $this->BbsArticle->getChildrenArticleCounts(
+				$this->viewVars['bbs']['id'], $bbsArticles
+			);
+
 		} catch (Exception $ex) {
 			CakeLog::error($ex);
 			throw $ex;
