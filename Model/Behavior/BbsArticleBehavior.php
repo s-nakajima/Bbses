@@ -138,33 +138,6 @@ class BbsArticleBehavior extends ModelBehavior {
 	}
 
 /**
- * Content of reply
- *
- * @param object $model instance of model
- * @return string bbs_articles.content
- */
-	public function getIndexOptions(Model $model) {
-		$options = array(
-			'BbsArticle.created.desc' => array(
-				'label' => __d('bbses', 'Latest post order'),
-				'sort' => 'BbsArticle.created',
-				'direction' => 'desc'
-			),
-			'BbsArticle.created.asc' => array(
-				'label' => __d('bbses', 'Older post order'),
-				'sort' => 'BbsArticle.created',
-				'direction' => 'asc'
-			),
-			'BbsArticleTree.bbs_article_child_count.desc' => array(
-				'label' => __d('bbses', 'Descending order of comments'),
-				'sort' => 'BbsArticleTree.bbs_article_child_count',
-				'direction' => 'desc'
-			),
-		);
-		return $options;
-	}
-
-/**
  * 子記事数の取得
  *
  * @param object $model 呼び出し元のモデル
