@@ -13,9 +13,9 @@ $linkFormatId = BbsArticlesController::LINK_ID_FORMAT;
 ?>
 
 <?php if ($isRootArticle) : ?>
-		<h1 id="/<?php echo sprintf($linkFormatId, $bbsArticle['BbsArticleTree']['id']); ?>">
+		<h1 id="<?php echo sprintf($linkFormatId, $bbsArticle['BbsArticleTree']['id']); ?>">
 <?php else : ?>
-		<h2 id="/<?php echo sprintf($linkFormatId, $bbsArticle['BbsArticleTree']['id']); ?>">
+		<h2 id="<?php echo sprintf($linkFormatId, $bbsArticle['BbsArticleTree']['id']); ?>">
 <?php endif; ?>
 
 	<?php
@@ -65,15 +65,7 @@ $linkFormatId = BbsArticlesController::LINK_ID_FORMAT;
 <div class="bbs-article-body">
 	<?php if (isset($parentBbsArticle)) : ?>
 		<div class="bbs-parent-article">
-			<?php
-				if ($parentBbsArticle['BbsArticleTree']['article_no'] !== '1') :
-					$parentLinkId = sprintf($linkFormatId, $parentBbsArticle['BbsArticleTree']['id']);
-				else :
-					$parentLinkId = '';
-				endif;
-			?>
-
-			<a href="#<?php echo $parentLinkId; ?>">
+			<a href="#<?php echo sprintf($linkFormatId, $parentBbsArticle['BbsArticleTree']['id']); ?>">
 				<?php echo sprintf(__d('bbses', '&gt;&gt; %s'), $parentBbsArticle['BbsArticleTree']['article_no']); ?>
 			</a>
 		</div>

@@ -16,7 +16,7 @@ echo $this->NetCommonsHtml->css(array(
 echo $this->NetCommonsHtml->script('/likes/js/likes.js');
 ?>
 
-<article class="bbs-article">
+<article class="bbs-article" ng-init="hashChange()">
 	<?php
 		//根記事
 		echo $this->element('BbsArticles/view_bbs_article', array(
