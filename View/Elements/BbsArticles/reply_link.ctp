@@ -32,7 +32,7 @@
 		?>
 
 		<?php
-			echo $this->NetCommonsForm->button(
+			echo $this->Button->button(
 				__d('bbses', 'Write comment'),
 				array(
 					'class' => 'btn btn-success btn-xs bbs-write-comment-link',
