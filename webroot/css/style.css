@@ -8,13 +8,17 @@
 
 .nc-bbs-edit-link {
     display: inline-block;
-    padding-left: 24px;
+    padding-left: 8px;
 }
 
 /*.frame .nc-content-list article h3.bbses-view-title,
 .frame.nc-content article h3.bbses-view-title {
 	margin-top: 0px;
 }*/
+
+.bbs-write-comment-link {
+	margin-left: 8px !important;
+}
 
 .bbses-comment-count {
 	margin-right: 20px;
