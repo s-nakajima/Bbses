@@ -37,10 +37,8 @@ $linkFormatId = BbsArticlesController::LINK_ID_FORMAT;
 			echo $this->Workflow->label($bbsArticle['BbsArticle']['status']);
 		}
 
-		$title = $this->NetCommonsHtml->titleIcon(
-			$bbsArticle['BbsArticle']['title_icon']) . ' ' . h($bbsArticle['BbsArticle']['title']
-		);
-		echo h($title);
+		echo $this->NetCommonsHtml->titleIcon($bbsArticle['BbsArticle']['title_icon']) . ' ' .
+				h($bbsArticle['BbsArticle']['title']);
 	?>
 
 <?php if ($isRootArticle) : ?>

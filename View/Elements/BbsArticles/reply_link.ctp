@@ -36,7 +36,8 @@
 				__d('bbses', 'Write comment'),
 				array(
 					'class' => 'btn btn-success btn-xs bbs-write-comment-link',
-					'icon' => 'glyphicon-comment'
+					'icon' => 'glyphicon-comment',
+					'mobileHide' => true
 				)
 			);
 		?>
