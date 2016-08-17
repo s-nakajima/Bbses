@@ -23,6 +23,7 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 	ng-init="initialize(<?php echo h(json_encode(array('bbsArticle' => $bbsArticle))); ?>)">
 
 	<article class="bbs-article">
+		<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
 		<?php echo $this->element('BbsArticles/edit_form'); ?>
 	</article>
 </div>
