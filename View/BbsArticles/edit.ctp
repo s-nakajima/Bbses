@@ -19,11 +19,12 @@ $bbsArticle = array();
 $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 ?>
 
-<div ng-controller="BbsArticlesEdit"
+<div class="nc-content-list" ng-controller="BbsArticlesEdit"
 	ng-init="initialize(<?php echo h(json_encode(array('bbsArticle' => $bbsArticle))); ?>)">
 
+	<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
+
 	<article class="bbs-article">
-		<?php echo $this->NetCommonsHtml->blockTitle($bbs['name']); ?>
 		<?php echo $this->element('BbsArticles/edit_form'); ?>
 	</article>
 </div>
