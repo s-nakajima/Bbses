@@ -14,8 +14,6 @@
 	<?php echo $this->NetCommonsForm->create('BbsArticle'); ?>
 		<div class="panel-body">
 
-			<?php echo $this->Workflow->comments(); ?>
-
 			<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
 			<?php echo $this->NetCommonsForm->hidden('Frame.block_id'); ?>
 			<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
@@ -79,5 +77,4 @@
 	<?php endif; ?>
 </div>
 
-
-
+<?php echo $this->Workflow->comments();
