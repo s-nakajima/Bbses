@@ -13,6 +13,10 @@ $linkFormatId = BbsArticlesController::LINK_ID_FORMAT;
 ?>
 
 <?php if ($isRootArticle) : ?>
+		<header>
+			<?php echo $this->LinkButton->toList(); ?>
+		</header>
+
 		<h1 id="<?php echo sprintf($linkFormatId, $bbsArticle['BbsArticleTree']['id']); ?>">
 <?php else : ?>
 		<h2 id="<?php echo sprintf($linkFormatId, $bbsArticle['BbsArticleTree']['id']); ?>">
