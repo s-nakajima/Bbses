@@ -26,6 +26,8 @@ $linkFormatId = BbsArticlesController::LINK_ID_FORMAT;
 		//根記事タイトル
 		echo sprintf(__d('bbses', '%s. '), $bbsArticle['BbsArticleTree']['article_no']);
 
+		echo $this->NetCommonsHtml->titleIcon($bbsArticle['BbsArticle']['title_icon']) . ' ';
+
 		if ($bbsArticle['BbsArticleTree']['root_id'] > 0) {
 			echo $this->Workflow->label($bbsArticle['BbsArticle']['status'], array(
 				WorkflowComponent::STATUS_IN_DRAFT => array(
@@ -41,8 +43,7 @@ $linkFormatId = BbsArticlesController::LINK_ID_FORMAT;
 			echo $this->Workflow->label($bbsArticle['BbsArticle']['status']);
 		}
 
-		echo $this->NetCommonsHtml->titleIcon($bbsArticle['BbsArticle']['title_icon']) . ' ' .
-				h($bbsArticle['BbsArticle']['title']);
+		echo h($bbsArticle['BbsArticle']['title']);
 	?>
 
 <?php if ($isRootArticle) : ?>
