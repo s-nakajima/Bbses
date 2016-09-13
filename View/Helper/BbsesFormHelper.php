@@ -52,7 +52,7 @@ class BbsesFormHelper extends AppHelper {
 		//変更前のstatusを保持する
 		$output .= $this->NetCommonsForm->hidden('status_', array('value' => $status));
 
-		$cancelUrl = $this->NetCommonsHtml->url(
+		$cancelUrl = NetCommonsUrl::blockUrl(
 			array('action' => 'view', 'key' => Hash::get($this->_View->request->data, 'BbsArticle.key'))
 		);
 		$cancelOptions = array(
