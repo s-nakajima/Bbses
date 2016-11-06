@@ -85,7 +85,7 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 				'id' => $blockId,
 				'key' => $blockKey,
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'plugin_key' => $this->plugin,
 			),
 			'Bbs' => array(

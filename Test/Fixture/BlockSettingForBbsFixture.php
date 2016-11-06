@@ -89,7 +89,7 @@ class BlockSettingForBbsFixture extends BlockSettingFixture {
 		// ブロック設定後 - room_idあり、block_keyあり
 		array(
 			'plugin_key' => 'bbses',
-			'room_id' => 1,
+			'room_id' => '2',
 			'block_key' => 'block_1',
 			'field_name' => BlockSettingBehavior::FIELD_USE_COMMENT,
 			'value' => '1',
@@ -97,7 +97,7 @@ class BlockSettingForBbsFixture extends BlockSettingFixture {
 		),
 		array(
 			'plugin_key' => 'bbses',
-			'room_id' => 1,
+			'room_id' => '2',
 			'block_key' => 'block_1',
 			'field_name' => BlockSettingBehavior::FIELD_USE_LIKE,
 			'value' => '1',
@@ -105,7 +105,7 @@ class BlockSettingForBbsFixture extends BlockSettingFixture {
 		),
 		array(
 			'plugin_key' => 'bbses',
-			'room_id' => 1,
+			'room_id' => '2',
 			'block_key' => 'block_1',
 			'field_name' => BlockSettingBehavior::FIELD_USE_UNLIKE,
 			'value' => '1',
@@ -113,7 +113,7 @@ class BlockSettingForBbsFixture extends BlockSettingFixture {
 		),
 		array(
 			'plugin_key' => 'bbses',
-			'room_id' => 1,
+			'room_id' => '2',
 			'block_key' => 'block_1',
 			'field_name' => BlockSettingBehavior::FIELD_USE_WORKFLOW,
 			'value' => '1',
@@ -121,7 +121,7 @@ class BlockSettingForBbsFixture extends BlockSettingFixture {
 		),
 		array(
 			'plugin_key' => 'bbses',
-			'room_id' => 1,
+			'room_id' => '2',
 			'block_key' => 'block_1',
 			'field_name' => BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL,
 			'value' => '1',
@@ -130,7 +130,7 @@ class BlockSettingForBbsFixture extends BlockSettingFixture {
 		// イレギュラーデータ - room_idあり、block_keyあり、USE_WORKFLOW, USE_COMMENT_APPROVALのデータなし
 		array(
 			'plugin_key' => 'bbses',
-			'room_id' => 2,
+			'room_id' => '3',
 			'block_key' => 'block_2',
 			'field_name' => BlockSettingBehavior::FIELD_USE_COMMENT,
 			'value' => '0',
@@ -138,7 +138,7 @@ class BlockSettingForBbsFixture extends BlockSettingFixture {
 		),
 		array(
 			'plugin_key' => 'bbses',
-			'room_id' => 2,
+			'room_id' => '3',
 			'block_key' => 'block_2',
 			'field_name' => BlockSettingBehavior::FIELD_USE_LIKE,
 			'value' => '1',
@@ -146,7 +146,7 @@ class BlockSettingForBbsFixture extends BlockSettingFixture {
 		),
 		array(
 			'plugin_key' => 'bbses',
-			'room_id' => 2,
+			'room_id' => '3',
 			'block_key' => 'block_2',
 			'field_name' => BlockSettingBehavior::FIELD_USE_UNLIKE,
 			'value' => '1',

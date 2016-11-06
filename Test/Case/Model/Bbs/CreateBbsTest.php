@@ -98,7 +98,7 @@ class BbsCreateBbsTest extends NetCommonsModelTestCase {
  * @return array
  */
 	public function dataProviderCreate() {
-		$keyData = array('Block.id' => '1', 'Room.id' => '1', 'Language.id' => '2');
+		$keyData = array('Block.id' => '1', 'Room.id' => '2', 'Language.id' => '2');
 
 		return array(
 			array($keyData),

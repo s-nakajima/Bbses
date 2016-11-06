@@ -101,7 +101,7 @@ class BbsValidateTest extends NetCommonsValidateTest {
 				'id' => $blockId,
 				'key' => $blockKey,
 				'language_id' => '2',
-				'room_id' => '1',
+				'room_id' => '2',
 				'plugin_key' => $this->plugin,
 				'public_type' => '1',
 			),
