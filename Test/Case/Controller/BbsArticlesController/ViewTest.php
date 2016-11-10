@@ -130,13 +130,13 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 		//作成権限のみ(他人が書いた記事＆公開中、子記事)（root_idとparent_idが異なる）
 		$results[4] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_9'),
-			'assert' => array('method' => 'assertRedirect', 'value' => '/bbses/bbs_articles/view/2/bbs_article_7?frame_id=6&page_id=2#/bbs-article-9'),
+			'assert' => array('method' => 'assertRedirect', 'value' => '/bbses/bbs_articles/view/2/bbs_article_7?frame_id=6#/bbs-article-9'),
 		);
 
 		//作成権限のみ(他人が書いた記事＆公開中、子記事)（root_idとparent_idが同一）
 		$results[7] = array(
 			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_8'),
-			'assert' => array('method' => 'assertRedirect', 'value' => '/bbses/bbs_articles/view/2/bbs_article_7?frame_id=6&page_id=2#/bbs-article-8'),
+			'assert' => array('method' => 'assertRedirect', 'value' => '/bbses/bbs_articles/view/2/bbs_article_7?frame_id=6#/bbs-article-8'),
 		);
 		//--（子記事に'parent_id'あり）
 		$results[9] = array(
