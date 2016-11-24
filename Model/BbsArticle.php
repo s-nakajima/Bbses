@@ -218,6 +218,8 @@ class BbsArticle extends BbsesAppModel {
 			);
 		}
 
+		$this->BbsArticleTree->recover('parent');
+
 		parent::afterSave($created, $options);
 	}
 
@@ -240,7 +242,8 @@ class BbsArticle extends BbsesAppModel {
 
 		try {
 			//登録処理
-			if (! $bbsArticle = $this->save(null, false)) {
+			$bbsArticle = $this->save(null, false);
+			if (! $bbsArticle) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
