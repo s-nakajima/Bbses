@@ -163,6 +163,10 @@ class BbsArticleBehavior extends ModelBehavior {
 		foreach ($bbsArticles as $i => $article) {
 			if (isset($counts[$article['BbsArticleTree']['id']])) {
 				$count = $counts[$article['BbsArticleTree']['id']];
+
+				$beforeCount = $count - $bbsArticles[$i]['BbsArticleTree']['bbs_article_child_count'];
+				$bbsArticles[$i]['BbsArticleTree']['approval_bbs_article_child_count'] = (string)$beforeCount;
+
 				$bbsArticles[$i]['BbsArticleTree']['bbs_article_child_count'] = $count;
 			}
 		}

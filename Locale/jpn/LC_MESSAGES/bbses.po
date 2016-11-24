@@ -77,8 +77,12 @@ msgid "Publishing comments"
 msgstr "コメントを承認する"
 
 #: Bbses/View/BbsBlocks/index.ctp:43
-msgid "Comment of numbers"
-msgstr "コメント数"
+msgid "%s comments(%s approval waited comments)"
+msgstr "%sコメント(%s未承認)"
+
+#: Bbses/View/BbsBlocks/index.ctp:43
+msgid "%s comments"
+msgstr "%sコメント"
 
 #: Bbses/View/Elements/BbsArticles/reply_link.ctp:31
 msgid "Quote this posts"
