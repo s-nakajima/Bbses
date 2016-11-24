@@ -218,8 +218,6 @@ class BbsArticle extends BbsesAppModel {
 			);
 		}
 
-		$this->BbsArticleTree->recover('parent');
-
 		parent::afterSave($created, $options);
 	}
 
@@ -246,6 +244,8 @@ class BbsArticle extends BbsesAppModel {
 			if (! $bbsArticle) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			$this->BbsArticleTree->recover('parent');
 
 			//トランザクションCommit
 			$this->commit();
