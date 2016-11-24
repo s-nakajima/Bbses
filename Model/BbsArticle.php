@@ -123,7 +123,7 @@ class BbsArticle extends BbsesAppModel {
 		$this->bindModel(array(
 			'belongsTo' => array(
 				'BbsArticleTree' => array(
-					'type' => 'INNER',
+					'type' => 'LEFT',
 					'className' => 'Bbses.BbsArticleTree',
 					'foreignKey' => false,
 					'conditions' => array(
