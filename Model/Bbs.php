@@ -190,7 +190,6 @@ class Bbs extends BbsesAppModel {
 			),
 			'Block' => array(
 				'room_id' => Current::read('Room.id'),
-				'language_id' => Current::read('Language.id'),
 			),
 		));
 		$bbs = Hash::merge($bbs, $this->BbsSetting->createBlockSetting());

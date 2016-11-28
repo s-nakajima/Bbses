@@ -84,9 +84,12 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 			'Block' => array(
 				'id' => $blockId,
 				'key' => $blockKey,
-				'language_id' => '2',
 				'room_id' => '2',
 				'plugin_key' => $this->plugin,
+			),
+			'BlocksLanguage' => array(
+				'block_id' => $blockId,
+				'language_id' => '2',
 			),
 			'Bbs' => array(
 				'id' => $bbsId,
@@ -227,6 +230,14 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 		TestAuthGeneral::login($this, Role::ROOM_ROLE_KEY_EDITOR);
 
 		$this->testReplyGet($urlOptions, $assert, $exception, $return);
+		//テスト実施
+		$url = Hash::merge(array(
+			'plugin' => $this->plugin,
+			'controller' => $this->_controller,
+			'action' => 'reply',
+		), $urlOptions);
+
+		$this->_testGetAction($url, $assert, $exception, $return);
 
 		//ログアウト
 		TestAuthGeneral::logout($this);
@@ -283,7 +294,7 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 		);
 		//--BBSなし
 		$results[count($results)] = array(
-			'urlOptions' => array('frame_id' => '6', 'block_id' => '5', 'key' => 'bbs_article_3'),
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '6', 'key' => 'bbs_article_3'),
 			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
 			'exception' => 'BadRequestException',
 		);
