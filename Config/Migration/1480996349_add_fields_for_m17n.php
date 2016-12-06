@@ -38,7 +38,7 @@ class AddFieldsForM17n extends NetCommonsMigration {
 					'is_translation' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => '翻訳したかどうか', 'after' => 'is_origin'),
 				),
 				'bbses' => array(
-					'language_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 6, 'unsigned' => false, 'comment' => '言語ID', 'after' => 'block_id'),
+					'language_id' => array('type' => 'integer', 'null' => false, 'default' => '2', 'length' => 6, 'unsigned' => false, 'comment' => '言語ID', 'after' => 'block_id'),
 					'is_origin' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'オリジナルかどうか', 'after' => 'language_id'),
 					'is_translation' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => '翻訳したかどうか', 'after' => 'is_origin'),
 				),
