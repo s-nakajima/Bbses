@@ -26,7 +26,7 @@
 	</h2>
 
 	<article>
-		<?php echo CakeText::truncate(strip_tags($bbsArticle['BbsArticle']['content']), BbsArticle::LIST_CONTENT_LENGTH); ?>
+		<?php echo $bbsArticle['BbsArticle']['content']; ?>
 	</article>
 
 	<footer class="clearfix">
@@ -55,7 +55,7 @@
 				</div>
 			<?php endif; ?>
 
-			<?php echo $this->Like->display($bbsSetting, $bbsArticle); ?>
+			<?php echo $this->Like->buttons('BbsArticle', $bbsSetting, $bbsArticle); ?>
 		</div>
 
 		<div class="pull-right">
