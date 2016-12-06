@@ -24,7 +24,7 @@
 			<?php echo $this->NetCommonsForm->hidden('BbsArticle.id'); ?>
 			<?php echo $this->NetCommonsForm->hidden('BbsArticle.key'); ?>
 			<?php echo $this->NetCommonsForm->hidden('BbsArticle.language_id'); ?>
-			<?php echo $this->NetCommonsForm->hidden('BbsArticle.bbs_id'); ?>
+			<?php echo $this->NetCommonsForm->hidden('BbsArticle.bbs_key'); ?>
 			<?php echo $this->NetCommonsForm->hidden('BbsArticle.block_id'); ?>
 			<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.id'); ?>
 			<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.bbs_key'); ?>

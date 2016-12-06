@@ -99,7 +99,7 @@ class BbsArticleValidateTest extends NetCommonsValidateTest {
 				'id' => $bbsArticleId,
 				'key' => $bbsArticleKey,
 				'language_id' => '2',
-				'bbs_id' => $bbsId,
+				'bbs_key' => $bbsKey,
 				'title' => 'BBS ARTICLE TITLE',
 				'content' => '<p>CONTENT</p>',
 				'status' => WorkflowComponent::STATUS_PUBLISHED,

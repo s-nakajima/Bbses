@@ -102,7 +102,7 @@ class BbsArticlesController extends BbsesAppController {
 		//条件
 		$query['conditions'] = $this->BbsArticle->getWorkflowConditions(array(
 			'BbsArticleTree.parent_id' => null,
-			'BbsArticle.bbs_id' => $this->viewVars['bbs']['id'],
+			'BbsArticle.bbs_key' => $this->viewVars['bbs']['key'],
 		));
 
 		//ソート
@@ -145,7 +145,7 @@ class BbsArticlesController extends BbsesAppController {
 		try {
 			$bbsArticles = $this->Paginator->paginate('BbsArticle');
 			$bbsArticles = $this->BbsArticle->getChildrenArticleCounts(
-				$this->viewVars['bbs']['id'], $bbsArticles
+				$this->viewVars['bbs']['key'], $bbsArticles
 			);
 
 		} catch (Exception $ex) {
@@ -173,7 +173,7 @@ class BbsArticlesController extends BbsesAppController {
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
-				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+				$this->BbsArticle->alias . '.bbs_key' => $this->viewVars['bbs']['key'],
 				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
 		));
@@ -240,7 +240,7 @@ class BbsArticlesController extends BbsesAppController {
 		} else {
 			$this->request->data = Hash::merge($this->request->data,
 				$this->BbsArticle->create(array(
-					'bbs_id' => $this->viewVars['bbs']['id'],
+					'bbs_key' => $this->viewVars['bbs']['key'],
 				)),
 				$this->BbsArticleTree->create(array(
 					'bbs_key' => $this->viewVars['bbs']['key'],
@@ -264,7 +264,7 @@ class BbsArticlesController extends BbsesAppController {
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
-				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+				$this->BbsArticle->alias . '.bbs_key' => $this->viewVars['bbs']['key'],
 				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
 		));
@@ -308,7 +308,7 @@ class BbsArticlesController extends BbsesAppController {
 			}
 			$this->request->data = Hash::merge($this->request->data,
 				$this->BbsArticle->create(array(
-					'bbs_id' => $this->viewVars['bbs']['id'],
+					'bbs_key' => $this->viewVars['bbs']['key'],
 					'title' => $title,
 					'content' => $content,
 				)),
@@ -340,7 +340,7 @@ class BbsArticlesController extends BbsesAppController {
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
-				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+				$this->BbsArticle->alias . '.bbs_key' => $this->viewVars['bbs']['key'],
 				$this->BbsArticle->alias . '.key' => $bbsArticleKey
 			)
 		));
@@ -389,7 +389,7 @@ class BbsArticlesController extends BbsesAppController {
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
-				$this->BbsArticle->alias . '.bbs_id' => $this->viewVars['bbs']['id'],
+				$this->BbsArticle->alias . '.bbs_key' => $this->viewVars['bbs']['key'],
 				$this->BbsArticle->alias . '.key' => $this->data['BbsArticle']['key']
 			)
 		));
@@ -440,7 +440,7 @@ class BbsArticlesController extends BbsesAppController {
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
-				$this->BbsArticle->alias . '.bbs_id' => $this->data['BbsArticle']['bbs_id'],
+				$this->BbsArticle->alias . '.bbs_key' => $this->data['BbsArticle']['bbs_key'],
 				$this->BbsArticle->alias . '.key' => $this->data['BbsArticle']['key']
 			)
 		));

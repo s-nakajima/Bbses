@@ -25,7 +25,7 @@ class BbsArticleFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => '1',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '3',
 			'is_active' => false,
@@ -40,7 +40,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '2',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -56,7 +56,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//(一般が書いた記事＆一度公開している)
 		array(
 			'id' => '3',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -73,7 +73,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//(一般が書いた記事＆一度も公開していない)
 		array(
 			'id' => '4',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '3',
 			'is_active' => false,
@@ -89,7 +89,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//(chef_userが書いた記事＆一度も公開していない)
 		array(
 			'id' => '5',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '3',
 			'is_active' => false,
@@ -105,7 +105,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//(chef_userが書いた記事＆公開)
 		array(
 			'id' => '6',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -121,7 +121,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//(記事返信が2つある記事)
 		array(
 			'id' => '7',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -136,7 +136,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '8',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -151,7 +151,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '9',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -167,7 +167,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//(根記事が不正)
 		array(
 			'id' => '10',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -183,7 +183,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//(親記事が不正)
 		array(
 			'id' => '11',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => '1',
@@ -199,7 +199,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//記事（子記事が承認待ち）
 		array(
 			'id' => '12',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '1',
 			'is_active' => true,
@@ -215,7 +215,7 @@ class BbsArticleFixture extends CakeTestFixture {
 		//一般が書いた記事(承認待ち)
 		array(
 			'id' => '13',
-			'bbs_id' => '2',
+			'bbs_key' => 'bbs_1',
 			'language_id' => '2',
 			'status' => '2',
 			'is_active' => false,

@@ -22,7 +22,7 @@
 		<?php echo $this->NetCommonsForm->hidden('Block.id', array('value' => Current::read('Block.id'))); ?>
 		<?php echo $this->NetCommonsForm->hidden('Block.key', array('value' => Current::read('Block.key'))); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticle.id'); ?>
-		<?php echo $this->NetCommonsForm->hidden('BbsArticle.bbs_id'); ?>
+		<?php echo $this->NetCommonsForm->hidden('BbsArticle.bbs_key'); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticle.key'); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticle.language_id'); ?>
 		<?php echo $this->NetCommonsForm->hidden('BbsArticleTree.id'); ?>

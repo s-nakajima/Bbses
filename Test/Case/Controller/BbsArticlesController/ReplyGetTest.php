@@ -98,7 +98,7 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 			'BbsArticle' => array(
 				'id' => $bbsArticleId,
 				'key' => $bbsArticleKey,
-				'bbs_id' => $bbsId,
+				'bbs_key' => $bbsKey,
 				'language_id' => '2',
 				'category_id' => '2',
 				'status' => null,

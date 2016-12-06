@@ -75,7 +75,7 @@ class BbsArticleBehaviorUpdateBbsByBbsArticleTest extends NetCommonsModelTestCas
  */
 	public function testUpdateBbsByBbsArticle($expected, $key) {
 		//処理実行
-		$this->TestBbsArticle->testUpdateBbsByBbsArticle($key['bbs_id'], $key['bbs_key'], $key['language_id']);
+		$this->TestBbsArticle->testUpdateBbsByBbsArticle($key['bbs_key'], $key['language_id']);
 
 		//チェック
 		$conditions = array(
@@ -137,7 +137,7 @@ class BbsArticleBehaviorUpdateBbsByBbsArticleTest extends NetCommonsModelTestCas
 
 		$this->setExpectedException('InternalErrorException');
 		//処理実行
-		$this->TestBbsArticle->testUpdateBbsByBbsArticle($key['bbs_id'], $key['bbs_key'], $key['language_id']);
+		$this->TestBbsArticle->testUpdateBbsByBbsArticle($key['bbs_key'], $key['language_id']);
 	}
 
 /**

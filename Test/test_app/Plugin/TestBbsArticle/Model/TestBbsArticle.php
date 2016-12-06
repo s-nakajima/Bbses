@@ -73,18 +73,17 @@ class TestBbsArticle extends BbsArticle {
 /**
  * Update bbs_article_modified
  *
- * @param int $bbsId bbses.id
  * @param string $bbsKey bbses.key
  * @param int $languageId languages.id
  */
-	public function testUpdateBbsByBbsArticle($bbsId, $bbsKey, $languageId) {
+	public function testUpdateBbsByBbsArticle($bbsKey, $languageId) {
 		$this->loadModels([
 			'Bbs' => 'Bbses.Bbs',
 			'BbsArticle' => 'Bbses.BbsArticle',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
 		]);
 
-		$this->updateBbsByBbsArticle($bbsId, $bbsKey, $languageId);
+		$this->updateBbsByBbsArticle($bbsKey, $languageId);
 	}
 
 /**

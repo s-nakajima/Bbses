@@ -98,7 +98,7 @@ class BbsArticleSaveBbsArticleTest extends WorkflowSaveTest {
 				'id' => $bbsArticleId,
 				'key' => $bbsArticleKey,
 				'language_id' => '2',
-				'bbs_id' => $bbsId,
+				'bbs_key' => $bbsKey,
 				'block_id' => $blockId,
 				'title' => 'BBS ARTICLE TITLE',
 				'title_icon' => null,
