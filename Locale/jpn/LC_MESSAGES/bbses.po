@@ -1,6 +1,7 @@
 # LANGUAGE translation of CakePHP Application
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
@@ -11,132 +12,131 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"POT-Creation-Date: \n"
-"Language: ja\n"
-"X-Generator: Poedit 1.8.1\n"
 
-#: Bbses/Controller/BbsBlocksController.php:121
-msgid "New bbs %s"
-msgstr "新しい掲示板 %s"
+#: Bbses/Controller/BbsArticlesController.php:111
+msgid "Latest post order"
+msgstr "最新の投稿順"
 
-#: Bbses/Model/Bbs.php:109 Bbses/View/BbsBlocks/index.ctp:37
-#: Bbses/View/Elements/BbsBlocks/edit_form.ctp:36
+#: Bbses/Controller/BbsArticlesController.php:116
+msgid "Older post order"
+msgstr "古い投稿順"
+
+#: Bbses/Controller/BbsArticlesController.php:121
+msgid "Descending order of comments"
+msgstr "コメントの多い順"
+
+#: Bbses/Model/Bbs.php:123
+#: Bbses/Test/Case/Controller/BbsBlocksController/EditTest.php:143;171
+#: Bbses/Test/Case/Model/Bbs/ValidateTest.php:146
+#: Bbses/View/BbsBlocks/index.ctp:30
+#: Bbses/View/Elements/BbsBlocks/edit_form.ctp:25
 msgid "Bbs name"
 msgstr "掲示板名"
 
-#: Bbses/Model/BbsArticle.php:113
-#: Bbses/View/Elements/BbsArticles/edit_form.ctp:73
+#: Bbses/Model/Bbs.php:189
+#: Bbses/Test/Case/Model/Bbs/CreateBbsTest.php:86
+msgid "New bbs %s"
+msgstr "新しい掲示板 %s"
+
+#: Bbses/Model/BbsArticle.php:154
+#: Bbses/Test/Case/Controller/BbsArticlesController/AddTest.php:254
+#: Bbses/Test/Case/Controller/BbsArticlesController/EditTest.php:345
+#: Bbses/Test/Case/Controller/BbsArticlesController/ReplyPostTest.php:242
+#: Bbses/Test/Case/Model/BbsArticle/SaveBbsArticleTest.php:201
+#: Bbses/Test/Case/Model/BbsArticle/ValidateTest.php:136
+#: Bbses/View/Elements/BbsArticles/edit_form.ctp:36
 msgid "Title"
 msgstr "タイトル"
 
-#: Bbses/Model/BbsArticle.php:120
-#: Bbses/View/Elements/BbsArticles/edit_form.ctp:90
+#: Bbses/Model/BbsArticle.php:161
+#: Bbses/Test/Case/Controller/BbsArticlesController/AddTest.php:261
+#: Bbses/Test/Case/Controller/BbsArticlesController/EditTest.php:352
+#: Bbses/Test/Case/Controller/BbsArticlesController/ReplyPostTest.php:249
+#: Bbses/Test/Case/Model/BbsArticle/SaveBbsArticleTest.php:203
+#: Bbses/Test/Case/Model/BbsArticle/ValidateTest.php:138
+#: Bbses/View/Elements/BbsArticles/edit_form.ctp:41
 msgid "Content"
 msgstr "本文"
 
-#: Bbses/Model/BbsFrameSetting.php:67
-msgid "%s article"
-msgstr "%s 件"
-
-#: Bbses/Model/BbsFrameSetting.php:68;69;70;71;72
-#: Bbses/View/BbsArticles/index.ctp:28
-msgid "%s articles"
-msgstr "%s 件"
-
-#: Bbses/View/BbsArticles/index.ctp:33
-#: Bbses/View/Elements/BbsArticles/breadcrumb.ctp:59
-msgid "Create article"
-msgstr "記事の投稿"
-
-#: Bbses/View/BbsArticles/index.ctp:63
+#: Bbses/Test/Case/Controller/BbsArticlesController/IndexTest.php:167
+#: Bbses/View/BbsArticles/index.ctp:72
 msgid "No article found."
 msgstr "記事がありません。"
 
-#: Bbses/View/BbsBlocks/index.ctp:40
+#: Bbses/View/BbsArticles/index.ctp:54
+msgid "Create article"
+msgstr "記事の投稿"
+
+#: Bbses/View/BbsBlocks/index.ctp:34
 msgid "Article count"
 msgstr "記事数"
 
-#: Bbses/View/BbsBlocks/index.ctp:43
+#: Bbses/View/BbsBlocks/index.ctp:38
 msgid "Article modified"
 msgstr "最新投稿日"
 
-#: Bbses/View/Elements/BbsArticles/comment_approving_link.ctp:32
-msgid "Approving"
-msgstr "承認する"
+# メール関連
+#: Bbses/View/BbsMailSettings/edit.ctp:24
+msgid "MailSetting.mail_fixed_phrase_body.popover"
+msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : ブロック名<br>{X-BBS_NAME} : 掲示板名<br>{X-SUBJECT} : 記事タイトル<br>{X-USER} : 投稿者<br>{X-TO_DATE} : 投稿日時<br>{X-BODY} : 記事本文<br>{X-URL} : 投稿内容のURL"
 
-#: Bbses/View/Elements/BbsArticles/comment_status_label.ctp:19
-msgid "Comment approving"
-msgstr "未承認"
-
-#: Bbses/View/Elements/BbsArticles/delete_form.ctp:35
+#: Bbses/View/Elements/BbsArticles/delete_form.ctp:30
 msgid "article"
 msgstr "記事"
 
-#: Bbses/View/Elements/BbsArticles/index_bbs_article.ctp:29
-msgid "Publishing comments"
-msgstr "コメントを承認する"
-
-#: Bbses/View/BbsBlocks/index.ctp:43
+#: Bbses/View/Elements/BbsArticles/index_bbs_article.ctp:39
 msgid "%s comments(%s approval waited comments)"
 msgstr "%sコメント(%s未承認)"
 
-#: Bbses/View/BbsBlocks/index.ctp:43
+#: Bbses/View/Elements/BbsArticles/index_bbs_article.ctp:48
 msgid "%s comments"
 msgstr "%sコメント"
 
-#: Bbses/View/Elements/BbsArticles/reply_link.ctp:31
+#: Bbses/View/Elements/BbsArticles/reply_link.ctp:28
 msgid "Quote this posts"
 msgstr "引用する"
 
 #: Bbses/View/Elements/BbsArticles/reply_link.ctp:36
 msgid "Write comment"
-msgstr "コメントを書く"
+msgstr "返事を書く"
 
-#: Bbses/View/Elements/BbsArticles/select_sort.ctp:22
-msgid "Latest post order"
-msgstr "最新の投稿順"
-
-#: Bbses/View/Elements/BbsArticles/select_sort.ctp:27
-msgid "Older post order"
-msgstr "古い投稿順"
-
-#: Bbses/View/Elements/BbsArticles/select_sort.ctp:32
-msgid "Descending order of comments"
-msgstr "コメントの多い順"
-
-#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:26
+#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:27
 msgid "%s. "
 msgstr ""
 
-#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:80
+#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:37
+msgid "Comment approving"
+msgstr "未承認"
+
+#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:60
+msgid "Created: "
+msgstr "投稿日時: "
+
+#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:72
 msgid "&gt;&gt; %s"
 msgstr ""
 
-#: Bbses/View/Elements/BbsBlockRolePermissions/edit_form.ctp:38
+#: Bbses/View/Elements/BbsBlockRolePermissions/edit_form.ctp:31
 msgid "articles"
 msgstr "記事"
 
-#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14;28
+#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14;22
 msgid "BBS"
 msgstr "掲示板"
 
-#: Bbses/View/Elements/BbsBlocks/edit_form.ctp:64
+#: Bbses/View/Elements/BbsBlocks/edit_form.ctp:32
 msgid "Use comment"
 msgstr "コメントを付けられる"
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:26
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:18
 msgid "Show articles per page"
 msgstr "1ページ毎の表示件数"
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:41
-msgid "Show comments per page"
-msgstr "１ページに表示するコメント数"
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:20
+msgid "%s article"
+msgstr "%s 件"
 
-# メール関連
-msgid "MailSetting.mail_fixed_phrase_body.popover"
-msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : ブロック名<br>{X-BBS_NAME} : 掲示板名<br>{X-SUBJECT} : 記事タイトル<br>{X-USER} : 投稿者<br>{X-TO_DATE} : 投稿日時<br>{X-BODY} : 記事本文<br>{X-URL} : 投稿内容のURL"
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:21
+msgid "%s articles"
+msgstr "%s 件"
 
-
-#: Bbses/View/Elements/BbsArticles/reply_link.ctp:36
-msgid "Created: "
-msgstr "投稿日時: "
