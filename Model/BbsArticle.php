@@ -98,7 +98,10 @@ class BbsArticle extends BbsesAppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => array(
-				'content_count' => array('BbsArticle.is_latest' => true),
+				'content_count' => array(
+					'BbsArticle.is_origin' => true,
+					'BbsArticle.is_latest' => true
+				),
 			),
 		),
 	);
