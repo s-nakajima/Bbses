@@ -51,7 +51,7 @@ class Bbs extends BbsesAppModel {
 		'NetCommons.OriginalKey',
 		//多言語
 		'M17n.M17n' => array(
-			'key_field' => 'block_id'
+			'keyField' => 'block_id'
 		),
 	);
 
