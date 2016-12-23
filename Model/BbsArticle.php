@@ -73,6 +73,7 @@ class BbsArticle extends BbsesAppModel {
 		'Wysiwyg.Wysiwyg' => array(
 			'fields' => array('content'),
 		),
+		'M17n.M17n', //多言語
 	);
 
 /**
@@ -97,7 +98,10 @@ class BbsArticle extends BbsesAppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => array(
-				'content_count' => array('BbsArticle.is_latest' => true),
+				'content_count' => array(
+					'BbsArticle.is_origin' => true,
+					'BbsArticle.is_latest' => true
+				),
 			),
 		),
 	);
@@ -128,7 +132,10 @@ class BbsArticle extends BbsesAppModel {
 					'foreignKey' => false,
 					'conditions' => array(
 						'BbsArticle.key = BbsArticleTree.bbs_article_key',
-						'BbsArticle.language_id' => Current::read('Language.id', '0'),
+						'OR' => array(
+							'BbsArticle.language_id' => Current::read('Language.id', '0'),
+							'BbsArticle.is_translation' => false,
+						)
 					),
 					'fields' => '',
 					'order' => ''
@@ -205,7 +212,6 @@ class BbsArticle extends BbsesAppModel {
 		//Bbsのbbbs_article_modified
 		if (isset($this->data['Bbs']['id']) && isset($this->data['Bbs']['key'])) {
 			$this->updateBbsByBbsArticle(
-				$this->data['Bbs']['id'],
 				$this->data['Bbs']['key'], $this->data[$this->alias]['language_id']
 			);
 		}
@@ -240,9 +246,12 @@ class BbsArticle extends BbsesAppModel {
 
 		try {
 			//登録処理
-			if (! $bbsArticle = $this->save(null, false)) {
+			$bbsArticle = $this->save(null, false);
+			if (! $bbsArticle) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			$this->BbsArticleTree->recover('parent');
 
 			//トランザクションCommit
 			$this->commit();
@@ -307,7 +316,7 @@ class BbsArticle extends BbsesAppModel {
 
 			//Bbsのbbs_article_modified
 			$this->updateBbsByBbsArticle(
-				$data['Bbs']['id'], $data['Bbs']['key'], $data['BbsArticle']['language_id']
+				$data['Bbs']['key'], $data['BbsArticle']['language_id']
 			);
 
 			//トランザクションCommit

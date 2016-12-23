@@ -79,7 +79,7 @@ class BbsArticlesControllerAddTest extends WorkflowControllerAddTest {
 			'BbsArticle' => array(
 				'id' => $bbsArticleId,
 				'key' => $bbsArticleKey,
-				'bbs_id' => $bbsId,
+				'bbs_key' => $bbsKey,
 				'language_id' => '2',
 				'title' => 'TITLE',
 				'content' => '本文です',

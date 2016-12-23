@@ -97,7 +97,7 @@ class BbsDeleteBbsTest extends NetCommonsDeleteTest {
 	public function dataProviderDelete() {
 			$association = array(
 				'BbsArticle' => array(
-					'bbs_id' => '2',
+					'bbs_key' => 'bbs_1',
 				),
 				'BbsArticleTree' => array(
 					'bbs_key' => 'bbs_1',

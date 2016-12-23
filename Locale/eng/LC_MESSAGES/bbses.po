@@ -75,6 +75,7 @@ msgstr ""
 msgid "Article modified"
 msgstr ""
 
+# メール関連
 #: Bbses/View/BbsMailSettings/edit.ctp:24
 msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr ""

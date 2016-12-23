@@ -23,13 +23,12 @@ class BbsArticleBehavior extends ModelBehavior {
  * Update bbs_article_modified
  *
  * @param object $model instance of model
- * @param int $bbsId bbses.id
  * @param string $bbsKey bbses.key
  * @param int $languageId languages.id
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function updateBbsByBbsArticle(Model $model, $bbsId, $bbsKey, $languageId) {
+	public function updateBbsByBbsArticle(Model $model, $bbsKey, $languageId) {
 		$model->loadModels([
 			'Bbs' => 'Bbses.Bbs',
 		]);
@@ -37,7 +36,7 @@ class BbsArticleBehavior extends ModelBehavior {
 		$db = $model->getDataSource();
 
 		$conditions = array(
-			'bbs_id' => $bbsId,
+			'bbs_key' => $bbsKey,
 			'language_id' => $languageId,
 			'is_latest' => true
 		);
@@ -141,11 +140,11 @@ class BbsArticleBehavior extends ModelBehavior {
  * 子記事数の取得
  *
  * @param object $model 呼び出し元のモデル
- * @param array $bbsId 掲示板ID
+ * @param array $bbsKey 掲示板Key
  * @param array $bbsArticles 根記事データ
  * @return string bbs_articles.content
  */
-	public function getChildrenArticleCounts(Model $model, $bbsId, $bbsArticles) {
+	public function getChildrenArticleCounts(Model $model, $bbsKey, $bbsArticles) {
 		$articleTreeIds = Hash::extract($bbsArticles, '{n}.BbsArticleTree.id');
 
 		$query = array(
@@ -153,7 +152,7 @@ class BbsArticleBehavior extends ModelBehavior {
 			'fields' => ['BbsArticleTree.root_id', 'COUNT(*) AS bbs_article_child_count'],
 			'conditions' => $model->getWorkflowConditions(array(
 				'BbsArticleTree.root_id' => $articleTreeIds,
-				'BbsArticle.bbs_id' => $bbsId,
+				'BbsArticleTree.bbs_key' => $bbsKey,
 			)),
 			'group' => array('BbsArticleTree.root_id'),
 		);
@@ -163,6 +162,10 @@ class BbsArticleBehavior extends ModelBehavior {
 		foreach ($bbsArticles as $i => $article) {
 			if (isset($counts[$article['BbsArticleTree']['id']])) {
 				$count = $counts[$article['BbsArticleTree']['id']];
+
+				$beforeCount = $count - $bbsArticles[$i]['BbsArticleTree']['bbs_article_child_count'];
+				$bbsArticles[$i]['BbsArticleTree']['approval_bbs_article_child_count'] = (string)$beforeCount;
+
 				$bbsArticles[$i]['BbsArticleTree']['bbs_article_child_count'] = $count;
 			}
 		}

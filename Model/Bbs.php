@@ -49,6 +49,10 @@ class Bbs extends BbsesAppModel {
 			)
 		),
 		'NetCommons.OriginalKey',
+		//多言語
+		'M17n.M17n' => array(
+			'keyField' => 'block_id'
+		),
 	);
 
 /**
@@ -190,7 +194,6 @@ class Bbs extends BbsesAppModel {
 			),
 			'Block' => array(
 				'room_id' => Current::read('Room.id'),
-				'language_id' => Current::read('Language.id'),
 			),
 		));
 		$bbs = Hash::merge($bbs, $this->BbsSetting->createBlockSetting());
@@ -260,22 +263,13 @@ class Bbs extends BbsesAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		$conditions = array(
-			$this->alias . '.key' => $data['Bbs']['key']
-		);
-		$bbses = $this->find('list', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-		$bbsIds = array_keys($bbses);
-
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Bbs']['key']), false, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			$this->BbsArticle->blockKey = $data['Block']['key'];
-			$conditions = array($this->BbsArticle->alias . '.bbs_id' => $bbsIds);
+			$conditions = array($this->BbsArticle->alias . '.bbs_key' => $data['Bbs']['key']);
 			if (! $this->BbsArticle->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}

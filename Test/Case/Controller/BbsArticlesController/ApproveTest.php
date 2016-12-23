@@ -82,7 +82,7 @@ class BbsArticlesControllerApproveTest extends NetCommonsControllerTestCase {
 			'BbsArticle' => array(
 				'id' => $bbsArticleId,
 				'key' => $bbsArticleKey,
-				'bbs_id' => $bbsId,
+				'bbs_key' => $bbsKey,
 				'language_id' => '2',
 			),
 			'BbsArticleTree' => array(
