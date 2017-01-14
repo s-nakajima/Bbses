@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php if ($bbsArticle['BbsArticle']['status'] === WorkflowComponent::STATUS_APPROVED && Current::permission('content_publishable')) : ?>
+<?php if ($bbsArticle['BbsArticle']['status'] === WorkflowComponent::STATUS_APPROVAL_WAITING && Current::permission('content_publishable')) : ?>
 	<?php $this->request->data = $bbsArticle; ?>
 	<?php echo $this->NetCommonsForm->create('BbsArticle', array(
 			'div' => false,

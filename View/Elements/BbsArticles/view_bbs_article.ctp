@@ -32,7 +32,7 @@ $linkFormatId = BbsArticlesController::LINK_ID_FORMAT;
 					'class' => 'label-info',
 					'message' => __d('net_commons', 'Temporary'),
 				),
-				WorkflowComponent::STATUS_APPROVED => array(
+				WorkflowComponent::STATUS_APPROVAL_WAITING => array(
 					'class' => 'label-warning',
 					'message' => __d('bbses', 'Comment approving'),
 				),

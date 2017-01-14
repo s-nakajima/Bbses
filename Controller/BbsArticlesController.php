@@ -448,7 +448,7 @@ class BbsArticlesController extends BbsesAppController {
 			return $this->throwBadRequest();
 		}
 		//ステータスチェック
-		if ($bbsArticle['BbsArticle']['status'] !== WorkflowComponent::STATUS_APPROVED) {
+		if ($bbsArticle['BbsArticle']['status'] !== WorkflowComponent::STATUS_APPROVAL_WAITING) {
 			return $this->throwBadRequest();
 		}
 

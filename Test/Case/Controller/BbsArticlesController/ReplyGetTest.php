@@ -275,7 +275,7 @@ class BbsArticlesControllerReplyGetTest extends NetCommonsControllerTestCase {
 			'assert' => array('method' => 'assertInput', 'type' => 'button', 'name' => 'save_' . WorkflowComponent::STATUS_IN_DRAFT, 'value' => null),
 		)));
 		array_push($results, Hash::merge($results[$base], array(
-			'assert' => array('method' => 'assertInput', 'type' => 'button', 'name' => 'save_' . WorkflowComponent::STATUS_APPROVED, 'value' => null),
+			'assert' => array('method' => 'assertInput', 'type' => 'button', 'name' => 'save_' . WorkflowComponent::STATUS_APPROVAL_WAITING, 'value' => null),
 		)));
 		array_push($results, Hash::merge($results[$base], array(
 			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[BbsArticle][id]', 'value' => $data['BbsArticle']['id']),
