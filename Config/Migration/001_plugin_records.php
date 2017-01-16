@@ -45,6 +45,8 @@ class PluginRecords extends NetCommonsMigration {
 			//日本語
 			array(
 				'language_id' => '2',
+				'is_origin' => true,
+				'is_translation' => true,
 				'key' => 'bbses',
 				'namespace' => 'netcommons/bbses',
 				'name' => '掲示板',
@@ -58,6 +60,8 @@ class PluginRecords extends NetCommonsMigration {
 			//英語
 			array(
 				'language_id' => '1',
+				'is_origin' => false,
+				'is_translation' => true,
 				'key' => 'bbses',
 				'namespace' => 'netcommons/bbses',
 				'name' => 'BBS',
