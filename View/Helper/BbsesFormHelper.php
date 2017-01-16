@@ -78,7 +78,7 @@ class BbsesFormHelper extends AppHelper {
 			$saveOptions = array(
 				'label' => __d('net_commons', 'OK'),
 				'class' => 'btn btn-primary' . $this->Button->getButtonSize() . ' btn-workflow',
-				'name' => 'save_' . WorkflowComponent::STATUS_APPROVED,
+				'name' => 'save_' . WorkflowComponent::STATUS_APPROVAL_WAITING,
 				'ng-class' => '{disabled: sending}'
 			);
 		}
