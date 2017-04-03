@@ -251,7 +251,7 @@ class BbsArticle extends BbsesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$this->BbsArticleTree->recover('parent');
+			//$this->BbsArticleTree->recover('parent');
 
 			//トランザクションCommit
 			$this->commit();
