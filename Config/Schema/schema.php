@@ -54,7 +54,7 @@ class BbsesSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary', 'comment' => 'ID'),
 		'bbs_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '掲示板キー', 'charset' => 'utf8'),
 		'bbs_article_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => '記事キー', 'charset' => 'utf8'),
-		'root_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '根記事ID'),
+		'root_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'key' => 'index', 'comment' => '根記事ID'),
 		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '親記事のID treeビヘイビア必須カラム'),
 		'lft' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'treeビヘイビア必須カラム'),
 		'rght' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'treeビヘイビア必須カラム'),
@@ -66,6 +66,7 @@ class BbsesSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '更新日時'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'root_id' => array('column' => array('root_id', 'bbs_key', 'lft', 'rght'), 'unique' => 0),
 			'bbs_article_key' => array('column' => 'bbs_article_key', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
@@ -97,8 +98,8 @@ class BbsesSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '更新日時'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'key' => array('column' => 'key', 'unique' => 0),
-			'bbs_key' => array('column' => array('bbs_key', 'language_id'), 'unique' => 0)
+			'bbs_key' => array('column' => array('bbs_key', 'language_id'), 'unique' => 0),
+			'key' => array('column' => array('key', 'language_id'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
