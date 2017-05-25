@@ -99,8 +99,7 @@ $linkFormatId = BbsArticlesController::LINK_ID_FORMAT;
 				}
 			?>
 
-			<?php //根記事編集は、削除権限と同じ条件とする ?>
-			<?php if ($this->Workflow->canDelete('BbsArticle', $bbsArticle)) : ?>
+			<?php if ($this->Workflow->canEdit('BbsArticle', $bbsArticle)) : ?>
 				<div class="nc-bbs-edit-link">
 					<?php echo $this->Button->editLink('', array('key' => $bbsArticle['BbsArticle']['key']), array(
 							'tooltip' => true,
