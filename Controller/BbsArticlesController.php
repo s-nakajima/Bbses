@@ -345,8 +345,8 @@ class BbsArticlesController extends BbsesAppController {
 			)
 		));
 
-		//掲示板の場合は、削除権限と同じ条件とする
-		if (! $this->BbsArticle->canDeleteWorkflowContent($bbsArticle)) {
+		// WorkflowBehavior::canEditWorkflowContentをBbsArticle::canEditWorkflowContentでoverride
+		if (! $this->BbsArticle->canEditWorkflowContent($bbsArticle)) {
 			return $this->throwBadRequest();
 		}
 

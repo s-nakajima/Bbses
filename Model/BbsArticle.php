@@ -330,4 +330,36 @@ class BbsArticle extends BbsesAppModel {
 		return true;
 	}
 
+/**
+ * コンテンツの編集権限があるかどうかのチェック
+ *
+ * WorkflowBehavior::canEditWorkflowContent をoverride
+ * - 編集権限あり(content_editable)
+ * - 子記事がない
+ * - 自分自身のコンテンツ
+ *
+ * @param array $data BbsArticle data
+ * @return bool true:編集可、false:編集不可
+ */
+	public function canEditWorkflowContent($data) {
+		if (Current::permission('content_editable')) {
+			return true;
+		}
+		if (! isset($data['BbsArticle']['created_user'])) {
+			return false;
+		}
+
+		$childArticle = $this->BbsArticleTree->findByParentId(
+			$data['BbsArticleTree']['id'],
+			'id',
+			null,
+			-1
+		);
+		if ($childArticle) {
+			return false;
+		}
+
+		return ((int)$data['BbsArticle']['created_user'] === (int)Current::read('User.id'));
+	}
+
 }
