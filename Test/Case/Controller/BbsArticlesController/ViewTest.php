@@ -117,7 +117,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
 		$results[1] = Hash::merge($results[0], array( //（承認済み記事は編集不可）
-			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
+			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => true, 'url' => array()),
 		));
 		//作成権限のみ(一般が書いた記事＆公開前)
 		$results[2] = array(
@@ -176,6 +176,12 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 			'exception' => 'BadRequestException',
 			'return' => 'json'
 		);
+		// 一般の記事に返信がつくと編集できない
+		$results[16] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_14'),
+			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
+		);
+
 		return $results;
 	}
 
@@ -217,7 +223,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 		//チェック
 		//--編集ボタン
 		$results[4] = Hash::merge($results[3], array( //なし(公開すると編集不可)
-			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
+			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => true, 'url' => array()),
 		));
 		//--コメントボタン
 		$results[5] = Hash::merge($results[3], array(
@@ -235,7 +241,7 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
 		$results[8] = Hash::merge($results[3], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
+			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => true, 'url' => array()),
 		));
 		//根記事が取得できない
 		$results[9] = array(
@@ -260,6 +266,11 @@ class BbsArticlesControllerViewTest extends WorkflowControllerViewTest {
 			'assert' => 'null',
 			'exception' => 'BadRequestException',
 			'return' => 'json'
+		);
+		// 一般の記事に返信があっても、編集権限あれば可能
+		$results[16] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_14'),
+			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => true, 'url' => array()),
 		);
 
 		return $results;

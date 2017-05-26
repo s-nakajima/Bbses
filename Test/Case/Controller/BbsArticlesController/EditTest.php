@@ -173,6 +173,12 @@ class BbsArticlesControllerEditTest extends WorkflowControllerEditTest {
 		$results[3] = Hash::merge($results[2], array(
 			'assert' => array('method' => 'assertInput', 'type' => 'button', 'name' => 'delete', 'value' => null),
 		));
+		// 一般の記事に返信がつくと編集できない
+		$results[4] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_14'),
+			'assert' => null,
+			'exception' => 'BadRequestException',
+		);
 
 		return $results;
 	}
@@ -231,6 +237,11 @@ class BbsArticlesControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array('frame_id' => '14', 'block_id' => null, 'key' => null),
 			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
 			'exception' => null, 'return' => 'viewFile'
+		);
+		// 一般の記事に返信があっても、編集権限あれば可能
+		$results[count($results)] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'bbs_article_14'),
+			'assert' => array('method' => 'assertInput', 'type' => 'textarea', 'name' => 'data[BbsArticle][content]', 'value' => null),
 		);
 
 		return $results;

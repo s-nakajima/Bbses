@@ -218,6 +218,36 @@ class BbsArticleTreeFixture extends CakeTestFixture {
 			'modified_user' => 4,
 			'modified' => '2015-05-14 07:09:02'
 		),
+		array( //一般が書いた記事（子記事あり）
+			'id' => 14,
+			'bbs_key' => 'bbs_1',
+			'bbs_article_key' => 'bbs_article_14',
+			'root_id' => 0,
+			'parent_id' => 0,
+			'lft' => 27,
+			'rght' => 30,
+			'article_no' => 1,
+			'bbs_article_child_count' => 1,
+			'created_user' => 4,
+			'created' => '2015-05-14 07:09:02',
+			'modified_user' => 1,
+			'modified' => '2015-05-14 07:09:02'
+		),
+		array( //親記事が一般の記事
+			'id' => 15,
+			'bbs_key' => 'bbs_1',
+			'bbs_article_key' => 'bbs_article_15',
+			'root_id' => 14,
+			'parent_id' => 14,
+			'lft' => 28,
+			'rght' => 29,
+			'article_no' => 2,
+			'bbs_article_child_count' => 0,
+			'created_user' => 4,
+			'created' => '2015-05-14 07:09:02',
+			'modified_user' => 4,
+			'modified' => '2015-05-14 07:09:02'
+		),
 	);
 
 /**
