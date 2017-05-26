@@ -345,6 +345,7 @@ class BbsArticlesController extends BbsesAppController {
 			)
 		));
 
+		// WorkflowBehavior::canEditWorkflowContentをBbsArticle::canEditWorkflowContentでoverride
 		if (! $this->BbsArticle->canEditWorkflowContent($bbsArticle)) {
 			return $this->throwBadRequest();
 		}
