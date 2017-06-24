@@ -59,7 +59,7 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 	<?php if ($bbsArticles) : ?>
 		<div class="nc-content-list">
 			<?php foreach ($bbsArticles as $bbsArticle) : ?>
-				<?php echo $this->element('BbsArticles/index_bbs_article', array(
+				<?php echo $this->element('BbsArticles/flat/index_bbs_article', array(
 						'bbsArticle' => $bbsArticle
 					)); ?>
 			<?php endforeach; ?>
