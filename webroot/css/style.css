@@ -61,3 +61,25 @@
 	padding-bottom: 16px;
 	margin-bottom: 12px;
 }
+
+/**
+ * 根記事一覧
+ */
+.bbs-root-index {
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+.frame.nc-content-list article.bbs-root-index h2 {
+	margin-top: 0;
+	margin-bottom: 0x;
+	margin-right: 8px;
+}
+.bbs-root-comment {
+	margin-top: 2px;
+	/*margin-bottom: 2px;*/
+}
+.bbs-root-datetime {
+	margin-top: 2px;
+	/*margin-bottom: 2px;*/
+	margin-left: 8px;
+}

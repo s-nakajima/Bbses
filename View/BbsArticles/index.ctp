@@ -59,9 +59,14 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 	<?php if ($bbsArticles) : ?>
 		<div class="nc-content-list">
 			<?php foreach ($bbsArticles as $bbsArticle) : ?>
-				<?php echo $this->element('BbsArticles/flat/index_bbs_article', array(
-						'bbsArticle' => $bbsArticle
-					)); ?>
+				<?php
+					echo $this->element(
+						'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/index_bbs_article',
+						array(
+							'bbsArticle' => $bbsArticle
+						)
+					);
+				?>
 			<?php endforeach; ?>
 
 			<?php echo $this->element('NetCommons.paginator'); ?>
