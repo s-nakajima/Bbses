@@ -33,19 +33,25 @@ echo $this->NetCommonsHtml->script('/likes/js/likes.js');
 				<div class="col-xs-offset-1 col-xs-11">
 					<?php
 						if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) {
-							echo $this->element('BbsArticles/view_bbs_article', array(
-								'bbsArticle' => $childBbsArticle,
-								'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
-								'displayFooter' => true,
-								'isRootArticle' => false
-							));
+							echo $this->element(
+								'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/view_bbs_article',
+								array(
+									'bbsArticle' => $childBbsArticle,
+									'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
+									'displayFooter' => true,
+									'isRootArticle' => false
+								)
+							);
 						} else {
-							echo $this->element('BbsArticles/view_bbs_article', array(
-								'bbsArticle' => $childBbsArticle,
-								'parentBbsArticle' => $rootBbsArticle,
-								'displayFooter' => true,
-								'isRootArticle' => false
-							));
+							echo $this->element(
+								'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/view_bbs_article',
+								array(
+									'bbsArticle' => $childBbsArticle,
+									'parentBbsArticle' => $rootBbsArticle,
+									'displayFooter' => true,
+									'isRootArticle' => false
+								)
+							);
 						}
 					?>
 				</div>
