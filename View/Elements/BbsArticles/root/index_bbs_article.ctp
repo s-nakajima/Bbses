@@ -48,7 +48,12 @@
 		<?php endif; ?>
 	</div>
 	<?php //投稿日時  ?>
-	<div class="pull-right bbs-root-datetime">
-		<?php echo $this->Date->dateFormat($bbsArticle['BbsArticle']['created']); ?>
+	<div class="pull-right bbs-article-creator">
+		<span class="bbs-article-created text-muted">
+			<?php echo $this->Date->dateFormat($bbsArticle['BbsArticle']['created']); ?>
+		</span>
+		<span class="bbs-article-handle">
+			<?php echo $this->NetCommonsHtml->handleLink($bbsArticle, array('avatar' => true)); ?>
+		</span>
 	</div>
 </article>
