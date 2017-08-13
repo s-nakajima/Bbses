@@ -1,6 +1,9 @@
 <?php
 /**
- * Article element of BbsArticles index
+ * 根記事リスト(index)の根記事一覧 Element
+ *
+ * ## elementの引数
+ * * $bbsArticle: 記事データ
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,22 +12,16 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-
 <article class="clearfix bbs-root-index">
 	<h2 class="pull-left">
 		<?php
-			$title = $this->NetCommonsHtml->titleIcon($bbsArticle['BbsArticle']['title_icon']) . ' ' .
-					h(CakeText::truncate($bbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH));
-
-			echo $this->NetCommonsHtml->link(
-				$title,
-				array('action' => 'view', 'key' => $bbsArticle['BbsArticle']['key']),
-				array('escape' => false)
-			);
+			//根記事タイトル
+			echo $this->element('BbsArticles/index_bbs_article_title', array(
+				'bbsArticle' => $bbsArticle,
+			));
 		?>
-		<?php echo $this->Workflow->label($bbsArticle['BbsArticle']['status']); ?>
 	</h2>
-
+	<?php //子記事数  ?>
 	<div class="pull-left bbs-root-comment">
 		<?php if ($bbsSetting['use_comment']) : ?>
 			<div class="inline-block bbses-comment-count">
@@ -50,7 +47,7 @@
 			</div>
 		<?php endif; ?>
 	</div>
-
+	<?php //投稿日時  ?>
 	<div class="pull-right bbs-root-datetime">
 		<?php echo $this->Date->dateFormat($bbsArticle['BbsArticle']['created']); ?>
 	</div>

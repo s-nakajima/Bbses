@@ -12,6 +12,7 @@
 App::uses('BbsesAppController', 'Bbses.Controller');
 App::uses('CakeText', 'Utility');
 App::uses('WorkflowComponent', 'Workflow.Controller/Component');
+App::uses('BbsFrameSetting', 'Bbses.Model');
 
 /**
  * BbsArticles Controller
@@ -186,7 +187,7 @@ class BbsArticlesController extends BbsesAppController {
 		if (! $result) {
 			return $this->throwBadRequest();
 		}
-		$this->set('currentBbsArticle', $bbsArticle);
+		//$this->set('currentBbsArticle', $bbsArticle);
 
 		//新着データを既読にする
 		$this->BbsArticle->saveTopicUserStatus($bbsArticle);
@@ -205,9 +206,24 @@ class BbsArticlesController extends BbsesAppController {
 		$this->BbsArticleTree->Behaviors->load('Tree', array(
 			'scope' => $this->BbsArticle->getWorkflowConditions()
 		));
-		$children = $this->BbsArticleTree->children(
-			$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.id DESC', null, 1, 1
-		);
+
+		if ($this->viewVars['bbsFrameSetting']['display_type'] === BbsFrameSetting::DISPLAY_TYPE_FLAT) {
+			$children = $this->BbsArticleTree->children(
+				$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.id DESC', null, 1, 1
+			);
+		} else {
+			$children = $this->BbsArticleTree->children(
+				$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.lft ASC', null, 1, 1
+			);
+			//Treeリスト取得
+			$conditions = array(
+				'BbsArticleTree.root_id' => $bbsArticle['BbsArticleTree']['id'],
+			);
+			$treeList = $this->BbsArticleTree->generateTreeList(
+				$conditions, null, null, '_', 0
+			);
+			$this->set('treeList', $treeList);
+		}
 		$children = Hash::combine($children, '{n}.BbsArticleTree.id', '{n}');
 
 		$this->set('bbsArticleChildren', $children);

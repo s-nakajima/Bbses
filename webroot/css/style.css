@@ -28,26 +28,20 @@
  * 記事詳細
  */
 .bbs-article h2 {
-	font-weight: bold;
+	/*font-weight: bold;*/
 }
 .bbs-article-createdby {
 	/*margin-bottom: 16px;*/
 }
 .bbs-article-created {
-	margin-right: 24px;
+	margin-right: 1.25em;
 }
 .bbs-article-handle {
-	margin-right: 24px;
+	/*margin-right: 1.5em;*/
 }
 
 .bbs-article-body {
 	padding-top: 16px;
-}
-
-.bbs-article footer.bbs-article-footer:not(:last-child) {
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 16px;
-	margin-bottom: 16px;
 }
 
 .bbs-parent-article {
@@ -56,10 +50,35 @@
 	margin-bottom: 4px;
 }
 
-.bbs-article article.row:not(:last-child) footer.bbs-article-footer {
+.bbs-article .bbs-article-content:not(:last-child) {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 8px;
+	margin-bottom: 20px;
+}
+
+/**
+ * フラット表示の記事詳細
+ */
+.bbs-flat.bbs-article article.row:not(:last-child) .bbs-article-content {
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 16px;
 	margin-bottom: 12px;
+}
+/**
+ * 根記事一覧表示の記事詳細
+ */
+.bbs-root.bbs-article article.row:not(:last-child) .bbs-article-content {
+	border-bottom: 1px solid #ccc;
+	/*margin-bottom: 12px;*/
+}
+.bbs-root.bbs-article article.row .bbs-article-content {
+	padding-bottom: 8px;
+}
+/*.bbs-root.bbs-article article.row:not(:last-child) .bbs-article-content footer {
+	padding-bottom: 8px;
+}*/
+.bbs-root.bbs-article h2.bbs-artile-title {
+	margin-top: 12px;
 }
 
 /**
@@ -82,4 +101,103 @@
 	margin-top: 2px;
 	/*margin-bottom: 2px;*/
 	margin-left: 8px;
+}
+
+.frame.nc-content article .bbs-root-index > h2 {
+	margin-top: 0;
+	margin-right: 8px;
+}
+
+/**
+ * インデント
+ */
+.bbs-indent-1 {
+	margin-left: calc(1em);
+}
+.bbs-indent-2 {
+	margin-left: calc(1em * 2);
+}
+.bbs-indent-3 {
+	margin-left: calc(1em * 3);
+}
+.bbs-indent-4 {
+	margin-left: calc(1em * 4);
+}
+.bbs-indent-5 {
+	margin-left: calc(1em * 5);
+}
+.bbs-indent-6 {
+	margin-left: calc(1em * 6);
+}
+.bbs-indent-7 {
+	margin-left: calc(1em * 7);
+}
+.bbs-indent-8 {
+	margin-left: calc(1em * 8);
+}
+.bbs-indent-9 {
+	margin-left: calc(1em * 9);
+}
+.bbs-indent-10 {
+	margin-left: calc(1em * 10);
+}
+.bbs-indent-11 {
+	margin-left: calc(1em * 11);
+}
+.bbs-indent-12 {
+	margin-left: calc(1em * 12);
+}
+.bbs-indent-13 {
+	margin-left: calc(1em * 13);
+}
+.bbs-indent-14 {
+	margin-left: calc(1em * 14);
+}
+.bbs-indent-15 {
+	margin-left: calc(1em * 15);
+}
+.bbs-indent-16 {
+	margin-left: calc(1em * 16);
+}
+.bbs-indent-17 {
+	margin-left: calc(1em * 17);
+}
+.bbs-indent-18 {
+	margin-left: calc(1em * 18);
+}
+.bbs-indent-19 {
+	margin-left: calc(1em * 19);
+}
+.bbs-indent-20 {
+	margin-left: calc(1em * 20);
+}
+.bbs-indent-21 {
+	margin-left: calc(1em * 21);
+}
+.bbs-indent-22 {
+	margin-left: calc(1em * 22);
+}
+.bbs-indent-23 {
+	margin-left: calc(1em * 23);
+}
+.bbs-indent-24 {
+	margin-left: calc(1em * 24);
+}
+.bbs-indent-25 {
+	margin-left: calc(1em * 25);
+}
+.bbs-indent-26 {
+	margin-left: calc(1em * 26);
+}
+.bbs-indent-27 {
+	margin-left: calc(1em * 27);
+}
+.bbs-indent-28 {
+	margin-left: calc(1em * 28);
+}
+.bbs-indent-29 {
+	margin-left: calc(1em * 29);
+}
+.bbs-indent-30 {
+	margin-left: calc(1em * 30);
 }

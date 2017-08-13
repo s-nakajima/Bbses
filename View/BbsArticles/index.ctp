@@ -1,6 +1,6 @@
 <?php
 /**
- * BbsArticles index template
+ * 根記事リスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
