@@ -109,14 +109,14 @@ class BbsArticleBehavior extends ModelBehavior {
  */
 	public function getReplyTitle(Model $model, $title) {
 		$matches = array();
-		if (preg_match('/^Re(\d)?:/', $title, $matches)) {
+		if (preg_match('/^Re(\d+)?:/', $title, $matches)) {
 			if (isset($matches[1])) {
 				$count = (int)$matches[1];
 			} else {
 				$count = 1;
 			}
 			$title = trim($title);
-			$result = preg_replace('/^Re(\d)?:[ ]*/', 'Re' . ($count + 1) . ': ', $title);
+			$result = preg_replace('/^Re(\d+)?:[ ]*/', 'Re' . ($count + 1) . ': ', $title);
 		} else {
 			$result = 'Re: ' . $title;
 		}
