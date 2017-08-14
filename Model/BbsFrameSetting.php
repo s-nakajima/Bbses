@@ -22,6 +22,38 @@ App::uses('BbsesAppModel', 'Bbses.Model');
 class BbsFrameSetting extends BbsesAppModel {
 
 /**
+ * Display type(根記事一覧)
+ *
+ * @var string
+ */
+	const DISPLAY_TYPE_ROOT = 'root';
+
+/**
+ * Display type(フラット表示)
+ *
+ * @var string
+ */
+	const DISPLAY_TYPE_FLAT = 'flat';
+
+/**
+ * Display type(全件表示)
+ *
+ * @var string
+ */
+	const DISPLAY_TYPE_ALL = 'all';
+
+/**
+ * 表示タイプ
+ *
+ * @var array
+ */
+	static public $displayTypes = array(
+		self::DISPLAY_TYPE_ALL,
+		self::DISPLAY_TYPE_ROOT,
+		self::DISPLAY_TYPE_FLAT
+	);
+
+/**
  * Validation rules
  *
  * @var array
@@ -44,6 +76,13 @@ class BbsFrameSetting extends BbsesAppModel {
 					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
+				)
+			),
+			'display_type' => array(
+				'inList' => array(
+					'rule' => array('inList', self::$displayTypes),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'allowEmpty' => true,
 				)
 			),
 			'articles_per_page' => array(

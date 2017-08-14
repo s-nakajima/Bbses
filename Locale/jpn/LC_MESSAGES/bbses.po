@@ -128,15 +128,30 @@ msgstr "掲示板"
 msgid "Use comment"
 msgstr "コメントを付けられる"
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:18
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:24
+msgid "List of all articles"
+msgstr "全件一覧"
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:25
+msgid "List of root articles"
+msgstr "根記事一覧"
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:26
+msgid "Flat list of root articles"
+msgstr "フラット表示"
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:27
+msgid "Display method"
+msgstr "表示方法"
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:32
 msgid "Show articles per page"
 msgstr "1ページ毎の表示件数"
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:20
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:36
 msgid "%s article"
 msgstr "%s 件"
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:21
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:37
 msgid "%s articles"
 msgstr "%s 件"
-

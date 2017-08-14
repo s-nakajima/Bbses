@@ -128,15 +128,26 @@ msgstr ""
 msgid "Use comment"
 msgstr ""
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:18
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:24
+msgid "List of root articles"
+msgstr ""
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:25
+msgid "Flat list of root articles"
+msgstr ""
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:27
+msgid "Display method"
+msgstr ""
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:32
 msgid "Show articles per page"
 msgstr ""
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:20
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:36
 msgid "%s article"
 msgstr ""
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:21
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:37
 msgid "%s articles"
 msgstr ""
-

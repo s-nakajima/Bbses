@@ -66,8 +66,8 @@ class BbsesSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '更新日時'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'root_id' => array('column' => array('root_id', 'bbs_key', 'lft', 'rght'), 'unique' => 0),
-			'bbs_article_key' => array('column' => 'bbs_article_key', 'unique' => 0)
+			'bbs_article_key' => array('column' => 'bbs_article_key', 'unique' => 0),
+			'root_id' => array('column' => array('root_id', 'bbs_key', 'lft', 'rght'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -99,7 +99,8 @@ class BbsesSchema extends CakeSchema {
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'bbs_key' => array('column' => array('bbs_key', 'language_id'), 'unique' => 0),
-			'key' => array('column' => array('key', 'language_id'), 'unique' => 0)
+			'key' => array('column' => array('key', 'language_id'), 'unique' => 0),
+			'title' => array('column' => array('id', 'is_active', 'is_latest', 'created_user', 'is_origin', 'is_translation', 'key'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -112,6 +113,7 @@ class BbsesSchema extends CakeSchema {
 	public $bbs_frame_settings = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary', 'comment' => 'ID'),
 		'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'フレームKey', 'charset' => 'utf8'),
+		'display_type' => array('type' => 'string', 'null' => true, 'default' => 'flat', 'length' => 45, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'articles_per_page' => array('type' => 'integer', 'null' => false, 'default' => '10', 'unsigned' => false, 'comment' => '表示記事数 1件、5件、10件、20件、50件、100件'),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => '作成者'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '作成日時'),

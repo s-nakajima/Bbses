@@ -1,6 +1,6 @@
 <?php
 /**
- * BbsArticles index template
+ * 根記事リスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -59,9 +59,14 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 	<?php if ($bbsArticles) : ?>
 		<div class="nc-content-list">
 			<?php foreach ($bbsArticles as $bbsArticle) : ?>
-				<?php echo $this->element('BbsArticles/index_bbs_article', array(
-						'bbsArticle' => $bbsArticle
-					)); ?>
+				<?php
+					echo $this->element(
+						'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/index_bbs_article',
+						array(
+							'bbsArticle' => $bbsArticle
+						)
+					);
+				?>
 			<?php endforeach; ?>
 
 			<?php echo $this->element('NetCommons.paginator'); ?>

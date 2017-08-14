@@ -26,10 +26,8 @@ $bbsArticle['content'] = $this->data['BbsArticle']['content'];
 		<?php
 			//親記事
 			if ($this->params['action'] === 'reply') {
-				echo $this->element('BbsArticles/view_bbs_article', array(
+				echo $this->element('BbsArticles/view_bbs_root_article', array(
 					'bbsArticle' => $currentBbsArticle,
-					'displayFooter' => false,
-					'isRootArticle' => true
 				));
 			}
 		?>
