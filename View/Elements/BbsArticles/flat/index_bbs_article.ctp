@@ -57,7 +57,12 @@
 		</div>
 
 		<div class="pull-right">
-			<?php echo $this->Date->dateFormat($bbsArticle['BbsArticle']['created']); ?>
+			<span class="bbs-article-created text-muted">
+				<?php echo $this->Date->dateFormat($bbsArticle['BbsArticle']['created']); ?>
+			</span>
+			<span class="bbs-article-handle">
+				<?php echo $this->NetCommonsHtml->handleLink($bbsArticle, array('avatar' => true)); ?>
+			</span>
 		</div>
 	</footer>
 
