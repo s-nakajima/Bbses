@@ -122,7 +122,7 @@ article.bbs-all-list-children > div {
 }
 .bbs-root-list .bbs-article-creator,
 .bbs-all-list-root .bbs-article-creator,
-.bbs-all-list-child .bbs-article-creator {
+.bbs-all-list-children .bbs-article-creator {
 	/*margin-top: 4px;*/
     text-overflow: ellipsis;
     white-space: nowrap;
