@@ -82,17 +82,35 @@
 }
 
 /**
- * 根記事一覧
+ * 根記事一覧, 全件一覧
  */
-.bbs-root-index {
+.frame .nc-content-list > article.bbs-root-list {
 	padding-top: 16px;
-	padding-bottom: 16px;
+	padding-bottom: 8px;
 }
-.frame.nc-content-list article.bbs-root-index h2 {
+.frame .nc-content-list > article.bbs-all-list-root,
+.frame .nc-content-list > article.bbs-all-list-children {
+	padding-top: 6px;
+	padding-bottom: 4px;
+}
+.frame.nc-content-list article.bbs-root-list > h2,
+.frame.nc-content-list article.bbs-all-list-root > h2 {
 	margin-top: 0;
-	margin-bottom: 0x;
+	margin-bottom: 6px;
 	margin-right: 8px;
 }
+.frame.nc-content-list article.bbs-all-list-children {
+	border-bottom: none;
+}
+article.bbs-all-list-children {
+	margin-left: 1em;
+}
+article.bbs-all-list-children > div {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 6px;
+	padding-bottom: 4px;
+}
+
 .bbs-root-comment {
 	margin-top: 2px;
 	/*margin-bottom: 2px;*/
@@ -102,17 +120,14 @@
 	/*margin-bottom: 2px;*/
 	margin-left: 8px;
 }
-.bbs-root-index .bbs-article-creator {
+.bbs-root-list .bbs-article-creator,
+.bbs-all-list-root .bbs-article-creator,
+.bbs-all-list-child .bbs-article-creator {
 	/*margin-top: 4px;*/
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 	width: 13em;
-}
-
-.frame.nc-content article .bbs-root-index > h2 {
-	margin-top: 0;
-	margin-right: 8px;
 }
 
 /**

@@ -129,10 +129,14 @@ msgid "Use comment"
 msgstr "コメントを付けられる"
 
 #: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:24
+msgid "List of all articles"
+msgstr "全件一覧"
+
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:25
 msgid "List of root articles"
 msgstr "根記事一覧"
 
-#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:25
+#: Bbses/View/Elements/BbsFrameSettings/edit_form.ctp:26
 msgid "Flat list of root articles"
 msgstr "フラット表示"
 

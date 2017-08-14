@@ -12,7 +12,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-<article class="clearfix bbs-root-list">
+<article class="clearfix bbs-all-list-root">
 	<h2 class="pull-left">
 		<?php
 			//根記事タイトル
@@ -56,4 +56,20 @@
 			<?php echo $this->NetCommonsHtml->handleLink($bbsArticle, array('avatar' => true)); ?>
 		</span>
 	</div>
+</article>
+<article class="bbs-all-list-children">
+	<?php
+		//子記事
+		if (isset($treeLists[$bbsArticle['BbsArticleTree']['id']])) {
+			foreach ($treeLists[$bbsArticle['BbsArticleTree']['id']] as $treeId => $childArticle) {
+				echo $this->element(
+					'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/index_bbs_child_article',
+					array(
+						'bbsArticle' => $bbsArticleTitles[$treeId],
+						'indent' => substr_count($childArticle, '_') + 1
+					)
+				);
+			}
+		}
+	?>
 </article>

@@ -142,11 +142,10 @@ class BbsArticleBehavior extends ModelBehavior {
  * @param object $model 呼び出し元のモデル
  * @param array $bbsKey 掲示板Key
  * @param array $bbsArticles 根記事データ
+ * @param array $articleTreeIds TreeのIDリスト
  * @return string bbs_articles.content
  */
-	public function getChildrenArticleCounts(Model $model, $bbsKey, $bbsArticles) {
-		$articleTreeIds = Hash::extract($bbsArticles, '{n}.BbsArticleTree.id');
-
+	public function getChildrenArticleCounts(Model $model, $bbsKey, $bbsArticles, $articleTreeIds) {
 		$query = array(
 			'recursive' => 0,
 			'fields' => ['BbsArticleTree.root_id', 'COUNT(*) AS bbs_article_child_count'],
@@ -171,6 +170,36 @@ class BbsArticleBehavior extends ModelBehavior {
 		}
 
 		return $bbsArticles;
+	}
+
+/**
+ * 子記事の件名の取得(全権一覧で使用する)
+ *
+ * @param object $model 呼び出し元のモデル
+ * @param array $articleTreeIds TreeのIDリスト
+ * @return array
+ */
+	public function getChildrenArticleTitles(Model $model, $articleTreeIds) {
+		$query = array(
+			'recursive' => 0,
+			'fields' => [
+				'BbsArticle.id', 'BbsArticle.title', 'BbsArticle.title_icon', 'BbsArticle.created',
+				'BbsArticle.key', 'BbsArticle.status',
+				'BbsArticleTree.id',
+				'TrackableCreator.id', 'TrackableCreator.handlename'
+			],
+			'conditions' => $model->getWorkflowConditions(array(
+				'BbsArticleTree.root_id' => $articleTreeIds,
+			)),
+		);
+		$results = $model->find('all', $query);
+
+		$articles = [];
+		foreach ($results as $result) {
+			$articles[$result['BbsArticleTree']['id']] = $result;
+		}
+
+		return $articles;
 	}
 
 }

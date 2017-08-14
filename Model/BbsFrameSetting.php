@@ -36,11 +36,19 @@ class BbsFrameSetting extends BbsesAppModel {
 	const DISPLAY_TYPE_FLAT = 'flat';
 
 /**
+ * Display type(全件表示)
+ *
+ * @var string
+ */
+	const DISPLAY_TYPE_ALL = 'all';
+
+/**
  * 表示タイプ
  *
  * @var array
  */
 	static public $displayTypes = array(
+		self::DISPLAY_TYPE_ALL,
 		self::DISPLAY_TYPE_ROOT,
 		self::DISPLAY_TYPE_FLAT
 	);

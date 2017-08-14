@@ -14,8 +14,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-$indent = substr_count($treeList[$bbsArticle['BbsArticle']['id']], '_');
-
+$indent = substr_count($treeList[$bbsArticle['BbsArticleTree']['id']], '_');
 ?>
 <article class="row">
 	<div class="col-xs-offset-1 col-xs-11">

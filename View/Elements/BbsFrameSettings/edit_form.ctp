@@ -20,6 +20,7 @@ App::uses('BbsFrameSetting', 'Bbses.Model');
 	echo $this->NetCommonsForm->input('BbsFrameSetting.display_type', array(
 		'type' => 'select',
 		'options' => array(
+			BbsFrameSetting::DISPLAY_TYPE_ALL => __d('bbses', 'List of all articles'),
 			BbsFrameSetting::DISPLAY_TYPE_ROOT => __d('bbses', 'List of root articles'),
 			BbsFrameSetting::DISPLAY_TYPE_FLAT => __d('bbses', 'Flat list of root articles'),
 		),
