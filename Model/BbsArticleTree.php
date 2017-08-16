@@ -116,14 +116,6 @@ class BbsArticleTree extends BbsesAppModel {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function afterFind($results, $primary = false) {
-		foreach ($results as &$val) {
-			if (isset($val[$this->alias]['is_substitute'])) {
-				$val[$this->alias]['is_substitute'] = intval($val[$this->alias]['is_substitute']);
-			}
-			if (isset($val[$this->alias]['holiday'])) {
-				$val[$this->alias]['holiday'] = date('Y-m-d', strtotime($val[$this->alias]['holiday']));
-			}
-		}
 		return $this->BbsArticle->convertBaseUrl($results);
 	}
 
