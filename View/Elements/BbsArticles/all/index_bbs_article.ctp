@@ -57,19 +57,19 @@
 		</span>
 	</div>
 </article>
-<article class="bbs-all-list-children">
-	<?php
-		//子記事
-		if (isset($treeLists[$bbsArticle['BbsArticleTree']['id']])) {
-			foreach ($treeLists[$bbsArticle['BbsArticleTree']['id']] as $treeId => $childArticle) {
-				echo $this->element(
-					'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/index_bbs_child_article',
-					array(
-						'bbsArticle' => $bbsArticleTitles[$treeId],
-						'indent' => substr_count($childArticle, '_') + 1
-					)
-				);
-			}
+
+<?php
+	//子記事
+	if (isset($treeLists[$bbsArticle['BbsArticleTree']['id']])) {
+		echo '<article class="bbs-all-list-children">';
+		foreach ($treeLists[$bbsArticle['BbsArticleTree']['id']] as $treeId => $childArticle) {
+			echo $this->element(
+				'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/index_bbs_child_article',
+				array(
+					'bbsArticle' => $bbsArticleTitles[$treeId],
+					'indent' => substr_count($childArticle, '_') + 1
+				)
+			);
 		}
-	?>
-</article>
+		echo '</article>';
+	}

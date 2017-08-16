@@ -93,13 +93,13 @@
 	padding-top: 6px;
 	padding-bottom: 4px;
 }
-.frame.nc-content-list article.bbs-root-list > h2,
-.frame.nc-content-list article.bbs-all-list-root > h2 {
+.frame .nc-content-list article.bbs-root-list > h2,
+.frame .nc-content-list article.bbs-all-list-root > h2 {
 	margin-top: 0;
 	margin-bottom: 6px;
 	margin-right: 8px;
 }
-.frame.nc-content-list article.bbs-all-list-children {
+.frame .nc-content-list article.bbs-all-list-children {
 	border-bottom: none;
 }
 article.bbs-all-list-children {
