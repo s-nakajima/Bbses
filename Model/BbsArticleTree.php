@@ -108,6 +108,18 @@ class BbsArticleTree extends BbsesAppModel {
 	}
 
 /**
+ * AfterFind Callback function
+ *
+ * @param array $results found data records
+ * @param bool $primary indicates whether or not the current model was the model that the query originated on or whether or not this model was queried as an association
+ * @return mixed
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function afterFind($results, $primary = false) {
+		return $this->BbsArticle->convertBaseUrl($results);
+	}
+
+/**
  * Get max article no
  *
  * @param int $rootArticleTreeId root article id
