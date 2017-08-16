@@ -99,7 +99,8 @@ class BbsesSchema extends CakeSchema {
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'bbs_key' => array('column' => array('bbs_key', 'language_id'), 'unique' => 0),
-			'key' => array('column' => array('key', 'language_id'), 'unique' => 0)
+			'key' => array('column' => array('key', 'language_id'), 'unique' => 0),
+			'title' => array('column' => array('id', 'is_active', 'is_latest', 'created_user', 'is_origin', 'is_translation', 'key'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);

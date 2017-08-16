@@ -79,6 +79,7 @@ class BbsFrameSettingSaveBbsFrameSettingTest extends NetCommonsSaveTest {
 				'id' => $id,
 				'frame_key' => 'frame_1',
 				'articles_per_page' => '20',
+				'display_type' => 'flat'
 			),
 		);
 

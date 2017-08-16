@@ -1,6 +1,9 @@
 <?php
 /**
- * Article element of BbsArticles index
+ * 根記事リスト(index)のフラット表示 Element
+ *
+ * ## elementの引数
+ * * $bbsArticle: 記事データ
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,26 +12,22 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-
 <article>
 	<h2 class="clearfix">
 		<?php
-			$title = $this->NetCommonsHtml->titleIcon($bbsArticle['BbsArticle']['title_icon']) . ' ' .
-					h(CakeText::truncate($bbsArticle['BbsArticle']['title'], BbsArticle::LIST_TITLE_LENGTH));
-
-			echo $this->NetCommonsHtml->link(
-				$title,
-				array('action' => 'view', 'key' => $bbsArticle['BbsArticle']['key']),
-				array('escape' => false)
-			);
+			//根記事タイトル
+			echo $this->element('BbsArticles/index_bbs_article_title', array(
+				'bbsArticle' => $bbsArticle,
+			));
 		?>
-		<?php echo $this->Workflow->label($bbsArticle['BbsArticle']['status']); ?>
 	</h2>
-
 	<article>
-		<?php echo $bbsArticle['BbsArticle']['content']; ?>
+		<?php
+			//記事内容
+			echo $bbsArticle['BbsArticle']['content'];
+		?>
 	</article>
-
+	<?php //記事フッター  ?>
 	<footer class="clearfix">
 		<div class="pull-left">
 			<?php if ($bbsSetting['use_comment']) : ?>
@@ -54,12 +53,16 @@
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
-
 			<?php echo $this->Like->buttons('BbsArticle', $bbsSetting, $bbsArticle); ?>
 		</div>
 
 		<div class="pull-right">
-			<?php echo $this->Date->dateFormat($bbsArticle['BbsArticle']['created']); ?>
+			<span class="bbs-article-created text-muted">
+				<?php echo $this->Date->dateFormat($bbsArticle['BbsArticle']['created']); ?>
+			</span>
+			<span class="bbs-article-handle">
+				<?php echo $this->NetCommonsHtml->handleLink($bbsArticle, array('avatar' => true)); ?>
+			</span>
 		</div>
 	</footer>
 
