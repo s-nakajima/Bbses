@@ -108,6 +108,26 @@ class BbsArticleTree extends BbsesAppModel {
 	}
 
 /**
+ * AfterFind Callback function
+ *
+ * @param array $results found data records
+ * @param bool $primary indicates whether or not the current model was the model that the query originated on or whether or not this model was queried as an association
+ * @return mixed
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function afterFind($results, $primary = false) {
+		foreach ($results as &$val) {
+			if (isset($val[$this->alias]['is_substitute'])) {
+				$val[$this->alias]['is_substitute'] = intval($val[$this->alias]['is_substitute']);
+			}
+			if (isset($val[$this->alias]['holiday'])) {
+				$val[$this->alias]['holiday'] = date('Y-m-d', strtotime($val[$this->alias]['holiday']));
+			}
+		}
+		return $this->BbsArticle->convertBaseUrl($results);
+	}
+
+/**
  * Get max article no
  *
  * @param int $rootArticleTreeId root article id
