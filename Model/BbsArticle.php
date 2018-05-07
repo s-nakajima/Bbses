@@ -122,21 +122,32 @@ class BbsArticle extends BbsesAppModel {
 		$this->loadModels([
 			'Bbs' => 'Bbses.Bbs',
 			'BbsArticleTree' => 'Bbses.BbsArticleTree',
+			'Language' => 'M17n.Language',
 		]);
+
+		$langs = $this->Language->getLanguage();
+		if (count($langs) > 1) {
+			$conditions = [
+				'BbsArticle.key = BbsArticleTree.bbs_article_key',
+				'OR' => array(
+					'BbsArticle.language_id' => Current::read('Language.id', '0'),
+					'BbsArticle.is_translation' => false,
+				)
+			];
+		} else {
+			$conditions = [
+				'BbsArticle.key = BbsArticleTree.bbs_article_key',
+				'BbsArticle.language_id' => Current::read('Language.id', '0'),
+			];
+		}
 
 		$this->bindModel(array(
 			'belongsTo' => array(
 				'BbsArticleTree' => array(
-					'type' => 'LEFT',
+					'type' => 'INNER',
 					'className' => 'Bbses.BbsArticleTree',
 					'foreignKey' => false,
-					'conditions' => array(
-						'BbsArticle.key = BbsArticleTree.bbs_article_key',
-						'OR' => array(
-							'BbsArticle.language_id' => Current::read('Language.id', '0'),
-							'BbsArticle.is_translation' => false,
-						)
-					),
+					'conditions' => $conditions,
 					'fields' => '',
 					'order' => ''
 				)
@@ -279,6 +290,7 @@ class BbsArticle extends BbsesAppModel {
 		$bbsArticleTree = $this->BbsArticleTree->find('first', array(
 			'recursive' => -1,
 			'fields' => array('lft', 'rght'),
+//			'fields' => array('sort_key'),
 			'conditions' => array(
 				'bbs_article_key' => $this->data['BbsArticle']['key']
 			),
@@ -291,6 +303,7 @@ class BbsArticle extends BbsesAppModel {
 			'recursive' => -1,
 			'fields' => array('id', 'bbs_article_key'),
 			'conditions' => array(
+//				'sort_key LIKE' => '' . $bbsArticleTree['BbsArticleTree']['lft'] . '%',
 				'lft >=' => $bbsArticleTree['BbsArticleTree']['lft'],
 				'rght <=' => $bbsArticleTree['BbsArticleTree']['rght'],
 			),
