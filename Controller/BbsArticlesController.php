@@ -144,12 +144,15 @@ class BbsArticlesController extends BbsesAppController {
 		);
 
 		$this->Paginator->settings = $query;
+		$recursive = $this->BbsArticle->recursive;
+		$this->BbsArticle->recursive = 0;
 		try {
 			$bbsArticles = $this->Paginator->paginate('BbsArticle');
 		} catch (Exception $ex) {
 			CakeLog::error($ex);
 			throw $ex;
 		}
+		$this->BbsArticle->recursive = $recursive;
 
 		//子記事のTreeデータ取得
 		$articleTreeIds = [];
@@ -158,9 +161,12 @@ class BbsArticlesController extends BbsesAppController {
 			//Treeリスト取得(全件表示場合)
 			$treeId = $bbsArticle['BbsArticleTree']['id'];
 			if ($this->viewVars['bbsFrameSetting']['display_type'] === BbsFrameSetting::DISPLAY_TYPE_ALL) {
-				$conditions = array('BbsArticleTree.root_id' => $treeId);
+				$conditions = array(
+					'BbsArticleTree.root_id' => $treeId,
+					'BbsArticleTree.bbs_key' => $this->viewVars['bbs']['key'],
+				);
 				$treeList = $this->BbsArticleTree->generateTreeList(
-					$conditions, null, null, '_', 0
+					$conditions, null, null, '_', -1
 				);
 				$treeLists[$treeId] = $treeList;
 			}
@@ -241,6 +247,7 @@ class BbsArticlesController extends BbsesAppController {
 			$this->viewVars['bbsFrameSetting']['display_type'] = BbsFrameSetting::DISPLAY_TYPE_ROOT;
 			$children = $this->BbsArticleTree->children(
 				$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.lft ASC', null, 1, 1
+				//$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.sort_key ASC', null, 1, 1
 			);
 			//Treeリスト取得
 			$conditions = array(

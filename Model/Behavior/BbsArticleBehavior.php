@@ -146,13 +146,25 @@ class BbsArticleBehavior extends ModelBehavior {
  * @return string bbs_articles.content
  */
 	public function getChildrenArticleCounts(Model $model, $bbsKey, $bbsArticles, $articleTreeIds) {
+		$model->loadModels([
+			'BbsArticleTree' => 'Bbses.BbsArticleTree',
+		]);
+
 		$query = array(
-			'recursive' => 0,
+			'recursive' => -1,
 			'fields' => ['BbsArticleTree.root_id', 'COUNT(*) AS bbs_article_child_count'],
 			'conditions' => $model->getWorkflowConditions(array(
 				'BbsArticleTree.root_id' => $articleTreeIds,
 				'BbsArticleTree.bbs_key' => $bbsKey,
 			)),
+			'joins' => [
+				[
+					'type' => 'INNER',
+					'table' => $model->BbsArticleTree->table,
+					'alias' => $model->BbsArticleTree->alias,
+					'conditions' => $model->belongsTo['BbsArticleTree']['conditions'],
+				]
+			],
 			'group' => array('BbsArticleTree.root_id'),
 		);
 		$counts = $model->find('all', $query);

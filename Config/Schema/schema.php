@@ -93,14 +93,15 @@ class BbsesSchema extends CakeSchema {
 		'title_icon' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'content' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '本文', 'charset' => 'utf8'),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => '作成者'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '作成日時'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'key' => 'index', 'comment' => '作成日時'),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => '更新者'),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '更新日時'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'bbs_key' => array('column' => array('bbs_key', 'language_id'), 'unique' => 0),
 			'key' => array('column' => array('key', 'language_id'), 'unique' => 0),
-			'title' => array('column' => array('id', 'is_active', 'is_latest', 'created_user', 'is_origin', 'is_translation', 'key'), 'unique' => 0)
+			'title' => array('column' => array('id', 'is_active', 'is_latest', 'created_user', 'is_origin', 'is_translation', 'key'), 'unique' => 0),
+			'created' => array('column' => 'created', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);

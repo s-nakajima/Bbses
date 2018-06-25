@@ -85,18 +85,18 @@ class BbsArticleTree extends BbsesAppModel {
 					'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
-			'lft' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'rght' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
+			//'lft' => array(
+			//	'numeric' => array(
+			//		'rule' => array('numeric'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//	),
+			//),
+			//'rght' => array(
+			//	'numeric' => array(
+			//		'rule' => array('numeric'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//	),
+			//),
 			'article_no' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
