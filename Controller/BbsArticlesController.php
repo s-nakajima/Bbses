@@ -247,7 +247,7 @@ class BbsArticlesController extends BbsesAppController {
 			$this->viewVars['bbsFrameSetting']['display_type'] = BbsFrameSetting::DISPLAY_TYPE_ROOT;
 			$children = $this->BbsArticleTree->children(
 				$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.lft ASC', null, 1, 1
-//				$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.sort_key ASC', null, 1, 1
+				//$bbsArticle['BbsArticleTree']['id'], false, null, 'BbsArticleTree.sort_key ASC', null, 1, 1
 			);
 			//Treeリスト取得
 			$conditions = array(
