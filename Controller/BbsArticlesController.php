@@ -78,8 +78,6 @@ class BbsArticlesController extends BbsesAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-$this->BbsArticleTree->getDataSource()->getLog();
-
 		if (! Current::read('Block.id')) {
 			$this->setAction('emptyRender');
 			return false;

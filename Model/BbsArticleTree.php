@@ -30,7 +30,6 @@ class BbsArticleTree extends BbsesAppModel {
  */
 	public $actsAs = array(
 		'Tree',
-//		'NetCommons.NetCommonsTree',
 		'Bbses.BbsArticle',
 		'Likes.Like' => array(
 			'field' => 'bbs_article_key'

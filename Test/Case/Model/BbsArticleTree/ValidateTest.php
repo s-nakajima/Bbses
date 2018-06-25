@@ -86,10 +86,6 @@ class BbsArticleTreeValidateTest extends NetCommonsValidateTest {
 		return array(
 			array($this->__data, 'bbs_key', '',
 				__d('net_commons', 'Invalid request.')),
-			array($this->__data, 'lft', 'a',
-				__d('net_commons', 'Invalid request.')),
-			array($this->__data, 'rght', 'a',
-				__d('net_commons', 'Invalid request.')),
 			array($this->__data, 'article_no', 'a',
 				__d('net_commons', 'Invalid request.')),
 			array($this->__data, 'bbs_article_key', '',
