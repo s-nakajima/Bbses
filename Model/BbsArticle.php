@@ -303,7 +303,7 @@ class BbsArticle extends BbsesAppModel {
 			'recursive' => -1,
 			'fields' => array('id', 'bbs_article_key'),
 			'conditions' => array(
-//				'sort_key LIKE' => '' . $bbsArticleTree['BbsArticleTree']['lft'] . '%',
+				//'sort_key LIKE' => '' . $bbsArticleTree['BbsArticleTree']['lft'] . '%',
 				'lft >=' => $bbsArticleTree['BbsArticleTree']['lft'],
 				'rght <=' => $bbsArticleTree['BbsArticleTree']['rght'],
 			),
