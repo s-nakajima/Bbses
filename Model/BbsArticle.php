@@ -290,7 +290,7 @@ class BbsArticle extends BbsesAppModel {
 		$bbsArticleTree = $this->BbsArticleTree->find('first', array(
 			'recursive' => -1,
 			'fields' => array('lft', 'rght'),
-//			'fields' => array('sort_key'),
+			//'fields' => array('sort_key'),
 			'conditions' => array(
 				'bbs_article_key' => $this->data['BbsArticle']['key']
 			),
@@ -303,7 +303,7 @@ class BbsArticle extends BbsesAppModel {
 			'recursive' => -1,
 			'fields' => array('id', 'bbs_article_key'),
 			'conditions' => array(
-//				'sort_key LIKE' => '' . $bbsArticleTree['BbsArticleTree']['lft'] . '%',
+				//'sort_key LIKE' => '' . $bbsArticleTree['BbsArticleTree']['lft'] . '%',
 				'lft >=' => $bbsArticleTree['BbsArticleTree']['lft'],
 				'rght <=' => $bbsArticleTree['BbsArticleTree']['rght'],
 			),
