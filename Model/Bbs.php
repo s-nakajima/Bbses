@@ -18,6 +18,11 @@ App::uses('BbsesAppModel', 'Bbses.Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Model
+ *
+ * @property BbsArticle $BbsArticle
+ * @property BbsArticleTree $BbsArticleTree
+ * @property BbsSetting $BbsSetting
+ * @property BbsFrameSetting $BbsFrameSetting
  */
 class Bbs extends BbsesAppModel {
 
@@ -207,10 +212,11 @@ class Bbs extends BbsesAppModel {
  * @return array
  */
 	public function getBbs() {
-		$bbs = $this->find('first', array(
+		$bbs = $this->find('first', [
 			'recursive' => 0,
+			'fields' => ['Bbs.*'],
 			'conditions' => $this->getBlockConditionById(),
-		));
+		]);
 
 		if (! $bbs) {
 			return $bbs;
