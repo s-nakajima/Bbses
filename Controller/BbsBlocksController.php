@@ -16,6 +16,10 @@ App::uses('BbsesAppController', 'Bbses.Controller');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Controller
+ *
+ * @property Bbs $Bbs
+ * @property NetCommonsComponent $NetCommons
+ * @property WorkflowComponent $Workflow
  */
 class BbsBlocksController extends BbsesAppController {
 
@@ -139,6 +143,7 @@ class BbsBlocksController extends BbsesAppController {
 				$this->request->data, $this->BbsFrameSetting->getBbsFrameSetting(true)
 			);
 			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
 		}
 	}
 

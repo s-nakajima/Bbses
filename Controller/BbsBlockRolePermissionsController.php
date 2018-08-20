@@ -16,6 +16,11 @@ App::uses('BbsesAppController', 'Bbses.Controller');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Controller
+ *
+ * @property Bbs $Bbs
+ * @property BbsSetting $BbsSetting
+ * @property NetCommonsComponent $NetCommons
+ * @property WorkflowComponent $Workflow
  */
 class BbsBlockRolePermissionsController extends BbsesAppController {
 
@@ -100,9 +105,9 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
 
 		} else {
 			$this->request->data['BbsSetting'] = $bbs['BbsSetting'];
-			$this->request->data['Block'] = $bbs['Block'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
 			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
 		}
 	}
 }
