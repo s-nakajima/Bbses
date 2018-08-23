@@ -165,7 +165,7 @@ class BbsArticle extends BbsesAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
+		$this->validate = array_merge($this->validate, array(
 			'title' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
@@ -188,7 +188,7 @@ class BbsArticle extends BbsesAppModel {
 		if (isset($this->data['BbsArticleTree'])) {
 			$this->BbsArticleTree->set($this->data['BbsArticleTree']);
 			if (! $this->BbsArticleTree->validates()) {
-				$this->validationErrors = Hash::merge(
+				$this->validationErrors = array_merge(
 					$this->validationErrors, $this->BbsArticleTree->validationErrors
 				);
 				return false;

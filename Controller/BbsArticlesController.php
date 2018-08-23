@@ -127,21 +127,27 @@ class BbsArticlesController extends BbsesAppController {
 		);
 		$this->set('options', $options);
 
-		$curretSort = Hash::get($this->params['named'], 'sort', 'BbsArticle.created');
-		$curretDirection = Hash::get($this->params['named'], 'direction', 'desc');
-		if (! isset($options[$curretSort . '.' . $curretDirection])) {
-			$curretSort = 'BbsArticle.created';
-			$curretDirection = 'desc';
+		$currentSort = isset($this->params['named']['sort'])
+			? $this->params['named']['sort']
+			: 'BbsArticle.created';
+		$currentDirection = isset($this->params['named']['sort'])
+			? $this->params['named']['direction']
+			: 'desc';
+		if (! isset($options[$currentSort . '.' . $currentDirection])) {
+			$currentSort = 'BbsArticle.created';
+			$currentDirection = 'desc';
 		}
-		$this->set('curretSort', $curretSort);
-		$this->set('curretDirection', $curretDirection);
+		$this->set('curretSort', $currentSort);
+		$this->set('curretDirection', $currentDirection);
 
-		$query['order'] = array($curretSort => $curretDirection);
+		$query['order'] = array($currentSort => $currentDirection);
 
 		//表示件数
-		$query['limit'] = (int)Hash::get(
-			$this->params['named'], 'limit', $this->viewVars['bbsFrameSetting']['articles_per_page']
-		);
+		$limit = $this->viewVars['bbsFrameSetting']['articles_per_page'];
+		if (isset($this->params['named']['limit'])) {
+			$limit = $this->params['named']['limit'];
+		}
+		$query['limit'] = (int)$limit;
 
 		$this->Paginator->settings = $query;
 		$recursive = $this->BbsArticle->recursive;
@@ -200,7 +206,7 @@ class BbsArticlesController extends BbsesAppController {
 			return $this->throwBadRequest();
 		}
 
-		$bbsArticleKey = Hash::get($this->request->params, 'key', null);
+		$bbsArticleKey = isset($this->request->params['key']) ? $this->request->params['key'] : null;
 
 		//カレント記事の取得
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
@@ -258,7 +264,10 @@ class BbsArticlesController extends BbsesAppController {
 			);
 			$this->set('treeList', $treeList);
 		}
-		$children = Hash::combine($children, '{n}.BbsArticleTree.id', '{n}');
+		$bbsArticleChildren = [];
+		foreach ($children as $child) {
+			$bbsArticleChildren[$child['BbsArticleTree']['id']] = $child;
+		}
 
 		$this->set('bbsArticleChildren', $children);
 	}
@@ -288,15 +297,13 @@ class BbsArticlesController extends BbsesAppController {
 			$this->NetCommons->handleValidationError($this->BbsArticle->validationErrors);
 
 		} else {
-			$this->request->data = Hash::merge($this->request->data,
-				$this->BbsArticle->create(array(
+			$this->request->data += $this->BbsArticle->create(array(
 					'bbs_key' => $this->viewVars['bbs']['key'],
-				)),
-				$this->BbsArticleTree->create(array(
+				));
+			$this->request->data += $this->BbsArticleTree->create(array(
 					'bbs_key' => $this->viewVars['bbs']['key'],
 					'post_no' => 1,
-				))
-			);
+				));
 			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
@@ -309,7 +316,7 @@ class BbsArticlesController extends BbsesAppController {
  * @return void
  */
 	public function reply() {
-		$bbsArticleKey = Hash::get($this->request->params, 'key', null);
+		$bbsArticleKey = isset($this->request->params['key']) ? $this->request->params['key'] : null;
 
 		$bbsArticle = $this->BbsArticle->getWorkflowContents('first', array(
 			'recursive' => 0,
@@ -319,7 +326,8 @@ class BbsArticlesController extends BbsesAppController {
 			)
 		));
 
-		if (Hash::get($bbsArticle, 'BbsArticle.status') !== WorkflowComponent::STATUS_PUBLISHED) {
+		if (!isset($bbsArticle['BbsArticle']['status']) ||
+			$bbsArticle['BbsArticle']['status'] !== WorkflowComponent::STATUS_PUBLISHED) {
 			return $this->throwBadRequest();
 		}
 
@@ -356,18 +364,16 @@ class BbsArticlesController extends BbsesAppController {
 			} else {
 				$content = null;
 			}
-			$this->request->data = Hash::merge($this->request->data,
-				$this->BbsArticle->create(array(
+			$this->request->data += $this->BbsArticle->create(array(
 					'bbs_key' => $this->viewVars['bbs']['key'],
 					'title' => $title,
 					'content' => $content,
-				)),
-				$this->BbsArticleTree->create(array(
+				));
+			$this->request->data += $this->BbsArticleTree->create(array(
 					'bbs_key' => $this->viewVars['bbs']['key'],
 					'root_id' => $rootId,
 					'parent_id' => $bbsArticle['BbsArticleTree']['id'],
-				))
-			);
+				));
 			$this->request->data['Bbs'] = $this->viewVars['bbs'];
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Block'] = Current::read('Block');
@@ -382,7 +388,7 @@ class BbsArticlesController extends BbsesAppController {
 	public function edit() {
 		$this->view = 'edit';
 
-		$bbsArticleKey = Hash::get($this->request->params, 'key', null);
+		$bbsArticleKey = isset($this->request->params['key']) ? $this->request->params['key'] : null;
 		if ($this->request->is('put')) {
 			$bbsArticleKey = $this->data['BbsArticle']['key'];
 		}

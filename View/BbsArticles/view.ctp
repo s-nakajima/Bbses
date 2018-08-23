@@ -21,7 +21,13 @@ echo $this->NetCommonsHtml->script([
 ]);
 ?>
 
-<article class="bbs-<?php echo Hash::get($bbsFrameSetting, ['display_type'], 'flat'); ?> bbs-article"
+<?php
+	$type = 'flat';
+	if (isset($bbsFrameSetting['display_type'])) {
+		$type = $bbsFrameSetting['display_type'];
+	}
+?>
+<article class="bbs-<?php echo $type; ?> bbs-article"
 			ng-controller="BbsArticlesView" ng-init="initialize()">
 	<?php
 		//根記事
@@ -35,7 +41,7 @@ echo $this->NetCommonsHtml->script([
 				$linkId = sprintf(BbsArticlesController::LINK_ID_FORMAT, $childBbsArticle['BbsArticleTree']['id']);
 				if (isset($bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']])) {
 					echo $this->element(
-						'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/view_bbs_child_article',
+						'BbsArticles/' . $type . '/view_bbs_child_article',
 						array(
 							'bbsArticle' => $childBbsArticle,
 							'parentBbsArticle' => $bbsArticleChildren[$childBbsArticle['BbsArticleTree']['parent_id']],
@@ -44,7 +50,7 @@ echo $this->NetCommonsHtml->script([
 					);
 				} else {
 					echo $this->element(
-						'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/view_bbs_child_article',
+						'BbsArticles/' . $type . '/view_bbs_child_article',
 						array(
 							'bbsArticle' => $childBbsArticle,
 							'parentBbsArticle' => $rootBbsArticle,
