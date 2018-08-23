@@ -167,8 +167,11 @@ class BbsArticleBehavior extends ModelBehavior {
 			],
 			'group' => array('BbsArticleTree.root_id'),
 		);
-		$counts = $model->find('all', $query);
-		$counts = Hash::combine($counts, '{n}.BbsArticleTree.root_id', '{n}.0.bbs_article_child_count');
+		$results = $model->find('all', $query);
+		$counts = [];
+		foreach ($results as $result) {
+			$counts[$result['BbsArticleTree']['root_id']] = $result[0]['bbs_article_child_count'];
+		}
 
 		foreach ($bbsArticles as $i => $article) {
 			if (isset($counts[$article['BbsArticleTree']['id']])) {

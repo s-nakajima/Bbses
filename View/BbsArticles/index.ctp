@@ -18,7 +18,7 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 	<header class="clearfix">
 		<div class="pull-left">
 			<?php
-				$paginatorUrl = NetCommonsUrl::actionUrlAsArray(Hash::merge(array(
+				$paginatorUrl = NetCommonsUrl::actionUrlAsArray(array_merge(array(
 					'plugin' => 'bbses',
 					'controller' => 'bbs_articles',
 					'action' => 'index',
@@ -60,8 +60,12 @@ echo $this->NetCommonsHtml->css('/bbses/css/style.css');
 		<div class="nc-content-list">
 			<?php foreach ($bbsArticles as $bbsArticle) : ?>
 				<?php
+					$type = 'flat';
+					if (isset($bbsFrameSetting['display_type'])) {
+						$type = $bbsFrameSetting['display_type'];
+					}
 					echo $this->element(
-						'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/index_bbs_article',
+						'BbsArticles/' . $type . '/index_bbs_article',
 						array(
 							'bbsArticle' => $bbsArticle
 						)

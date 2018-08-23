@@ -113,9 +113,7 @@ class BbsBlocksController extends BbsesAppController {
 		} else {
 			//表示処理(初期データセット)
 			$this->request->data = $this->Bbs->createBbs();
-			$this->request->data = Hash::merge(
-				$this->request->data, $this->BbsFrameSetting->getBbsFrameSetting(true)
-			);
+			$this->request->data += $this->BbsFrameSetting->getBbsFrameSetting(true);
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
@@ -138,12 +136,9 @@ class BbsBlocksController extends BbsesAppController {
 			if (! $bbs = $this->Bbs->getBbs()) {
 				return $this->throwBadRequest();
 			}
-			$this->request->data = Hash::merge($this->request->data, $bbs);
-			$this->request->data = Hash::merge(
-				$this->request->data, $this->BbsFrameSetting->getBbsFrameSetting(true)
-			);
+			$this->request->data += $bbs;
+			$this->request->data += $this->BbsFrameSetting->getBbsFrameSetting(true);
 			$this->request->data['Frame'] = Current::read('Frame');
-			$this->request->data['Block'] = Current::read('Block');
 		}
 	}
 
