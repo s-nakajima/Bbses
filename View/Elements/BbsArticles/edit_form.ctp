@@ -55,12 +55,16 @@
 				echo $this->BbsesForm->replyEditButtons('BbsArticle.status');
 			} else {
 				if ($this->params['action'] === 'reply') {
-					$key = isset($currentBbsArticle['BbsArticle']['key']) ? $currentBbsArticle['BbsArticle']['key'] : null;
+					$key = isset($currentBbsArticle['BbsArticle']['key'])
+						? $currentBbsArticle['BbsArticle']['key']
+						: null;
 					$cancelUrl = NetCommonsUrl::blockUrl(
 						array('action' => 'view', 'key' => $key)
 					);
 				} elseif ($this->params['action'] === 'edit') {
-					$key = isset($currentBbsArticle['BbsArticle']['key']) ? $this->request->data['BbsArticle']['key'] : null;
+					$key = isset($currentBbsArticle['BbsArticle']['key'])
+						? $this->request->data['BbsArticle']['key']
+						: null;
 					$cancelUrl = NetCommonsUrl::blockUrl(
 						array('action' => 'view', 'key' => $key)
 					);
