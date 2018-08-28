@@ -18,6 +18,11 @@ App::uses('BbsesAppModel', 'Bbses.Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Model
+ *
+ * @property BbsArticle $BbsArticle
+ * @property BbsArticleTree $BbsArticleTree
+ * @property BbsSetting $BbsSetting
+ * @property BbsFrameSetting $BbsFrameSetting
  */
 class Bbs extends BbsesAppModel {
 
@@ -102,7 +107,7 @@ class Bbs extends BbsesAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
+		$this->validate = array_merge($this->validate, array(
 			//'block_id' => array(
 			//	'numeric' => array(
 			//		'rule' => array('numeric'),
@@ -133,7 +138,7 @@ class Bbs extends BbsesAppModel {
 		if (isset($this->data['BbsSetting'])) {
 			$this->BbsSetting->set($this->data['BbsSetting']);
 			if (! $this->BbsSetting->validates()) {
-				$this->validationErrors = Hash::merge(
+				$this->validationErrors = array_merge(
 					$this->validationErrors, $this->BbsSetting->validationErrors
 				);
 				return false;
@@ -143,7 +148,7 @@ class Bbs extends BbsesAppModel {
 		if (isset($this->data['BbsFrameSetting']) && ! $this->data['BbsFrameSetting']['id']) {
 			$this->BbsFrameSetting->set($this->data['BbsFrameSetting']);
 			if (! $this->BbsFrameSetting->validates()) {
-				$this->validationErrors = Hash::merge(
+				$this->validationErrors = array_merge(
 					$this->validationErrors, $this->BbsFrameSetting->validationErrors
 				);
 				return false;
@@ -196,9 +201,8 @@ class Bbs extends BbsesAppModel {
 				'room_id' => Current::read('Room.id'),
 			),
 		));
-		$bbs = Hash::merge($bbs, $this->BbsSetting->createBlockSetting());
 
-		return $bbs;
+		return ($bbs + $this->BbsSetting->createBlockSetting());
 	}
 
 /**
@@ -207,16 +211,16 @@ class Bbs extends BbsesAppModel {
  * @return array
  */
 	public function getBbs() {
-		$bbs = $this->find('first', array(
+		$bbs = $this->find('first', [
 			'recursive' => 0,
 			'conditions' => $this->getBlockConditionById(),
-		));
+		]);
 
 		if (! $bbs) {
 			return $bbs;
 		}
 
-		return Hash::merge($bbs, $this->BbsSetting->getBbsSetting());
+		return ($bbs + $this->BbsSetting->getBbsSetting());
 	}
 
 /**

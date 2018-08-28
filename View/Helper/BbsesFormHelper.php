@@ -44,16 +44,23 @@ class BbsesFormHelper extends AppHelper {
 		$output = '';
 		$output .= '<div class="panel-footer text-center">';
 
-		$status = Hash::get($this->_View->request->data, $statusFieldName . '_');
-		if (! $status) {
-			$status = Hash::get($this->_View->request->data, $statusFieldName);
+		$status = null;
+		if (isset($this->_View->request->data[$statusFieldName . '_'])) {
+			$status = $this->_View->request->data[$statusFieldName . '_'];
+		}
+		if (isset($this->_View->request->data[$statusFieldName])) {
+			$status = $this->_View->request->data[$statusFieldName];
 		}
 
 		//変更前のstatusを保持する
 		$output .= $this->NetCommonsForm->hidden('status_', array('value' => $status));
 
+		$key = null;
+		if (isset($this->_View->request->data['BbsArticle']['key'])) {
+			$key = $this->_View->request->data['BbsArticle']['key'];
+		}
 		$cancelUrl = NetCommonsUrl::blockUrl(
-			array('action' => 'view', 'key' => Hash::get($this->_View->request->data, 'BbsArticle.key'))
+			array('action' => 'view', 'key' => $key)
 		);
 		$cancelOptions = array(
 			'ng-class' => '{disabled: sending}',

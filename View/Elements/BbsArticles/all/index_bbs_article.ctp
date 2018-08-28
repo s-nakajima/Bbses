@@ -26,13 +26,13 @@
 		<?php if ($bbsSetting['use_comment']) : ?>
 			<div class="inline-block bbses-comment-count">
 				<span class="glyphicon glyphicon-comment text-muted" aria-hidden="true"></span>
-				<?php if (Hash::get($bbsArticle['BbsArticleTree'], 'approval_bbs_article_child_count')) : ?>
+				<?php if (isset($bbsArticle['BbsArticleTree']['approval_bbs_article_child_count'])) : ?>
 					<?php
 						echo __d(
 							'bbses',
 							'%s comments(%s approval waited comments)',
 							$bbsArticle['BbsArticleTree']['bbs_article_child_count'],
-							Hash::get($bbsArticle['BbsArticleTree'], 'approval_bbs_article_child_count')
+							$bbsArticle['BbsArticleTree']['approval_bbs_article_child_count']
 						);
 					?>
 				<?php else : ?>
@@ -62,9 +62,13 @@
 	//子記事
 	if (isset($treeLists[$bbsArticle['BbsArticleTree']['id']])) {
 		echo '<article class="bbs-all-list-children">';
+		$type = 'flat';
+		if (isset($bbsFrameSetting['display_type'])) {
+			$type = $bbsFrameSetting['display_type'];
+		}
 		foreach ($treeLists[$bbsArticle['BbsArticleTree']['id']] as $treeId => $childArticle) {
 			echo $this->element(
-				'BbsArticles/' . Hash::get($bbsFrameSetting, ['display_type'], 'flat') . '/index_bbs_child_article',
+				'BbsArticles/' . $type . '/index_bbs_child_article',
 				array(
 					'bbsArticle' => $bbsArticleTitles[$treeId],
 					'indent' => substr_count($childArticle, '_') + 1

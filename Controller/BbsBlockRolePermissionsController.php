@@ -16,6 +16,11 @@ App::uses('BbsesAppController', 'Bbses.Controller');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Bbses\Controller
+ *
+ * @property Bbs $Bbs
+ * @property BbsSetting $BbsSetting
+ * @property NetCommonsComponent $NetCommons
+ * @property WorkflowComponent $Workflow
  */
 class BbsBlockRolePermissionsController extends BbsesAppController {
 
@@ -74,7 +79,8 @@ class BbsBlockRolePermissionsController extends BbsesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $bbs = $this->Bbs->getBbs()) {
+		$bbs = $this->Bbs->getBbs();
+		if (! $bbs) {
 			$this->setAction('throwBadRequest');
 			return false;
 		}
